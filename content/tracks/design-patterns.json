@@ -1,0 +1,9 @@
+{
+  "slug": "design-patterns",
+  "name": "Design Patterns",
+  "description": "Entenda como utilizar padrões de design para criar interfaces modernas e eficientes.",
+  "icon": "Layers",
+  "topics": ["Design Patterns", "JavaScript"],
+  "articles": [],
+  "featured": false
+}

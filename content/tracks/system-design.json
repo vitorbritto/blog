@@ -1,0 +1,9 @@
+{
+  "slug": "system-design",
+  "name": "System Design",
+  "description": "Aprenda como arquitetar sistemas robustos e escaláveis.",
+  "icon": "Network",
+  "topics": ["Clean Arch", "DDD", "Microservices"],
+  "articles": [],
+  "featured": true
+}

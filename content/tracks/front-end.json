@@ -1,0 +1,9 @@
+{
+  "slug": "front-end",
+  "name": "Front-end",
+  "description": "Tudo o que você precisa para se tornar um desenvolvedor front-end.",
+  "icon": "Computer",
+  "topics": ["JavaScript", "React", "React Native", "Next.js"],
+  "articles": [],
+  "featured": true
+}

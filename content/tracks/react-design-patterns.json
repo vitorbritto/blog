@@ -1,0 +1,9 @@
+{
+  "slug": "react-design-patterns",
+  "name": "React Design Patterns",
+  "description": "Conheça os padrões de design mais utilizados no React.",
+  "icon": "LayoutDashboard",
+  "topics": ["React", "Design Patterns"],
+  "articles": [],
+  "featured": true
+}

@@ -1,0 +1,9 @@
+{
+  "slug": "back-end",
+  "name": "Back-end",
+  "description": "Aprenda sobre o o maravilhoso mundo do back-end.",
+  "icon": "Terminal",
+  "topics": ["Node.js", "Go Lang", "APIs", "Databases", "Security"],
+  "articles": [],
+  "featured": true
+}
