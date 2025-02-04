@@ -3,19 +3,23 @@
 import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
+import { useLanguage } from "@/lib/hooks/useLanguage";
+import { getTranslatedArticle } from "@/lib/i18n";
+import { Article } from "@/lib/types/content";
 
 interface ArticleNavigationProps {
-  previous?: {
-    slug: string;
-    title: string;
-  };
-  next?: {
-    slug: string;
-    title: string;
-  };
+  previous?: Article | null;
+  next?: Article | null;
 }
 
 export function ArticleNavigation({ previous, next }: ArticleNavigationProps) {
+  const { language } = useLanguage();
+
+  const prevTranslated = previous
+    ? getTranslatedArticle(previous, language)
+    : null;
+  const nextTranslated = next ? getTranslatedArticle(next, language) : null;
+
   return (
     <div className="fixed top-1/2 -translate-y-1/2 w-full pointer-events-none">
       <div className="max-w-[1920px] mx-auto px-4 flex justify-between">
@@ -35,7 +39,7 @@ export function ArticleNavigation({ previous, next }: ArticleNavigationProps) {
                   Anterior
                 </span>
                 <span className="block text-sm truncate group-hover:text-emerald-400">
-                  {previous.title}
+                  {prevTranslated?.title}
                 </span>
               </div>
             </Link>
@@ -57,7 +61,7 @@ export function ArticleNavigation({ previous, next }: ArticleNavigationProps) {
                   Próximo
                 </span>
                 <span className="block text-sm truncate group-hover:text-emerald-400">
-                  {next.title}
+                  {nextTranslated?.title}
                 </span>
               </div>
               <ArrowRight className="w-5 h-5 text-zinc-400 group-hover:text-emerald-400 transition-transform group-hover:translate-x-1" />

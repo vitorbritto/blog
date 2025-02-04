@@ -1,0 +1,92 @@
+---
+title: "React: Diving into Pure Components"
+excerpt: "Quando usar Pure Components?"
+---
+
+## Introdução rápida aos componentes React
+
+React é baseado em componentes e um componente é geralmente definido como uma função de seu estado e props.
+
+Os componentes podem ser instanciados com classes, contendo um método render(), ou com uma função. Os componentes retornam uma árvore de Elementos após serem transpilos de JSX (JavaScript XML).
+
+Um Elemento é um objeto muito simples que descreve um nó no DOM ou outro componente React. Este Elemento não é mutável, então é muito simples e leve, ele apenas passa props, conforme o exemplo abaixo:
+
+```jsx
+<div>{somePropsHere}</div>
+```
+
+## Understanding Functional and Class Components
+
+Okay! Now you know what is Components and Elements in React.
+
+React supports two types of components, class components and functional components. A functional component is a plain JavaScript function that returns JSX. A class component is a JavaScript class that extends React.Component and returns JSX inside a render method. Also, Class Components could have a state (Stateful class component) or not (Stateless class component).
+
+The following code snippet shows a simple AppHeader component defined as both a class component and a functional component:
+
+```jsx
+// Declaring a Class Component in React.
+import React, { Component } from 'react';
+
+interface Props {
+  header: string;
+}
+
+class AppHeader extends Component<Props> {
+  public constructor(props: Props) {
+    super(props);
+  };
+
+  const { header } = this.props;
+
+  render() {
+    return (
+      <div>
+        <h1>{header}</h1>
+      </div>
+    );
+  }
+}
+```
+
+```jsx
+// Declaring a Functional Component in React.
+import React, { ReactElement } from "react";
+
+interface Props {
+  header: string;
+}
+
+const AppHeader = ({ header }: Props): ReactElement => (
+  <div>
+    <h1>{header}</h1>
+  </div>
+);
+```
+
+## What is a PureComponent in React?
+
+PureComponent is a component type identical to Component except that it handles the shouldComponentUpdate() method for you.
+
+Pure components have some performance improvements and render optimizations since React implements the shouldComponentUpdate() method for them with a shallow comparison for props and state.
+
+Component on the other hand won't compare current props and state to next out of the box.
+
+## When to use PureComponent?
+
+PureComponents is primarily used for performance optimization.
+
+To sum it up, PureComponent is useful when:
+
+- You want to avoid re-rendering cycles of your component when its props and state are not changed
+- The state and props of your component are immutable
+- You don't plan to implement your own shouldComponentUpdate lifecycle method.
+
+## Conclusion
+
+**Don't use it everywhere.**
+
+You should use PureComponents when a component could re-render even if it had the same props and state. An example of this is when a parent component had to re-render but the child component props and state didn't change. The child component could benefit from PureComponent because it really didn't need to re-render.
+
+You shouldn't necessarily use it everywhere. It doesn't make sense for every component to implement the shallow shouldComponentUpdate(). In many cases it adds the extra lifecycle method without getting you any wins.
+
+PureComponent only works whenever the rendering of your component depends only on props and state.

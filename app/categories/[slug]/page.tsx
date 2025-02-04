@@ -93,7 +93,7 @@ export default async function CategoryPage({
                 <div className="flex items-center gap-2 text-sm text-zinc-400">
                   <time dateTime={article.date}>{article.date}</time>
                   <span>•</span>
-                  <span>{article.readTime} min read</span>
+                  <span>{article.readTime} min</span>
                 </div>
                 <h2 className="text-xl font-bold group-hover:text-emerald-400 transition-colors">
                   {article.title}

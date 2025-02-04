@@ -8,33 +8,58 @@ const articlesDirectory = path.join(contentDirectory, "articles");
 
 export async function getArticleBySlug(slug: string): Promise<Article | null> {
   try {
-    const fullPath = path.join(articlesDirectory, `${slug}.mdx`);
-    const fileContents = fs.readFileSync(fullPath, "utf8");
-    const { data, content } = matter(fileContents);
+    // Lê o metadata
+    const metadataPath = path.join(
+      contentDirectory,
+      "metadata/articles",
+      `${slug}.json`
+    );
+    const metadata = JSON.parse(fs.readFileSync(metadataPath, "utf8"));
+
+    // Lê as traduções
+    const translations: Article["translations"] = {
+      en: await getArticleTranslation(slug, "en"),
+      "pt-BR": await getArticleTranslation(slug, "pt-BR"),
+    };
 
     return {
-      slug,
-      content,
-      title: data.title,
-      excerpt: data.excerpt,
-      coverImage: data.coverImage,
-      date: data.date,
-      author: data.author,
-      categories: data.categories,
-      tracks: data.tracks,
-      tags: data.tags,
-      readTime: data.readTime,
-      featured: data.featured,
+      ...metadata,
+      translations,
     };
   } catch {
     return null;
   }
 }
 
+async function getArticleTranslation(
+  slug: string,
+  language: "en" | "pt-BR"
+): Promise<ArticleTranslation> {
+  const filePath = path.join(
+    contentDirectory,
+    "articles",
+    language,
+    `${slug}.mdx`
+  );
+  const fileContents = fs.readFileSync(filePath, "utf8");
+  const { data, content } = matter(fileContents);
+
+  return {
+    title: data.title,
+    excerpt: data.excerpt,
+    content,
+  };
+}
+
 export async function getAllArticles(): Promise<Article[]> {
-  const slugs = fs.readdirSync(articlesDirectory);
+  // Alterar para ler da pasta metadata
+  const metadataDirectory = path.join(contentDirectory, "metadata/articles");
+  const articleFiles = fs.readdirSync(metadataDirectory);
+
   const articles = await Promise.all(
-    slugs.map((slug) => getArticleBySlug(slug.replace(/\.mdx$/, "")))
+    articleFiles.map((fileName) =>
+      getArticleBySlug(fileName.replace(/\.json$/, ""))
+    )
   );
 
   return articles

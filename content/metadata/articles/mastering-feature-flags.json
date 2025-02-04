@@ -1,0 +1,14 @@
+{
+  "slug": "mastering-feature-flags",
+  "coverImage": "/blog/mastering-feature-flags.jpg",
+  "date": "Nov 23, 2023",
+  "author": {
+    "name": "Vitor Britto",
+    "picture": "/authors/vitor.jpg"
+  },
+  "categories": ["feature-flags", "software-development", "deployment"],
+  "tracks": [],
+  "tags": ["Feature Flags", "Software Development", "Deployment"],
+  "readTime": 12,
+  "featured": false
+}

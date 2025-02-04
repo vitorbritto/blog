@@ -1,0 +1,14 @@
+{
+  "slug": "the-world-of-programming-languages",
+  "coverImage": "/blog/the-world-of-programming-languages.jpg",
+  "date": "Jun 30, 2024",
+  "author": {
+    "name": "Vitor Britto",
+    "picture": "/authors/vitor.jpg"
+  },
+  "categories": ["programming-languages", "back-end"],
+  "tracks": ["back-end"],
+  "tags": ["Programming Languages", "Software Development", "Programming"],
+  "readTime": 5,
+  "featured": false
+}

@@ -1,0 +1,14 @@
+{
+  "slug": "react-design-patterns-container-presentational",
+  "coverImage": "/blog/react-design-patterns-container-presentational.jpg",
+  "date": "Jul 28, 2023",
+  "author": {
+    "name": "Vitor Britto",
+    "picture": "/authors/vitor.jpg"
+  },
+  "categories": ["react"],
+  "tracks": ["react-patterns"],
+  "tags": ["React", "Design Patterns", "Software Development", "Programming"],
+  "readTime": 3,
+  "featured": false
+}

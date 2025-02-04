@@ -1,0 +1,14 @@
+{
+  "slug": "the-journey-of-css",
+  "coverImage": "/blog/the-journey-of-css.jpg",
+  "date": "Dec 22, 2023",
+  "author": {
+    "name": "Vitor Britto",
+    "picture": "/authors/vitor.jpg"
+  },
+  "categories": ["front-end", "css"],
+  "tracks": ["front-end"],
+  "tags": ["CSS", "Software Development", "Programming"],
+  "readTime": 7,
+  "featured": false
+}

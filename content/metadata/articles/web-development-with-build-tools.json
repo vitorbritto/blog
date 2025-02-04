@@ -1,0 +1,14 @@
+{
+  "slug": "web-development-with-build-tools",
+  "coverImage": "/blog/web-development-with-build-tools.jpg",
+  "date": "Feb 25, 2024",
+  "author": {
+    "name": "Vitor Britto",
+    "picture": "/authors/vitor.jpg"
+  },
+  "categories": ["front-end"],
+  "tracks": [],
+  "tags": ["Web Development", "Software Development", "Programming"],
+  "readTime": 5,
+  "featured": false
+}

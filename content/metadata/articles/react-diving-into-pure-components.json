@@ -1,0 +1,14 @@
+{
+  "slug": "react-diving-into-pure-components",
+  "coverImage": "/blog/react-pure-components.jpg",
+  "date": "2023-04-09",
+  "author": {
+    "name": "Vitor Britto",
+    "picture": "/authors/vitor.jpg"
+  },
+  "categories": ["react", "javascript", "front-end"],
+  "tracks": [],
+  "tags": ["React", "JavaScript", "Immutable", "Software Development"],
+  "readTime": 3,
+  "featured": true
+}

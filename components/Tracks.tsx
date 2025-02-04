@@ -26,7 +26,7 @@ export async function Tracks() {
   return (
     <section id="tracks" className="max-w-6xl mx-auto mb-32">
       <div className="flex items-center justify-between mb-12">
-        <h2 className="text-2xl font-bold">Séries disponíveis</h2>
+        <h2 className="text-2xl font-bold">Trilhas disponíveis</h2>
         <Link
           href="/tracks"
           className="group flex items-center gap-1 text-emerald-400 hover:text-emerald-300 transition-colors"

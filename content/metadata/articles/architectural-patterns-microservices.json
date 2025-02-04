@@ -1,0 +1,14 @@
+{
+  "slug": "architectural-patterns-microservices",
+  "coverImage": "/blog/arch-patterns-microservices.jpg",
+  "date": "Jul 14, 2024",
+  "author": {
+    "name": "Vitor Britto",
+    "picture": "/authors/vitor.jpg"
+  },
+  "categories": ["architecture", "microservices", "back-end"],
+  "tracks": ["system-design"],
+  "tags": ["Microservices", "System Design", "Software Architecture"],
+  "readTime": 10,
+  "featured": false
+}

@@ -2,11 +2,12 @@ import { getArticlesByTrack } from "@/lib/content";
 import { TrackTimeline } from "@/components/TrackTimeline";
 import { NotFound } from "@/components/NotFound";
 
-// Mapeamento de slugs para categorias
 const tracks: Record<string, string> = {
   "front-end": "front-end",
   "back-end": "back-end",
   "system-design": "system-design",
+  "design-patterns": "design-patterns",
+  "react-design-patterns": "react-design-patterns",
 };
 
 interface TrackPageProps {
@@ -22,6 +23,8 @@ export default async function TrackPage({ params }: TrackPageProps) {
     "front-end": "Front-end",
     "back-end": "Back-end",
     "system-design": "System Design",
+    "design-patterns": "Design Patterns",
+    "react-design-patterns": "React Design Patterns",
   }[params?.slug];
 
   if (!track) {
@@ -31,7 +34,7 @@ export default async function TrackPage({ params }: TrackPageProps) {
         description="Desculpe, mas não conseguimos encontrar a trilha que você está procurando."
         backTo={{
           href: "/tracks",
-          label: "Voltar para as séries",
+          label: "Voltar para as trilhas",
         }}
       />
     );
@@ -48,7 +51,7 @@ export default async function TrackPage({ params }: TrackPageProps) {
         description="Desculpe, mas não conseguimos encontrar artigos para esta trilha."
         backTo={{
           href: "/tracks",
-          label: "Voltar para as séries",
+          label: "Voltar para as trilhas",
         }}
       />
     );

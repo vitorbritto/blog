@@ -1,0 +1,14 @@
+{
+  "slug": "introduction-to-progressive-web-apps",
+  "coverImage": "/blog/introduction-to-progressive-web-apps.jpg",
+  "date": "Mar 2, 2024",
+  "author": {
+    "name": "Vitor Britto",
+    "picture": "/authors/vitor.jpg"
+  },
+  "categories": ["front-end"],
+  "tracks": ["front-end"],
+  "tags": ["Progressive Web Apps", "Software Development", "Programming"],
+  "readTime": 4,
+  "featured": false
+}

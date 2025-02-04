@@ -19,7 +19,7 @@ export function ArticleImage({ src, alt }: ArticleImageProps) {
   return (
     <Image
       src={src}
-      alt={alt}
+      alt={alt || "Article cover image"}
       fill
       className="object-cover transition-transform duration-300 group-hover:scale-105"
       onError={() => setHasError(true)}

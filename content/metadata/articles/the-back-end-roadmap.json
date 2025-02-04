@@ -1,0 +1,14 @@
+{
+  "slug": "the-back-end-roadmap",
+  "coverImage": "/blog/the-back-end-roadmap.jpg",
+  "date": "Mar 4, 2024",
+  "author": {
+    "name": "Vitor Britto",
+    "picture": "/authors/vitor.jpg"
+  },
+  "categories": ["back-end"],
+  "tracks": ["back-end"],
+  "tags": ["Back-End", "Software Development", "Programming"],
+  "readTime": 2,
+  "featured": false
+}

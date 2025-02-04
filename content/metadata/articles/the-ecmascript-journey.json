@@ -1,0 +1,14 @@
+{
+  "slug": "the-ecmascript-journey",
+  "coverImage": "/blog/the-ecmascript-journey.jpg",
+  "date": "Apr 21, 2023",
+  "author": {
+    "name": "Vitor Britto",
+    "picture": "/authors/vitor.jpg"
+  },
+  "categories": ["javascript"],
+  "tracks": [],
+  "tags": ["ECMAScript", "Software Development", "Programming"],
+  "readTime": 6,
+  "featured": false
+}

@@ -1,7 +1,11 @@
-export type Article = {
-  slug: string;
+export type ArticleTranslation = {
   title: string;
   excerpt: string;
+  content: string;
+};
+
+export type Article = {
+  slug: string;
   coverImage: string;
   date: string;
   author: {
@@ -13,7 +17,10 @@ export type Article = {
   tags?: string[];
   readTime: number;
   featured?: boolean;
-  content: string;
+  translations: {
+    en: ArticleTranslation;
+    "pt-BR": ArticleTranslation;
+  };
 };
 
 export type Category = {

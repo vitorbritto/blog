@@ -1,0 +1,14 @@
+{
+  "slug": "unveiling-server-side-rendering",
+  "coverImage": "/blog/unveiling-server-side-rendering.jpg",
+  "date": "Feb 29, 2024",
+  "author": {
+    "name": "Vitor Britto",
+    "picture": "/authors/vitor.jpg"
+  },
+  "categories": ["front-end"],
+  "tracks": ["front-end"],
+  "tags": ["Server-Side Rendering", "Software Development", "Programming"],
+  "readTime": 5,
+  "featured": false
+}

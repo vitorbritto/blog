@@ -1,0 +1,14 @@
+{
+  "slug": "react-design-patterns-higher-order-components",
+  "coverImage": "/blog/react-design-patterns-higher-order-components.jpg",
+  "date": "Nov 26, 2023",
+  "author": {
+    "name": "Vitor Britto",
+    "picture": "/authors/vitor.jpg"
+  },
+  "categories": ["react"],
+  "tracks": ["react-patterns"],
+  "tags": ["React", "Design Patterns", "Software Development", "Programming"],
+  "readTime": 4,
+  "featured": false
+}

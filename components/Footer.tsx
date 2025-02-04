@@ -40,7 +40,7 @@ export function Footer() {
                   href="/tracks"
                   className="text-zinc-400 hover:text-emerald-400 transition-colors"
                 >
-                  Séries
+                  Trilhas
                 </Link>
               </li>
               <li>

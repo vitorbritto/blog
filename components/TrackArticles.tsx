@@ -27,7 +27,7 @@ export function TrackArticles({ tracks }: TrackArticlesProps) {
   return (
     <section className="py-24">
       <div className="max-w-6xl mx-auto px-6">
-        <h2 className="text-3xl font-bold mb-16 text-center">Séries</h2>
+        <h2 className="text-3xl font-bold mb-16 text-center">Trilhas</h2>
 
         <div className="space-y-32">
           {tracks.map((track, trackIndex) => (
@@ -76,7 +76,7 @@ export function TrackArticles({ tracks }: TrackArticlesProps) {
                             {article.excerpt}
                           </p>
                           <div className="flex items-center gap-2 text-sm text-zinc-500">
-                            <span>{article.readTime} min read</span>
+                            <span>{article.readTime} min</span>
                           </div>
                         </div>
 

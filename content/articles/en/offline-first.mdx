@@ -1,0 +1,63 @@
+---
+title: "Offline first: how to apply this approach in React Native?"
+excerpt: "Learn how to apply the Offline First approach in React Native"
+---
+
+**Offline first** is an approach for mobile applications that works similarly regardless of internet connection. To apply this technique in React Native we need to use some tools.
+Let's find out how we can ensure user experience without an internet connection.
+
+## How it works
+
+Before we get to the practical part we need to be on the same page about how this approach works under the hood:
+
+- When starting, the app tests whether or not the user has internet access;
+- Not having access, all user actions are saved in an offline database. This database is not shared among other users of the app;
+- As soon as the user gets access to the internet, this database is synchronized with the online database. So all information is sent to other users of the app;
+
+Check the image below that shows this flow:
+
+![Offline First flow](/blog/offline-first.png)
+
+## Why you should consider this approach?
+
+Developing your application ensuring that your user always has an internet connection is a big mistake.
+
+Before continuing, do the following test:
+
+- Disable your internet connection
+- Visit an app like Spotify, Netflix or Uber
+- Check that the behavior is similar to what we would have with an internet connection
+
+**That's the power of Offline First thinking. 🚀**
+
+In some cases, such as Spotify, the user can still download songs to listen offline, this behavior is also seen on Netflix for movies or series.
+Betting on this architecture is certainly essential to ensure good usability for your application.
+
+**What does your Application do when some user have no connection to internet?**
+
+If the user is not able to navigate and get it to work properly, you may be losing a lot with this, so let's learn about some techniques and tools to overcome this behavior and apply the Offline First thinking in React Native.
+
+## Using in a React Native application
+
+React Native offers some alternatives for using an Offline First thinking.
+
+First, we need to care about where to save the data when the user is offline, for that I recommend using RealmDB or WatermelonDB. Even so, if you want, you can use AsyncStorage without problems, the only limitation is that in this case you will not be able to perform any type of filter or query on the data recorded offline.
+Now that we have where to record the data, we need to find out if the user is online or not. React Native exposes the NetInfo native API that gives us this information.
+
+## Using WatermelonDB for complex data
+
+If your React Native app is simple and you use remote services to store your data in a database and Redux throughout the app, then react-native-offline and redux-persist will work for you.
+But for apps that are data-intensive, those methods could slow down your app. Using Redux where it's unnecessary is enough to create slower loading times, and both of those packages require Redux for handling any data both online and offline.
+For more complex apps that are backed by a SQL database, WatermelonDB is a good option. With WatermelonDB, all data is saved and accessed locally in an SQLite database using a separate native thread. Watermelon is also lazy. It only loads data when it is needed, so queries are resolved quickly.
+WatermelonDB is just a local database, but it also provides sync primitives and sync adaptors you can use to sync local data to your remote database.
+To use WatermelonDB to sync your data, you need to create two API endpoints on your backend - one for pushing changes and one for pulling changes. You will also have to create your own logic to determine when to sync this data.
+
+## Using MongoDB Realm for data-intensive apps
+
+If your data-intensive app uses non-relational data, then WatermelonDB may not be the best solution. MongoDB Realm might be a better solution. Realm database is a local NoSQL database you can use in your React Native app. It can be integrated with MongoDB Atlas.
+If you choose to use Realm, then creating a React Native app is relatively simple using the MongoDB Realm React Native SDK. Realm has built-in user management that allows user creation and authentication across devices using a variety of authentication providers, including email/password, JWT, Facebook, Google, and Apple. If you choose to sync your data to a MongoDB that is hosted in the cloud, that feature is also built into the SDK.
+
+## Conclusion
+
+Creating an application without thinking about its offline usability is very harmful. This approach helps a lot at this time.
+Using the techniques and tools mentioned in this post you will probably get the necessary behavior in your app.

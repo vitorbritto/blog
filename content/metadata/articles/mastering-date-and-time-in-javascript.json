@@ -1,0 +1,14 @@
+{
+  "slug": "mastering-date-and-time-in-javascript",
+  "coverImage": "/blog/mastering-date-and-time-in-javascript.jpg",
+  "date": "Jan 25, 2024",
+  "author": {
+    "name": "Vitor Britto",
+    "picture": "/authors/vitor.jpg"
+  },
+  "categories": ["javascript"],
+  "tracks": [],
+  "tags": ["JavaScript", "Date", "Time", "Software Development", "Programming"],
+  "readTime": 10,
+  "featured": false
+}

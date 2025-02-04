@@ -1,7 +1,6 @@
 import Link from "next/link";
-// import Image from "next/image";
 import { getAllArticles } from "@/lib/content";
-import { ArticleImage } from "./ArticleImage";
+import { ArticleCard } from "./ArticleCard";
 
 export async function FeaturedPosts() {
   const articles = await getAllArticles();
@@ -24,28 +23,7 @@ export async function FeaturedPosts() {
 
       <div className="grid gap-8 md:grid-cols-3">
         {featuredArticles.map((article) => (
-          <article key={article.slug} className="group">
-            <Link
-              href={`/articles/${article.slug}`}
-              className="space-y-4 block"
-            >
-              <div className="relative aspect-video rounded-lg overflow-hidden bg-zinc-800/50">
-                <ArticleImage src={article.coverImage} alt={article.title} />
-                <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/50 to-transparent" />
-              </div>
-              <div className="space-y-2">
-                <div className="flex items-center gap-2 text-sm text-zinc-400">
-                  <time dateTime={article.date}>{article.date}</time>
-                  <span>•</span>
-                  <span>{article.readTime} min read</span>
-                </div>
-                <h3 className="text-xl font-bold group-hover:text-emerald-400 transition-colors">
-                  {article.title}
-                </h3>
-                <p className="text-zinc-400 line-clamp-2">{article.excerpt}</p>
-              </div>
-            </Link>
-          </article>
+          <ArticleCard key={article.slug} article={article} />
         ))}
       </div>
     </section>

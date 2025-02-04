@@ -1,0 +1,14 @@
+{
+  "slug": "architectural-patterns-monolithic",
+  "coverImage": "/blog/arch-patterns-monolithic.jpg",
+  "date": "Jul 13, 2024",
+  "author": {
+    "name": "Vitor Britto",
+    "picture": "/authors/vitor.jpg"
+  },
+  "categories": ["architecture", "microservices", "back-end"],
+  "tracks": ["system-design"],
+  "tags": ["Microservices", "System Design", "Software Architecture"],
+  "readTime": 10,
+  "featured": false
+}

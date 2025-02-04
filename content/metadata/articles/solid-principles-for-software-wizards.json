@@ -1,0 +1,14 @@
+{
+  "slug": "solid-principles-for-software-wizards",
+  "coverImage": "/blog/solid-principles-for-software-wizards.jpg",
+  "date": "Jan 16, 2024",
+  "author": {
+    "name": "Vitor Britto",
+    "picture": "/authors/vitor.jpg"
+  },
+  "categories": ["solid-principles"],
+  "tracks": [],
+  "tags": ["Solid Principles", "Software Development", "Programming"],
+  "readTime": 7,
+  "featured": false
+}

@@ -1,0 +1,14 @@
+{
+  "slug": "mastering-http",
+  "coverImage": "/blog/mastering-http.jpg",
+  "date": "Mar 6, 2024",
+  "author": {
+    "name": "Vitor Britto",
+    "picture": "/authors/vitor.jpg"
+  },
+  "categories": ["http"],
+  "tracks": [],
+  "tags": ["HTTP", "Software Development", "Programming"],
+  "readTime": 10,
+  "featured": false
+}

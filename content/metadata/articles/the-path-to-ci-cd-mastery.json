@@ -1,0 +1,14 @@
+{
+  "slug": "the-path-to-ci-cd-mastery",
+  "coverImage": "/blog/the-path-to-ci-cd-mastery.jpg",
+  "date": "Jun 18, 2024",
+  "author": {
+    "name": "Vitor Britto",
+    "picture": "/authors/vitor.jpg"
+  },
+  "categories": ["ci-cd"],
+  "tracks": [],
+  "tags": ["CI/CD", "Software Development", "Programming"],
+  "readTime": 5,
+  "featured": false
+}

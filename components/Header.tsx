@@ -27,7 +27,7 @@ export function Header() {
             href="/tracks"
             className="cursor-pointer hover:text-emerald-400 transition-colors active:scale-95"
           >
-            Séries
+            Trilhas
           </Link>
           <Link
             href="/categories"

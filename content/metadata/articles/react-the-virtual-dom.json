@@ -1,0 +1,14 @@
+{
+  "slug": "react-the-virtual-dom",
+  "coverImage": "/blog/react-virtual-dom.jpg",
+  "date": "2023-04-12",
+  "author": {
+    "name": "Vitor Britto",
+    "picture": "/authors/vitor.jpg"
+  },
+  "categories": ["react", "javascript", "front-end"],
+  "tracks": [],
+  "tags": ["React", "JavaScript", "Virtual DOM", "Software Development"],
+  "readTime": 4,
+  "featured": false
+}

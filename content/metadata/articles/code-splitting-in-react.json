@@ -1,0 +1,14 @@
+{
+  "slug": "code-splitting-in-react",
+  "coverImage": "/blog/code-splitting.jpg",
+  "date": "2023-04-10",
+  "author": {
+    "name": "Vitor Britto",
+    "picture": "/authors/vitor.jpg"
+  },
+  "categories": ["react", "javascript", "front-end"],
+  "tracks": [],
+  "tags": ["React", "JavaScript", "Software Development"],
+  "readTime": 8,
+  "featured": true
+}

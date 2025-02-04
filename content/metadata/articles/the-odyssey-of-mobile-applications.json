@@ -1,0 +1,14 @@
+{
+  "slug": "the-odyssey-of-mobile-applications",
+  "coverImage": "/blog/the-odyssey-of-mobile-applications.jpg",
+  "date": "Mar 3, 2024",
+  "author": {
+    "name": "Vitor Britto",
+    "picture": "/authors/vitor.jpg"
+  },
+  "categories": ["mobile"],
+  "tracks": ["front-end"],
+  "tags": ["Mobile Applications", "Software Development", "Programming"],
+  "readTime": 3,
+  "featured": false
+}

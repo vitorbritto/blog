@@ -1,0 +1,14 @@
+{
+  "slug": "an-introduction-to-databases",
+  "coverImage": "/blog/an-introduction-to-databases.jpg",
+  "date": "May 29, 2024",
+  "author": {
+    "name": "Vitor Britto",
+    "picture": "/authors/vitor.jpg"
+  },
+  "categories": [],
+  "tracks": [],
+  "tags": [],
+  "readTime": 7,
+  "featured": false
+}

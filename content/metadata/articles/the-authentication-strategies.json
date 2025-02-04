@@ -1,0 +1,14 @@
+{
+  "slug": "the-authentication-strategies",
+  "coverImage": "/blog/the-authentication-strategies.jpg",
+  "date": "Feb 28, 2024",
+  "author": {
+    "name": "Vitor Britto",
+    "picture": "/authors/vitor.jpg"
+  },
+  "categories": ["web-security"],
+  "tracks": [],
+  "tags": ["Web Security", "Software Development", "Programming"],
+  "readTime": 12,
+  "featured": false
+}

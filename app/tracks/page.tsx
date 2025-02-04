@@ -27,7 +27,7 @@ export default async function TracksPage() {
     <main className="max-w-6xl mx-auto px-6 py-24">
       <div className="mb-16">
         <div className="flex items-center justify-between mb-4">
-          <h1 className="text-4xl font-bold">Séries</h1>
+          <h1 className="text-4xl font-bold">Trilhas</h1>
           <Link
             href="/"
             className="inline-flex items-center gap-2 text-zinc-400 hover:text-emerald-400 transition-colors group"
@@ -37,7 +37,7 @@ export default async function TracksPage() {
           </Link>
         </div>
         <p className="text-lg text-zinc-400 max-w-2xl">
-          Aprenda de forma estruturada com nossas séries de conhecimento,
+          Aprenda de forma estruturada com nossas trilhas de conhecimento,
           organizadas para maximizar seu aprendizado.
         </p>
       </div>

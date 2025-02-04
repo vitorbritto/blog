@@ -1,0 +1,14 @@
+{
+  "slug": "understanding-web-security",
+  "coverImage": "/blog/understanding-web-security.jpg",
+  "date": "Feb 28, 2024",
+  "author": {
+    "name": "Vitor Britto",
+    "picture": "/authors/vitor.jpg"
+  },
+  "categories": ["web-security"],
+  "tracks": ["front-end"],
+  "tags": ["Web Security", "Software Development", "Programming"],
+  "readTime": 6,
+  "featured": false
+}
