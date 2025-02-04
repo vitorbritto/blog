@@ -6,11 +6,11 @@ import { ArticleLanguageProvider } from "./ArticleLanguageProvider";
 
 export function ArticleContent({ article }: { article: Article }) {
   return (
-    <article className="max-w-6xl mx-auto px-6 py-24">
+    <article className="max-w-3xl mx-auto pt-24 pb-6">
       <ArticleLanguageProvider article={article}>
-        <ArticleHeader article={article} />
+        <ArticleHeader />
         <Suspense fallback={<div>Carregando...</div>}>
-          <ArticleMDX article={article} />
+          <ArticleMDX />
         </Suspense>
       </ArticleLanguageProvider>
     </article>

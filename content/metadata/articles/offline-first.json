@@ -6,7 +6,7 @@
     "name": "Vitor Britto",
     "picture": "/authors/vitor.jpg"
   },
-  "categories": ["offline-first"],
+  "categories": ["offline-first", "react-native"],
   "tracks": [],
   "tags": ["Offline First", "Software Development", "Programming"],
   "readTime": 5,

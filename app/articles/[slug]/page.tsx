@@ -34,8 +34,8 @@ export default async function ArticlePage({
     <>
       <ReadingProgress />
       <ArticleContent article={article} />
-      <div className="max-w-6xl mx-auto px-6 mb-6">
-        <div className="mt-16 flex items-center justify-between border-t border-zinc-800 pt-8">
+      <div className="max-w-3xl mx-auto mb-6">
+        <div className="flex items-center justify-between border-t border-zinc-800 pt-6">
           <ArticleLikes articleId={article.slug} />
           <ArticleShare article={article} />
         </div>

@@ -4,6 +4,9 @@
   "description": "Entenda como utilizar padrões de design para criar interfaces modernas e eficientes.",
   "icon": "Layers",
   "topics": ["Design Patterns", "JavaScript"],
-  "articles": [],
+  "articles": [
+    "introduction-to-design-patterns",
+    "elevating-creational-craftsmanship"
+  ],
   "featured": false
 }

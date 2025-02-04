@@ -1,10 +1,9 @@
 import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
-import { Article, Track } from "./types/content";
+import { Article, ArticleTranslation, Track } from "./types/content";
 
 const contentDirectory = path.join(process.cwd(), "content");
-const articlesDirectory = path.join(contentDirectory, "articles");
 
 export async function getArticleBySlug(slug: string): Promise<Article | null> {
   try {

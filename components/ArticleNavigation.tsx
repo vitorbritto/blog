@@ -31,10 +31,10 @@ export function ArticleNavigation({ previous, next }: ArticleNavigationProps) {
           >
             <Link
               href={`/articles/${previous.slug}`}
-              className="flex items-center gap-2 bg-zinc-900/80 backdrop-blur-sm hover:bg-zinc-800 px-3 py-4 rounded-lg group transition-colors"
+              className="flex items-center gap-2 bg-zinc-900/80 backdrop-blur-sm hover:bg-zinc-800 px-3 py-2 rounded-lg group transition-colors"
             >
-              <ArrowLeft className="w-5 h-5 text-zinc-400 group-hover:text-emerald-400 transition-transform group-hover:-translate-x-1" />
-              <div className="max-w-[200px]">
+              <ArrowLeft className="w-4 h-4 text-zinc-400 group-hover:text-emerald-400 transition-transform group-hover:-translate-x-1" />
+              <div className="max-w-[120px]">
                 <span className="block text-xs text-zinc-400 mb-1">
                   Anterior
                 </span>
@@ -54,9 +54,9 @@ export function ArticleNavigation({ previous, next }: ArticleNavigationProps) {
           >
             <Link
               href={`/articles/${next.slug}`}
-              className="flex items-center gap-2 bg-zinc-900/80 backdrop-blur-sm hover:bg-zinc-800 px-3 py-4 rounded-lg group transition-colors"
+              className="flex items-center gap-2 bg-zinc-900/80 backdrop-blur-sm hover:bg-zinc-800 px-3 py-2 rounded-lg group transition-colors"
             >
-              <div className="max-w-[200px] text-right">
+              <div className="max-w-[120px] text-right">
                 <span className="block text-xs text-zinc-400 mb-1">
                   Próximo
                 </span>
@@ -64,7 +64,7 @@ export function ArticleNavigation({ previous, next }: ArticleNavigationProps) {
                   {nextTranslated?.title}
                 </span>
               </div>
-              <ArrowRight className="w-5 h-5 text-zinc-400 group-hover:text-emerald-400 transition-transform group-hover:translate-x-1" />
+              <ArrowRight className="w-4 h-4 text-zinc-400 group-hover:text-emerald-400 transition-transform group-hover:translate-x-1" />
             </Link>
           </motion.div>
         ) : null}

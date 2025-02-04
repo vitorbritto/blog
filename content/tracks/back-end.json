@@ -4,6 +4,11 @@
   "description": "Aprenda sobre o o maravilhoso mundo do back-end.",
   "icon": "Terminal",
   "topics": ["Node.js", "Go Lang", "APIs", "Databases", "Security"],
-  "articles": [],
+  "articles": [
+    "the-world-of-programming-languages",
+    "the-authentication-strategies",
+    "the-software-testing-scenario",
+    "exploring-version-control-systems"
+  ],
   "featured": true
 }

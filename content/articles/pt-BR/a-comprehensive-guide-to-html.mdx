@@ -2,3 +2,125 @@
 title: "Um guia completo para HTML"
 excerpt: "Entenda o esqueleto da World Wide Web."
 ---
+
+HTML, ou HyperText Markup Language, é o principal pilar da World Wide Web, servindo como a linguagem fundamental que estrutura e apresenta conteúdo na internet.
+
+## Fundamentos do HTML
+
+HTML é a base do desenvolvimento web, fornecendo uma maneira padronizada de estruturar conteúdo usando tags. As tags são envolvidas por sinais de maior e menor, formando elementos que definem a estrutura de uma página web. A estrutura básica de um documento HTML inclui a declaração `<!doctype html>`, o elemento `<html>`, a seção `<head>` para metadados e a seção `<body>` para conteúdo.
+
+Veja este exemplo:
+
+```html
+<!DOCTYPE html>
+<!-- Informações sobre o tipo de documento -->
+<html lang="en">
+  <!-- Informações sobre a página -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your Page Title</title>
+  </head>
+  <!-- Conteúdo da página -->
+  <body>
+    <!-- Conteúdo da página -->
+  </body>
+</html>
+```
+
+## HTML Semântico
+
+O HTML semântico enriquece a estrutura e o significado de uma página web usando tags que transmitem o propósito do conteúdo. Em vez de elementos genéricos `<div>`, as tags semânticas como `<header>`, `<nav>`, `<main>`, `<article>`, `<section>`, e `<footer>` fornecem contexto, auxiliando tanto desenvolvedores quanto tecnologias assistivas na compreensão da estrutura do documento.
+
+Vamos estender nosso primeiro exemplo usando a forma semântica:
+
+```html
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <!-- Informações sobre o documento -->
+  <head>
+    <!-- Informações sobre o tipo de documento -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your Page Title</title>
+  </head>
+
+  <!-- Conteúdo da página -->
+  <body>
+    <!-- Cabeçalho da página -->
+    <header>
+      <h1>O nome do seu site</h1>
+
+      <!-- Links de navegação -->
+      <nav>
+        <a href="/">Home</a>
+        <a href="/about">Sobre</a>
+        <a href="/contact">Contato</a>
+      </nav>
+    </header>
+
+    <!-- Conteúdo principal da página -->
+    <main>
+      <article>
+        <h2>Título do artigo</h2>
+        <p>Conteúdo do artigo...</p>
+      </article>
+    </main>
+
+    <!-- Rodapé da página -->
+    <footer>
+      <p>© 2024 Seu Nome. Todos os direitos reservados.</p>
+    </footer>
+  </body>
+</html>
+```
+
+## Formulários e Validações
+
+Os formulários facilitam a interação e a coleta de dados em sites. O HTML fornece uma variedade de elementos de formulário como `<input>`, `<textarea>`, `<select>`, e mais.
+
+A validação de formulário garante que a entrada do usuário atenda a critérios específicos antes de ser enviada, melhorando a integridade dos dados.
+
+HTML5 introduziu novos tipos de entrada e atributos, como `required` e `pattern`, tornando a validação de formulário mais acessível e amigável para o usuário.
+
+```html
+<!-- Formulário de login -->
+<form action="/submit" method="post">
+  <!-- Campo de entrada de usuário -->
+  <label for="username">Usuário:</label>
+  <input
+    type="text"
+    id="username"
+    name="username"
+    required
+    pattern="[A-Za-z0–9]+"
+  />
+
+  <!-- Campo de entrada de senha -->
+  <label for="password">Senha:</label>
+  <input type="password" id="password" name="password" required />
+
+  <!-- Botão de envio -->
+  <input type="submit" value="Enviar" />
+</form>
+```
+
+## Acessibilidade
+
+Criar uma experiência web inclusiva envolve projetar sites que sejam acessíveis a todos os usuários. O HTML semântico desempenha um papel importante nisso, mas considerações adicionais incluem fornecer texto alternativo para imagens (atributo `alt`), garantir a navegação pelo teclado e criar texto de link descritivo e significativo.
+
+Os Padrões de Acessibilidade Web (WCAG) oferecem orientações completas sobre práticas de acessibilidade.
+
+## SEO Básico
+
+Otimização para mecanismos de busca (SEO) é essencial para melhorar a visibilidade de um site nos resultados de busca.
+
+Os elementos HTML como `<title>`, `<meta>` tags, e uma estrutura de cabeçalhos adequada contribuem para o SEO. Conteúdos descritivos e concisos, juntamente com informações bem organizadas, ajudam os mecanismos de busca a entender a relevância de uma página web. Incorporar palavras-chave relevantes e criar um mapa do site aumenta ainda mais o SEO.
+
+## Conclusão
+
+Ganhar expertise em HTML é um marco essencial no caminho para se tornar um desenvolvedor web habilidoso. Em um cenário digital em constante evolução, possuir um forte entendimento de HTML continua sendo uma competência essencial para indivíduos que embarcam em uma jornada para o desenvolvimento web.
+
+## Referências
+
+- https://developer.mozilla.org/pt-BR/docs/Web/HTML

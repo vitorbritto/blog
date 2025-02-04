@@ -1,6 +1,6 @@
 ---
-title: "Offline first: how to apply this approach in React Native?"
-excerpt: "Learn how to apply the Offline First approach in React Native"
+title: "Offline first"
+excerpt: "How to apply it in React Native."
 ---
 
 **Offline first** is an approach for mobile applications that works similarly regardless of internet connection. To apply this technique in React Native we need to use some tools.
@@ -50,7 +50,7 @@ If your React Native app is simple and you use remote services to store your dat
 But for apps that are data-intensive, those methods could slow down your app. Using Redux where it's unnecessary is enough to create slower loading times, and both of those packages require Redux for handling any data both online and offline.
 For more complex apps that are backed by a SQL database, WatermelonDB is a good option. With WatermelonDB, all data is saved and accessed locally in an SQLite database using a separate native thread. Watermelon is also lazy. It only loads data when it is needed, so queries are resolved quickly.
 WatermelonDB is just a local database, but it also provides sync primitives and sync adaptors you can use to sync local data to your remote database.
-To use WatermelonDB to sync your data, you need to create two API endpoints on your backend - one for pushing changes and one for pulling changes. You will also have to create your own logic to determine when to sync this data.
+To use WatermelonDB to sync your data, you need to create two API endpoints on your backend  - one for pushing changes and one for pulling changes. You will also have to create your own logic to determine when to sync this data.
 
 ## Using MongoDB Realm for data-intensive apps
 
