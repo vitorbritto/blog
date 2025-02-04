@@ -23,3 +23,22 @@ body {
 html {
   scroll-behavior: smooth;
 }
+
+.pre {
+  overflow-x: auto;
+  border-radius: 0.5rem;
+  background-color: #282c34;
+  padding: 1rem;
+  margin: 1.5rem 0;
+}
+
+.code {
+  display: grid;
+  counter-reset: line;
+}
+
+.line {
+  padding: 0.125rem 1rem;
+  border-left-width: 2px;
+  border-left-color: transparent;
+}

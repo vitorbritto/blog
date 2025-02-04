@@ -1,6 +1,11 @@
+"use client";
+
+import { useTranslation } from "@/lib/hooks/useTranslation";
 import { cn } from "@/lib/utils";
 
 export function Hero() {
+  const { t } = useTranslation();
+
   return (
     <section className="px-6">
       <div className="max-w-6xl mx-auto">
@@ -13,12 +18,12 @@ export function Hero() {
               "animate-gradient-x bg-[length:200%_auto]"
             )}
           >
-            Um blog sobre{" "}
-            <span className="text-balance">tecnologia e carreira</span>
+            {t("hero.title1")}
+            <br />
+            {t("hero.title2")}
           </h1>
           <p className="text-xl text-zinc-400 max-w-2xl">
-            Artigos, tutoriais e discussões sobre desenvolvimento web, boas
-            práticas e tecnologias modernas.
+            {t("hero.description")}
           </p>
         </div>
       </div>

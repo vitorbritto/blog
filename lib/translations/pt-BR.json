@@ -1,0 +1,108 @@
+{
+  "nav": {
+    "articles": "Artigos",
+    "tracks": "Trilhas",
+    "categories": "Categorias"
+  },
+  "hero": {
+    "title1": "Um blog sobre",
+    "title2": "tecnologia e carreira.",
+    "description": "Artigos, tutoriais e discussões sobre desenvolvimento web, boas práticas e tecnologias modernas."
+  },
+  "article": {
+    "readTime": "min de leitura",
+    "previous": "Anterior",
+    "next": "Próximo",
+    "loading": "Carregando..."
+  },
+  "tracks": {
+    "title": "Trilhas disponíveis",
+    "description": "Aprenda de forma estruturada com nossas trilhas de conhecimento, organizadas para maximizar seu aprendizado.",
+    "viewAll": "Ver todas",
+    "articles": "artigos",
+    "front-end": {
+      "title": "Front-end",
+      "description": "UI/UX, frameworks e bibliotecas"
+    },
+    "back-end": {
+      "title": "Back-end",
+      "description": "APIs, bancos de dados e servidores"
+    },
+    "system-design": {
+      "title": "System Design",
+      "description": "Design patterns e boas práticas"
+    },
+    "design-patterns": {
+      "title": "Design Patterns",
+      "description": "Design patterns e boas práticas"
+    },
+    "react-design-patterns": {
+      "title": "React - Design Patterns",
+      "description": "Componentes, hooks e renderização"
+    }
+  },
+  "categories": {
+    "title": "Categorias",
+    "description": "Explore artigos por categoria e encontre exatamente o que você precisa para evoluir em áreas específicas.",
+    "frontend": {
+      "name": "Front-end",
+      "description": "UI/UX, frameworks e bibliotecas"
+    },
+    "backend": {
+      "name": "Back-end",
+      "description": "APIs, bancos de dados e servidores"
+    },
+    "architecture": {
+      "name": "Arquitetura",
+      "description": "Design patterns e boas práticas"
+    },
+    "devops": {
+      "name": "DevOps",
+      "description": "CI/CD, containers e cloud"
+    },
+    "databases": {
+      "name": "Banco de Dados",
+      "description": "SQL, NoSQL e performance"
+    },
+    "security": {
+      "name": "Segurança",
+      "description": "Auth, HTTPS e boas práticas"
+    },
+    "performance": {
+      "name": "Performance",
+      "description": "Otimização e métricas"
+    },
+    "algorithms": {
+      "name": "Algoritmos",
+      "description": "Estruturas de dados e lógica"
+    }
+  },
+
+  "common": {
+    "back": "Voltar",
+    "viewAll": "Ver todos",
+    "tracks": "Trilhas disponíveis",
+    "featuredPosts": "Artigos em Destaque",
+    "categories": "Categorias",
+    "articles": "Artigos",
+    "about": "Sobre",
+    "share": "Compartilhar",
+    "buyMeACoffee": "Me compra um café",
+    "seniorSoftwareEngineer": "Engenheiro de Software Sênior",
+    "hello": "Olá, eu sou Vitor Britto",
+    "description1": "Com quase duas décadas de experiência em desenvolvimento de software, tenho dedicado minha carreira a criar soluções elegantes para problemas complexos. Atualmente, trabalho como Senior Software Engineer, focando em desenvolvmento de aplicações web e mobile e boas práticas de desenvolvimento.",
+    "description2": "Sou apaixonado por compartilhar conhecimento e contribuir para a comunidade de desenvolvimento. Através deste blog, compartilho minhas experiências, aprendizados e insights sobre desenvolvimento de software, arquitetura e tecnologias modernas.",
+    "description3": "Além do desenvolvimento, sou entusiasta de código limpo, padrões de projeto e metodologias ágeis. Acredito que o melhor software é aquele que não apenas funciona, mas é também sustentável e escalável.",
+    "newsletter": "Newsletter",
+    "newsletterDescription": "Receba as últimas atualizações e artigos diretamente no seu email. Sem spam, apenas conteúdo relevante.",
+    "links": "Links",
+    "connect": "Conecte-se",
+    "github": "GitHub",
+    "linkedin": "LinkedIn",
+    "youtube": "YouTube",
+    "medium": "Medium",
+    "copyright": "© 2025 Vitor Britto - Blog. Todos os direitos reservados.",
+    "privacy": "Privacidade",
+    "terms": "Termos"
+  }
+}

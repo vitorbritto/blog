@@ -23,7 +23,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR">
-      <body className={`${jetbrains.className} bg-zinc-950 text-zinc-100`}>
+      <body
+        className={`${jetbrains.className} bg-zinc-950 text-zinc-100 pt-12`}
+      >
         <Header />
         {children}
         <About />

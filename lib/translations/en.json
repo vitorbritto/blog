@@ -1,0 +1,108 @@
+{
+  "nav": {
+    "articles": "Articles",
+    "tracks": "Tracks",
+    "categories": "Categories"
+  },
+  "hero": {
+    "title1": "A blog about",
+    "title2": "technology and career.",
+    "description": "Articles, tutorials and discussions about web development, best practices and modern technologies."
+  },
+  "article": {
+    "readTime": "min read",
+    "previous": "Previous",
+    "next": "Next",
+    "loading": "Loading..."
+  },
+  "tracks": {
+    "title": "Available tracks",
+    "description": "Learn in a structured way with our knowledge tracks, organized to maximize your learning.",
+    "viewAll": "View all",
+    "articles": "articles",
+    "front-end": {
+      "title": "Front-end",
+      "description": "UI/UX, frameworks and libraries"
+    },
+    "back-end": {
+      "title": "Back-end",
+      "description": "APIs, databases and servers"
+    },
+    "design-patterns": {
+      "title": "Design Patterns",
+      "description": "Design patterns and best practices"
+    },
+    "system-design": {
+      "title": "System Design",
+      "description": "Design patterns and best practices"
+    },
+    "react-design-patterns": {
+      "title": "React - Design Patterns",
+      "description": "Components, hooks and rendering"
+    }
+  },
+  "categories": {
+    "title": "Categories",
+    "description": "Explore articles by category and find exactly what you need to evolve in specific areas.",
+    "frontend": {
+      "name": "Front-end",
+      "description": "UI/UX, frameworks and libraries"
+    },
+    "backend": {
+      "name": "Back-end",
+      "description": "APIs, databases and servers"
+    },
+    "architecture": {
+      "name": "Architecture",
+      "description": "Design patterns and best practices"
+    },
+    "devops": {
+      "name": "DevOps",
+      "description": "CI/CD, containers and cloud"
+    },
+    "databases": {
+      "name": "Databases",
+      "description": "SQL, NoSQL and performance"
+    },
+    "security": {
+      "name": "Security",
+      "description": "Auth, HTTPS and best practices"
+    },
+    "performance": {
+      "name": "Performance",
+      "description": "Optimization and metrics"
+    },
+    "algorithms": {
+      "name": "Algorithms",
+      "description": "Data structures and logic"
+    }
+  },
+
+  "common": {
+    "back": "Back",
+    "viewAll": "View all",
+    "tracks": "Tracks",
+    "featuredPosts": "Featured Posts",
+    "categories": "Categories",
+    "articles": "Articles",
+    "about": "About",
+    "share": "Share",
+    "buyMeACoffee": "Buy me a coffee",
+    "seniorSoftwareEngineer": "Senior Software Engineer",
+    "hello": "Hello, I'm Vitor Britto",
+    "description1": "With almost two decades of experience in software development, I have dedicated my career to creating elegant solutions for complex problems. Currently, I work as a Senior Software Engineer, focusing on web and mobile application development and best practices in software development.",
+    "description2": "I am passionate about sharing knowledge and contributing to the software development community. Through this blog, I share my experiences, learnings and insights about software development, architecture and modern technologies.",
+    "description3": "In addition to development, I am an enthusiast for clean code, design patterns and agile methodologies. I believe that the best software is not only functional but also sustainable and scalable.",
+    "newsletter": "Newsletter",
+    "newsletterDescription": "Receive the latest updates and articles directly in your email. No spam, just relevant content.",
+    "links": "Links",
+    "connect": "Connect",
+    "github": "GitHub",
+    "linkedin": "LinkedIn",
+    "youtube": "YouTube",
+    "medium": "Medium",
+    "copyright": "© 2025 Vitor Britto - Blog. All rights reserved.",
+    "privacy": "Privacy",
+    "terms": "Terms"
+  }
+}

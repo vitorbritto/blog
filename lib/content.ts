@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
-import { Article, ArticleTranslation, Track } from "./types/content";
+import { Article, ArticleTranslation, Category, Track } from "./types/content";
 
 const contentDirectory = path.join(process.cwd(), "content");
 
@@ -94,4 +94,24 @@ export async function getAllTracks(): Promise<Track[]> {
   });
 
   return tracks;
+}
+
+export async function getAllCategories(): Promise<Category[]> {
+  const categoriesDirectory = path.join(process.cwd(), "content", "categories");
+  const categoryFiles = fs.readdirSync(categoriesDirectory);
+
+  const categories = categoryFiles.map((fileName) => {
+    const filePath = path.join(categoriesDirectory, fileName);
+    const fileContent = fs.readFileSync(filePath, "utf8");
+    return JSON.parse(fileContent) as Category;
+  });
+
+  return categories;
+}
+
+export async function getCategoryBySlug(
+  slug: string
+): Promise<Category | null> {
+  const categories = await getAllCategories();
+  return categories.find((category) => category.slug === slug) || null;
 }

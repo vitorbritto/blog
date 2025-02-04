@@ -3,9 +3,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useArticleContext } from "./ArticleLanguageProvider";
+import { useTranslation } from "../lib/hooks/useTranslation";
 
 export function ArticleHeader() {
   const { translatedArticle } = useArticleContext();
+  const { t } = useTranslation();
 
   return (
     <div className="mt-8 mb-12">
@@ -34,7 +36,9 @@ export function ArticleHeader() {
               {translatedArticle.date}
             </time>
             <span>•</span>
-            <span>{translatedArticle.readTime} min</span>
+            <span>
+              {translatedArticle.readTime} {t("article.readTime")}
+            </span>
           </div>
         </div>
       </div>
