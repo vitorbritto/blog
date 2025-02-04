@@ -7,7 +7,7 @@
     "picture": "/authors/vitor.jpg"
   },
   "categories": ["javascript"],
-  "tracks": [],
+  "tracks": ["front-end"],
   "tags": ["JavaScript", "Software Development", "Programming"],
   "readTime": 18,
   "featured": false

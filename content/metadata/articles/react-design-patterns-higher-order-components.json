@@ -7,7 +7,7 @@
     "picture": "/authors/vitor.jpg"
   },
   "categories": ["react"],
-  "tracks": ["react-patterns"],
+  "tracks": ["react-design-patterns"],
   "tags": ["React", "Design Patterns", "Software Development", "Programming"],
   "readTime": 4,
   "featured": false

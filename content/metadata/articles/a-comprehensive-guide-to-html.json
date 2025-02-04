@@ -6,9 +6,9 @@
     "name": "Vitor Britto",
     "picture": "/authors/vitor.jpg"
   },
-  "categories": [],
-  "tracks": [],
-  "tags": [],
+  "categories": ["html", "web"],
+  "tracks": ["front-end"],
+  "tags": ["html", "web", "development"],
   "readTime": 5,
   "featured": false
 }

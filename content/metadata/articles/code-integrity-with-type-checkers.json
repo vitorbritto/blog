@@ -6,9 +6,14 @@
     "name": "Vitor Britto",
     "picture": "/authors/vitor.jpg"
   },
-  "categories": [],
-  "tracks": [],
-  "tags": [],
+  "categories": ["type-checkers", "front-end"],
+  "tracks": ["front-end"],
+  "tags": [
+    "JavaScript",
+    "TypeScript",
+    "Software Development",
+    "Web Development"
+  ],
   "readTime": 3,
   "featured": false
 }

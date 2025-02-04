@@ -4,6 +4,17 @@
   "description": "Conheça os padrões de design mais utilizados no React.",
   "icon": "LayoutDashboard",
   "topics": ["React", "Design Patterns"],
-  "articles": [],
+  "articles": [
+    "react-design-patterns-compound-component",
+    "react-design-patterns-conditional-rendering",
+    "react-design-patterns-container-presentational",
+    "react-design-patterns-controlled-uncontrolled-component",
+    "react-design-patterns-custom-hooks",
+    "react-design-patterns-foundational",
+    "react-design-patterns-higher-order-components",
+    "react-design-patterns-layout-components",
+    "react-design-patterns-provider",
+    "react-design-patterns-render-props"
+  ],
   "featured": true
 }

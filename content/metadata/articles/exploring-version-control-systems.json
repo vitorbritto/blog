@@ -6,9 +6,9 @@
     "name": "Vitor Britto",
     "picture": "/authors/vitor.jpg"
   },
-  "categories": [],
-  "tracks": [],
-  "tags": [],
+  "categories": ["git", "version-control"],
+  "tracks": ["front-end", "back-end"],
+  "tags": ["Git", "Version Control", "Software Development", "Programming"],
   "readTime": 5,
   "featured": false
 }

@@ -6,9 +6,9 @@
     "name": "Vitor Britto",
     "picture": "/authors/vitor.jpg"
   },
-  "categories": ["web-security"],
-  "tracks": [],
-  "tags": ["Web Security", "Software Development", "Programming"],
+  "categories": ["web-security", "authentication"],
+  "tracks": ["front-end", "back-end"],
+  "tags": ["Web Security", "Software Development", "Authentication"],
   "readTime": 12,
   "featured": false
 }

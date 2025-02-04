@@ -6,8 +6,8 @@
     "name": "Vitor Britto",
     "picture": "/authors/vitor.jpg"
   },
-  "categories": ["front-end"],
-  "tracks": [],
+  "categories": ["front-end", "build-tools"],
+  "tracks": ["front-end"],
   "tags": ["Web Development", "Software Development", "Programming"],
   "readTime": 5,
   "featured": false

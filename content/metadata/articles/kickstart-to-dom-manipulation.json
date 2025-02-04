@@ -7,7 +7,7 @@
     "picture": "/authors/vitor.jpg"
   },
   "categories": ["dom-manipulation", "javascript"],
-  "tracks": [],
+  "tracks": ["front-end"],
   "tags": ["DOM Manipulation", "Software Development", "Programming"],
   "readTime": 6,
   "featured": false
