@@ -42,3 +42,18 @@ html {
   border-left-width: 2px;
   border-left-color: transparent;
 }
+
+/* Estilo para código inline */
+:not(pre) > code {
+  padding: 0.2rem 0.4rem;
+  font-size: 0.875em;
+  background-color: rgb(39 39 42);
+  color: rgb(74 222 128);
+  border-radius: 0.25rem;
+}
+
+/* Remove os backticks do código inline */
+:not(pre) > code::before,
+:not(pre) > code::after {
+  display: none;
+}

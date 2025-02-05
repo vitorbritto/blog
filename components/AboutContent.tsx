@@ -23,13 +23,17 @@ export function AboutContent() {
               />
             </div>
             <a
-              href="https://buymeacoffee.com/vitorbritto"
+              href="https://www.buymeacoffee.com/vitorbritto"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-100 transition-all group"
             >
-              <Coffee className="w-5 h-5 group-hover:rotate-12 transition-transform" />
-              <span>{t("common.buyMeACoffee")}</span>
+              <Image
+                src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
+                alt="Buy Me A Coffee"
+                width={195}
+                height={50}
+                className="h-[50px] w-[195px]"
+              />
             </a>
           </div>
           <div className="lg:w-2/3 text-center lg:text-left">

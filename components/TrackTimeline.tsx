@@ -49,7 +49,7 @@ export function TrackTimeline({ articles }: TrackTimelineProps) {
             className="relative pl-16"
           >
             {/* Círculo na timeline */}
-            <div className="absolute left-4 top-8 w-4 h-4 rounded-full border-2 border-emerald-400 bg-zinc-950 -translate-x-1/2" />
+            <div className="absolute left-[1.5rem] top-8 w-4 h-4 rounded-full bg-emerald-400 -translate-x-1/2" />
 
             <Link
               href={`/articles/${article.slug}`}

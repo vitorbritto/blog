@@ -1,16 +1,22 @@
 "use client";
 
 import { MDXRemote } from "next-mdx-remote/rsc";
+import { mdxOptions } from "@/lib/mdx";
 import { useArticleContext } from "./ArticleLanguageProvider";
 import { CodeBlock } from "./CodeBlock";
-import { mdxOptions } from "@/lib/mdx";
 
 const components = {
   pre: ({ children }: { children: React.ReactNode }) => children,
   code: ({ children, className }: { children: string; className?: string }) => {
-    const language = className?.replace("language-", "");
-    if (!language) return <code>{children}</code>;
+    if (!className) {
+      return (
+        <code className="px-1.5 py-0.5 text-sm font-mono bg-zinc-800 text-emerald-400 rounded">
+          {children}
+        </code>
+      );
+    }
 
+    const language = className.replace("language-", "");
     return (
       <CodeBlock
         code={children.trim()}

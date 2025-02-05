@@ -1,7 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Copy, Check } from "lucide-react";
+import Prism from "prismjs";
+import "prismjs/themes/prism-tomorrow.css";
+import "prismjs/components/prism-typescript";
+import "prismjs/components/prism-javascript";
+import "prismjs/components/prism-jsx";
+import "prismjs/components/prism-tsx";
+import "prismjs/components/prism-bash";
+import "prismjs/components/prism-json";
 
 interface CodeBlockProps {
   code: string;
@@ -10,6 +18,10 @@ interface CodeBlockProps {
 
 export function CodeBlock({ code, language }: CodeBlockProps) {
   const [isCopied, setIsCopied] = useState(false);
+
+  useEffect(() => {
+    Prism.highlightAll();
+  }, [code]);
 
   const copyToClipboard = () => {
     if (isCopied) return;
