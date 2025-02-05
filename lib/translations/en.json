@@ -2,7 +2,9 @@
   "nav": {
     "articles": "Articles",
     "tracks": "Tracks",
-    "categories": "Categories"
+    "categories": "Categories",
+    "about": "About",
+    "contact": "Contact"
   },
   "hero": {
     "title1": "A blog about",
@@ -102,7 +104,9 @@
     "youtube": "YouTube",
     "medium": "Medium",
     "copyright": "© 2025 Vitor Britto - Blog. All rights reserved.",
-    "privacy": "Privacy",
-    "terms": "Terms"
+    "subscribe": "Subscribe",
+    "exclusiveTips": "Exclusive Tips",
+    "newArticles": "New Articles",
+    "emailPlaceholder": "your@email.com"
   }
 }

@@ -42,6 +42,13 @@ export function Header() {
             >
               {t("nav.categories")}
             </Link>
+            <Link
+              target="_blank"
+              href="https://vitorbritto.dev"
+              className="text-sm hover:text-emerald-400 transition-colors"
+            >
+              {t("nav.about")}
+            </Link>
           </div>
 
           <div className="h-5 w-px bg-zinc-800" />

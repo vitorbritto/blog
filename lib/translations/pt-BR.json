@@ -2,7 +2,9 @@
   "nav": {
     "articles": "Artigos",
     "tracks": "Trilhas",
-    "categories": "Categorias"
+    "categories": "Categorias",
+    "about": "Sobre",
+    "contact": "Contato"
   },
   "hero": {
     "title1": "Um blog sobre",
@@ -102,7 +104,9 @@
     "youtube": "YouTube",
     "medium": "Medium",
     "copyright": "© 2025 Vitor Britto - Blog. Todos os direitos reservados.",
-    "privacy": "Privacidade",
-    "terms": "Termos"
+    "subscribe": "Inscreva-se",
+    "exclusiveTips": "Dicas exclusivas",
+    "newArticles": "Novos artigos",
+    "emailPlaceholder": "seu@email.com"
   }
 }
