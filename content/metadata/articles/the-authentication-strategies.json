@@ -9,6 +9,5 @@
   "categories": ["web-security", "authentication"],
   "tracks": ["front-end", "back-end"],
   "tags": ["Web Security", "Software Development", "Authentication"],
-  "readTime": 12,
-  "featured": false
+  "readTime": 12
 }

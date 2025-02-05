@@ -9,6 +9,5 @@
   "categories": ["architecture", "microservices", "back-end"],
   "tracks": ["system-design"],
   "tags": ["Microservices", "System Design", "Software Architecture"],
-  "readTime": 10,
-  "featured": false
+  "readTime": 10
 }

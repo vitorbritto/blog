@@ -1,50 +1,36 @@
 ---
 title: Getting started with System Design
-excerpt: Getting started with System Design
+excerpt: The art of creating structures that are efficient, scalable, and easy to maintain.
 ---
 
-When we talk about system design, we are referring to the art of creating structures that are efficient, scalable, and easy to maintain.
-When we talk about system design, we are referring to the art of creating structures that are efficient, scalable, and easy to maintain.
+System design involves defining the architecture, modules, interfaces, and data of a system to meet specified requirements. This process provides a high-level view of the system, highlighting the logical and functional aspects of the software. The main objective is to ensure that the system's architecture is well-defined and meets the stakeholders' needs.
 
-
-System design involves defining the architecture, modules, interfaces, and data of a system to meet specified requirements. This process provides a high-level view of the system, highlighting the logical and functional aspects of the software. The main objective is to ensure that the system’s architecture is well-defined and meets the stakeholders’ needs.
-
-
-But before even talking about System Design, let’s take a few steps back and see how a Computer's Architecture works.
-
+But before even talking about System Design, let's take a few steps back and see how a Computer's Architecture works.
 
 ### Computer Architecture
 
-
 One thing that we need to know about System Design, it is a solid understanding of computer architecture.
 
-
 But why this is so important?
-
 
 The answer is simple and lies in the fact that all softwares, from the simplest to the most complex, rely on the basic components of a computer to works.
 
 Computer architecture is the foundation upon which we build softwares.
-Let’s explore the main components of this architecture and understand their relevance in the context of System Design.
+Let's explore the main components of this architecture and understand their relevance in the context of System Design.
 
 Storage
 Storage is where all your information is permanently kept. Think of it as a giant library where you store all your books (data), and you can access them whenever you need. In the context of computers, we have devices like hard drives (HDDs) and solid-state drives (SSDs) that store data even when the computer is turned off.
 
-
 Storage is not just about storing data, but also about the speed at which this data is recorded and retrieved from its storage center.
-
 
 All this speed is related to the mechanics that these hardware devices use. While HDD uses a manual mechanism, employing a metal disk and a read/write head to store or read data at a specific location, SSD ensures faster access because it uses an electronic mechanism and can identify data through cells, which are recorded in its hardware.
 
-
 Notice that in an SSD, there is no wait time from its components for a read or write operation to be performed; it is instantaneous.
-
 
 This is why there is a significant difference in data delivery.
 
 Memory
 Memory, or RAM (Random Access Memory), is like a worktable where you place the books you are currently reading. The more RAM you have, the more “books” you can have open and access quickly. However, RAM is volatile, meaning it loses all the information when the computer is turned off.
-
 
 Having an adequate amount of RAM improves the speed, multitasking, and stability of the system, while a lack of RAM can cause slowness and instability.
 
@@ -52,41 +38,29 @@ Cache
 Cache is like a small worktable next to your main desk (RAM). It temporarily stores data that you are accessing very frequently. This allows for even faster access since the cache is physically located closer to the processor (CPU).
 
 CPU
-The CPU (Central Processing Unit) is the “brain” of the computer. It executes program instructions, performing the necessary calculations and processing to ensure everything functions. It’s like the library manager who directs all operations, ensuring that data is processed and stored correctly.
-
+The CPU (Central Processing Unit) is the “brain” of the computer. It executes program instructions, performing the necessary calculations and processing to ensure everything functions. It's like the library manager who directs all operations, ensuring that data is processed and stored correctly.
 
 Ok, but why is understanding computer architecture important for System Design?
 
-
 Understanding computer architecture is fundamental for System Design for several reasons that interweave to form the foundation upon which robust and efficient systems are built. If you understand what each component does and its responsibility, you can ensure performance, efficiency, scalability, security, and compatibility in your system.
-
 
 Also, you will be able to take assertive technical decisions and reduce costs based on the resources strictly necessary for your software.
 
-
 Moving forward, let's understand what a system is.
-
 
 ### What is a system?
 
-
 A system is a set of interrelated components that work together to achieve a common goal. This can include hardware, software, data, and people.
 
-
-And to define how these components are organized and how they interact with each other, we use System Design. It’s like the blueprint of a building, where each part needs to be in the right place for everything to work harmoniously.
-
+And to define how these components are organized and how they interact with each other, we use System Design. It's like the blueprint of a building, where each part needs to be in the right place for everything to work harmoniously.
 
 ### Core principles of System Design
 
-
 To build softwares that meet performance and maintenance expectations, it is necessary to understand and apply some fundamental principles of System Design too.
-
 
 Every system should adhere to three main pillars: reliability, scalability, and maintainability.
 
-
 ### Reliability
-
 
 Here we are talking about the ability of a system to operate correctly and consistently over time. In other words, it ensures that the system will perform as expected, even under adverse conditions. A reliable system minimizes downtime and failures, providing a stable experience for users.
 
@@ -94,31 +68,29 @@ How to ensure the reliability?
 It is necessary to have redundant components so that if one fails, the other can take over. Additionally, rigorous testing should be conducted to identify and fix problems before they affect users.
 
 Techniques that can be used
+
 - Redundancy: involves duplicating critical components within the system. If one component fails, its duplicate can take over, ensuring the system continues to function without interruption. This can apply to both hardware (e.g., servers, network devices) and software (e.g., databases, services).
 - Testing and Validation: Testing is essential to ensure the system functions correctly under various conditions. This includes unit tests, integration tests, system tests, and stress tests. By identifying and addressing potential issues early, you can reduce the risk of system failures in production.
 - Fault-tolerant Design: Creating fault-tolerant systems ensures they remain operational even if some components fail. This can be achieved through methods like graceful degradation, where non-critical features are turned off during a failure, but essential functions continue to work. Another strategy is to implement failover, where the system automatically transitions to a backup component.
-- Monitoring and Recovery: Constantly monitoring the system’s performance and health is essential for identifying problems early. Using automated recovery methods enables the system to rapidly bounce back from failures. Monitoring tools can notify administrators of any issues, and recovery actions may involve automatic restarts, failovers, or repairs.
+- Monitoring and Recovery: Constantly monitoring the system's performance and health is essential for identifying problems early. Using automated recovery methods enables the system to rapidly bounce back from failures. Monitoring tools can notify administrators of any issues, and recovery actions may involve automatic restarts, failovers, or repairs.
 - Security and Access Control: Ensuring the system is secure from unauthorized access and attacks is a key aspect of reliability. Implementing robust security measures, such as encryption, authentication, and access controls, helps protect the system from malicious activities that could cause failures. Regular security audits and updates are necessary to maintain a secure environment.
-
 
 ### Scalability
 
-
-Scalability is the ability of a system to grow and handle an increasing workload. It’s like expanding a bakery to serve more customers without compromising the quality of the products.
+Scalability is the ability of a system to grow and handle an increasing workload. It's like expanding a bakery to serve more customers without compromising the quality of the products.
 
 How to ensure the scalability?
 The system needs to be designed in smaller parts that can be scaled individually and be configurable to the point where it can automatically add resources when demand increases.
 
 Techniques that can be used
+
 - Horizontal scaling (scaling out): One common technique for scaling a system is horizontal scaling, which involves adding more instances of the system in a distributed environment. This can be achieved by replicating the system across multiple servers, each handling a portion of the workload, and using load balancing techniques to distribute requests evenly across them.
 - Vertical scaling (scaling up): Another technique for scaling a system is vertical scaling, which involves adding more resources to a single instance of the system. This can be achieved by increasing the amount of memory, processing power, or storage capacity available to the system, either by upgrading the hardware or by using virtualisation technologies.
 - Caching: Caching is another technique that can be used to improve the scalability of a system. By storing frequently accessed data in memory or on disk, the system can reduce the number of requests that need to be processed, improving performance and reducing the load on the system.
 - Database sharding: Database sharding is a technique for scaling the database layer of a system. This involves partitioning the data across multiple database instances, each handling a portion of the data, and using a shard key to route requests to the correct instance.
 - Asynchronous processing: Asynchronous processing is a technique that can be used to improve the scalability of a system by reducing the amount of time spent waiting for I/O operations to complete. By using non-blocking I/O and event-driven architectures, the system can handle more requests in parallel, improving throughput and reducing response times.
 
-
 ### Maintainability
-
 
 Maintainability is the ease with which a system can be maintained and updated.
 
@@ -126,126 +98,91 @@ How to ensure the maintainability?
 It is important to write code that is easy to understand and modify. Additionally, it is essential to keep detailed and up-to-date documentation about the system and its operation.
 
 Techniques that can be used
+
 - Modularity: is a technique of breaking down a complex system into smaller, more manageable parts, or modules. This allows developers to work on different parts of the system independently, without affecting the rest of the system. Modular design makes it easier to locate and fix bugs or make changes to specific parts of the system without impacting the whole system.
 - Abstraction: is a technique of hiding implementation details and exposing only the essential features of a system or module. This technique helps to reduce the complexity of a system, making it easier to maintain and understand.
 - Encapsulation: is a technique of grouping data and methods that operate on that data into a single unit, or class. This technique helps to keep the internal details of a module or component hidden from other parts of the system, reducing the risk of unintended changes and making it easier to maintain.
 - Standardisation: involves defining and following a set of coding standards, best practices, and conventions for software development. This helps to ensure that the system is consistent and predictable, making it easier to maintain over time.
-- Documentation: is a critical aspect of maintaining a software system. It involves creating and maintaining clear, concise, and up-to-date documentation of the system’s design, architecture, code, and processes. Good documentation makes it easier for developers to understand and maintain the system over time.
-
+- Documentation: is a critical aspect of maintaining a software system. It involves creating and maintaining clear, concise, and up-to-date documentation of the system's design, architecture, code, and processes. Good documentation makes it easier for developers to understand and maintain the system over time.
 
 ### CAP Theorem
 
-
-Now that you know the pillars of a System Design and how to ensure each of them, you need to understand the CAP Theorem, also known as Brewer’s Theorem.
-
+Now that you know the pillars of a System Design and how to ensure each of them, you need to understand the CAP Theorem, also known as Brewer's Theorem.
 
 The CAP theorem for distributed computing was published by Eric Brewer.
 
-
 It states that it is impossible for a distributed computer system to simultaneously provide all three of the following guarantees:
-
 
 - Consistency: All instances have the most recent state; otherwise, they are prevented from providing information.
 - Availability: All instances must consistently have access to read and write.
 - Partition Tolerance: The system must function regardless of the network partitions it is connected to. This is a business decision.
 
-
 The acronym CAP corresponds to these three guarantees. This theorem laid the foundation for modern approaches to distributed computing. Most high-traffic companies in the world (e.g., Amazon, Google, Facebook) use this as a basis for deciding their software architecture.
-
 
 It is important to understand that only two of these three conditions can be guaranteed by a system.
 
 Use case #01: Consistency + Availability (CA):
 The system ensures that all nodes see the same data at the same time and that every request receives a response. It cannot tolerate communication failures between nodes (partitions).
 
-
 For example, systems in a single datacenter with high network reliability.
 
 Use case #02: Consistency + Partition Tolerance (CP)
 The system continues to function correctly even if there are communication failures, and all nodes see the same data at the same time.
 
-
 As a result, it cannot guarantee that all requests receive a response (availability may be sacrificed during partitions).
-
 
 For example, some database systems prefer consistency over availability, such as certain NoSQL databases.
 
 Use case #03: Availability + Partition Tolerance (AP):
 The system continues to function even if there are communication failures, and all requests receive a response.
 
-
 As a result, it cannot guarantee that all nodes see the same data at the same time (consistency may be sacrificed).
-
 
 An example would be database systems that prefer availability over consistency, such as Cassandra and DynamoDB.
 
-
 ### KPIs
-
 
 KPIs (Key Performance Indicators) are metrics used to measure the performance of a system. They help monitor whether the system is achieving its objectives.
 
 About Reliability
+
 - Mean Time Between Failures (MTBF): This metric measures the average time between system failures. A higher MTBF indicates a more reliable system.
 - Mean Time to Failure (MTTF): This metric measures the average time until the system experiences its first failure. A higher MTTF indicates a more reliable system.
 - Mean Time to Repair (MTTR): This metric measures the average time required to repair a system failure. A lower MTTR indicates a more reliable system.
 - Availability: This metric measures the percentage of time that the system is available and functioning correctly. A higher availability indicates a more reliable system.
 - Error Rate: This metric measures the percentage of transactions or operations that result in errors or failures. A lower error rate indicates a more reliable system.
-- Fault Tolerance: This metric measures the system’s ability to continue functioning even in the face of partial failures or errors. A higher level of fault tolerance indicates a more reliable system.
+- Fault Tolerance: This metric measures the system's ability to continue functioning even in the face of partial failures or errors. A higher level of fault tolerance indicates a more reliable system.
 - Recovery Time Objective (RTO): This metric measures the amount of time required to recover from a system failure and restore normal operation. A lower RTO indicates a more reliable system.
 - Recovery Point Objective (RPO): This metric measures the amount of data loss that can be tolerated in the event of a system failure. A lower RPO indicates a more reliable system.
 
 About Scalability
+
 - Response Time: This metric tracks how long it takes for the system to respond to a user request or transaction. A shorter response time suggests the system is more scalable.
 - Throughput: This metric indicates the number of transactions or requests the system can process within a specific time frame. A higher throughput signifies a more scalable system.
 - Resource Utilization: This metric assesses the usage of resources like CPU, memory, and disk by the system. Lower resource utilization suggests the system is more scalable.
 - Concurrency: This metric evaluates the number of users or transactions the system can manage simultaneously. Higher concurrency indicates a more scalable system.
-- Elasticity: This metric measures the system’s capability to automatically adjust its scale up or down based on demand or workload changes. Greater elasticity signifies a more scalable system.
-- Latency: This metric measures the time delay between a user request and the system’s response. Lower latency indicates a more scalable system.
+- Elasticity: This metric measures the system's capability to automatically adjust its scale up or down based on demand or workload changes. Greater elasticity signifies a more scalable system.
+- Latency: This metric measures the time delay between a user request and the system's response. Lower latency indicates a more scalable system.
 
 About Maintainability
+
 - Mean Time to Repair (MTTR): This KPI tracks the average duration required to repair a system after it experiences a failure. A lower MTTR suggests that the system is straightforward to diagnose and fix, indicating good maintainability.
 - Mean Time Between Failures (MTBF): This KPI tracks the average interval between system failures. A higher MTBF suggests that the system is dependable and well-maintained.
-- Code Complexity: evaluates how challenging it is to understand and maintain the system’s code. Higher code complexity can imply that the system is harder to maintain.
+- Code Complexity: evaluates how challenging it is to understand and maintain the system's code. Higher code complexity can imply that the system is harder to maintain.
 - Code Duplication: measures the extent of repeated code within a system. Higher levels of code duplication can point to poor design and maintainability.
 - Test Coverage: evaluates the proportion of the system that is verified by automated tests. Higher test coverage can imply that the system is thoroughly tested and simpler to maintain.
 - Technical Debt: measures the ongoing cost of maintaining the system. Higher levels of technical debt can point to poor design and maintainability.
 
-
 ### Conclusion
-
 
 It is important to understand each of these points that have been raised here in order to design effective and robust systems. From computer architecture to the implementation of complex systems in the cloud, every step is essential to ensure the system is reliable, scalable, and easy to maintain.
 
-
-Now that you have an overview of System Design, let’s dive deeper in the coming chapters to explore more about this topic.
-
+Now that you have an overview of System Design, let's dive deeper in the coming chapters to explore more about this topic.
 
 By the end of this journey, I am confident that you will be more than prepared to face the challenges of system design and build solutions that meet the needs of your users.
 
-
 ### Further reading
-
 
 - https://martinfowler.com/architecture/
 - https://github.com/donnemartin/system-design-primer?tab=readme-ov-file
 - https://newsletter.systemdesigncodex.com/
-
-
-If you have any thoughts or suggestions, feel free to leave a comment.Thanks for reading.
-
-
-You can follow me on X , Github or LinkedIn.
-
-
-See you! 👋
-
-
-By Vitor Britto on July 13, 2024.
-
-
-Canonical link
-
-
-Exported from Medium on February 3, 2025.
-

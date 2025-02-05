@@ -9,6 +9,5 @@
   "categories": ["git", "version-control"],
   "tracks": ["front-end", "back-end"],
   "tags": ["Git", "Version Control", "Software Development", "Programming"],
-  "readTime": 5,
-  "featured": false
+  "readTime": 5
 }
