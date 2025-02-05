@@ -1,6 +1,60 @@
 ---
-title: "Error Boundaries on React Apps"
-excerpt: "Falling gracefully and avoid bad user experiences."
+title: Error Boundaries on React Apps
+excerpt: Falling gracefully and avoid bad user experiences
 ---
 
-🚧 This article will be available soon.
+There is a common problem when you are building a Javascript application. Javascript errors happen at any time or on any page and when it happens it breaks the entire application. This is not a good experience for the users.
+
+The errors can happen in a number of ways: For example, when you are expecting an array from the API and you are looping through it without checking whether the array contains data or not.
+
+In React application, we can deal with this in two ways: using try-catch (only works with imperative code) and using Error Boundary.
+
+Use the try-catch block inside the component is fine, but imagine doing this for all components that deal with a business rule or data fetching from an API. It will be very exhausting to do this kind of dealings. IMHO, the ideal is to guide the state of your component to treat such side effects.
+
+For example:
+
+```js
+// Component named "Feature" has a Initial State like:
+state = { isLoading: true, hasError: false, data: null };
+// If 'hasError' is set to "true"
+// the component will render some appropriated message.
+```
+
+### Introduction to Error Boundary
+
+Error boundaries were introduced in React 16 as a way to catch and handle JavaScript errors that occur in the UI parts of our component. So error boundaries only catch errors that occur in a lifecycle method, render method, and inside Hooks like useEffect.
+
+What composes an Error Boundary Component?
+
+Two or three simple things:
+
+- a class component
+- the lifecycle methods static getDerivedStateFromError()
+- or componentDidCatch().
+
+The static getDerivedStateFromError() is used to render a fallback UI after an error has been thrown and the componentDidCatch() to log error information.
+
+According to the React documentation, error boundaries do not handle errors in:
+
+- Event handlers
+- Asynchronous code (e.g., `setTimeout` or `requestAnimationFrame` callbacks)
+- Server-side rendering
+- Errors thrown in the error boundary itself (rather than its children)
+
+So basically, error boundaries only handle errors in the parts of our code that involve React.
+
+Here is the sample Error Boundary component that catches errors in the child components. We have a componentDidCatch lifecycle method in which you can even log the errors and send these errors to the backend API as well. You can provide any UI component that displays instead of weird Javascript errors on the UI.
+
+You can put the above AppError Component in any level of the component tree.
+
+### Summary
+
+- `try/catch` blocks won't catch errors inside hooks like `useEffect` and inside any children components
+- ErrorBoundary can catch them, but it won't catch errors in async code and event handlers
+- Nevertheless, you can make ErrorBoundary catch those, you just need to catch them with try/catch first and then re-throw them back into the React lifecycle
+
+### Conclusion
+
+Incorporating Error Boundary into your React application can lead to more robust error handling, easier debugging, and a better end product.
+
+This can provide a much better UX than the application crashing or displaying a blank screen.

@@ -1,6 +1,159 @@
 ---
-title: "The journey of CSS"
-excerpt: "From chaos to serenity."
+title: The journey of CSS
+excerpt: The journey of CSS
 ---
 
-🚧 This article will be available soon.
+From chaos to serenity.From chaos to serenity.Photo by[Maik Jonietz](https://unsplash.com/@der_maik_?utm_source=medium&utm_medium=referral)on[Unsplash](https://unsplash.com?utm_source=medium&utm_medium=referral)
+The history of CSS (Cascading Style Sheets) is a fascinating journey that spans several years. CSS has played a crucial role in shaping the visual presentation of web pages, enabling developers to separate the structure and content of a document from its style.
+
+### Brief history of CSS
+
+1996: CSS Level 1
+The World Wide Web Consortium (W3C) publishes the first official CSS specification, known as CSS Level 1. It was designed to style HTML documents and separate the structure from the presentation.
+
+1997: CSS Level 2
+CSS Level 2 was introduced as a modularized extension to CSS Level 1. It brings new features like positioning, z-index, media types, and more.
+
+Do you never use z-index: 999999999999999; or z-index: -1; ever? And how about margin-top: -10px;? 😆
+
+1998: CSS Level 2 Recommendation
+CSS Level 2 becomes a W3C Recommendation, providing a stable foundation for styling web documents.
+
+A special note to the :hover, :active, and :focus pseudo-classes that were introduced to allow authors to define styles that apply when a user interacts with an element.
+
+1999–2000: Browser Wars and Inconsistencies
+During the late 1990s and early 2000s, web developers face challenges due to inconsistencies in CSS implementations across various web browsers, including Internet Explorer, Netscape Navigator, and others.
+
+2001–2002: CSS3 Development Begins
+The W3C starts working on CSS Level 3 to expand the capabilities of CSS. This marks the beginning of a modular and incremental approach to the development of CSS.
+
+2007: CSS3 Selectors
+W3C releases the Selectors Level 3 specification, introducing new selectors like nth-child and attribute selectors to enhance the flexibility and power of CSS.
+
+2011: CSS3 Transitions and Animations
+CSS3 transitions and animations are introduced, allowing developers to create smoother and more visually appealing effects without relying on JavaScript.
+
+2012: CSS Flexible Box Layout (Flexbox)
+The Flexbox module is introduced as a W3C Recommendation, providing a layout model for designing complex web layouts with improved responsiveness.
+
+2014: CSS3 Grid Layout
+The CSS Grid Layout Module becomes a W3C Candidate Recommendation, offering a two-dimensional layout system for creating grid-based designs.
+
+2015: CSS3 Fonts Level 4
+The Fonts Level 4 specification is introduced, adding new features for web typography, including variable fonts and enhanced control over font rendering.
+
+2017: CSS Grid Layout Becomes a Recommendation
+CSS Grid Layout becomes an official W3C Recommendation, providing a powerful layout system for web developers.
+
+2019: CSS Scroll Snap Module
+The Scroll Snap Module is introduced, allowing developers to create scroll-based interactions and enhancing the user experience.
+
+2020: CSS Color Module Level 4
+The CSS Color Module Level 4 is introduced, expanding color-related features and capabilities in CSS.
+
+The show must go one
+The development of CSS is ongoing, with new modules and features continually being proposed and implemented to address the evolving needs of web developers and designers. CSS continues to be a fundamental technology for web development, enabling the creation of visually appealing and responsive web pages.
+
+### Challenges behind Layouting
+
+Over the years, CSS has evolved and faced various challenges, particularly in the context of positioning, media queries, responsive web design, adapting designs for mobile devices, and the historical use of tables for layout. Here’s a breakdown of the obstacles encountered in each of these areas:
+
+Positioning
+During the “Browser Wars” (Late 1990s — Early 2000s), different browsers implemented CSS positioning properties inconsistently, leading to cross-browser compatibility issues. Developers often had to resort to browser-specific hacks to achieve consistent layouts.
+
+Before the introduction of Flexbox and Grid Layout, achieving complex layouts often required a combination of floats, positioning, and negative margins, leading to code that was difficult to understand and maintain.
+
+Using HTML tables for layout purposes was a common practice in the early days of web development. However, this approach lacked semantic meaning and accessibility, making it difficult for screen readers and search engines to interpret content correctly.
+
+Table-based layouts were rigid and didn’t adapt well to different screen sizes. This posed a significant challenge as the demand for responsive design increased.
+
+```js
+body {  margin: 0;  padding: 20px;  background-color: #f0f0f0;}.header,.footer {  background-color: #333;  color: #fff;  text-align: center;  padding: 10px;}.nav {  float: left;  width: 20%;  background-color: #eee;  padding: 20px;  box-sizing: border-box;}.page-content {  float: left;  width: 60%;  background-color: #fff;  padding: 20px;  box-sizing: border-box;}.page-sidebar {  float: left;  width: 20%;  background-color: #eee;  padding: 20px;  box-sizing: border-box;}.clearfix::after {  content: "";  display: table;  clear: both;}.footer {  clear: both;  margin-top: 20px;}
+```
+
+Floating was basically telling HTML website elements to stick to the left OR the right and stick the following elements in the same direction. You had to tell an element to float
+
+```js
+float: left | right;
+```
+
+and if your wish was to stop doing so you had to do a clear
+
+```js
+clear: left | right | both;
+```
+
+The .clearfix class was used to contain the floated elements within the div, preventing layout issues caused by floating elements.
+
+Responsive Web Design
+When responsive web design became popular (Early 2010s), older browsers lacked support for media queries. This meant that some users experienced non-responsive layouts on their devices. As the variety of devices and screen sizes increased, creating one-size-fits-all designs with media queries alone became challenging. This led to concerns about performance, as websites could end up loading unnecessary styles for certain devices.
+
+Although the term “responsive web design” was officially coined by Ethan Marcotte in 2010, the practices and approaches for achieving responsiveness evolved during this time period.
+
+Shifting from a desktop-first approach to a mobile-first approach posed challenges for developers accustomed to designing primarily for larger screens. Adapting existing designs to be mobile-friendly required a change in mindset and workflow.
+
+Ensuring proper handling of viewport meta tags and avoiding scaling issues on mobile devices was initially a common challenge. Some websites didn’t adapt well to different screen resolutions and orientations.
+
+In 2015, I build this NodeJS script using PhantomJS (a headless Browser) to capture screenshots based on some viewports to view and test the responsiveness of my projects.
+
+Bootstraps and other tools to the rescue
+Web developers began using fluid grid layouts that allowed elements to be sized in relative units like percentages instead of fixed pixels. This helped create designs that could adapt to different screen sizes.
+
+To complement fluid grids, flexible images became a key component of responsive design. CSS properties like max-width:100% were applied to images to prevent them from exceeding the width of their container while maintaining their aspect ratio.
+
+Also, Media Queries became a crucial tool for responsive design. They allowed developers to apply styles based on the characteristics of the device, such as screen width, height, or device orientation. Media queries were typically used in conjunction with CSS rules to create different layouts for different screen sizes.
+
+```js
+/* Small screens (phones) */@media only screen and (max-width: 600px) {  /* Styles for small screens go here */}/* Medium screens (tablets) */@media only screen and (min-width: 601px) and (max-width: 1024px) {  /* Styles for medium screens go here */}/* Large screens (desktops) */@media only screen and (min-width: 1025px) {  /* Styles for large screens go here */}
+```
+
+The viewport meta tag became widely used to control the initial scale and width of the viewport, ensuring that websites would be displayed properly on various devices.
+
+```js
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+```
+
+Responsive CSS frameworks like Bootstrap and Foundation gained popularity. These frameworks provided pre-built components and grid systems that made it easier for developers to create responsive layouts without starting from scratch.
+
+The “mobile-first” approach, advocated by designers like Luke Wroblewski, became more prevalent. This involved designing and styling for mobile devices first and then progressively enhancing the design for larger screens using media queries.
+
+More challenges ahead
+As responsive designs became more complex, developers focused on optimizing performance. Techniques like conditional loading of assets, lazy loading of images, and minimizing HTTP requests were employed to improve the loading times of responsive websites.
+
+These approaches laid the foundation for the responsive web design principles that continue to evolve and be refined today. The period from 2010 to 2016 marked a significant shift in how designers and developers approached creating websites to accommodate the diverse range of devices and screen sizes in use.
+
+Nowadays
+Web development practices continued to evolve, and developers adopted various tools and methodologies to streamline the process of building websites, especially with a focus on responsive web design.
+
+Here are some key trends and tools:
+
+- Approaches: Mobile Fist and Offline first
+- CSS Adoptions: Flexbox Grid and global variables
+- Front-End Frameworks: Bootstrap and Foundation
+- CSS architectures: OOCSS (Object-Oriented CSS), BEM (Block Element Modifier), SMACSS (Scalable and Modular Architecture for CSS), Atomic CSS, ITCSS (Inverted Triangle CSS) and Functional CSS.
+- Build Tools: Webpack, Parcel and Vite.
+- Managers: Bower and Npm
+- Task runners: Makefile ❤️, Gulp, Grunt and Yeoman.
+- Pre/Post-processors: Sass, Less, Stylus and Post-CSS.
+- Static Generators: Gatsby, Jekyll, Hugo, Middleman and DocPad.
+- Design System: Design Tokens
+- Mocks and Prototypes: Miro, Figma, Invision and Sketch.
+- and much more!
+
+These tools and practices borns to build responsive websites more efficiently, embracing modern web development trends and technologies. The use of component-based development, responsive design principles, and a variety of tools contributed to a more agile and productive web development landscape.
+
+### Conclusion
+
+While these obstacles have posed challenges in the past, the continuous development of CSS, the introduction of new layout models like Flexbox and Grid, and the widespread adoption of best practices have significantly improved the web development landscape. Modern CSS aims to address these challenges and provide more robust solutions for creating flexible, responsive, and accessible designs across various devices and screen sizes.
+
+Thanks for reading. If you have any thoughts or suggestions, feel free to leave a comment below.
+
+You can follow me on X , Github and LinkedIn.
+
+See you! 👋
+
+By Vitor Britto on December 23, 2023.
+
+Canonical link
+
+Exported from Medium on February 3, 2025.

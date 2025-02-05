@@ -1,0 +1,59 @@
+---
+title: React Design Patterns: Controlled & Uncontrolled Component Pattern
+excerpt: React Design Patterns: Controlled & Uncontrolled Component Pattern
+---
+
+The ways to handle form data in your components.The ways to handle form data in your components.Photo by[Scott Graham](https://unsplash.com/@homajob?utm_source=medium&utm_medium=referral)on[Unsplash](https://unsplash.com?utm_source=medium&utm_medium=referral)
+In React, the Controlled Component pattern involves managing the component’s state through React’s state system. The component’s state is controlled and updated by React, and changes are reflected through props.
+
+This pattern allows for a more predictable and controlled flow of data in the application.
+
+On the other hand, the Uncontrolled Component pattern involves letting the DOM handle the component’s state. The component stores its state internally, and React does not manage it. Instead of controlling the state through React, the component relies on the DOM, and interactions are often handled through refs.
+
+### Hands-on
+
+Let's dive into two scenarios. First, let's see an example on how the Uncontrolled components works. Then, we gonna check out how the Controlled components should be.
+
+The Uncontrolled components
+Uncontrolled components are useful in situations where you want to integrate React with non-React code or leverage existing DOM behavior.
+
+Check the code bellow:
+
+```js
+const Form = () => {  const nameRef = useRef();  const nameRef = useRef();  const onSubmit = () => {    console.log("Name: " + nameRef.current.value);    console.log("Email: " + emailRef.current.value);  };  return (    <form onSubmit={onSubmit}>      <input type="text" name="name" ref={nameRef} required />      <input type="email" name="email" ref={emailRef} required />      <input type="submit" value="Submit" />    </form>  );}export default Form
+```
+
+Here, we use a ref to access the input. This approach works so that you have to pull the value from the field when you need it.
+
+The Controlled Component
+Controlled Components are useful in situations you need a form handling, dynamic UI updates or stateful logics, also it's better for testing and debugging.
+
+Let’s now see what would the controlled version of this form look like:
+
+```js
+const Form = () => {  const [name, setName] = useState("");  const [email, setEmail] = useState("");  const onSubmit = () => {    console.log("Name: " + name);    console.log("Email: " + email);  };  return (    <form onSubmit={onSubmit}>      <input        type="text"        name="name"        value={name}        onChange={(e) => setName(e.target.value)}        required      />      <input        type="email"         name="email"         value={email}         onChange={(e) => setEmail(e.target.value)}         required      />      <input type="submit" value="Submit" />    </form>  );}export default Form
+```
+
+In this context, the input field’s value is consistently controlled by the state managed by React. This mechanism ensures that any changes in the value are automatically reflected in the corresponding form component. As a result, the Form component constantly possesses the most up-to-date value of the input, eliminating the need to explicitly request it.
+
+Despite requiring a bit more code, this approach allows for greater flexibility.
+
+The value can now be easily passed to other user interface elements, facilitating seamless integration with different parts of the application.
+
+Additionally, it becomes convenient to reset the input value from various event handlers, potentially utilizing props and event callbacks for such operations.
+
+### Conclusion
+
+Controlled Components have their state managed by React, providing a controlled flow of data, while Uncontrolled Components manage their state internally and rely on the DOM for handling interactions. The choice between the two patterns depends on the specific requirements and use cases of the application.
+
+Thanks for reading. If you have any thoughts or suggestions, feel free to leave a comment below.
+
+You can follow me on Twitter , Github and LinkedIn.
+
+See you! 👋
+
+By Vitor Britto on November 25, 2023.
+
+Canonical link
+
+Exported from Medium on February 3, 2025.

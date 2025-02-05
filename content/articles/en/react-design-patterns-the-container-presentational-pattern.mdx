@@ -1,0 +1,71 @@
+---
+title: React Design Patterns: The Container/Presentational Pattern
+excerpt: React Design Patterns: The Container/Presentational Pattern
+---
+
+How to master the separation of concerns by separating the view from the application logicHow to master the separation of concerns by separating the view from the application logicPhoto by[Hal Gatewood](https://unsplash.com/@halacious?utm_source=medium&utm_medium=referral)on[Unsplash](https://unsplash.com?utm_source=medium&utm_medium=referral)
+The Container/Presentational pattern, also known as the Container/View pattern or the Smart/Dumb pattern, is a design pattern commonly used in React applications. It aims to separate the responsibilities of managing state and data from the UI rendering logic.
+
+### The Actors
+
+In this pattern, we divide our components into two categories: containers and presentational components.
+
+Container Components
+Container components are responsible for managing the state and data logic of the application. They interact with the Redux store or other data sources, fetch data, handle user interactions, and manage the application state. They do not contain any UI markup, as their primary focus is on data management. These components are typically class-based components, but they can also be implemented as functional components using hooks.
+
+The Presentational Component
+Presentational components are purely focused on the UI rendering logic. They receive data and callbacks as props from the container components and use them to render the actual UI. Presentational components are stateless and have no knowledge of where the data is coming from or what actions are being performed on it. They can be implemented as functional components, as they only rely on the props passed to them.
+
+### Old times and Class Components
+
+Before Hooks were released, it was common for React developers to use this pattern to separate a component’s logic from its view.
+
+Basically, we created two files for a single component: one for the logic and other for the view.
+
+Show me the code
+For example, if we had a component called Counter, we would have the following:
+
+```js
+// CounterView.js// A View file for the representational component.import React from 'react'const CounterView = ({ count, increment }) => (  <div>    <p>Count: {count}</p>    <button onClick={increment}>Increment</button>  </div>)export default CounterView
+```
+
+```graf graf--pre graf-after--pre graf--preV2
+// CounterContainer.js// A Container file for the Logic Component.import React, { Component } from 'react'import CounterView from './CounterView'class CounterContainer extends Component {  state = {    count: 0  }  increment = () => {    this.setState(prevState => ({      count: prevState.count + 1    }))  }  render() {    return (      <CounterView count={this.state.count} increment={() => increment()}>    )  }}export default CounterContainer
+```
+
+I Know, it’s pure JavaScript with a Counter again in the example. But it’s to represent the old times for real. :)
+
+### Statefulness and Custom Hooks
+
+In many cases, the Container/Presentational pattern can be replaced with React Hooks.
+
+Show me the code
+Okay. Suppose that you're trying to fetch some data from a Rest API.
+
+With Hooks, we can create a custom hook that fetches the data and returns it.
+
+```js
+// useStarWarsPeople.ts// Custom Hooks to fetch Star Wars people dataimport { useState, useEffect } from "react";export default function useStarWarsPeople() {  const [people, setPeople] = useState([]);  useEffect(() => {    async function fetchStwarWarsPeople() {      const res = await fetch(        "https://swapi.dev/api/people"      );      const { results } = await res.json();      setPeople(results);    }    fetchStwarWarsPeople();  }, []);  return people;}
+```
+
+```graf graf--pre graf-after--pre graf--preV2
+import React from 'react';import useStarWarsPeople from './useStarWarsPeople';interface IPerson {  name: string;  height: string;  homeworld: string;}const StarWarsPeople = () => {  const people = useStarWarsPeople();  return people.map((person: IPerson, i: number) => (    <div key={i}>      <h1>{person.name}</h1>      <p>Height: {person.height}</p>      <p>Homeworld: {person.homeworld}</p>    </div>  ));}export default StarWarsPeople;
+```
+
+### Conclusion
+
+Implementing this pattern can also make your codebase more maintainable and scalable. With a clear separation between the responsibilities, it becomes easier to reason about the application’s functionality and make changes or updates without affecting other parts of the codebase.
+
+However, Hooks make it possible to achieve the same result without having to use the Container/Presentational pattern, and without having to rewrite a stateless functional component into a class component.Note that today, we don’t need to create class components to use state anymore.
+
+Thanks for reading. If you have any thoughts or suggestions, feel free to leave a comment below.
+
+You can follow me on Twitter , Github and LinkedIn.
+
+See you! 👋
+
+By Vitor Britto on July 28, 2023.
+
+Canonical link
+
+Exported from Medium on February 3, 2025.

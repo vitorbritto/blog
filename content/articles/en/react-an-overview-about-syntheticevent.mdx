@@ -1,0 +1,63 @@
+---
+title: React: An Overview about SyntheticEvent
+excerpt: React: An Overview about SyntheticEvent
+---
+
+An efficient way to deal with all events across browsers.An efficient way to deal with all events across browsers.Photo by[John Schnobrich](https://unsplash.com/@johnschno?utm_source=medium&utm_medium=referral)on[Unsplash](https://unsplash.com?utm_source=medium&utm_medium=referral)
+SyntheticEvent is a wrapper based on the browser’s native events.
+
+It provides an unified API, prevents browser inconsistencies, and ensures that the event works across multiple platforms.
+
+In this article, we’ll cover the fundamentals of plain JavaScript events and React's Synthetic events.
+
+### JavaScript events
+
+JavaScript events essentially allow a user to interact with a web application and implement operations, like registering click, focus, mouseover, and keypress actions when they are fired inside the browser.
+
+Each JavaScript event has an event handler that works with an event listener. The event listener listens for the particular event that should occur, while the event handler is a function that contains code blocks that will be executed once the event is either registered or fired.
+
+### Synthetic Events
+
+React Synthetic Events are very similar to Native Events, however, with Synthetic Events, the same API interface is implemented across multiple browsers.
+
+Every Synthetic Events object has the following attributes:
+
+```js
+boolean bubblesboolean cancelableDOMEventTarget currentTarget // the element that the handler is registeredboolean defaultPreventednumber eventPhaseboolean isTrustedDOMEvent nativeEventvoid preventDefault()boolean isDefaultPrevented()void stopPropagation()boolean isPropagationStopped()void persist()DOMEventTarget target // the element that the handler is triggerednumber timeStampstring type
+```
+
+Here is a log from Chrome Dev Tools Console where you can see it in action.
+
+Both Synthetic Events and Native Events can implement the preventDefault and stopPropagation methods. However, synthetic events and native events are not exactly the same thing. For example, SyntheticEvent will point to mouseout for onMouseLeave Event.
+
+You can always access native events with the nativeEvent attribute if you need direct access. Other SyntheticEvent attributes include DOMEventTarget, currentTarget, boolean defaultPrevented, and string type, to name a few.
+
+Why it’s useful
+
+- Cross-browser: It wraps the brower’s native event through nativeEvent attribute and provices a uniform api and consistent behavior on top level
+- Better performance: Events are delegated to document through bubbling.
+
+Key points
+
+- Listen on document if you want to receive events after all React handlers.
+- Listen anywhere else in order to receive before React handlers
+- React event handlers will always execute after native capture handlers
+
+### Conclusion
+
+Synthetic Events allows events in React to easily adapt to different browsers, solving an issue that has caused unnecessary frustration for developers.
+
+For more information, you can check out the following resources:
+
+[Introduction to events - Learn web development | MDNEvents are things that happen in the system you are programming, which the system tells you about so your code can…developer.mozilla.org](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events)[](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events)[Common components (e.g. ) - ReactAll built-in browser components, such as , support some common props and events. See more examples below. These special…react.dev](https://react.dev/reference/react-dom/components/common)[](https://react.dev/reference/react-dom/components/common)[SyntheticEvent - ReactThese docs are old and won't be updated. Go to react.dev for the new React docs. These new documentation pages teach…legacy.reactjs.org](https://legacy.reactjs.org/docs/events.html)[](https://legacy.reactjs.org/docs/events.html)
+Thanks for reading. If you have any thoughts or suggestions, feel free to leave a comment below.
+
+You can follow me on Twitter , Github and LinkedIn.
+
+See you! 👋
+
+By Vitor Britto on April 12, 2023.
+
+Canonical link
+
+Exported from Medium on February 3, 2025.

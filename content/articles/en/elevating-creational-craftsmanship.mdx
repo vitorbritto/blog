@@ -1,6 +1,179 @@
 ---
-title: "Elevating Creational Craftsmanship"
-excerpt: "Creational Design Patterns in JavaScript."
+title: Elevating Creational Craftsmanship
+excerpt: Elevating Creational Craftsmanship
 ---
 
-🚧 This article will be available soon.
+Creational Design Patterns in JavaScriptCreational Design Patterns in JavaScript
+Creational design patterns are essential for building scalable software.
+
+These patterns deal with object creation in a way that adapts the system to necessary changes, avoiding major restructuring and promoting the reuse of existing code.
+
+In this article, we will explore the existing patterns in the creational category.
+
+Let’s go! 🚀
+
+### Singleton
+
+The Singleton pattern ensures that a class has only one instance and provides a global point of access to it. This pattern is useful when centralized control of resources is needed, such as database connections or configuration managers.
+
+Use case
+Imagine an online payment application that needs to access a third-party API to process transactions. Connecting to this API is an expensive resource, and having multiple connections open simultaneously can overload the system or lead to inconsistencies.
+
+The Singleton pattern solves this problems by ensuring that only a single instance of the connection to the API is created and used throughout the application. This saves resources and ensures that all payment operations use the same connection.
+
+How to implement
+
+```graf graf--pre graf-after--h4 graf--preV2
+const mongoose = require('mongoose');class Database {  constructor() {    if (Database.instance) {      return Database.instance;    }    this.connection = this.connect();    Database.instance = this;  }  async connect() {    try {      await mongoose.connect('mongodb://localhost:27017/mydatabase', {        useNewUrlParser: true,        useUnifiedTopology: true      });      console.log("Connected to the database.");    } catch (error) {      console.error("Error connecting to the database.", error);    }  }}// Usage exampleconst db1 = new Database();const db2 = new Database();console.log(db1 === db2); // true// Example of a schema and modelconst userSchema = new mongoose.Schema({  name: String,  email: String});const User = mongoose.model('User', userSchema);
+```
+
+This example uses mongoose to connect to MongoDB. The database connection is managed by the singleton pattern, ensuring that only one instance of the connection is created.
+
+### Prototype
+
+The Prototype pattern allows for the creation of new objects from an existing prototype by cloning it. It is useful when the direct creation of objects can be expensive or complex.
+
+Use case
+A stock trading platform needs to create multiple buy and sell orders based on an initial order, with small variations in parameters (such as quantity or price).
+
+The Prototype pattern allows for the creation of new orders by cloning an existing order and adjusting only the necessary parameters. This is more efficient than creating new instances from scratch and ensures that all orders share the same initial structure.
+
+How to implement
+
+```graf graf--pre graf-after--h4 graf--preV2
+class Transaction {  constructor(amount) {    this.amount = amount;  }  clone() {    return new Transaction(this.amount);  }}const originalTransaction = new Transaction(100);const clonedTransaction = originalTransaction.clone();console.log(originalTransaction); // Transaction { amount: 100 }console.log(clonedTransaction); // Transaction { amount: 100 }
+```
+
+In this example, the Prototype pattern was used to clone financial transactions that need to be replicated with small variations, saving time and resources compared to creating new instances from scratch.
+
+### Builder
+
+The Builder pattern separates the construction of a complex object from its representation, allowing the creation of different representations using the same construction process. It is useful when the creation of an object involves multiple steps.
+
+Use case
+An online loan application needs to collect various user information to create a personalized loan profile (including personal, financial, and credit information). Building this profile involves multiple steps and data combinations.
+
+The Builder pattern solves this problem by allowing the flexible and incremental construction of a complex object (the loan profile), without needing to pass all parameters in the constructor. This makes the code more readable and easier to maintain.
+
+```js
+class BankAccount {
+  constructor(bank) {
+    this.accountNumber = bank.accountNumber;
+    this.owner = bank.owner;
+    this.balance = bank.balance;
+    this.type = bank.type;
+  }
+}
+class BankAccountBuilder {
+  constructor(accountNumber) {
+    this.accountNumber = accountNumber;
+  }
+  setOwner(owner) {
+    this.owner = owner;
+    return this;
+  }
+  setBalance(balance) {
+    this.balance = balance;
+    return this;
+  }
+  setStatus(status) {
+    this.status = status;
+    return this;
+  }
+  build() {
+    return new BankAccount(this);
+  }
+}
+const account = new BankAccountBuilder("1234567890")
+  .setOwner("John Doe")
+  .setBalance(1000)
+  .setStatus("pending")
+  .build();
+console.log(account);
+```
+
+In this example, the Builder pattern was used to create bank account objects with different properties (account number, account holder, balance, account type) flexibly, without needing to pass all parameters in the constructor.
+
+### Factory
+
+The Factory Method pattern defines an interface for creating objects in a parent class but allows subclasses to alter the type of objects that will be created. It is useful when a class cannot anticipate the type of objects it needs to create.
+
+Use case
+An investment management system needs to create different types of financial reports (daily, monthly, annual) based on user data. The logic for creating each type of report can vary significantly.
+
+The Factory Method allows the system to create specific instances of reports without needing to know details about their implementations. This makes the system easier to maintain and extend, allowing the addition of new types of reports without modifying the existing code.
+
+```js
+class Transaction {  constructor(amount) {    this.amount = amount;  }  process() {    // Generic implementation  }}class CreditTransaction extends Transaction {  process() {    console.log(`Processing credit of ${this.amount}`);  }}class DebitTransaction extends Transaction {  process() {    console.log(`Processing debit of ${this.amount}`);  }}class TransactionFactory {  static createTransaction(type, amount) {    switch (type) {      case 'credit':        return new CreditTransaction(amount);      case 'debit':        return new DebitTransaction(amount);      default:        throw new Error('Unknown transaction type.');    }  }}const transaction1 = TransactionFactory.createTransaction('credit', 100);const transaction2 = TransactionFactory.createTransaction('debit', 50);transaction1.process(); // Processing credit of 100transaction2.process(); // Processing debit of 50
+```
+
+In this example, the Factory was used to create different types of transactions (credit and debit) dynamically, as needed by the system. This makes it easier to add new types of transactions in the future without modifying the existing code.
+
+### Abstract Factory
+
+The Abstract Factory pattern provides an interface for creating families of related or dependent objects without specifying their concrete classes. It is useful when the system needs to be independent of how its objects are created, composed, and represented.
+
+Use case
+A digital banking platform offers various financial products, such as checking accounts, savings accounts, and investments. Each product may have different ways of processing transactions and creating accounts.
+
+The Abstract Factory pattern allows for the creation of families of related objects (such as different financial products) without the client code needing to know the concrete classes. This makes it easier to add new financial products and change how they are created or processed.
+
+```js
+class CreditCardPayment {
+  processPayment(amount) {
+    console.log(`Processing credit card payment of ${amount}`);
+  }
+}
+class BankTransferPayment {
+  processPayment(amount) {
+    console.log(`Processing bank transfer of ${amount}`);
+  }
+}
+class PaymentFactory {
+  createPayment() {
+    throw new Error("This method must be overridden!");
+  }
+}
+class CreditCardPaymentFactory extends PaymentFactory {
+  createPayment() {
+    return new CreditCardPayment();
+  }
+}
+class BankTransferPaymentFactory extends PaymentFactory {
+  createPayment() {
+    return new BankTransferPayment();
+  }
+}
+const creditCardFactory = new CreditCardPaymentFactory();
+const bankTransferFactory = new BankTransferPaymentFactory();
+const payment1 = creditCardFactory.createPayment();
+const payment2 = bankTransferFactory.createPayment();
+payment1.processPayment(200); // Processing credit card payment of 200payment2.processPayment(500); // Processing bank transfer of 500
+```
+
+This example demonstrates the Abstract Factory pattern, where PaymentFactory provides an interface for creating different types of payment objects, and subclasses (CreditCardPaymentFactory and BankTransferPaymentFactory) specify the concrete classes to be created.
+
+### Conclusion
+
+Creational design patterns are important tools for creating flexible and maintainable software. They help separate the object creation logic from the business logic, making it easier to add new types of objects and adapt to changing requirements. By understanding and applying these patterns, you will be better prepared to face the challenges of software development.
+
+I hope this article has added value to your journey as a developer. Try implementing these patterns in your projects and see how they can transform the way you build software.
+
+Happy coding! 🚀
+
+### References
+
+- https://en.wikipedia.org/wiki/Software_design_pattern
+- https://www.amazon.com/Design-Patterns-Elements-Reusable-Object-Oriented/dp/0201633612
+
+If you have any thoughts or suggestions, feel free to leave a comment.Thanks for reading.
+
+You can follow me on X , Github or LinkedIn.
+
+See you! 👋
+
+By Vitor Britto on July 7, 2024.
+
+Canonical link
+
+Exported from Medium on February 3, 2025.

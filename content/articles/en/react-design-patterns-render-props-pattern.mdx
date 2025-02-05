@@ -1,0 +1,65 @@
+---
+title: React Design Patterns: Render Props Pattern
+excerpt: React Design Patterns: Render Props Pattern
+---
+
+Dealing with cross-cutting concerns by sharing stateful logic between components.Dealing with cross-cutting concerns by sharing stateful logic between components.Photo by[Alfonso Navarro](https://unsplash.com/@poncho_nj?utm_source=medium&utm_medium=referral)on[Unsplash](https://unsplash.com?utm_source=medium&utm_medium=referral)
+As per React’s official documentation, Render Prop refers to a technique that involves passing a function as a prop to a component, allowing the component to render content based on the logic provided by that function.
+
+In the Render Props design pattern, a component is structured to accept a function that produces a React Element as one of its props. Rather than relying on its own fixed rendering logic, the component invokes this provided function to determine what content to display.
+
+This approach allows for more flexibility as it avoids embedding specific rendering instructions within each component, offering a dynamic and customizable way to determine how the content should be presented.
+
+### Getting into the context
+
+To understand this better, imagine we have a collection of products that should be displayed in multiple locations of our application.
+
+While the user interface may vary across these sections, the underlying process remains consistent: fetching the products from the API and presenting the list on the screen.
+
+### Hands-on
+
+Let’s create a simple example using the Render Props pattern to display a collection of products in different locations of our application.
+
+First, let’s declare a list of products:
+
+```js
+const products = [  {    id: 1,    title: 'Product 1',    description: 'This is product 1',  },  {    id: 2,    title: 'Product 2',    description: 'This is product 2',  },  {    id: 3,    title: 'Product 3',    description: 'This is product 3',  },  // ...];
+```
+
+Then, let’s create a Products component that uses the render props pattern:
+
+```js
+const Products = ({ render }) => {  // Fetching products can be done here.  return <>{render(products)}</>;};
+```
+
+In the Products component, render is a function prop that will be used to render the products. This function will be provided when the Products component is used, allowing you to customize the rendering of the products.
+
+For example, you can use the Products component in two different locations in your application and display the products in different ways:
+
+```js
+const HomePage = () => {  return (    <div>      <h1>Products List</h1>      <Products        render={products => (          <ul>            {products?.map(product => (              <li key={product.id}>{product.title}</li>            ))}          </ul>        )}      />    </div>  );}export default HomePageconst ProductsSection = () => {  return (    <div>      <h1>Products List</h1>      <Products        render={products => (          <div>            {products?.map(product => (              <div key={product.id}>                <h2>{product.title}</h2>                <p>{product.description}</p>              </div>            ))}          </div>        )}      />    </div>  );}export default ProductsSection
+```
+
+In this example, in the first usage of the Products component, the products are displayed as a list of titles. In the second usage, the products are displayed with their titles and descriptions.
+
+This approach allows you to reuse the Products component and customize its rendering according to your needs in different parts of your application.
+
+Some popular libraries that use the Render Props pattern include: React Router, Formik, Downshift.
+
+### Conclusion
+
+The Render Props pattern in React is a powerful and flexible design approach that enhances component reusability and composability.
+
+By passing a function as a prop to a component, developers can delegate control over the rendering logic to the parent component, enabling a more dynamic and customizable behavior.
+
+Thanks for reading. If you have any thoughts or suggestions, feel free to leave a comment below.
+
+You can follow me on Twitter , Github and LinkedIn.
+
+See you! 👋
+
+By Vitor Britto on November 25, 2023.
+
+Canonical link
+
+Exported from Medium on February 3, 2025.

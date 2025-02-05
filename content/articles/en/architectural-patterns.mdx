@@ -1,0 +1,219 @@
+---
+title: Architectural Patterns
+excerpt: The Microservices Architecture
+---
+
+Imagine that you are part of a team of engineers developing an application in a monolithic system. The company is growing rapidly, and so is the number of engineers, making everything more complicated.
+
+The complexity of the application constantly increases, and you end up having to write hundreds (if not thousands) of tests for any change in the system to ensure that nothing is compromised and its integrity is maintained.
+
+Development and deployment become a nightmare, testing becomes a burden, and critical fixes are delayed, quickly increasing technical debt.
+
+Of course, not every monolithic application is bad or suffers from such problems, but it is very rare for monoliths not to present these issues at some point in their lifecycle.
+
+The reason for this is directly related to scalability.
+
+Since scalability requires concurrency and segmentation, these are two conditions that are difficult to achieve with a monolith.
+
+### Scaling your application
+
+The goal of any software is to perform tasks, whatever their nature may be.
+
+Regardless of the type of task, we can assume that it always needs to be executed efficiently, right?
+
+To process such tasks efficiently, we need some degree of concurrency. This means we cannot have just one process handling all the work. The process might complete its tasks (or even fail at some), move on, and this is not efficient at all.
+
+Another important point to achieve efficiency is segmentation.
+
+Divide to conquer.
+At this point, we go further and include the segmentation of these processes. We can have multiple tasks being executed simultaneously, sending them to a group of workers that can process them in parallel.
+
+Concurrency and segmentation are difficult to support when you have a large-scale application, and if your application is even minimally complex, the only way to scale it is with the hardware on which it is deployed.
+
+### Coupling and Cohesion
+
+Understanding the balancing forces between coupling and cohesion is important for defining microservice boundaries.
+
+Coupling refers to a change in one place necessitating a change in another. Cohesion, on the other hand, deals with how we group related code.
+
+These concepts are directly related.
+If we have two highly related parts of the code, cohesion will be low because the associated functionality will be distributed between them. We will also have high coupling, as when this related code changes, both parts will need to be modified.
+
+I won’t go into too much detail about these terms here, but I suggest reading the following books:
+
+- https://www.amazon.com/Continuous-Delivery-Deployment-Automation-Addison-Wesley/dp/0321601912
+- https://www.amazon.com/gp/product/0321125215/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0321125215&linkCode=as2&tag=martinfowlerc-20
+
+### Microservices Architecture
+
+The goal of microservices architecture is to build a set of small applications, each responsible for executing a function, and to allow each microservice to be autonomous, independent, and self-sufficient.
+
+Instead of centralizing, microservices promote a culture of independence and decentralization. Each microservice is developed around a specific business functionality, such as billing, authentication, or user management, and can be developed, tested, and deployed independently, allowing for faster development cycles and lower risk of failures.
+
+Communication between these services occurs through APIs, often over HTTP/HTTPS with REST or gRPC, as well as through messaging services like Kafka.
+
+In the case of APIs, the endpoints need to be standardized across the organization. This does not mean that all microservices must have the same specific endpoints, but that the type of endpoint should be the same.
+
+Any type of endpoint and any protocol used for communication with other microservices will have its benefits and trade-offs.
+
+Bounded Context
+The concept of a Bounded Context comes from Domain-Driven Design (DDD) and refers to an explicit boundary within which a particular domain model is defined and applied. Each bounded context has its own terminology, rules, and business logic, and can be treated as a cohesive unit within the system.
+
+In the context of microservices, each microservice is generally aligned with a bounded context. This approach helps maintain the internal cohesion of each service while minimizing coupling between different services.
+
+By mapping microservices to bounded contexts, we ensure that each service has a clear and well-defined responsibility, reflecting a specific subset of the domain model.
+
+Let's take a look at a diagram representing the bounded context and their interactions on a Fintech Application.
+
+API Layer
+The API layer in a microservice architecture serves as the interface through which clients interact with the microservices. It acts as a gateway that abstracts the underlying complexity of the microservices, providing a unified and secure entry point for accessing various services. This layer is critical in ensuring that communication between clients and microservices is efficient, secure, and manageable.
+
+Operational Reuse
+Operational reuse in microservices refers to the practice of leveraging existing operational components, services, and practices across multiple microservices to improve efficiency, reduce redundancy, and maintain consistency. This approach helps streamline development, deployment, and management processes, ensuring that common operational tasks are handled uniformly across the microservices architecture.
+
+A centralized authentication service that handles user authentication and authorization for multiple microservices.Choreography and Orchestration
+Choreography and Orchestration are two patterns for managing interactions and workflows between microservices in a distributed system.
+
+Both have their advantages and use cases, and understanding their differences is important for designing effective microservice architectures.
+
+Choreography is a decentralized approach where each microservice knows how to respond to certain events and produce new events in response. Services interact with each other by emitting and listening to events. There is no central coordinator; instead, the workflow emerges from the interaction of the individual services.
+
+On the other hand, the Orchestration is a centralized approach where a central orchestrator service controls and manages the interactions between the various microservices. The orchestrator handles the workflow logic and coordinates the sequence of service invocations.
+
+Use Choreography:
+
+- when services need to be loosely coupled.
+- when individual services can operate independently and autonomously.
+- when you expect high scalability and resilience.
+- when the workflow is relatively simple and can be easily managed through events.
+
+Use Orchestration:
+
+- when workflows are complex and require central coordination.
+- when you need a single point of control to manage the workflow.
+- when ease of monitoring and managing the overall process is important.
+- when the workflow requires state management and more intricate logic.
+
+### Microservice Ecosystem
+
+The microservices architecture does not exist in isolation. The environment in which microservices are built, executed, and interact is where they live.
+
+In well-designed and sustainable microservices ecosystems, the microservices are separated from all infrastructure. They are separated from hardware, networks, the build and deployment pipeline, service discovery, and load balancing.
+
+All of this is part of the microservice ecosystem’s infrastructure, and building, standardizing, and maintaining this in a stable, scalable, fault-tolerant, and reliable manner are essential factors for the successful operation of microservices.
+
+The microservices ecosystem can be divided into four layers.
+
+The three lower layers are the infrastructure layers. The top layer is where all the individual microservices reside.
+
+Let's check them in details.
+
+Layer #01: Hardware
+The hardware layer is the physical foundation of the microservices ecosystem. In this layer, we have:
+
+- Physical Servers: Dedicated servers that host the microservices. These servers need to be robust and scalable to support variable workloads and ensure high availability.
+- Storage: Fast and reliable storage solutions are essential to ensure that data is always accessible. This includes SSDs, NVMe disks, and networked storage solutions (SAN/NAS).
+- Networking: High-speed, low-latency networks are important for efficient communication between microservices. This includes network switches, routers, and other networking equipment.
+
+One point worth mentioning is that more and more organizations are using cloud computing solutions to host their microservices, which offers several advantages, including elastic scalability, cost reduction, and greater flexibility. Cloud providers like AWS, Google Cloud, and Azure offer a range of managed services that can be used to build a microservices ecosystem.
+
+Layer #02: Communication
+Communication between microservices is fundamental and can be achieved through different protocols, each with its own advantages:
+
+- HTTP/HTTPS: Commonly used with RESTful APIs, it is simple and widely supported.
+- gRPC: A high-performance remote procedure call (RPC) framework that uses HTTP/2 and Protobufs for data serialization, enabling efficient and low-latency communication.
+- Message Brokers: Tools like RabbitMQ, Apache Kafka, and AWS SQS allow for asynchronous communication and message queue management, facilitating communication between decoupled microservices.
+
+In this layer, an API Gateway can be used, acting as an entry point for all external requests directed to the microservices. It manages routing, load balancing, authentication, authorization, and monitoring. An example would be AWS API Gateway.
+
+Layer #03: Application
+Containers are the foundation of most microservices implementations, providing an isolated and consistent environment for each service. Containerization tools include:
+
+- Docker: The standard tool for creating, deploying, and managing containers.
+- Kubernetes: A container orchestration platform that automates the deployment, scaling, and management of containers. Kubernetes is widely adopted due to its ability to efficiently and scalably manage container clusters.
+
+Not only that, we also have Continuous Integration (CI) and Continuous Delivery (CD) which are essential practices for microservices, enabling fast development cycles and deployment automation. Popular tools include Jenkins, GitHub Actions, and CircleCI.
+
+It is also worth noting that visibility is essential in a microservices ecosystem. Monitoring and logging tools help track the health of services and diagnose problems:
+
+- For monitoring: we have Prometheus, Grafana, New Relic, and Datadog.
+- For logging: we have Logstash and Kibana.
+
+Layer #04: Microservices
+The design of microservices is centered on creating small, independent services focused on a single business responsibility.
+
+Each microservice should be autonomous and specific.
+The choice of technologies and frameworks is flexible and can vary according to the service’s needs. Common choices include Express.js for building APIs with Node.js, for example.
+
+Security is another critical consideration in microservices. It is important to use a secure authentication method, whether with OAuth2, JWT, or OpenID. Not to mention the implementation of rate limiting, role-based access control (RBAC), and data transport security (TLS).
+
+### Challenges on the horizon
+
+Implementing a microservices architecture is not just a technical matter but also involves significant organizational challenges.
+
+The transition from a monolithic architecture to microservices requires a substantial cultural shift. Teams must adopt new development practices, tools, and processes. This change can encounter resistance from developers and managers accustomed to traditional methodologies.
+
+Since the microservices architecture promotes team autonomy, allowing them to be responsible for the entire lifecycle of a service, from development to operation, a high degree of collaboration and communication between teams is necessary to ensure the system’s overall cohesion.
+
+The organizational structure may need to be reorganized to include developers, testers, and operators related to the microservice in question.
+
+With the autonomy of the teams, each team must have clearly defined responsibilities to avoid overlaps and bottlenecks. Coordination between teams must be well managed to align goals and priorities.
+
+Another important point is maintaining comprehensive documentation and following development and operational standards. This includes API standards, security practices, and deployment and monitoring procedures.
+
+Implementing efficient CI/CD pipelines is a wise choice to manage the continuous deployment of multiple microservices. This requires careful coordination to ensure that all parts of the system work harmoniously after each integration.
+
+As the organization grows, the microservices structure must scale accordingly. This may mean the need to hire and train new team members, as well as adapt processes and tools to support greater complexity.
+
+Organizational resilience to deal with failures and incidents must be highly functional and assertive. Teams must be prepared to respond quickly to issues, with well-defined processes for incident resolution and impact mitigation.
+
+In regulated industries, ensuring that all microservices comply with regulations can be challenging. It is necessary to implement controls and audits to ensure continuous compliance.
+
+Last but not least, the transition to a microservices architecture may require a significant initial investment in terms of time, training, and infrastructure. Therefore, managing resources efficiently, including servers, storage, and development tools, is of high priority to keep costs under control and ensure the efficient operation of the microservices.
+
+### Benefits
+
+1. Scalability: Allows horizontal scalability, where only the necessary services are scaled.
+2. Technological Flexibility: Different services can be written in different programming languages and use different storage technologies.
+3. Resilience: Failures in one service do not necessarily impact other services, increasing the system’s resilience.
+4. Fast Development Cycles: Teams can work in parallel and independently, enabling faster releases.
+
+### Drawbacks
+
+1. Operational Complexity: Managing multiple services, each with its own lifecycle, increases operational complexity.
+2. Data Management: Maintaining data consistency between services can be challenging, especially in transactions that span multiple services.
+3. Monitoring and Logging: Requires advanced monitoring and logging tools to gain visibility and track issues in a distributed system.
+4. Service Communication: Managing efficient and secure communication between services is important, including handling failures and latencies.
+
+### Brief Analysis of a Microservice Project
+
+1. Domain Division: Identify business functionalities and divide the application into coherent domains. Use techniques such as Domain-Driven Design (DDD) to identify context boundaries.
+2. API Design: Design clear and cohesive APIs for communication between microservices. REST is a common choice, but gRPC can be more efficient for internal communication.
+3. Monitoring and Logging: Implement monitoring solutions (Prometheus, Grafana) and centralized logging (ELK stack, Splunk) for tracking and diagnostics.
+4. Orchestration and Coordination: Use container orchestrators like Kubernetes to manage deployments, scaling, and orchestration of microservices.
+5. Authentication and Authorization: Implement centralized authentication services (OAuth, JWT) to efficiently manage security.
+
+### Conclusion
+
+Microservices offer a powerful and flexible approach to developing complex and scalable applications. However, the transition to a microservices architecture must be carefully planned and executed, considering operational and management challenges. With proper design, automation, and monitoring practices, the benefits of microservices can be fully realized, resulting in robust, scalable, and agile systems.
+
+### References
+
+- https://www.amazon.com/Continuous-Delivery-Deployment-Automation-Addison-Wesley/dp/0321601912
+- https://www.amazon.com/gp/product/0321125215/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0321125215&linkCode=as2&tag=martinfowlerc-20
+- https://martinfowler.com/bliki/DomainDrivenDesign.html
+- https://martinfowler.com/microservices/
+- https://martinfowler.com/bliki/MicroservicePrerequisites.html
+- https://samnewman.io/books/monolith-to-microservices/
+
+If you have any thoughts or suggestions, feel free to leave a comment.Thanks for reading.
+
+You can follow me on X , Github or LinkedIn.
+
+See you! 👋
+
+By Vitor Britto on July 14, 2024.
+
+Canonical link
+
+Exported from Medium on February 3, 2025.

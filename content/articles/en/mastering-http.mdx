@@ -1,6 +1,233 @@
 ---
-title: "Mastering HTTP"
-excerpt: "Everything you need to know about it."
+title: Mastering HTTP
+excerpt: Mastering HTTP
 ---
 
-🚧 This article will be available soon.
+Everything you need to know about it.Everything you need to know about it.
+The HTTP (Hypertext Transfer Protocol) is a communication protocol that allows the transfer of information on the internet. It is the foundation for any data exchange on the web, being essential for the operation of the World Wide Web.
+
+HTTP defines how messages are formatted and transmitted, and how web servers and internet browsers should respond to these messages.
+
+When you type a URL (Uniform Resource Locator) in your browser’s address bar, the browser uses HTTP to request the web page from the server. The server then responds by sending the requested page’s files, also via HTTP. This process enables you to see and interact with websites on the internet.
+
+### History of HTTP
+
+The history of HTTP (Hypertext Transfer Protocol) is essential for understanding how the internet evolved to become the vast interconnected network we know today. Since its inception, HTTP has been the cornerstone of data communication on the World Wide Web, allowing information to be shared and accessed globally.
+
+The beginning
+The origin of HTTP dates back to 1989, when Tim Berners-Lee, a computer scientist working at CERN (European Organization for Nuclear Research), proposed a new information management system.
+
+This system, which would later evolve into the World Wide Web, used the concept of hypertext to allow documents to be interlinked through links.
+
+In 1991, HTTP/0.9 was introduced as a simple protocol for the transfer of raw data between web servers and clients. In this version, there was only one method called GET, and there were no headers.
+
+If the client needed to access a web page on the server, a simple request was made as follows:
+
+```js
+GET / index.html;
+```
+
+And the server’s response would be something like:
+
+```js
+(response body)(connection closed)
+```
+
+The formalization
+HTTP/1.0 was introduced in 1996 as the first formalized version of the protocol. This version brought significant improvements, including the definition of request methods (such as GET, POST, and HEAD), response status, and headers to allow the transmission of metadata.
+
+These headers included information about the content type, content encoding, and other data relevant to efficient communication between clients and servers.
+
+In this way, the request would be something like:
+
+```js
+GET / HTTP/1.0Host: hostname.comUser-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5)Accept: */*
+```
+
+And the response, something like:
+
+```js
+HTTP/1.0 200 OK Content-Type: text/plainContent-Length: 137582Expires: Thu, 05 Dec 1997 16:00:00 GMTLast-Modified: Wed, 5 August 1996 15:55:28 GMTServer: Apache 0.84(response body)(connection closed)
+```
+
+The enhancements
+In 1997, HTTP/1.1 was introduced, bringing several optimizations and new features.
+
+This version improved communication efficiency and connection management, introducing persistent connections (which allow multiple requests per connection) and chunked transfer encoding, enhancing data transfer.
+
+Additionally, HTTP/1.1 introduced concepts like caching, authentication, and content compression, further optimizing web traffic.
+
+See the code bellow:
+
+```js
+# Client send:GET /index.html HTTP/1.1Host: www.example.comConnection: keep-alive                           # persist connectionAccept-Encoding: gzip, deflate                   # optimize trafficIf-Modified-Since: Tue, 10 Jan 2024 13:45:26 GMT # cachingAuthorization: Bearer token_goes_here            # Authorization# Server return:HTTP/1.1 304 Not ModifiedDate: Mon, 23 May 2024 22:38:34 GMTServer: Apache/2.4.1 (Unix)Connection: keep-alive                           # persist connectionContent-Encoding: gzip.                          # optimize trafficContent-Type: text/htmlAuthorization: Bearer token_goes_here            # Authorization<html>...</html>
+```
+
+A new era for HTTP
+Launched in 2015, HTTP/2 represented a significant advancement in terms of performance and efficiency.
+
+Based on Google’s SPDY protocol, HTTP/2 introduced request multiplexing, allowing multiple requests and responses to be transmitted simultaneously over the same connection. This reduced latency and improved page loading speeds. Furthermore, HTTP/2 enhanced support for request prioritization and header compression.
+
+What comes next
+The most recent development in the history of HTTP is HTTP/3, which began to be implemented by some servers and browsers starting in 2020.
+
+HTTP/3 uses the QUIC protocol (Quick UDP Internet Connections) instead of TCP, aiming to reduce latency, improve packet loss recovery, and optimize connections on unstable networks.
+
+This version represents a significant change in how data is transmitted over the internet, promising to make the web even faster and more reliable.
+
+### The HTTP pieces
+
+Here’s an overview of the primary components involved in HTTP-based systems.
+
+Clients
+Clients are the starting point of any HTTP request. They are typically web browsers (like Chrome, Firefox, or Safari), but can also be any software that sends HTTP requests to the server, such as mobile apps or other web-based applications. Clients initiate the communication by requesting data from servers.
+
+Servers
+Servers are computers or software programs that listen for and respond to requests from clients. When a server receives an HTTP request, it processes the request, accesses the requested resources (such as HTML files, images, or data from a database), and then sends an HTTP response back to the client. Web servers like Apache, Nginx, and IIS are examples of software designed to handle HTTP requests.
+
+Cookies
+Cookies are small pieces of data that servers send to clients, which are stored on the client side and sent back to the server with subsequent requests. Cookies are used for various purposes, such as session management, personalization, and tracking user behavior across sites.
+
+Sessions
+While HTTP is stateless (meaning each request is independent), sessions provide a way to preserve state across multiple HTTP requests. This is often achieved using cookies, tokens, or other mechanisms to track user interactions over time.
+
+Caching
+Caching mechanisms are employed to reduce server load and improve performance by storing copies of frequently accessed resources on the client side or intermediate caches. When a resource is requested, the system first checks if a current version is stored in the cache, reducing the need to fetch the resource from the server.
+
+Encryption (HTTPS)
+HTTPS, the secure version of HTTP, uses SSL/TLS to encrypt data in transit, protecting it from eavesdropping and tampering. This adds a layer of security, ensuring that data exchanged between clients and servers remains confidential and integrity-checked.
+
+### Core concepts of HTTP
+
+Understanding the core concepts of HTTP is essential for grasping how the internet functions at a fundamental level.
+
+Stateless Protocol
+HTTP is a stateless protocol, meaning that each request from a client to a server is treated as independent; there is no link between successive requests. This design simplifies server design but requires additional mechanisms, such as cookies or sessions, to track user state across multiple requests.
+
+Client-Server Model
+HTTP operates on a client-server model, where a client (typically a web browser or mobile application) initiates an HTTP request and a server responds to the request. The client is responsible for requesting resources, and the server is responsible for providing them.
+
+URLs (Uniform Resource Locators)
+URLs provide the means to locate resources on the web. A URL contains information necessary for a client to locate a resource, including the protocol (e.g., HTTP or HTTPS), the server’s domain name (or IP address), and the path to the resource on the server. URLs are a critical element in the HTTP ecosystem, guiding clients to the desired content.
+
+HTTP Requests
+An HTTP request is made by a client to ask for a specific resource from a server. It consists of a request method (such as GET, POST, PUT, DELETE), the URL of the requested resource, HTTP headers (providing additional information about the request), and sometimes a body containing data (especially in POST or PUT requests).
+
+HTTP Responses
+In response to an HTTP request, a server sends back an HTTP response containing a status code (indicating the success or failure of the request), HTTP headers (with metadata about the response or requested resource), and often a body containing the requested resource (such as an HTML document or JSON data).
+
+HTTP Headers
+HTTP headers are key-value pairs sent in both HTTP requests and responses.
+
+Headers contain important information about the request or response, or about the object sent in the message body.
+
+There are several types of headers, including:
+
+- General headers: Apply to both requests and responses but with no relation to the data in the body.
+- Request headers: Contain more information about the resource to be fetched or about the client itself.
+- Response headers: Provide additional information about the response, like its location or about the server.
+- Entity headers: Contain information about the body of the resource, like its content length or MIME type.
+
+HTTP Methods
+HTTP defines several methods (also known as "verbs") to indicate the desired action to be performed on a resource.
+
+The most common methods are:
+
+- GET: Requests a representation of the specified resource. GET requests should only retrieve data and have no other effect.
+- POST: Submits data to be processed to a specified resource, often resulting in a change in state or side effects on the server.
+- PUT: Replaces all current representations of the target resource with the request payload.
+- DELETE: Removes the specified resource.
+- HEAD: Similar to GET, but asks for the response without the response body.
+- OPTIONS: Describes the communication options for the target resource.
+
+Status Codes
+HTTP responses are accompanied by status codes that indicate the result of the server’s attempt to fulfill the request.
+
+These codes are grouped into categories:
+
+- 1xx (Informational): Indicates that the request was received and understood by the server, and processing is continuing.
+- 2xx (Success): Indicates that the request was successfully received, understood, and accepted.
+- 3xx (Redirection): Indicates that further action needs to be taken by the client to complete the request.
+- 4xx (Client Error): Indicates an error that the client made, such as a bad request or unauthorized access.
+- 5xx (Server Error): Indicates that the server failed to fulfill a valid request.
+
+### The HTTP Flow
+
+The HTTP flow is a standard process that follows several key steps for the transmission of information between clients and servers.
+
+Simplified HTTP flowOpen connection
+Before any exchange of information, a TCP/IP connection between the client and the server must be established. The client (browser) initiates the connection by resolving the server’s domain name to an IP address, and then sending a connection request to the server on the standard HTTP port, which is port 80 (or port 443 for HTTPS).
+
+Send HTTP Request
+Once the connection is established, the client sends a request message to the server.
+
+This message includes:
+
+- the request method (GET to request data, POST to submit data, among others);
+- the path of the requested resource (URL);
+- the version of the HTTP protocol;
+- optional headers that can provide additional information to the server, such as the type of browser (user agent) or acceptable content types.
+
+Server process
+After receiving the request, the server processes the order. This processing may involve retrieving a static file, executing a script to generate dynamic content, or any other operation necessary to fulfill the request.
+
+Server response
+The server responds to the client with an HTTP response message, which includes:
+
+- a status line, indicating whether the request was successful (e.g., 200 OK) or not (e.g., 404 Not Found).
+- response headers, which can provide additional information about the server or the content of the response.
+- the body of the response, containing the requested content (e.g., an HTML file, an image) or an error message.
+
+Close connection
+After the response is delivered, the TCP/IP connection can be closed by the server or kept open for future requests, depending on the connection headers sent in the request and the response.
+
+To remember:HTTP/1.1 introduced the concept of persistent connections (keep-alive), allowing multiple requests and responses to be transmitted over the same connection, improving efficiency.Rendering content on browser
+Finally, the browser processes the received response. If the response contains an HTML document, the browser interprets the HTML, CSS, and related JavaScript, and renders the page for the user. If the response is a redirect, the browser automatically initiates a new request to the new location.
+
+### Putting it simply with TCP/IP
+
+This would be a representation through the TCP/IP protocol of how the above steps would work:
+
+Communication between client and server using the 4 layers from TCP/IP protocols.
+
+### Secure HTTP (HTTPS)
+
+Secure HTTP (HTTPS) is an extension of the Hypertext Transfer Protocol (HTTP) designed for secure communication over computer networks. HTTPS is widely used on the Internet for secure transactions, such as online banking, e-commerce, and to protect the exchange of confidential information between the user’s browser and the visited website.
+
+How HTTPS Works
+HTTPS secures communication between the user’s browser and the website’s server by encrypting the information sent and received. This is accomplished through the use of the SSL/TLS (Secure Sockets Layer/Transport Layer Security) protocol, which establishes an encrypted connection and verifies the authenticity of the visited server, ensuring that the user is communicating with the intended site and not an imposter.
+
+Key Components of HTTPS
+
+- Encryption: Ensures that transmitted data can only be read by the intended parties. Even if the data is intercepted, encryption ensures it remains indecipherable to the interceptor.
+- Authentication: Confirms the server’s identity to the client, typically through digital certificates issued by Certificate Authorities (CAs).
+- Data Integrity: Ensures that the transmitted data is not altered or corrupted during transfer.
+
+Benefits of HTTPS
+
+- Security: Protects user data against interception, modification, and forgery.
+- Privacy: Ensures that communication between the client and server remains confidential.
+- Trust: Increases users’ trust by providing a visual indicator (such as a lock icon in the browser’s address bar) that their connection is secure.
+
+Implementing HTTPS
+To implement HTTPS on a website, the site owner needs to obtain an SSL/TLS certificate from a trusted Certificate Authority. This certificate is then installed on the web server, configuring it to use the HTTPS protocol for secure communications.
+
+### Conclusion
+
+Understanding the fundamentals and key concepts of HTTP (Hypertext Transfer Protocol) is really important for every developer for several reasons. First and foremost, HTTP serves as the foundation of data communication on the World Wide Web, meaning that a strong grasp of how HTTP works is essential for the development, deployment, and troubleshooting of web applications.
+
+### References
+
+- https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview
+
+If you have any thoughts or suggestions, feel free to leave a comment.Thanks for reading.
+
+You can follow me on X , Github or LinkedIn.
+
+See you! 👋
+
+By Vitor Britto on March 6, 2024.
+
+Canonical link
+
+Exported from Medium on February 3, 2025.

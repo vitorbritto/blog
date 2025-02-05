@@ -1,6 +1,31 @@
 ---
-title: "Building a Monorepo"
-excerpt: "The Right way to do it."
+title: Building a Monorepo
+excerpt: The Right wayThe Right
 ---
 
-🚧 This article will be available soon.
+Nowadays, to maintain a small React-based app, for example, you have to deal with project bundlers, test suites, CI/CD scripts and so many other stuff.
+
+Now, imagine that instead of a small app, you need to maintain a huge platform consisting of a lot of functional areas. If you are thinking about architecture, you will want to do two main things: separate concerns and avoid code dupes.
+
+To make this happen, you will probably want to isolate large features into some packages and then use them via a single entry point in your main app.
+
+Each package will have to have its own workflow environment configuration, and this means that every time you want to create a new package, you will have to configure a new environment, copy over all configuration files, and so on. Or, for example, if you have to change something in your build system, you will have to go over each repo, do a commit, create a pull request, and wait for each build, which slows you down a lot. But how do you manage those packages?
+
+In this series, I will bring 4 chapters:
+
+1. The benefits and challenges of Monorepo development
+2. Integrating PNPM Workspace into a Monorepo
+3. Accelerating the management of Monorepo with NX Workspace
+4. How to integrate and boost the build process using NX and CI/CD
+
+Thanks for reading. If you have any thoughts or suggestions, feel free to leave a comment below.
+
+You can follow me on Twitter , Github and LinkedIn.
+
+See you! 👋
+
+By Vitor Britto on May 11, 2023.
+
+Canonical link
+
+Exported from Medium on February 3, 2025.

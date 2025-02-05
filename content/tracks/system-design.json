@@ -4,6 +4,9 @@
   "description": "Aprenda como arquitetar sistemas robustos e escaláveis.",
   "icon": "Network",
   "topics": ["Clean Arch", "DDD", "Microservices"],
-  "articles": [],
+  "articles": [
+    "architectural-patterns-microservices",
+    "architectural-patterns-monolithic"
+  ],
   "featured": true
 }

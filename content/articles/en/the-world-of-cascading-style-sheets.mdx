@@ -1,6 +1,220 @@
 ---
-title: "The World of Cascading Style Sheets"
-excerpt: "A beginner's express guide to CSS."
+title: The World of Cascading Style Sheets
+excerpt: The World of Cascading Style Sheets
 ---
 
-🚧 This article will be available soon.
+A beginner’s express guide to CSSA beginner’s express guide to CSSPhoto by[Maik Jonietz](https://unsplash.com/@der_maik_?utm_source=medium&utm_medium=referral)on[Unsplash](https://unsplash.com?utm_source=medium&utm_medium=referral)
+CSS is the styling language that transforms the plain structure of HTML into visually appealing and interactive web pages.
+
+At its core, CSS operates on a deceptively simple concept: selectors identify HTML elements, and properties dictate how these elements should appear.
+
+This seemingly straightforward syntax conceals a universe of design possibilities, ranging from crafting responsive layouts to animating page elements.
+
+### Applying CSS
+
+There are three ways to apply CSS to HTML: inline, internal, and external.
+
+Inline CSS
+Is used to apply styles directly to individual HTML elements using the `style` attribute. This method allows you to add specific styles to a single element without needing to write a separate CSS file or `<style>` block.
+
+```js
+<p style="color: blue; font-size: 20px;">
+  This is a blue paragraph with inline CSS.
+</p>
+```
+
+Internal CSS
+Involves placing your CSS rules within a <style> tag inside the <head> section of your HTML document. This method is useful for applying styles to a single HTML document.
+
+```js
+<!DOCTYPE html><html>  <head>    <style>      p {        color: green;        font-size: 18px;      }    </style>  </head>  <body>    <p>This is a green paragraph with internal CSS.</p>  </body></html>
+```
+
+External CSS
+When your CSS is separate in .css file and linking to it from your HTML document using the <link> tag in the <head> section. This method is the most efficient and scalable way to apply styles to multiple HTML documents.
+
+HTML File (index.html):
+
+```js
+<!DOCTYPE html><html>  <head>    <link rel="stylesheet" type="text/css" href="styles.css">  </head>  <body>    <p class="main-text">This is a paragraph styled with external CSS.</p>  </body></html>
+```
+
+CSS File (styles.css):
+
+```js
+.main-text { color: red; font-size: 16px;}
+```
+
+Each method has its own use cases and advantages, and often a combination of these methods is used in web development to achieve the desired styling and maintainability.
+
+### Understanding CSS Basics
+
+Selectors
+Selectors are patterns used to select the elements you want to style. They can be simple, targeting specific elements, or more complex, targeting elements based on attributes, states, or their relationship with other elements.
+
+Element Selector: Selects all elements of a given type.
+
+```js
+p {  /* styles for all <p> elements */}
+```
+
+Class Selector: Selects all elements with a specific class attribute.
+
+```js
+.example {  /* styles for elements with class="example" */}
+```
+
+ID Selector: Selects an element with a specific ID attribute.
+
+```js
+#unique {  /* styles for the element with id="unique" */}
+```
+
+Attribute Selector: Selects elements with a specific attribute.
+
+```js
+[type="text"] {  /* styles for elements with type="text" attribute */}
+```
+
+Pseudo-Class Selector: Selects elements based on their state.
+
+```js
+a:hover {  /* styles for <a> elements when hovered over */}
+```
+
+Combinators: Select elements based on their relationship to other elements.
+
+```js
+div > p {  /* styles for <p> elements that are direct children of <div> elements */}
+```
+
+Properties
+Properties are the aspects of an element that you want to change. They define what kind of style will be applied to the selected elements.
+
+For each selector there are “properties” inside curly brackets, which simply take the form of words such as color, font-size, margin or padding.
+
+Here are some of them:
+
+- color: Sets the text color of an element.
+- font-size: Sets the size of the font.
+- margin: Sets the space around an element.
+- padding: Sets the space inside an element, between the content and the border.
+- border: Sets the border around an element.
+- background-color: Sets the background color of an element.
+
+Values
+Values are the settings you apply to properties. They specify how the styles should be applied.
+
+Color Values:
+
+```js
+color: red; /* keyword value */color: #ff0000; /* hex value */color: rgb(255, 0, 0); /* RGB value */
+```
+
+Length Values:
+
+```js
+font-size: 16px; /* pixels */margin: 1em; /* em units */
+```
+
+Keyword Values:
+
+```js
+display: block;
+position: absolute;
+```
+
+Percentage Values:
+
+```js
+width: 50%;
+```
+
+URL Values:
+
+```js
+background-image: url('image.jpg');
+```
+
+Putting It All Together
+Here’s an example that combines selectors, properties, and values:
+
+```js
+/* Selector targeting all <p> elements */p {  color: blue; /* Property: color, Value: blue */  font-size: 16px; /* Property: font-size, Value: 16px */  margin: 10px; /* Property: margin, Value: 10px */}/* Selector targeting elements with class="example" */.example {  background-color: yellow; /* Property: background-color, Value: yellow */  padding: 20px; /* Property: padding, Value: 20px */}/* Selector targeting the element with id="unique" */#unique {  border: 1px solid black; /* Property: border, Value: 1px solid black */}
+```
+
+In summary:
+
+- Selectors determine which HTML elements to style.
+- Properties specify which styles to apply.
+- Values define the specific settings for those properties.
+
+Box Model
+Mastering the Box Model is fundamental. Every HTML element can be envisioned as a box with content, padding, border, and margin.
+
+Manipulating these components allows precise control over layout and spacing.
+
+```js
+.box {  width: 200px;  padding: 20px;  border: 2px solid #ccc;  margin: 10px;}
+```
+
+### Creating layouts with CSS
+
+Creating layouts with CSS goes beyond arranging elements on a webpage; it’s about orchestrating a seamless and aesthetically pleasing user experience. CSS provides developers with versatile layout models, among which Flexbox and Grid stand out as powerful tools that redefine how we think about web design.
+
+Flexbox
+Flexbox is a powerful layout model that simplifies the process of designing complex, responsive layouts. By setting a container to display: flex, you can control the alignment, distribution, and order of its children.
+
+```js
+.container {  display: flex;  justify-content: space-between;}
+```
+
+Grid
+CSS Grid provides a two-dimensional layout system, allowing for more intricate designs. Define a grid container and the layout of its columns and rows.
+
+```js
+.container {  display: grid;  grid-template-columns: 1fr 2fr 1fr;  grid-gap: 10px;}
+```
+
+### Responsive Web Design
+
+Media Queries
+Creating websites that adapt to various screen sizes is essential. Media queries enable you to apply specific styles based on the device’s characteristics.
+
+```js
+@media only screen and (max-width: 600px) {  /* Styles for screens 600px or smaller */  body {    font-size: 14px;  }}
+```
+
+Mobile-First approach
+Adopting a mobile-first mindset involves designing for smaller screens initially, then progressively enhancing for larger displays. This ensures a seamless experience across all devices.
+
+```js
+/* Default styles for all screens */body {  font-size: 16px;}
+```
+
+```graf graf--pre graf-after--pre graf--preV2
+/* Additional styles for screens 600px or larger */@media only screen and (min-width: 600px) {  body {    font-size: 18px;  }}
+```
+
+### Conclusion
+
+As you deep dive in your CSS journey, remember that experimentation and hands-on practice are the keys to mastery. CSS provides the aesthetic touch that turns code into captivating websites. Embrace the challenges, stay curious, and continually explore the vast possibilities that CSS unfolds in the realm of web development.
+
+Happy coding! 😄
+
+### References
+
+- https://www.w3.org/Style/CSS/Overview.en.html
+- https://developer.mozilla.org/pt-BR/docs/Web/CSS
+
+If you have any thoughts or suggestions, feel free to leave a comment.Thanks for reading.
+
+You can follow me on X , Github or LinkedIn.
+
+See you! 👋
+
+By Vitor Britto on January 26, 2024.
+
+Canonical link
+
+Exported from Medium on February 3, 2025.

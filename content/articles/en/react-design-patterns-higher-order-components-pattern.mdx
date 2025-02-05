@@ -1,0 +1,83 @@
+---
+title: React Design Patterns: Higher Order Components Pattern
+excerpt: React Design Patterns: Higher Order Components Pattern
+---
+
+Decomposing the component logic and reused as you need.Decomposing the component logic and reused as you need.Photo by[Johannes Plenio](https://unsplash.com/@jplenio?utm_source=medium&utm_medium=referral)on[Unsplash](https://unsplash.com?utm_source=medium&utm_medium=referral)
+Higher order components are functions used for adding additional functionalities to the existing component. These functions are pure, which means they are receiving data and returning values according to that data. If the data changes, higher order functions are re-run with different data input. It essentially incorporates the don’t-repeat-yourself (DRY) principle of programming.
+
+Higher Order Component (HOC) is wrapping around “normal” component and provide additional data input. It is actually a function that takes one component and returns another component that wraps the original one.
+
+Some real-world examples include:
+
+● react-redux: connect(mapStateToProps, mapDispatchToProps)(UserPage)● react-router: withRouter(UserPage)● material-ui: withStyles(styles)(UserPage)
+
+### Use cases
+
+Let's see two use cases:
+
+- Fetch data from API to render a list of products
+- Handle different authentication methods to protect a user sensitive data
+
+Use case #01
+Consider a simple component that renders a list of products & handle various state like loading, error, and no available data.
+
+```js
+const Products = ({ hasError, isLoading, data }) => {
+  const { products } = data;
+  if (isLoading) return <p>Loading…</p>;
+  if (hasError) return <p>Sorry, data could not be fetched.</p>;
+  if (!data) return <p>No products found.</p>;
+  return (
+    <ul>
+      {" "}
+      {products.map((product) => (
+        <li key={product.id}>{product.name}</li>
+      ))}{" "}
+    </ul>
+  );
+};
+const { data, loading, error } = fetchData();
+<Products {...{ data, error }} isLoading={loading} />;
+```
+
+Showing such different API fetch states is a common logic that can be easily re-used in many components. Hence to pull it out in an HOC, we can do something like:
+
+```js
+import React, { useState, useEffect } from "react"; // This is the HOCconst withFetchData = (WrappedComponent, url) => {  return (props) => {    const [data, setData] = useState(null);    const [isLoading, setIsLoading] = useState(false);    const [error, setError] = useState(null);    useEffect(() => {      setIsLoading(true);      fetch(url)        .then(response => {          if (response.ok) {            return response.json();          } else {            throw new Error('Error fetching data');          }        })        .then(data => {          setData(data);          setIsLoading(false);        })        .catch(error => {          setError(error);          setIsLoading(false);        });    }, [url]);    if (isLoading) {      return <div>Loading...</div>;    }    if (error) {      return <div>Error: {error.message}</div>;    }    return <WrappedComponent data={data} {...props} />;  };};// This is your component that displays the list of productsconst ProductList = ({ data }) => (  <ul>    {data.map(product => (      <li key={product.id}>{product.name}</li>    ))}  </ul>);// This is how you use the HOCconst ProductListWithFetchData = withFetchData(ProductList, '/api/products');// Then you can use it in your app like this:// <ProductListWithFetchData />
+```
+
+In this example, withFetchData is the HOC. It fetches data from the provided URL when the component mounts and sets the state depending on the result of the fetch. If the fetch is successful, it sets the data. If there's an error, it sets the error. It also sets isLoading to true before starting the fetch and to false when it's done.
+
+The ProductList component simply takes the data prop and renders a list of product names. withFetchData wraps ProductList, enhancing it with data fetching capabilities.
+
+Finally, ProductListWithFetchData is the enhanced component that you can use in your app. When you use it, it will automatically fetch the data from the API and render the product list, showing a loading message while fetching, and an error message if there's an error.
+
+Use case #02
+Let’s consider a scenario where we have a component that displays user sensitive data and it needs to be protected by an authentication method. We’ll create an HOC that wraps this component and handles the authentication process.
+
+```js
+import React, { useState, useEffect } from "react"; // This is the HOCconst withAuthentication = (WrappedComponent, authenticationMethod) => {  return (props) => {    const [isAuthenticated, setIsAuthenticated] = useState(false);    const [isAuthenticating, setIsAuthenticating] = useState(true);    const [authError, setAuthError] = useState(null);    useEffect(() => {      // Here you would call your authentication API      // For simplicity, we'll just simulate an async call with setTimeout      setTimeout(() => {        if (authenticationMethod === 'OTP' || authenticationMethod === 'PIN' || authenticationMethod === 'PASSWORD') {          setIsAuthenticated(true);          setIsAuthenticating(false);        } else {          setAuthError('Invalid authentication method');          setIsAuthenticating(false);        }      }, 1000);    }, [authenticationMethod]);    if (isAuthenticating) {      return <div>Authenticating...</div>;    }    if (authError) {      return <div>Error: {authError}</div>;    }    if (!isAuthenticated) {      return <div>Please authenticate to view this content</div>;    }    return <WrappedComponent {...props} />;  };};// This is your component that displays user sensitive dataconst UserProfile = () => (  <div>    <h2>User Profile</h2>    {/* User profile details here */}  </div>);// This is how you use the HOCconst UserProfileWithAuthentication = withAuthentication(UserProfile, 'OTP');// Then you can use it in your app like this:// <UserProfileWithAuthentication />
+```
+
+In this example, withAuthentication is the HOC. It starts the authentication process when the component mounts and sets the state depending on the result. If the authentication is successful, it sets isAuthenticated to true. If there's an error, it sets authError. It also sets isAuthenticating to true before starting the authentication and to false when it's done.
+
+The UserProfile component simply displays user profile data. withAuthentication wraps UserProfile, enhancing it with authentication capabilities.
+
+Finally, UserProfileWithAuthentication is the enhanced component that you can use in your app. When you use it, it will automatically start the authentication process and render the user profile only if the user is authenticated, showing a loading message while authenticating, and an error message if there's an error
+
+### Conclusion
+
+HOCs are a valuable tool in the React ecosystem for their ability to promote code reuse, flexibility, separation of concerns, and composition. They can be used to implement cross-cutting concerns in your application such as authentication, error handling, logging, performance tracking, and many other features. Using HOCs can lead to cleaner, maintainable, and readable code, enhancing your productivity and the quality of your applications.
+
+Thanks for reading. If you have any thoughts or suggestions, feel free to leave a comment below.
+
+You can follow me on Twitter , Github and LinkedIn.
+
+See you! 👋
+
+By Vitor Britto on November 26, 2023.
+
+Canonical link
+
+Exported from Medium on February 3, 2025.

@@ -1,6 +1,74 @@
 ---
-title: "The Short Circuit Evaluation"
-excerpt: "And how you cant use it in React Applications."
+title: The Short Circuit Evaluation
+excerpt: The Short Circuit Evaluation
 ---
 
-🚧 This article will be available soon.
+And how you cant use it in React Applications.And how you cant use it in React Applications.Photo by[israel palacio](https://unsplash.com/@othentikisra?utm_source=medium&utm_medium=referral)on[Unsplash](https://unsplash.com?utm_source=medium&utm_medium=referral)
+Short circuit evaluation is a technique used to improve performance in Boolean expressions. It is also known as minimal evaluation, McCarthy evaluation, or McCarthy conditional. It is used in many high-level programming languages, including C, C++, Java, and Python.
+
+It's the process of evaluating a Boolean expression, such as x < 100 && y < 100, where the second operand is evaluated only if the first operand is not sufficient to determine the value of the expression. In this case, if x is greater than or equal to 100, then the expression will always be false, so y < 100 will not be evaluated.
+
+### How we can use Short Circuit Evaluation in React?
+
+In React, we can use Short Circuit Evaluation to conditionally render components. For example, if we want to render a component only when a certain condition is true, we can use the && operator to check if the condition is true and then render the component.
+
+For example, if we want to render a component only when a certain condition is true, we can use the && operator to check if the condition is true and then render the component.
+
+```js
+const App = () => {
+  const [show, setShow] = useState(false);
+  return (
+    <div>
+      {" "}
+      {show && <Component />} <button onClick={() => setShow(!show)}>
+        Toggle
+      </button>{" "}
+    </div>
+  );
+};
+```
+
+In the above example, we have a component that is rendered only when the show state is true. When the button is clicked, the show state is toggled, and the component is rendered or not rendered depending on the state.
+
+We can also use Short Circuit Evaluation to conditionally render components based on the value of a prop. For example, if we want to render a component only when a certain prop is true, we can use the `&&` operator to check if the prop is true and then render the component.
+
+```js
+const App = () => {
+  const [show, setShow] = useState(false);
+  return (
+    <div>
+      {" "}
+      <Component show={show} /> <button onClick={() => setShow(!show)}>
+        Toggle
+      </button>{" "}
+    </div>
+  );
+};
+const Component = ({ show }) => {
+  return <>{show && <div>Component</div>}</>;
+};
+```
+
+In the above example, we have a component that is rendered only when the show prop is true. When the button is clicked, the show prop is toggled, and the component is rendered or not rendered depending on the prop.
+
+### Conclusion
+
+Short Circuit Evaluation improve the performance of a program and also avoid the runtime errors.
+
+In React, it makes the code more performant, readable and concise.
+
+For more information, you can check out the following resources:
+
+- https://en.wikipedia.org/wiki/Short-circuit_evaluation
+
+Thanks for reading. If you have any thoughts or suggestions, feel free to leave a comment below.
+
+You can follow me on Twitter , Github and LinkedIn.
+
+See you! 👋
+
+By Vitor Britto on May 28, 2023.
+
+Canonical link
+
+Exported from Medium on February 3, 2025.
