@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { Coffee } from "lucide-react";
 import { useTranslation } from "@/lib/hooks/useTranslation";
 
 export function AboutContent() {
