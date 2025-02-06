@@ -6,7 +6,11 @@ import { ArticleShare } from "@/components/ArticleShare";
 import { ArticleNavigation } from "@/components/ArticleNavigation";
 import { ArticleContent } from "@/components/ArticleContent";
 
-export default async function ArticlePage({ params }: { params: any }) {
+export default async function ArticlePage({
+  params,
+}: {
+  params: { slug: string } | Promise<{ slug: string }>;
+}) {
   const resolvedParams = await Promise.resolve(params);
   const article = await getArticleBySlug(resolvedParams.slug);
 
