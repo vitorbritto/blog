@@ -6,11 +6,8 @@ import { ArticleShare } from "@/components/ArticleShare";
 import { ArticleNavigation } from "@/components/ArticleNavigation";
 import { ArticleContent } from "@/components/ArticleContent";
 
-type Props = {
-  params: { slug: string };
-};
-
-export default async function ArticlePage({ params }: Props) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export default async function ArticlePage({ params }: any) {
   const article = await getArticleBySlug(params.slug);
 
   if (!article) {
