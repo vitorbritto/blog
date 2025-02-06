@@ -3,5 +3,5 @@
   "name": "Arquitetura",
   "description": "Design patterns e boas práticas",
   "icon": "Network",
-  "articles": ["clean-architecture-node"]
+  "articles": []
 }

@@ -3,5 +3,5 @@
   "name": "Back-end",
   "description": "APIs, bancos de dados e servidores",
   "icon": "Terminal",
-  "articles": ["clean-architecture-node"]
+  "articles": []
 }
