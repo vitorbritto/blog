@@ -1,16 +1,12 @@
-import { Article, ArticleTranslation } from "./types/content";
+import { Article } from "./types/content";
 
 export function getTranslatedArticle(
   article: Article,
   language: "en" | "pt-BR"
-): ArticleTranslation &
-  Pick<Article, "slug" | "coverImage" | "date" | "readTime" | "categories"> {
+) {
   return {
-    slug: article.slug,
-    coverImage: article.coverImage,
-    date: article.date,
-    readTime: article.readTime,
-    categories: article.categories,
-    ...article.translations[language],
+    title: article.translations[language].title,
+    excerpt: article.translations[language].excerpt,
+    content: article.translations[language].content,
   };
 }

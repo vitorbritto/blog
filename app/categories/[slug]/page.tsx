@@ -1,6 +1,11 @@
 import { notFound } from "next/navigation";
+import Image from "next/image";
+import Link from "next/link";
+import fs from "fs";
+import path from "path";
 import { Article, Category } from "@/lib/types/content";
 import { getArticleBySlug } from "@/lib/content";
+import { getTranslatedArticle } from "@/lib/i18n";
 import {
   Layout,
   Terminal,
@@ -10,7 +15,10 @@ import {
   Cpu,
   Code2,
 } from "lucide-react";
-import { CategoryArticles } from "@/components/CategoryArticles";
+
+interface PageProps {
+  params: Promise<{ slug: string }>;
+}
 
 const icons = {
   Layout,
@@ -22,34 +30,19 @@ const icons = {
   Code2,
 };
 
-const categories = {
-  architecture: {
-    slug: "architecture",
-    name: "Arquitetura",
-    description: "Design patterns e boas práticas",
-    icon: "Network",
-    articles: ["clean-architecture-node"],
-  },
-  "back-end": {
-    slug: "back-end",
-    name: "Back-end",
-    description: "APIs, bancos de dados e servidores",
-    icon: "Terminal",
-    articles: ["clean-architecture-node"],
-  },
-  "front-end": {
-    slug: "front-end",
-    name: "Front-end",
-    description: "UI/UX, frameworks e bibliotecas",
-    icon: "Layout",
-    articles: ["react-performance"],
-  },
-};
-
-export const runtime = "edge";
-
 async function getCategoryData(slug: string): Promise<Category | null> {
-  return categories[slug as keyof typeof categories] || null;
+  try {
+    const filePath = path.join(
+      process.cwd(),
+      "content",
+      "categories",
+      `${slug}.json`
+    );
+    const fileContent = fs.readFileSync(filePath, "utf8");
+    return JSON.parse(fileContent);
+  } catch {
+    return null;
+  }
 }
 
 async function getCategoryArticles(slugs: string[]): Promise<Article[]> {
@@ -57,10 +50,6 @@ async function getCategoryArticles(slugs: string[]): Promise<Article[]> {
     slugs.map((slug) => getArticleBySlug(slug))
   );
   return articles.filter((article): article is Article => article !== null);
-}
-
-interface PageProps {
-  params: Promise<{ slug: string }>;
 }
 
 export default async function CategoryPage({ params }: PageProps) {
@@ -76,6 +65,7 @@ export default async function CategoryPage({ params }: PageProps) {
 
   return (
     <main className="max-w-6xl mx-auto px-6 py-24">
+      {/* Category Header */}
       <div className="mb-16">
         <div className="inline-flex rounded-lg bg-emerald-400/10 p-3 mb-4">
           <Icon className="h-6 w-6 text-emerald-400" />
@@ -84,7 +74,43 @@ export default async function CategoryPage({ params }: PageProps) {
         <p className="text-zinc-400 text-lg">{category.description}</p>
       </div>
 
-      <CategoryArticles articles={articles} />
+      {/* Articles Grid */}
+      <div className="grid gap-8 md:grid-cols-2">
+        {articles.map((article) => {
+          const translatedArticle = getTranslatedArticle(article, "pt-BR");
+          return (
+            <article key={article.slug} className="group">
+              <Link
+                href={`/articles/${article.slug}`}
+                className="space-y-4 block"
+              >
+                <div className="relative aspect-video rounded-lg overflow-hidden bg-zinc-900">
+                  <Image
+                    src={article.coverImage}
+                    alt="Article cover image"
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/50 to-transparent" />
+                </div>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2 text-sm text-zinc-400">
+                    <time dateTime={article.date}>{article.date}</time>
+                    <span>•</span>
+                    <span>{article.readTime} min</span>
+                  </div>
+                  <h2 className="text-xl font-bold group-hover:text-emerald-400 transition-colors">
+                    {translatedArticle.title}
+                  </h2>
+                  <p className="text-zinc-400 line-clamp-2">
+                    {translatedArticle.excerpt}
+                  </p>
+                </div>
+              </Link>
+            </article>
+          );
+        })}
+      </div>
     </main>
   );
 }
