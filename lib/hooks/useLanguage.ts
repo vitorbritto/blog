@@ -13,7 +13,7 @@ type LanguageStore = {
 export const useLanguage = create<LanguageStore>()(
   persist(
     (set) => ({
-      language: "pt-BR",
+      language: "en",
       setLanguage: (language) => set({ language }),
     }),
     {
