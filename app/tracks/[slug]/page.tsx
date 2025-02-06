@@ -11,21 +11,20 @@ const tracks: Record<string, string> = {
 };
 
 interface TrackPageProps {
-  params: {
-    slug: string;
-  };
+  params: Promise<{ slug: string }>;
 }
 
 export default async function TrackPage({ params }: TrackPageProps) {
-  const articles = await getArticlesByTrack(params?.slug);
-  const track = tracks[params?.slug];
+  const { slug } = await params;
+  const articles = await getArticlesByTrack(slug);
+  const track = tracks[slug];
   const trackTitle = {
     "front-end": "Front-end",
     "back-end": "Back-end",
     "system-design": "System Design",
     "design-patterns": "Design Patterns",
     "react-design-patterns": "React Design Patterns",
-  }[params?.slug];
+  }[slug];
 
   if (!track) {
     return (
