@@ -7,13 +7,14 @@ import { Article, Category } from "@/lib/types/content";
 import { getArticleBySlug } from "@/lib/content";
 import { getTranslatedArticle } from "@/lib/i18n";
 import {
+  Code2,
   Layout,
-  Terminal,
   Network,
+  Cloud,
+  Terminal,
   Database,
   Lock,
   Cpu,
-  Code2,
 } from "lucide-react";
 
 interface PageProps {
@@ -28,6 +29,7 @@ const icons = {
   Lock,
   Cpu,
   Code2,
+  Cloud,
 };
 
 async function getCategoryData(slug: string): Promise<Category | null> {

@@ -4,14 +4,14 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { useTranslation } from "@/lib/hooks/useTranslation";
 import {
+  Code2,
   Layout,
-  Terminal,
   Network,
+  Cloud,
+  Terminal,
   Database,
   Lock,
   Cpu,
-  Code2,
-  Cloud,
 } from "lucide-react";
 
 export function CategoriesPageContent() {
@@ -38,7 +38,7 @@ export function CategoriesPageContent() {
     },
     {
       name: t("categories.architecture.name"),
-      slug: "arquitetura",
+      slug: "architecture",
       description: t("categories.architecture.description"),
       count: 8,
       icon: Network,
