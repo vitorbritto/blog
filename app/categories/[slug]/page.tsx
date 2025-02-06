@@ -46,12 +46,13 @@ async function getCategoryArticles(slugs: string[]): Promise<Article[]> {
   return articles.filter((article): article is Article => article !== null);
 }
 
-export default async function CategoryPage({
-  params,
-}: {
-  params: { slug: string };
-}) {
-  const category = await getCategoryData(params.slug);
+interface PageProps {
+  params: Promise<{ slug: string }>;
+}
+
+export default async function CategoryPage({ params }: PageProps) {
+  const { slug } = await params;
+  const category = await getCategoryData(slug);
 
   if (!category) {
     notFound();
