@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { getArticleBySlug, getAllArticles } from "@/lib/content";
 import { notFound } from "next/navigation";
 import { ReadingProgress } from "@/components/ReadingProgress";
@@ -7,19 +6,22 @@ import { ArticleShare } from "@/components/ArticleShare";
 import { ArticleNavigation } from "@/components/ArticleNavigation";
 import { ArticleContent } from "@/components/ArticleContent";
 
-type Props = {
-  params: { slug: string };
-};
-
-export default async function ArticlePage({ params }: Props) {
-  const article = await getArticleBySlug(params.slug);
+export default async function ArticlePage({
+  params,
+}: {
+  params: { slug: string } | Promise<{ slug: string }>;
+}) {
+  const resolvedParams = await Promise.resolve(params);
+  const article = await getArticleBySlug(resolvedParams.slug);
 
   if (!article) {
     notFound();
   }
 
   const articles = await getAllArticles();
-  const currentIndex = articles.findIndex((a) => a.slug === params.slug);
+  const currentIndex = articles.findIndex(
+    (a) => a.slug === resolvedParams.slug
+  );
   const previousArticle = articles[currentIndex + 1] || null;
   const nextArticle = articles[currentIndex - 1] || null;
 
@@ -40,7 +42,6 @@ export default async function ArticlePage({ params }: Props) {
   );
 }
 
-// Gera os parâmetros estáticos para as páginas
 export async function generateStaticParams() {
   const articles = await getAllArticles();
   return articles.map((article) => ({
