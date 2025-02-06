@@ -21,7 +21,7 @@ export function Newsletter() {
 
       setStatus("success");
       setEmail("");
-    } catch (error) {
+    } catch {
       setStatus("error");
     }
   }

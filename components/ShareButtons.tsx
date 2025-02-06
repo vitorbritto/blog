@@ -22,7 +22,7 @@ export function ShareButtons({ url, title }: ShareButtonsProps) {
     try {
       await navigator.clipboard.writeText(url);
       toast.success("Link copiado!");
-    } catch (err) {
+    } catch {
       toast.error("Erro ao copiar link");
     }
   };

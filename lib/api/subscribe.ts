@@ -29,7 +29,7 @@ export default async function handler(
     if (!response.ok) throw new Error();
 
     return res.status(200).json({ success: true });
-  } catch (error) {
+  } catch {
     return res.status(500).json({ error: "Error subscribing to newsletter" });
   }
 }
