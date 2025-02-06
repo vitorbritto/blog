@@ -23,26 +23,25 @@ export function CodeBlock({ code, language }: CodeBlockProps) {
     Prism.highlightAll();
   }, [code]);
 
-  const copyToClipboard = () => {
-    if (isCopied) return;
+  const handleCopy = () => {
     navigator.clipboard.writeText(code);
     setIsCopied(true);
     setTimeout(() => setIsCopied(false), 2000);
   };
 
   return (
-    <div className="group relative my-6">
+    <div className="group relative">
       <button
-        onClick={copyToClipboard}
-        className="opacity-0 group-hover:opacity-100 transition-opacity absolute right-2 top-2 p-2 rounded bg-zinc-700/50 hover:bg-zinc-700"
+        onClick={handleCopy}
+        className="absolute right-2 top-2 p-2 rounded-lg bg-zinc-800/50 text-zinc-400 opacity-0 group-hover:opacity-100 transition-opacity"
       >
         {isCopied ? (
-          <Check className="w-4 h-4 text-emerald-400" />
+          <Check className="w-4 h-4" />
         ) : (
-          <Copy className="w-4 h-4 text-zinc-400" />
+          <Copy className="w-4 h-4" />
         )}
       </button>
-      <pre className="overflow-x-auto rounded-lg bg-[#0d1117] p-4">
+      <pre className="overflow-x-auto rounded-lg border border-zinc-700 pre">
         <code className={`language-${language}`}>{code}</code>
       </pre>
     </div>

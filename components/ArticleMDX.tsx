@@ -31,7 +31,7 @@ export function ArticleMDX() {
   const { translatedArticle } = useArticleContext();
 
   return (
-    <div className="prose prose-invert prose-emerald max-w-none mb-4">
+    <div className="prose prose-invert prose-emerald max-w-none mb-4 prose-p:text-lg prose-p:leading-relaxed">
       <MDXRemote
         source={translatedArticle.content}
         components={components}
