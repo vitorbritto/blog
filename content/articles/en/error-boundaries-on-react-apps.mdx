@@ -20,7 +20,7 @@ state = { isLoading: true, hasError: false, data: null };
 // the component will render some appropriated message.
 ```
 
-### Introduction to Error Boundary
+## Introduction to Error Boundary
 
 Error boundaries were introduced in React 16 as a way to catch and handle JavaScript errors that occur in the UI parts of our component. So error boundaries only catch errors that occur in a lifecycle method, render method, and inside Hooks like useEffect.
 
@@ -47,13 +47,13 @@ Here is the sample Error Boundary component that catches errors in the child com
 
 You can put the above AppError Component in any level of the component tree.
 
-### Summary
+## Summary
 
 - `try/catch` blocks won't catch errors inside hooks like `useEffect` and inside any children components
 - ErrorBoundary can catch them, but it won't catch errors in async code and event handlers
 - Nevertheless, you can make ErrorBoundary catch those, you just need to catch them with try/catch first and then re-throw them back into the React lifecycle
 
-### Conclusion
+## Conclusion
 
 Incorporating Error Boundary into your React application can lead to more robust error handling, easier debugging, and a better end product.
 

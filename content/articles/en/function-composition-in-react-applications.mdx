@@ -1,14 +1,13 @@
 ---
 title: Function Composition in React Applications
-excerpt: Function Composition in React Applications
+excerpt: Why you should care about it?
 ---
 
-Why you should care about it?Why you should care about it?Photo by[EJ Strat](https://unsplash.com/@xoforoct?utm_source=medium&utm_medium=referral)on[Unsplash](https://unsplash.com?utm_source=medium&utm_medium=referral)
 Function composition is a technique that is widely used in computer programming to create complex applications and avoid cross-cutting concerns.
 
 It is the process of combining two or more functions to create a new function. In this process, the output of one function becomes the input of the next function. The result is a new function that performs both operations in a single step.
 
-### How to apply Function Composition
+## How to apply Function Composition
 
 Suppose we have two functions, sum and square.
 
@@ -45,7 +44,7 @@ function getUserOrders(userId) {
 
 This new function takes a user ID, retrieves the corresponding user object, and then retrieves all the orders associated with that user.
 
-### Function Composition with React
+## Function Composition with React
 
 In React, function composition is used to create reusable components that can be used throughout an application.
 
@@ -53,15 +52,31 @@ One example of function composition in React is the use of Higher-Order Componen
 
 Again, this allows us to create reusable components.
 
-Here’s an example of an HOC that adds a loading indicator to a component:
+Here's an example of an HOC that adds a loading indicator to a component:
 
 ```js
-const withLoadingIndicator = Component => {  return function(props) {    const [isLoading, setIsLoading] = useState(false);        const startLoading = () => {      setIsLoading(true);    }    const stopLoading = () => {      setIsLoading(false);    }    return (      <>        {isLoading && <div>Loading...</div>}        <Component {...props} startLoading={startLoading} stopLoading={stopLoading} />      </>    );  }}
+const withLoadingIndicator = (Component) => {
+  return function (props) {
+    const [isLoading, setIsLoading] = useState(false);
+    const startLoading = setIsLoading(true);
+    const stopLoading = setIsLoading(false);
+    return (
+      <>
+        {isLoading && <div>Loading...</div>}
+        <Component
+          {...props}
+          startLoading={startLoading}
+          stopLoading={stopLoading}
+        />
+      </>
+    );
+  };
+};
 ```
 
-In this example, withLoadingIndicator is an HOC that takes a component as an argument and returns a new component that includes a loading indicator. The new component also includes two functions, startLoading and stopLoading, that can be used to control the loading indicator.
+In this example, `withLoadingIndicator` is an HOC that takes a component as an argument and returns a new component that includes a loading indicator. The new component also includes two functions, `startLoading` and `stopLoading`, that can be used to control the loading indicator.
 
-Here’s an example of how we might use this HOC in our application:
+Here's an example of how we might use this HOC in our application:
 
 ```js
 function MyComponent({ startLoading, stopLoading }) {
@@ -76,7 +91,7 @@ function MyComponent({ startLoading, stopLoading }) {
 const MyComponentWithLoadingIndicator = withLoadingIndicator(MyComponent);
 ```
 
-In this example, we create a new component called MyComponent that includes a loading indicator. We then use the withLoadingIndicator HOC to create a new component called MyComponentWithLoadingIndicator that includes the MyComponent component with the loading indicator added.
+In this example, we create a new component called `MyComponent` that includes a loading indicator. We then use the `withLoadingIndicator` HOC to create a new component called `MyComponentWithLoadingIndicator` that includes the `MyComponent` component with the loading indicator added.
 
 You may be familiar with the code bellow:
 
@@ -86,14 +101,11 @@ interface ProviderProps {
 }
 const App = ({ children }: ProviderProps): ReactElement => (
   <>
-    {" "}
     <AuthProvider>
-      {" "}
       <FeatureProvider>
-        {" "}
-        <LogProvider> {children} </LogProvider>{" "}
-      </FeatureProvider>{" "}
-    </AuthProvider>{" "}
+        <LogProvider>{children}</LogProvider>
+      </FeatureProvider>
+    </AuthProvider>
   </>
 );
 ```
@@ -110,26 +122,15 @@ const AppWithProviders = compose(
   withFeaturesProvider,
   withLoggerProvider
 )(App);
+
 export default AppWithProviders;
 ```
 
-### Conclusion
+## Conclusion
 
 Function composition is a powerful tool for creating complex applications. By combining functions, we can create new functions that perform multiple operations in a single step. This can simplify our code and make it easier to maintain.
 
-For more information, you can check out the following resources:
+## References
 
 - https://www.mathsisfun.com/sets/functions-composition.html
 - https://legacy.reactjs.org/docs/higher-order-components.html
-
-Thanks for reading. If you have any thoughts or suggestions, feel free to leave a comment below.
-
-You can follow me on Twitter , Github and LinkedIn.
-
-See you! 👋
-
-By Vitor Britto on May 10, 2023.
-
-Canonical link
-
-Exported from Medium on February 3, 2025.

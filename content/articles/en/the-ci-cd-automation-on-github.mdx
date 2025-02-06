@@ -1,94 +1,95 @@
 ---
 title: The CI/CD automation on GitHub
-excerpt: The CI/CD automation on GitHub
+excerpt: An introduction to Github Actions
 ---
 
-An introduction to Github ActionsAn introduction to Github Actions
 Continuous Integration and Continuous Deployment (CI/CD) are practices that enhance efficiency and reliability. Among the many tools available, GitHub Actions stands out for its seamless integration with GitHub repositories, powerful features, and ease of use.
 
-Whether you’re a seasoned developer or a newcomer, this guide will help you get started with GitHub Actions and leverage its potential to automate your workflows.
+Whether you're a seasoned developer or a newcomer, this guide will help you get started with GitHub Actions and leverage its potential to automate your workflows.
 
-### What is GitHub Actions?
+## What is GitHub Actions?
 
-GitHub Actions is a CI/CD tool that allows you to automate your software development workflows directly in your GitHub repository. With GitHub Actions, you can build, test, and deploy your code automatically whenever there’s a change in your repository. This not only saves time but also ensures that your code is always in a deployable state.
+GitHub Actions is a CI/CD tool that allows you to automate your software development workflows directly in your GitHub repository. With GitHub Actions, you can build, test, and deploy your code automatically whenever there's a change in your repository. This not only saves time but also ensures that your code is always in a deployable state.
 
-### Key Concepts of GitHub Actions
+## Key Concepts of GitHub Actions
 
-Before diving into the setup, it’s important to understand a few key concepts:
+Before diving into the setup, it's important to understand a few key concepts:
 
-- Workflow: A configurable automated process made up of one or more jobs.
-- Job: A set of steps executed on the same runner.
-- Step: An individual task within a job. Steps can run commands, set up environments, and more.
-- Runner: A server that runs your workflows. GitHub provides hosted runners, or you can use self-hosted runners.
-- Action: A custom application for the GitHub Actions platform that performs a complex but frequently repeated task.
+- **Workflow**: A configurable automated process made up of one or more jobs.
+- **Job**: A set of steps executed on the same runner.
+- **Step**: An individual task within a job. Steps can run commands, set up environments, and more.
+- **Runner**: A server that runs your workflows. GitHub provides hosted runners, or you can use self-hosted runners.
+- **Action**: A custom application for the GitHub Actions platform that performs a complex but frequently repeated task.
 
-### Getting Started: Your First GitHub Actions Workflow
+## Getting Started: Your First GitHub Actions Workflow
 
-Let’s create a simple workflow to understand how GitHub Actions works. We’ll set up a workflow that runs tests on every push to the repository.
+Let's create a simple workflow to understand how GitHub Actions works. We'll set up a workflow that runs tests on every push to the repository.
 
-Step 1: Create a`.github/workflows`Directory
-In your repository, create a directory named .github/workflows. This is where you'll store your workflow files.
+### Step 1: Create a `.github/workflows` Directory
 
-Step 2: Create a Workflow File
-Inside the .github/workflows directory, create a file named ci.yml. This file will define your workflow.
+In your repository, create a directory named `.github/workflows`. This is where you'll store your workflow files.
 
-Step 3: Define Your Workflow
-Open ci.yml and add the following YAML configuration:
+### Step 2: Create a Workflow File
 
-```js
-name: CIon: [push, pull_request]jobs:  build:    runs-on: ubuntu-latest    steps:    - name: Checkout code      uses: actions/checkout@v2    - name: Set up Node.js      uses: actions/setup-node@v2      with:        node-version: '18'    - name: Install dependencies      run: npm install    - name: Run tests      run: npm test
+Inside the `.github/workflows` directory, create a file named `ci.yml`. This file will define your workflow.
+
+### Step 3: Define Your Workflow
+
+Open `ci.yml` and add the following YAML configuration:
+
+```yml
+name: CI
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 ```
 
-Where:
+**Where:**
 
-- name: The name of the workflow.
-- on: Specifies the events that trigger the workflow. Here, it’s triggered on push and pull_request.
-- jobs: Defines the jobs in the workflow. Our job is named build.
-- runs-on: Specifies the type of runner to use. We’re using ubuntu-latest.
-- steps: Lists the steps to perform in the job:
-- Checkout code: Uses the actions/checkout action to clone the repository.
-- Set up Node.js: Uses the actions/setup-node action to set up Node.js.
-- Install dependencies: Runs npm install to install project dependencies.
-- Run tests: Runs npm test to execute the tests.
+- `name`: The name of the workflow.
+- `on`: Specifies the events that trigger the workflow. Here, it's triggered on push and pull_request.
+- `jobs`: Defines the jobs in the workflow. Our job is named build.
+- `runs-on`: Specifies the type of runner to use. We're using ubuntu-latest.
+- `steps`: Lists the steps to perform in the job:
 
-Step 4: Commit and Push
-Commit and push the ci.yml file to your repository. GitHub Actions will automatically trigger the workflow on the next push or pull request.
+**And:**
 
-### Advanced GitHub Actions Features
+- `Checkout code`: Uses the actions/checkout action to clone the repository.
+- `Set up Node.js`: Uses the actions/setup-node action to set up Node.js.
+- `Install dependencies`: Runs npm install to install project dependencies.
+- `Run tests`: Runs npm test to execute the tests.
 
-Once you’re comfortable with the basics, you can explore more advanced features of GitHub Actions like:
+### Step 4: Commit and Push
+
+Commit and push the `ci.yml` file to your repository. GitHub Actions will automatically trigger the workflow on the next push or pull request.
+
+## Advanced GitHub Actions Features
+
+Once you're comfortable with the basics, you can explore more advanced features of GitHub Actions like:
 
 - Matrix Builds: Run your jobs across multiple configurations, such as different versions of Node.js or operating systems.
 - Secrets: Securely manage sensitive data like API keys and passwords.
 - Reusable Workflows: Create reusable workflows to avoid duplication and maintain consistency across multiple repositories.
 
-### Best Practices for Using GitHub Actions
+## Best Practices for Using GitHub Actions
 
 1. Modularize Your Workflows: Break down complex workflows into smaller, reusable actions.
 2. Use Caching: Speed up your workflows by caching dependencies and build artifacts.
-3. Monitor and Debug: Use GitHub’s built-in logs and annotations to monitor and debug your workflows.
+3. Monitor and Debug: Use GitHub's built-in logs and annotations to monitor and debug your workflows.
 
-### Conclusion
+## Conclusion
 
-GitHub Actions is a powerful tool that can significantly enhance your CI/CD processes. By automating repetitive tasks, you can focus more on writing quality code and less on manual deployments and tests. Whether you’re just starting or looking to optimize your existing workflows, GitHub Actions offers the flexibility and power you need to streamline your development pipeline.
+GitHub Actions is a powerful tool that can significantly enhance your CI/CD processes. By automating repetitive tasks, you can focus more on writing quality code and less on manual deployments and tests. Whether you're just starting or looking to optimize your existing workflows, GitHub Actions offers the flexibility and power you need to streamline your development pipeline.
 
 Dive into GitHub Actions today and start building faster, more reliable applications with ease.
 
 Happy coding! 🤓
 
-### References
+## References
 
 - https://docs.github.com/en/actions/quickstart
 - https://resources.github.com/devops/ci-cd/
-
-Thanks for reading. If you have any thoughts or suggestions, feel free to leave a comment below.
-
-You can follow me on Twitter , Github and LinkedIn.
-
-See you! 👋
-
-By Vitor Britto on June 22, 2024.
-
-Canonical link
-
-Exported from Medium on February 3, 2025.

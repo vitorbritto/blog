@@ -1,65 +1,77 @@
 ---
 title: The right introduction to JavaScript
-excerpt: The right introduction to JavaScript
+excerpt: Welcome to the world of JavaScript
 ---
 
-Welcome to the world of JavaScriptWelcome to the world of JavaScript
 JavaScript is a high-level, interpreted, multi-paradigm programming language. This means that JavaScript code is written in a human-readable format and is executed by a runtime interpreter, allowing it to run in different environments such as web browsers, servers, and even mobile devices.
 
 In web browsers, JavaScript is primarily used to make web pages interactive, controlling the behavior of HTML and CSS content, manipulating the Document Object Model (DOM), and responding to user events.
 
-### Historical Context of JavaScript
+## Historical Context of JavaScript
 
 JavaScript was created by Brendan Eich in 1995 while working at Netscape Communications Corporation. The language was originally named "Mocha" and then "LiveScript" before being renamed "JavaScript" to capitalize on the popularity of the Java programming language.
 
 JavaScript was designed to be a lightweight, easy-to-use programming language for adding interactivity to web pages. However, over the years, the language has evolved to become one of the most popular and versatile programming languages, used in a wide variety of applications including web development, servers, mobile apps, and even desktop applications.
 
-### The main features of JavaScript
+## The main features of JavaScript
 
-Dynamic Data Types
+### Dynamic Data Types
+
 JavaScript is dynamically typed, meaning data types are checked at runtime, allowing variables to change type over time.
 
-First-Class Functions
+### First-Class Functions
+
 Functions in JavaScript are first-class citizens, meaning they can be assigned to variables, passed as arguments, and returned from other functions.
 
-Prototype-based Object Orientation
+### Prototype-based Object Orientation
+
 JavaScript uses a prototype-based object model where objects can inherit properties and methods from each other.
 
-Events and Asynchronicity
+### Events and Asynchronicity
+
 JavaScript allows handling events asynchronously, crucial for interactivity in web applications.
 
-DOM Manipulation
+### DOM Manipulation
+
 JavaScript is widely used for manipulating the Document Object Model (DOM) in web browsers, enabling developers to create dynamic and interactive web pages.
 
-Regular Expressions
+### Regular Expressions
+
 JavaScript supports regular expressions, which are text patterns used for searching and manipulating strings.
 
-Browser APIs
+### Browser APIs
+
 JavaScript has built-in APIs that allow the code to interact with the browser environment, including APIs for manipulating the DOM, making HTTP requests, storing data locally, and more.
 
-Modules and Packages
+### Modules and Packages
+
 With the introduction of ES6 modules, JavaScript now natively supports importing and exporting modules, allowing developers to organize and reuse code in a modular fashion.
 
-Promises and Async/Await
+### Promises and Async/Await
+
 JavaScript supports promises and async/await, mechanisms for handling asynchronous operations in a more readable and efficient manner.
 
-Extensions and Libraries
+### Extensions and Libraries
+
 JavaScript has a wide variety of extensions and libraries that extend its capabilities and facilitate the development of complex applications.
 
-### Programming paradigms in JavaScript
+## Programming paradigms in JavaScript
 
 JavaScript supports several programming paradigms.
 
-Imperative Programming
-The programs are composed of a sequence of instructions that alter the program’s state.
+### Imperative Programming
+
+The programs are composed of a sequence of instructions that alter the program's state.
 
 ```js
-// Function to calculate the sum of elements in an arrayfunction calculateSum(array) {  let sum = 0;  // Loop through the elements of the array  for (let i = 0; i < array.length; i++) {    // Add each element to the sum    sum += array[i];  }  // Return the sum result  return sum;}// Sample arrayconst numbers = [1, 2, 3, 4, 5];// Call the function to calculate the sum of elements in the arrayconst result = calculateSum(numbers);// Display the resultconsole.log("The sum of elements is:", result);
+// Function to calculate the sum of elements in an array
+function calculateSum(array) {  let sum = 0;  // Loop through the elements of the array  for (let i = 0; i < array.length; i++) {    // Add each element to the sum    sum += array[i];  }  // Return the sum result  return sum;}// Sample arrayconst numbers = [1, 2, 3, 4, 5];// Call the function to calculate the sum of elements in the arrayconst result = calculateSum(numbers);// Display the resultconsole.log("The sum of elements is:", result);
 ```
 
-In this example, we’re using an imperative approach, explicitly instructing the program to iterate through each element of the array and add them up individually. We’re not concerned with abstracting or encapsulating the details of the summing process; instead, we’re providing clear instructions on how to perform this specific task.
+In this example, we're using an imperative approach, explicitly instructing the program to iterate through each element of the array and add them up individually. We're not concerned with abstracting or encapsulating the details of the summing process; instead, we're providing clear instructions on how to perform this specific task.
 
-Object-Oriented Programming
+### Object-Oriented Programming
+
 JavaScript uses a prototype-based object-oriented model, where objects can inherit properties and methods from each other.
 
 ```js
@@ -68,7 +80,8 @@ JavaScript uses a prototype-based object-oriented model, where objects can inher
 
 In this example, we define a Rectangle class with properties for width and height, as well as methods to calculate the area and perimeter of the rectangle. Then, we create an instance of the Rectangle class called rectangle1 with a width of 5 units and a height of 3 units. Finally, we use the calculateArea() and calculatePerimeter() methods to compute and display the area and perimeter of the rectangle, respectively. This demonstrates the basic principles of object-oriented programming in JavaScript, including encapsulation, abstraction, inheritance, and polymorphism.
 
-Functional Programming
+### Functional Programming
+
 JavaScript supports functional programming, where functions are treated as first-class citizens and can be passed as arguments and returned from other functions.
 
 ```js
@@ -84,7 +97,8 @@ In this example, we define several functions that follow the principles of funct
 
 These functions are pure functions, meaning they do not mutate state and produce the same output for the same input. We demonstrate the use of these functions with the numbers array, showcasing how functional programming concepts can be applied in JavaScript to perform common array operations.
 
-Event-Driven Programming
+### Event-Driven Programming
+
 JavaScript is widely used for event-driven programming in web browsers, where programs respond to user events such as mouse clicks and key presses.
 
 ```js
@@ -100,7 +114,8 @@ In this example:
 
 This demonstrates the event-driven nature of JavaScript, where actions by the user (clicking the button) trigger functions to execute in response to those events. Event-driven programming is fundamental to building interactive and dynamic web applications.
 
-Asynchronous Programming
+### Asynchronous Programming
+
 JavaScript is often used for asynchronous programming, where operations are performed in a non-blocking manner, allowing the code to continue executing while waiting for the completion of asynchronous operations.
 
 ```js
@@ -116,7 +131,8 @@ In this example:
 
 This demonstrates how async/await syntax allows us to write asynchronous code in a more synchronous-looking manner, making it easier to understand and maintain.
 
-Prototype-Based Programming
+### Prototype-Based Programming
+
 JavaScript uses a prototype-based object-oriented model, where objects can inherit properties and methods from each other.
 
 ```js
@@ -134,7 +150,7 @@ This demonstrates how objects in JavaScript can inherit properties and methods f
 
 This flexibility in supporting various programming paradigms is one of the reasons why JavaScript is so popular and versatile.
 
-### Which languages influenced JavaScript?
+## Which languages influenced JavaScript?
 
 JavaScript was influenced by several programming languages, including:
 
@@ -143,34 +159,39 @@ JavaScript was influenced by several programming languages, including:
 - Self: Influenced the object orientation in JavaScript, especially prototype inheritance.
 - Perl and Python: Contributed various syntactic conveniences and data structures.
 
-### JavaScript Core Parts
+## JavaScript Core Parts
 
 The core of JavaScript consists of several parts.
 
-Data Types
+### Data Types
+
 JavaScript has primitive data types such as numbers, strings, booleans, null, and undefined, as well as the composite data type, the object.
 
-Control Structures
+### Control Structures
+
 Like in other languages, JavaScript offers flow control structures such as conditionals (if, else, switch) and loops (for, while, do-while).
 
-Functions
+### Functions
+
 Functions in JavaScript are first-class citizens, meaning they can be assigned to variables, passed as arguments, and returned from other functions.
 
-Objects and Prototypes
+### Objects and Prototypes
+
 The object system in JavaScript is based on prototypes, where objects can inherit properties and methods from each other.
 
-Events and Asynchronicity
+### Events and Asynchronicity
+
 JavaScript allows handling events asynchronously, which is essential for interactivity in web applications.
 
-### JavaScript Code Lifecycle
+## JavaScript Code Lifecycle
 
 JavaScript is executed in a runtime environment, which can be a web browser, a server, or a specific execution environment like Node.js.
 
-The runtime environment provides an interpreter that reads and executes JavaScript code, as well as APIs (Application Programming Interfaces) that allow JavaScript code to interact with the environment it’s running in.
+The runtime environment provides an interpreter that reads and executes JavaScript code, as well as APIs (Application Programming Interfaces) that allow JavaScript code to interact with the environment it's running in.
 
 Throughout this process, the interpreter also handles memory management, resource allocation, and exception handling, ensuring that JavaScript code is executed efficiently and safely.
 
-The JavaScript interpreter is an important part of the language’s execution environment. It’s responsible for translating JavaScript code into instructions understandable by the computer and executing them.
+The JavaScript interpreter is an important part of the language's execution environment. It's responsible for translating JavaScript code into instructions understandable by the computer and executing them.
 
 Let me explain the process step by step.
 
@@ -178,12 +199,14 @@ Let me explain the process step by step.
 
 The first step is lexical analysis, where the interpreter divides the source code into tokens. Tokens are lexical units, such as keywords (if, for , function), identifiers (variables and funcion names), operators (+, -, \*, etc.), and literals (numbers, strings, etc.).
 
-Historical Context
+### Historical Context
+
 Lexical analysis has its roots in the early days of computing and programming languages. In the early compilers, lexical analysis was performed manually, where programmers had to analyze the source code for specific patterns and manually convert these patterns into tokens. This was tedious and error-prone.
 
 With the advancement of compiler theory and programming languages, automated techniques for lexical analysis emerged. The concept of regular expressions, proposed by Stephen Kleene in the 1950s, played a crucial role in developing efficient algorithms for lexical analysis.
 
-How Lexical Analysis Works
+### How Lexical Analysis Works
+
 Lexical analysis is the process of converting character sequences into meaningful tokens for the compiler or interpreter. This involves dividing the source code into lexical units or tokens, which are the smallest recognizable units of the programming language.
 
 The process of lexical analysis typically follows these steps:
@@ -192,28 +215,32 @@ The process of lexical analysis typically follows these steps:
 2. Token Recognition: Based on the patterns identified during scanning, the lexer generates corresponding tokens. Each token is a data structure that contains information about the token type and sometimes its value.
 3. Whitespace and Comment Discarding: The lexer typically ignores whitespace and comments, as they have no semantic meaning in the programming language.
 
-Tokens in JavaScript
-The complete set of tokens in JavaScript includes keywords, identifiers, literals, operators, and punctuation. Here’s a general list of the main tokens in JavaScript:
+### Tokens in JavaScript
+
+The complete set of tokens in JavaScript includes keywords, identifiers, literals, operators, and punctuation. Here's a general list of the main tokens in JavaScript:
 
 - Keywords: if, else, for, while, function, var, let, const, return, switch, case, default, etc.
 - Identifiers: Names used to identify variables, functions, classes, and other elements in the code. That must start with a letter, underscore `_`, or dollar sign `$`, followed by letters, digits, underscores, or dollar signs. For example: foo, \_bar, $baz, `javascript`, etc.
 - Literals: represent fixed data values. Could be numeric, strings, boolean, array or object.
 - Operators: Symbols that perform operations on operands. For exemple: +, =, !==, &&, ||, typeof, instanceof, etc.
-- Punctuation: Punctuation symbols used to separate tokens and define the code’s structure. For example: (, ), [, ], ;, :, ., etc.
+- Punctuation: Punctuation symbols used to separate tokens and define the code's structure. For example: (, ), [, ], ;, :, ., etc.
 
 Keep in mind that this is a general summary, and there may be some variations or specific tokens depending on the ECMAScript version (the JavaScript standard specification) and language extensions in different execution environments (such as web browsers or server environments).
 
 ### Syntax Analysis (Parsing)
 
-Next, the interpreter analyzes the code’s structure using grammar rules defined by the language specification. This step creates an Abstract Syntax Tree (AST), which represents the hierarchical structure of the code. For example, in an expression a + b, the AST would have a node for the addition operation with two children representing the variables a and b.
+Next, the interpreter analyzes the code's structure using grammar rules defined by the language specification. This step creates an Abstract Syntax Tree (AST), which represents the hierarchical structure of the code. For example, in an expression a + b, the AST would have a node for the addition operation with two children representing the variables a and b.
 
-What Is an AST?
-An Abstract Syntax Tree (AST) is a frequently used data structure in compilers and interpreters to represent a program’s structure abstractly, meaning without including implementation details like memory pointers or language-specific tokens.
+### What is an AST?
 
-How Is It Constructed?
+An Abstract Syntax Tree (AST) is a frequently used data structure in compilers and interpreters to represent a program's structure abstractly, meaning without including implementation details like memory pointers or language-specific tokens.
+
+### How Is It Constructed?
+
 An AST is built from the syntactic analysis of the source code. During this analysis, the code is parsed and broken down into a tree-shaped data structure, where each node represents a syntactic construction of the programming language, such as statements, expressions, operators, etc.
 
-What are the Nodes of an AST?
+### What are the Nodes of an AST?
+
 AST nodes represent the structural elements of the source code. They can include nodes for statements (like variable declarations, function declarations, classes), expressions (like arithmetic operations, function calls, conditional expressions), operators, identifiers (variable names, function names, etc.), and so on.
 
 For example, for this block of code:
@@ -229,14 +256,14 @@ const result = sum(2, 5);
 
 AST could have the following structure:
 
-### Code-Generation
+## Code-Generation
 
-Depending on the interpreter’s implementation, the next step may vary:
+Depending on the interpreter's implementation, the next step may vary:
 
 - Pure Interpretation
 - Just-In-Time (JIT) Compilation
 
-Let’s understand more about them.
+Let's understand more about them.
 
 Pure Interpretation
 In pure interpretation, the interpreter traverses the AST directly, executing the instructions one by one. This means it reads each node of the AST and executes the corresponding operation in real-time.
@@ -253,7 +280,8 @@ console.log(result);
 
 During interpretation, the interpreter would traverse the AST generated for this code, executing the corresponding operations for each node. For example, it would execute the function sum declaration, the sum function call with arguments 3 and 4, and the console.log function call to display the result.
 
-Just-In-Time (JIT) Compilation
+### Just-In-Time (JIT) Compilation
+
 In a JIT compilation environment, JavaScript code is initially interpreted, but parts of the code that are executed frequently are compiled into native machine code to improve performance. This is done dynamically during program execution.
 
 For example, the V8 interpreter in Chrome uses a JIT compilation approach to improve the performance of JavaScript code. During program execution, V8 monitors which parts of the code are executed frequently and, if necessary, compiles those parts into native machine code to improve performance.
@@ -270,7 +298,7 @@ The JavaScript Execution Context is a fundamental concept in understanding how J
 There are two main types of execution contexts in JavaScript:
 
 - Global Execution Context: This is the default or outermost execution context. It represents the environment in which the code outside of any function is executed. In a web browser, the global execution context is associated with the window object.
-- Function Execution Context: Each time a function is invoked, a new execution context is created specifically for that function. This context includes the function’s arguments, local variables, and any nested functions.
+- Function Execution Context: Each time a function is invoked, a new execution context is created specifically for that function. This context includes the function's arguments, local variables, and any nested functions.
 
 There's a third type of execution, but for your code security avoid it. It's theEval Execution Context.
 Execution contexts are created and managed by the JavaScript engine during the execution of code. They form a stack known as the "execution stack" or "call stack".
@@ -280,7 +308,7 @@ When a function is invoked, a new execution context for that function is pushed 
 
 Each execution context has two phases: the Creation Phase and the Execution Phase.
 
-To understand these phase, let’s start with the following example:
+To understand these phase, let's start with the following example:
 
 ```js
 const source = 10; const timesTen = (num) => num * 10const result = timesTen(source); console.log(result); // 100
@@ -293,7 +321,8 @@ In this example:
 - Third, call the timesTen() function with the argument as the value of the source variable and store result in the variable result.
 - Finally, output the variable result to the Console.
 
-The Creation Phase
+### The Creation Phase
+
 When the JavaScript engine executes a script for the first time, it creates the global execution context.
 
 Global Execution Context — Creation PhaseFunction Execution Context — Creation Phase
@@ -311,13 +340,16 @@ When the JavaScript engine executes the code example above, it does the followin
 
 After the creation phase, the global execution context moves to the execution phase.
 
-The Execution Phase
+### The Execution Phase
+
 During the execution phase, the JavaScript engine executes the code line by line, assigns the values to variables, and executes the function calls.
 
-Global Execution Context — Execution Phase
+#### Global Execution Context — Execution Phase
+
 For each function call, the JavaScript engine creates a new function execution context.
 
-Function Execution Context — Execution Phase
+#### Function Execution Context — Execution Phase
+
 The function execution context is similar to the global execution context. But instead of creating the global object, the JavaScript engine creates the arguments object that is a reference to all the parameters of the function:
 
 In our example, the function execution context creates the arguments object that references all parameters passed into the function, sets this value to the global object, and initializes the source parameter to undefined.
@@ -326,36 +358,36 @@ During the execution phase of the function execution context, the JavaScript eng
 
 ### Memory Management
 
-In JavaScript, memory management is automated and based on garbage collection. This means that developers don’t need to explicitly worry about allocating or deallocating memory, as in low-level languages. Instead, the garbage collector mechanism takes care of this automatically.
+In JavaScript, memory management is automated and based on garbage collection. This means that developers don't need to explicitly worry about allocating or deallocating memory, as in low-level languages. Instead, the garbage collector mechanism takes care of this automatically.
 
-When a JavaScript program is executed, it allocates memory space as needed to store variables, objects, functions, and other data. As the code runs, the garbage collection mechanism tracks references to determine which objects are still being used by the program. If an object no longer has references pointing to it, it means it’s no longer accessible and can be considered garbage. At that point, the garbage collector kicks in and frees the memory occupied by that object, making it available for reuse by other purposes.
+When a JavaScript program is executed, it allocates memory space as needed to store variables, objects, functions, and other data. As the code runs, the garbage collection mechanism tracks references to determine which objects are still being used by the program. If an object no longer has references pointing to it, it means it's no longer accessible and can be considered garbage. At that point, the garbage collector kicks in and frees the memory occupied by that object, making it available for reuse by other purposes.
 
-JavaScript uses a garbage collection strategy called "incremental garbage collection", which divides the garbage collection process into small steps to minimize the impact on the program’s performance. Additionally, different browsers and execution environments may have specific garbage collection implementations, with different strategies and algorithms to optimize the process.
+JavaScript uses a garbage collection strategy called "incremental garbage collection", which divides the garbage collection process into small steps to minimize the impact on the program's performance. Additionally, different browsers and execution environments may have specific garbage collection implementations, with different strategies and algorithms to optimize the process.
 
-Despite automated memory management, developers still need to be aware of potential memory leaks. A memory leak occurs when an object that is no longer needed still occupies memory because it’s still referenced by other parts of the code. This can happen, for example, when there are circular references between objects or when events are not properly unsubscribed.
+Despite automated memory management, developers still need to be aware of potential memory leaks. A memory leak occurs when an object that is no longer needed still occupies memory because it's still referenced by other parts of the code. This can happen, for example, when there are circular references between objects or when events are not properly unsubscribed.
 
 ### Resource Allocations
 
 In JavaScript, much like memory management, resource allocation is handled automatically in most cases. The most common resources that need to be allocated and released are network connections, file handlers, database connections, and other external resources.
 
-Most operations involving resource allocation in JavaScript are done asynchronously and non-blocking, meaning that the code can continue executing while waiting for the resource to become available. For example, when making an HTTP request using the fetch API, JavaScript sends the request and continues executing other statements while waiting for the server’s response.
+Most operations involving resource allocation in JavaScript are done asynchronously and non-blocking, meaning that the code can continue executing while waiting for the resource to become available. For example, when making an HTTP request using the fetch API, JavaScript sends the request and continues executing other statements while waiting for the server's response.
 
 Additionally, often resources are implicitly allocated by functions and methods of browser APIs or the execution environment. For example, when creating a new XMLHttpRequest object to make an AJAX request, the browser automatically allocates the necessary resources to handle that request.
 
-However, it’s important to keep in mind that while resource allocation is handled automatically in most cases, it’s still the developer’s responsibility to ensure that these resources are released when no longer needed. For example, it’s important to close database connections or release memory allocated by large objects when they’re no longer in use.
+However, it's important to keep in mind that while resource allocation is handled automatically in most cases, it's still the developer's responsibility to ensure that these resources are released when no longer needed. For example, it's important to close database connections or release memory allocated by large objects when they're no longer in use.
 
-To ensure good resource management in JavaScript, it’s essential to follow some best practices:
+To ensure good resource management in JavaScript, it's essential to follow some best practices:
 
-- Explicitly Release Resources: Whenever possible, explicitly release resources when they’re no longer needed. This may include closing connections or releasing memory allocated by large objects.
+- Explicitly Release Resources: Whenever possible, explicitly release resources when they're no longer needed. This may include closing connections or releasing memory allocated by large objects.
 - Use Asynchronous Patterns: When dealing with operations involving external resources, such as input/output (I/O) operations, use asynchronous patterns to ensure that the code continues to execute efficiently while waiting for the resource to become available.
-- Monitor Resource Usage: In applications dealing with a large volume of resources, it’s important to monitor resource usage to identify potential bottlenecks or leaks. This can be done using monitoring or profiling tools.
-- Avoid Resource Leaks: Just like memory leaks, resource leaks can occur if resources aren’t properly released when no longer needed. Make sure to close connections and release resources properly to avoid leaks.
+- Monitor Resource Usage: In applications dealing with a large volume of resources, it's important to monitor resource usage to identify potential bottlenecks or leaks. This can be done using monitoring or profiling tools.
+- Avoid Resource Leaks: Just like memory leaks, resource leaks can occur if resources aren't properly released when no longer needed. Make sure to close connections and release resources properly to avoid leaks.
 
 ### Handling Exceptions
 
 In JavaScript, exceptions are handled through a control flow mechanism called "exception handling". When an error occurs during code execution, an exception is thrown, interrupting the normal flow of the program. Code that may potentially throw an exception is placed within a try block, and code that handles the exception is placed within a catch block.
 
-The exception handling mechanism in JavaScript is based on try...catch blocks, which allow code to handle exceptions that may occur during execution in a controlled manner. Here’s a simple example of how it works:
+The exception handling mechanism in JavaScript is based on try...catch blocks, which allow code to handle exceptions that may occur during execution in a controlled manner. Here's a simple example of how it works:
 
 ```js
 try { // Code that may throw an exception throw new Error('Oops! Something went wrong.');} catch (error) { // Code that handles the exception console.error('An error occurred:', error.message);}
@@ -365,27 +397,15 @@ In this example, the code inside the try block is executed normally. If an excep
 
 In addition to the try...catch block-based exception handling mechanism, JavaScript also provides the ability to throw exceptions manually using the throw keyword. This allows developers to create and throw custom exceptions in specific situations.
 
-### Conclusion
+## Conclusion
 
 As one of the core technologies driving dynamic web content, JavaScript empowers developers to create interactive and responsive web applications that enhance user experiences. By delving into the intricacies of JavaScript, developers gain insights into fundamental programming concepts such as variables, functions, and control flow, laying a solid foundation for building robust and efficient code.
 
 In essence, mastering JavaScript not only empowers developers to unlock a world of possibilities in web development but also equips them with the skills needed to adapt to the ever-evolving technological landscape.
 
-And remember, fundamentals are very important and you should learn them. Always try to delve deeper to understand how things work "behind the scenes", no matter what tool you’re using.
+And remember, fundamentals are very important and you should learn them. Always try to delve deeper to understand how things work "behind the scenes", no matter what tool you're using.
 
 ### References
 
 - https://developer.mozilla.org/pt-BR/docs/Web/JavaScript
 - https://javascript.info/
-
-If you have any thoughts or suggestions, feel free to leave a comment.Thanks for reading.
-
-You can follow me on Twitter , Github or LinkedIn.
-
-See you! 👋
-
-By Vitor Britto on February 24, 2024.
-
-Canonical link
-
-Exported from Medium on February 3, 2025.

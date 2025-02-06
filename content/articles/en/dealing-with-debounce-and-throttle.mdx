@@ -7,7 +7,7 @@ When developing web applications and dealing with on-screen interactions, we don
 
 Debounce and throttle techniques come into play as effective solutions to delay specific events for a defined period, providing more precise control over the execution flow.
 
-### A common use case
+## A common use case
 
 Imagine a fintech that seeks to enhance the user experience in its web application, making it more efficient and responsive. When dealing with interaction events in the interface, the development team faces the challenge of managing excessive API calls, especially during operations involving real-time queries and frequent updates.
 
@@ -17,7 +17,7 @@ In the case of balance queries, where users tend to repeatedly check their balan
 
 As for real-time updates, crucial for displaying recent transactions, the fintech decides to implement throttle. This way, the frequency of updates is controlled, ensuring that only one request is sent every X seconds. This not only provides relevant information to users but also prevents overloading the server with excessive calls.
 
-### The Debounce technique
+## The Debounce technique
 
 Debounce is a strategy to control the execution frequency of a function by delaying it until no new calls occur for a specified period. This is especially useful when dealing with input events, such as typing in search fields or resizing windows.
 
@@ -64,13 +64,13 @@ export default SearchComponent;
 
 In this example, the performSearch function is debounced using the Lodash library. With each keystroke in the search field, the function is called, but the actual search is only performed after a 500-millisecond interval since the last typing event.
 
-### The Throttle technique
+## The Throttle technique
 
 Throttle is a strategy that limits the frequency of execution of a function, ensuring that it is only called at specific time intervals, even if more frequent events occur. This is particularly useful in cases such as window resizing or continuous scrolling, where excessive calls can negatively impact performance.
 
 Imagine a water tap as a continuous event, like scrolling through a web page. Without this technique, water flows freely, potentially causing wastage. With the throttle technique, we can control the flow of water to ensure more efficient usage, releasing only the necessary amount at regular intervals.
 
-#### A practical example
+### A practical example
 
 In a React application, we want to perform a component update in response to window resize events. We will use the throttle technique to ensure that the update occurs at spaced intervals, even if the resize event is triggered frequently.
 
@@ -111,7 +111,7 @@ export default ResizeComponent;
 
 In this example, the handleResize function is throttled using the Lodash library. State updates occur only every 500 milliseconds, even if the resize event is triggered more frequently. This ensures a smooth response to changes in window size without overloading the component with excessive updates.
 
-### Bonus: Creating your own functions
+## Bonus: Creating your own functions
 
 Well, let's say you don't want to use the Lodash library and prefer to create your own functions to implement debounce and throttle techniques.
 
@@ -165,6 +165,6 @@ throttledFunction();
 // next 1000 milliseconds, the call will be ignored.
 ```
 
-### Conclusion
+## Conclusion
 
 As you can see these debounce and throttle functions can be useful in situations where the frequency of events, such as input typing, window resizing or scrolling, needs to be controlled to optimize application performance.

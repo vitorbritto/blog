@@ -1,43 +1,32 @@
 ---
 title: React Design Patterns: The Foundational Pattern
-excerpt: React Design Patterns: The Foundational Pattern
+excerpt: Understanding the pattern and use cases
 ---
 
-Understanding the pattern and use cases.Understanding the pattern and use cases.Photo by[Philipp Katzenberger](https://unsplash.com/@fantasyflip?utm_source=medium&utm_medium=referral)on[Unsplash](https://unsplash.com?utm_source=medium&utm_medium=referral)
 Foundational pattern refers to a way of organizing information, knowledge, or ideas into a basic structure or frame. It is used in various fields such as computer science, architecture, design, and education, among others.
 
 A foundational pattern acts as a template that can be reused or adapted to suit various situations or contexts. It typically consists of essential elements or components that are necessary for understanding or solving a particular problem or challenge. The use of foundational patterns can facilitate communication, collaboration, and innovation among different individuals or groups working on related tasks or projects.
 
-### How it helps in React?
+## How it helps in React?
 
 This pattern helps to simplify the code and make it more modular and reusable. Additionally, the use of virtual DOM allows for efficient updates and rendering of the UI.
 
 A Foundational Pattern in React can be implemented in code by creating a base component that all other components inherit from. This base component can include common functionality, such as state management or lifecycle methods, that all components need. This approach promotes code reuse and helps to keep the application organized.
 
-### Case of Use
+## Case of Use
 
 Suppose you are building a large-scale application with many different types of components. Each of these components needs to handle errors in a consistent way, such as displaying an error message to the user and logging the error to the console. Rather than duplicating this error handling code in each component, you can create a base component that handles errors and have your other components inherit from it. This promotes code reuse and helps to keep your application organized.
 
 Here is an example implementation of a simple base component:
 
 ```js
-import React, { Component } from 'react';class ErrorComponent extends Component {  constructor(props) {    super(props);    this.state = {      // initial state    };  }  componentDidMount() {    // component mounted  }  render() {    return (      // base component JSX    );  }}export default ErrorComponent;
+import React, { Component } from 'react';
+
+class ErrorComponent extends Component {  constructor(props) {    super(props);    this.state = {      // initial state    };  }  componentDidMount() {    // component mounted  }  render() {    return (      // base component JSX    );  }}export default ErrorComponent;
 ```
 
-This ErrorComponent can now be used as a starting point for handling errors in the application. These components can inherit from ErrorComponent and extend its functionality as needed.
+This `ErrorComponent` can now be used as a starting point for handling errors in the application. These components can inherit from `ErrorComponent` and extend its functionality as needed.
 
-### Conclusion
+## Conclusion
 
 The Foundational Pattern helps build components that can be reused, making the application maintainable and scalable, avoiding multiple points of adjustment and code duplication.
-
-Thanks for reading. If you have any thoughts or suggestions, feel free to leave a comment below.
-
-You can follow me on Twitter , Github and LinkedIn.
-
-See you! 👋
-
-By Vitor Britto on April 24, 2023.
-
-Canonical link
-
-Exported from Medium on February 3, 2025.

@@ -8,7 +8,7 @@ Functional programming is a way of programming that considers computation to be 
 
 Lambda calculus, a formal system created in the 1930s for studying function definition, function application, and recursion, serves as the foundation for functional programming. Several functional programming languages can be seen as expansions of the lambda calculus. An additional prominent type of declarative programming, logic programming, relies on relations.
 
-### Functional Programming in JavaScript
+## Functional Programming in JavaScript
 
 JavaScript is a multi-paradigm language, supporting imperative/procedural programming along with OOP (Object-Oriented Programming) and functional programming.
 
@@ -20,18 +20,27 @@ Functional programming brings many benefits as:
 - Less bugs
 - Concurrency
 
-### The concepts behind Functional Programming
+## The concepts behind Functional Programming
 
-Pure Functions
+#### Pure Functions
+
 Pure functions are important because they are referentially transparent. This means that the function call can be replaced by its resulting value without changing the meaning of the program. This property, called referential transparency, allows for equational reasoning about programs.
 
 Check the demonstration bellow:
 
 ```js
-// Impureconst minimum = 21;const checkAge = age => age >= minimum;// Pureconst checkAge = (age) => {  const minimum = 21;  return age >= minimum;};
+// Impure
+const minimum = 21;
+const checkAge = (age) => age >= minimum;
+// Pure
+const checkAge = (age) => {
+  const minimum = 21;
+  return age >= minimum;
+};
 ```
 
-Immutability
+#### Immutability
+
 In object-oriented and functional programming, an immutable object is an object whose state cannot be modified after it is created. This is in contrast to a mutable object, which can be modified after it is created.
 
 Immutable objects are often useful because they are inherently thread-safe. Other benefits are that they are simpler to understand and reason about and that they are less prone to bugs. Immutable objects are also useful as hash keys.
@@ -39,19 +48,34 @@ Immutable objects are often useful because they are inherently thread-safe. Othe
 Check the demonstration bellow:
 
 ```js
-// Mutableconst person = {  name: 'Vitor',  age: 28,};person.age = 30; // OK// Immutableconst person = Object.freeze({  name: 'Vitor',  age: 28,});person.age = 30; // TypeError: Cannot assign to read only property 'age' of object '#<Object>'
+// Mutable
+const person = { name: "Vitor", age: 28 };
+person.age = 30; // OK
+
+// Immutable
+const person = Object.freeze({ name: "Vitor", age: 28 });
+person.age = 30; // TypeError: Cannot assign to read only property 'age' of object '#<Object>'
 ```
 
-First-class Functions
+#### First-class Functions
+
 A programming language is said to have first-class functions if it treats functions as first-class citizens. Specifically, this means the language supports passing functions as arguments to other functions, returning them as the values from other functions, and assigning them to variables or storing them in data structures.
 
 Check the demonstration bellow:
 
 ```js
-// Assigning functions to variablesconst add = (a, b) => a + b;// Passing functions as arguments to other functionsconst add = (a, b) => a + b;const subtract = (a, b) => a - b;const fcFn = (func) => func(2, 3);fcFn(add); // 5fcFn(subtract); // -1
+// Assigning functions to variables
+const add = (a, b) => a + b;
+
+// Passing functions as arguments to other functions
+const subtract = (a, b) => a - b;
+const fcFn = (func) => func(2, 3);
+fcFn(add); // 5
+fcFn(subtract); // -1
 ```
 
-Higher-order Functions
+#### Higher-order Functions
+
 A higher-order function is a function that does at least one of the following:
 
 - takes one or more functions as arguments (i.e. procedural parameters);
@@ -68,10 +92,22 @@ Higher-order functions are often used to:
 Check the demonstration bellow:
 
 ```js
-// Abstract or isolate actions, effects, or operationsconst withCount = fn => {  let count = 0;  return (...args) => {    console.log(`Call count: ${++count}`);    return fn(...args);  };};const add = (x, y) => x + y;const countedAdd = withCount(add);countedAdd(1, 2); // Call count: 1countedAdd(2, 2); // Call count: 2
+// Abstract or isolate actions, effects, or operations
+const withCount = (fn) => {
+  let count = 0;
+  return (...args) => {
+    console.log(`Call count: ${++count}`);
+    return fn(...args);
+  };
+};
+const add = (x, y) => x + y;
+const countedAdd = withCount(add);
+countedAdd(1, 2); // Call count: 1
+countedAdd(2, 2); // Call count: 2
 ```
 
-Recursion
+#### Recursion
+
 Recursion is a method of solving a problem where the solution depends on solutions to smaller instances of the same problem. Such problems can generally be solved by iteration, but this needs to identify and index the smaller instances at programming time. Recursion solves such recursive problems by using functions that call themselves from within their own code. The approach can be applied to many types of problems, and recursion is one of the central ideas of computer science.
 
 Check the demonstration bellow:
@@ -85,7 +121,8 @@ const countDownFrom = (num) => {
 countDownFrom(10); // 10 9 8 7 6 5 4 3 2 1
 ```
 
-Function Composition
+#### Function Composition
+
 A Function composition is an act or mechanism to combine simple functions to build more complicated ones. Like the usual composition of functions in mathematics, the result of each function is passed as the argument of the next, and the result of the last one is the result of the whole.
 
 Check the demonstration bellow:
@@ -98,7 +135,8 @@ const multiplyBy3AndAbsolute = compose(multiplyBy3, makePositive);
 multiplyBy3AndAbsolute(-50); // 150
 ```
 
-Currying
+#### Currying
+
 Currying is the technique of translating the evaluation of a function that takes multiple arguments (or a tuple of arguments) into evaluating a sequence of functions, each with a single argument (partial application).
 
 Check the demonstration bellow:
@@ -106,10 +144,13 @@ Check the demonstration bellow:
 ```js
 const multiply = (a, b) => a * b;
 const curriedMultiply = (a) => (b) => a * b;
-curriedMultiply(3)(4); // 12const multiplyBy5 = curriedMultiply(5);multiplyBy5(4); // 20
+curriedMultiply(3)(4); // 12
+const multiplyBy5 = curriedMultiply(5);
+multiplyBy5(4); // 20
 ```
 
-Partial Application
+#### Partial Application
+
 Partial application (or partial function application) refers to the process of fixing a number of arguments to a function, producing another function of smaller arity.
 
 Check the demonstration bellow:
@@ -120,7 +161,8 @@ const partialMultiplyBy5 = multiply.bind(null, 5);
 partialMultiplyBy5(4, 10); // 200
 ```
 
-Memoization
+#### Memoization
+
 Memoization or memoisation is an optimization technique used primarily to speed up computer programs by storing the results of expensive function calls and returning the cached result when the same inputs occur again.
 
 Memoization has also been used in other contexts (and for purposes other than speed gains), such as in simple mutually recursive descent parsing, in which it is commonly called tabling.
@@ -147,16 +189,22 @@ const factorial = memoize((x) => (x === 0 ? 1 : x * factorial(x - 1)));
 factorial(5); // Calculating result 5// 120
 ```
 
-Point-free Style
+#### Point-free Style
+
 Point-free style (also points-free or pointless style) is a programming paradigm in which function definitions do not identify the arguments (or “points”) on which they operate. Instead the definitions merely compose other functions, among which are combinators that manipulate the arguments. Point-free style is sometimes described as “pointless programming”, by analogy with pointless topology.
 
 Check the demonstration bellow:
 
 ```js
-const getUserDisplayName = user => `${user.firstName} ${user.lastName}`const users = [  {firstName: 'Jane', lastName: 'Doe'},  {firstName: 'John', lastName: 'Doe'}]users.map(getUserDisplayName) // ["Jane Doe", "John Doe"]
+const getUserDisplayName = (user) => `${user.firstName} ${user.lastName}`;
+const users = [
+  { firstName: "Jane", lastName: "Doe" },
+  { firstName: "John", lastName: "Doe" },
+];
+users.map(getUserDisplayName); // ["Jane Doe", "John Doe"]
 ```
 
-### Conclusion
+## Conclusion
 
 Functional programming is very different from imperative programming.
 
@@ -165,15 +213,3 @@ The most significant differences stem from the fact that functional programming 
 Pure functional programming completely prevents side-effects and provides referential transparency.
 
 Also, Functional programming helps you to write cleaner and more reusable code.
-
-Thanks for reading. If you have any thoughts or suggestions, feel free to leave a comment below.
-
-You can follow me on Twitter , Github and LinkedIn.
-
-See you! 👋
-
-By Vitor Britto on May 29, 2023.
-
-Canonical link
-
-Exported from Medium on February 3, 2025.

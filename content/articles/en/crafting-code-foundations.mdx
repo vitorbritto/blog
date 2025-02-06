@@ -258,7 +258,19 @@ class AccountProxy {
       throw new Error("Access denied");
     }
   }
-} // Using the Proxyconst account = new Account(1000);const proxy = new AccountProxy(account);try {  console.log(`Balance for customer: ${proxy.getBalance('customer')}`); // Access denied} catch (e) {  console.error(e.message);}console.log(`Balance for employment: ${proxy.getBalance('employment')}`); // Balance for employment: $1000
+}
+
+// Using the Proxy
+const account = new Account(1000);
+const proxy = new AccountProxy(account);
+
+try {
+  console.log(`Balance for customer: ${proxy.getBalance("customer")}`);
+  // Access denied
+} catch (e) {
+  console.error(e.message);
+}
+console.log(`Balance for employment: ${proxy.getBalance("employment")}`); // Balance for employment: $1000
 ```
 
 ## Bridge
@@ -309,6 +321,20 @@ class Account {
   deposit(amount) {
     this.bank.deposit(amount);
   }
+  withdraw(amount) {
+    this.bank.withdraw(amount);
+  }
+}
+
+// Using the Bridge
+const bankA = new BankA();
+const bankB = new BankB();
+
+const accountA = new Account(bankA);
+const accountB = new Account(bankB);
+
+accountA.deposit(100); // Depositing $100 in Bank A
+accountB.deposit(100); // Depositing $100 in Bank B
 ```
 
 ## Flyweight

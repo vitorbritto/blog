@@ -11,38 +11,85 @@ Modularization is the process in software development that involves breaking dow
 
 Let's dive into some techniques. 🚀
 
-### Package by layer
+## Package by layer
 
 The Package by Layer structure is an architectural design pattern used in software development that organizes code files into separate layers, with each layer representing a specific functionality or responsibility within the application. Typically, these layers include the presentation layer (user interface), application layer (business logic), domain layer (domain-specific logic), and infrastructure layer (database and external services).
 
 Check the example bellow.
 
-```js
-.├── src│   ├── controllers│   ├──  ├── CompanyController│   ├──  ├── CustomerController│   ├──  └── ProductController│   ├── entities│   ├──  ├── CompanyEntity│   ├──  ├── CustomerEntity│   ├──  └── ProductEntity│   ├── repositories│   ├──  ├── CompanyRepository│   ├──  ├── CustomerRepository│   ├──  └── ProductRepository│   ├── services│   ├──  ├── CompanyService│   ├──  ├── CustomerService│   ├──  └── ProductService│   ├── dtos│   ├──  ├── CompanyDTO│   ├──  ├── CustomerDTO│   ├──  └── ProductDTO│   ├── daos│   ├──  ├── CompanyDAO│   ├──  ├── CustomerDAO│   ├──  └── ProductDAO└── └── utils
+```bash
+.├── src
+ ├── controllers
+ ├──  ├── CompanyController
+ ├──  ├── CustomerController
+ ├──  └── ProductController
+ ├── entities
+ ├──  ├── CompanyEntity
+ ├──  ├── CustomerEntity
+ ├──  └── ProductEntity
+ ├── repositories
+ ├──  ├── CompanyRepository
+ ├──  ├── CustomerRepository
+ ├──  └── ProductRepository
+ ├── services
+ ├──  ├── CompanyService
+ ├──  ├── CustomerService
+ ├──  └── ProductService
+ ├── dtos
+ ├──  ├── CompanyDTO
+ ├──  ├── CustomerDTO
+ ├──  └── ProductDTO
+ ├── daos
+ ├──  ├── CompanyDAO
+ ├──  ├── CustomerDAO
+ ├──  └── ProductDAO
+ └── utils
 ```
 
-The problems behind this approach
+## The problems behind this approach
+
 This approach brings some problems, including the high coupling and low cohesion.
 
-Cohesion: It refers to the degree of logical relationship of package members to each other. High relationship between members ensures package independence. Low cohesion not only reduces independence but also significantly reduces reusability and understandability.
-
-Coupling: It refers to the degree of interdependence between packages/classes. Low coupling significantly increases maintainability. How? Since changes made within a class due to the requirements will not affect other classes, side effects do not occur and maintenance becomes easier.
+- Cohesion: It refers to the degree of logical relationship of package members to each other. High relationship between members ensures package independence. Low cohesion not only reduces independence but also significantly reduces reusability and understandability.
+- Coupling: It refers to the degree of interdependence between packages/classes. Low coupling significantly increases maintainability. How? Since changes made within a class due to the requirements will not affect other classes, side effects do not occur and maintenance becomes easier.
 
 Also, we have a poor overview of all classes that belong to a feature and tendency to generic, reused and complex code, which is hard to understand and changes can easily break other use cases as the impact of a change is hard to grasp.
 
-### Package by feature
+## Package by feature
 
 In this project structure, packages contain all classes that are required for a feature. The independence of the package is ensured by placing closely related classes in the same package. An example of this structure is given below:
 
-```js
-.├── src│   ├── company│   ├──  ├── CompanyController│   ├──  ├── CompanyEntity│   ├──  ├── CompanyRepository│   ├──  ├── CompanyService│   ├──  ├── CompanyDTO│   ├──  └── CompanyDAO│   ├── customer│   ├──  ├── CustomerController│   ├──  ├── CustomerEntity│   ├──  ├── CustomerRepository│   ├──  ├── CustomerService│   ├──  ├── CustomerDTO│   ├──  └── CustomerDAO│   ├── product│   ├──  ├── ProductController│   ├──  ├── ProductEntity│   ├──  ├── ProductRepository│   ├──  ├── ProductService│   ├──  ├── ProductDTO│   ├──  └── ProductDAO└── └── utils
+```bash
+.├── src
+ ├── company
+ ├──  ├── CompanyController
+ ├──  ├── CompanyEntity
+ ├──  ├── CompanyRepository
+ ├──  ├── CompanyService
+ ├──  ├── CompanyDTO
+ ├──  └── CompanyDAO
+ ├── customer
+ ├──  ├── CustomerController
+ ├──  ├── CustomerEntity
+ ├──  ├── CustomerRepository
+ ├──  ├── CustomerService
+ ├──  ├── CustomerDTO
+ ├──  └── CustomerDAO
+ ├── product
+ ├──  ├── ProductController
+ ├──  ├── ProductEntity
+ ├──  ├── ProductRepository
+ ├──  ├── ProductService
+ ├──  ├── ProductDTO
+ ├──  └── ProductDAO
+ └──  └── utils
 ```
 
-This structure removes the need for one package’s class to rely on another package’s class. It also ensures that the classes in the packages have strong associations with each other. Thus, there is high cohesion within packages and low coupling between packages.
+This structure removes the need for one package's class to rely on another package's class. It also ensures that the classes in the packages have strong associations with each other. Thus, there is high cohesion within packages and low coupling between packages.
 
 In addition, this structure provides higher modularity. But how?
 
-Let’s assume there are 10 more domains, not just Company, Product and Customer. In the Package by Layer, Controllers, Services, and Repositories are placed in different single packages, so the whole application consists of three packages — except utils — and packages have a large number of members. However, in the Package by Feature style, the same application consists of 13 packages and thus, modularity is increased.
+Let's assume there are 10 more domains, not just Company, Product and Customer. In the Package by Layer, Controllers, Services, and Repositories are placed in different single packages, so the whole application consists of three packages — except utils — and packages have a large number of members. However, in the Package by Feature style, the same application consists of 13 packages and thus, modularity is increased.
 
 If a feature can be deleted in a single action, the application has maximum modularity.Advantages
 
@@ -52,35 +99,21 @@ If a feature can be deleted in a single action, the application has maximum modu
 - Package by Feature is like microservice architecture. Each package is limited to classes related to a particular feature. On the other hand, Package By Layer is monolithic. As an application grows in size, the number of classes in each package will increase without bound.
 - Package by Feature offers better discoverability and overview from the domain point of view. Most of the code that belongs to a business feature is located together. This is crucial because we are approaching a codebase usually with a certain business requirement in mind.
 - Most of the code that a feature needs, is located in the package. So we are avoiding dependencies to other feature packages.
-- As we are avoiding generic and abstracted code, the code becomes simpler because it only has to handle a single use-case. Hence, it’s easier to understand and to evolve the code.
+- As we are avoiding generic and abstracted code, the code becomes simpler because it only has to handle a single use-case. Hence, it's easier to understand and to evolve the code.
 - Usually, a class in a feature package has fewer dependencies compared to a “god-class” in a technical package that tries to fulfill all use-cases. So testing becomes easier as we have to create less test fixture.
 
-### The common things
+## The common things
 
 One point of attention is the shared resources, like the utils directory, which contains files shared across the application. This is where we will have components, utilities, constants, and other resources that can be part of one or more features.
 
-### Conclusion
+## Conclusion
 
 The Package by Feature makes the development process more organized and scalable, as each module can be developed, tested, and maintained independently. Additionally, the modularization promotes code reusability, simplifies debugging, and facilitates collaboration among team members, leading to increased overall productivity and efficiency.
 
-### References
+## References
 
-MonolithFirst (Martin Fowler): https://www.martinfowler.com/bliki/MonolithFirst.html
-
-Presentation Domain Data Layering (Martin Fowler):https://martinfowler.com/bliki/PresentationDomainDataLayering.html
-
-Vertical Slice Architecture (Jimmy Bogard):https://www.jimmybogard.com/vertical-slice-architecture/
-
-Modular monoliths (Simon Brown): https://youtu.be/5OjqD-ow8GE
-
-Thanks for reading. If you have any thoughts or suggestions, feel free to leave a comment below.
-
-You can follow me on Twitter , Github and LinkedIn.
-
-See you! 👋
-
-By Vitor Britto on November 7, 2023.
-
-Canonical link
-
-Exported from Medium on February 3, 2025.
+- MonolithFirst (Martin Fowler): https://www.martinfowler.com/bliki/MonolithFirst.html
+- Presentation Domain Data Layering (Martin Fowler): https://martinfowler.com/bliki/PresentationDomainDataLayering.html
+- Vertical Slice Architecture (Jimmy Bogard): https://www.jimmybogard.com/vertical-slice-architecture/
+- Modular monoliths (Simon Brown): https://youtu.be/5OjqD-ow8GE
+- Modular monoliths (Simon Brown): https://youtu.be/5OjqD-ow8GE

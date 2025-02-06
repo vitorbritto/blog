@@ -7,7 +7,7 @@ Application deployment strategies refer to the process of deploying software app
 
 Deploying applications can be a complex process, but with the right strategy, it can be streamlined and efficient.
 
-### Deploy Considerations
+## Deploy Considerations
 
 Here are some considerations that are commonly applied when deploy an application to production:
 
@@ -16,7 +16,7 @@ Here are some considerations that are commonly applied when deploy an applicatio
 - Address failed deployments in a reliable, effective way
 - Minimize people and process errors to achieve predictable, repeatable deployments
 
-### Deployment Patterns
+## Deployment Patterns
 
 - Recreate: Version A is terminated then version B is rolled out.
 - Ramped (also known as rolling-update or incremental): Version B is slowly rolled out and replacing version A.
@@ -29,12 +29,12 @@ Here are some considerations that are commonly applied when deploy an applicatio
 
 The recreate strategy is a dummy deployment which consists of shutting down version A then deploying version B after version A is turned off. This technique implies downtime of the service that depends on both shutdown and boot duration of the application.
 
-Key benefits
+**Key benefits**
 
 - Easy to set up.
 - Application state entirely renewed.
 
-Considerations
+**Considerations**
 
 - High impact on the user, expect downtime that depends on both shutdown and boot duration of the application.
 
@@ -42,13 +42,13 @@ Considerations
 
 The ramped deployment strategy consists of slowly rolling out a version of an application by replacing instances one after the other until all the instances are rolled out. It usually follows the following process: with a pool of version A behind a load balancer, one instance of version B is deployed. When the service is ready to accept traffic, the instance is added to the pool. Then, one instance of version A is removed from the pool and shut down.
 
-Key benefits
+**Key benefits**
 
 - Easy to set up.
 - Version is slowly released across instances.
 - Convenient for stateful applications that can handle rebalancing of the data.
 
-Considerations
+**Considerations**
 
 - Rollout/rollback can take time.
 - Supporting multiple APIs is hard.
@@ -58,12 +58,12 @@ Considerations
 
 The blue/green deployment strategy differs from a ramped deployment, version B (green) is deployed alongside version A (blue) with exactly the same amount of instances. After testing that the new version meets all the requirements the traffic is switched from version A to version B at the load balancer level.
 
-Key benefits
+**Key benefits**
 
 - Instant rollout/rollback.
 - Avoid versioning issue, the entire application state is changed in one go.
 
-Considerations
+**Considerations**
 
 - Expensive as it requires double the resources.
 - Proper test of the entire platform should be done before releasing to production.
@@ -75,13 +75,13 @@ A canary deployment consists of gradually shifting production traffic from versi
 
 This technique is mostly used when the tests are lacking or not reliable or if there is little confidence about the stability of the new release on the platform.
 
-Key benefits
+**Key benefits**
 
 - Zero downtime.
 - Convenient for error rate and performance monitoring.
 - Fast rollback.
 
-Considerations
+**Considerations**
 
 - Slow rollout.
 
@@ -91,12 +91,12 @@ A/B testing deployments consists of routing a subset of users to a new functiona
 
 This technique is widely used to test conversion of a given feature and only roll-out the version that converts the most.
 
-Key benefits
+**Key benefits**
 
 - Several versions run in parallel.
 - Full control over the traffic distribution.
 
-Considerations
+**Considerations**
 
 - Requires intelligent load balancer.
 - Hard to troubleshoot errors for a given session, distributed tracing becomes mandatory.
@@ -107,14 +107,14 @@ A shadow deployment consists of releasing version B alongside version A, fork ve
 
 This technique is fairly complex to setup and needs special requirements, especially with egress traffic. For example, given a shopping cart platform, if you want to shadow test the payment service you can end-up having customers paying twice for their order. In this case, you can solve it by creating a mocking service that replicates the response from the provider.
 
-Key benefits
+**Key benefits**
 
 - Performance testing of the application with production traffic.
 - No impact on the user.
 - No rollout until the stability and performance of the application meet the requirements.
 - Monitor the target audience
 
-Considerations
+**Considerations**
 
 - Expensive as it requires double the resources.
 - Not a true user test and can be misleading.
@@ -123,18 +123,6 @@ Considerations
 
 Check the summary bellow.
 
-### Conclusion
+## Conclusion
 
 Choosing the right deployment strategy depends on the specific needs of an organization and the application being deployed. However, an effective deployment strategy should ensure that the application is deployed efficiently and safely while minimizing disruptions and downtime.
-
-Thanks for reading. If you have any thoughts or suggestions, feel free to leave a comment below.
-
-You can follow me on Twitter , Github and LinkedIn.
-
-See you! 👋
-
-By Vitor Britto on May 9, 2023.
-
-Canonical link
-
-Exported from Medium on February 3, 2025.

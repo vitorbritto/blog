@@ -261,14 +261,14 @@ Let's see some examples.
 
 Date Creation
 
-```graf graf--pre graf-after--h4 graf--preV2
-import dayjs from 'dayjs';// Creating a Current Dateconst currentDate = dayjs();console.log(currentDate.format('YYYY-MM-DD HH:mm:ss')); // Output: Current date and time// Creating a Specific Dateconst specificDate = dayjs('2024–01–24');console.log(specificDate.format('YYYY-MM-DD')); // Output: 2024–01–24
+```js
+import dayjs from "dayjs"; // Creating a Current Dateconst currentDate = dayjs();console.log(currentDate.format('YYYY-MM-DD HH:mm:ss')); // Output: Current date and time// Creating a Specific Dateconst specificDate = dayjs('2024–01–24');console.log(specificDate.format('YYYY-MM-DD')); // Output: 2024–01–24
 ```
 
 Date Manipulation
 
-```graf graf--pre graf-after--h4 graf--preV2
-import dayjs from 'dayjs';// Adding Daysconst currentDate = dayjs();const futureDate = currentDate.add(7, 'days');console.log(futureDate.format('YYYY-MM-DD')); // Output: Date after adding 7 days// Subtracting Monthsconst currentDate = dayjs();const pastDate = currentDate.subtract(3, 'months');console.log(pastDate.format('YYYY-MM-DD')); // Output: Date after subtracting 3 months// Formatting Datesconst currentDate = dayjs();console.log(currentDate.format('dddd, MMMM D, YYYY')); // Output: Current date in a custom format// Difference Between Datesconst date1 = dayjs('2024–01–01');const date2 = dayjs('2024–02–15');const daysDifference = date2.diff(date1, 'days');console.log(`Difference in days: ${daysDifference}`); // Output: Difference in days between two dates
+```js
+import dayjs from "dayjs"; // Adding Daysconst currentDate = dayjs();const futureDate = currentDate.add(7, 'days');console.log(futureDate.format('YYYY-MM-DD')); // Output: Date after adding 7 days// Subtracting Monthsconst currentDate = dayjs();const pastDate = currentDate.subtract(3, 'months');console.log(pastDate.format('YYYY-MM-DD')); // Output: Date after subtracting 3 months// Formatting Datesconst currentDate = dayjs();console.log(currentDate.format('dddd, MMMM D, YYYY')); // Output: Current date in a custom format// Difference Between Datesconst date1 = dayjs('2024–01–01');const date2 = dayjs('2024–02–15');const daysDifference = date2.diff(date1, 'days');console.log(`Difference in days: ${daysDifference}`); // Output: Difference in days between two dates
 ```
 
 ### Advanced Features of Day.js

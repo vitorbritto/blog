@@ -12,11 +12,11 @@ A monorepo is a single repository that contains the code for multiple related pr
 
 Instead of having a lot of repositories with their own configs, we will have only one source of truth — the monorepo: one test suite runner, one Docker configuration file, and one configuration for WebPack. And you still have scalability, opportunity to separate concerns, code sharing with common packages, and a lot of other pros. But there are some drawbacks as well.
 
-### Benefits of monorepos
+## Benefits of monorepos
 
 The monorepo approach has several advantages:
 
-- Easy visibility: if you are working on an application that calls other application, you can look at the code, understand how it works, and find out if bugs are from your own code or another team’s application.
+- Easy visibility: if you are working on an application that calls other application, you can look at the code, understand how it works, and find out if bugs are from your own code or another team's application.
 - Code sharing: when teams produce copies of code for building applications, they create more engineering work. However, if general models, collective libraries, and helper code are kept together in a single repository, these teams can collaborate and use them on different applications.
 - Improved collaboration: a monorepo removes barriers and silos between teams, making it easier to design and maintain sets of application that work well together.
 - Standardization: with monorepos, it is easier to standardize code and tooling across the teams. You can create policies that keep your main branch uncluttered, limit access to specific branches, enforce naming guidelines, include code reviewers, and enforce best practices. Branch policies keep in-progress work isolated from completed work.
@@ -24,7 +24,7 @@ The monorepo approach has several advantages:
 - Release management: a monorepo preserves complete deployment information for the entire system. An automated build and deploy pipeline conceals deployment knowledge within each team, as opposed to a polyrepo.
 - Easier refactoring: having unrestricted entry to all the applications simplifies the process of restructuring code in a monorepo. Furthermore, altering the code layout becomes effortless. Relocating source code within folders and subfolders is noticeably more straightforward in contrast to transferring it across multiples repositories.
 
-### Challenges of monorepos
+## Challenges of monorepos
 
 Although monorepos offer advantages, they also create many challenges.
 
@@ -32,7 +32,7 @@ Modifying shared code can have a widespread effect on application elements, and 
 
 But, depending on your situation, the benefits of monorepos may outweigh these challenges.
 
-### Considerations about monorepos
+## Considerations about monorepos
 
 As monorepos grow, we reach design limits in version control tools, build systems, and continuous integration pipelines.
 
@@ -40,41 +40,30 @@ As monorepos grow, we reach design limits in version control tools, build system
 - Broken main/master: a broken master affects everyone working in the monorepo. This can be seen as either disastrous or as a good motivation to keep tests clean and up to date.
 - Learning curve: the learning curve for new developers is steeper if the repository spans many tightly-coupled projects.
 - Large volumes of data: monorepos can reach unwieldy volumes of data and commits per day.
-- Ownership: maintaining ownership of files is more challenging, as Git don’t feature built-in directory permissions.
+- Ownership: maintaining ownership of files is more challenging, as Git don't feature built-in directory permissions.
 - Code reviews: notifications can get very noisy. For instance, GitHub has limited notifications settings that are not best suited for a snow slide of pull requests and code reviews.
 
-### Misconceptions about monorepos
+## Misconceptions about monorepos
 
 - Containerized Services: you can mitigate and use multiple programming languages and tools by using containers, with each microservice built into the container image, and then deployed as an individual unit.
-- Tightly-coupled code: when developing microservices, you make them independent, so they don’t rely on other microservices. You can do the same in a monorepo when your team follows best practices and guidelines for microservice development. The idea is to split a big system into independently deployable, loosely-coupled units that, unlike components, communicate with each other over the process boundaries.
-- Independent update: You may think updating microservices independently is impossible with a monorepo. It’s not. You can meet this challenge by replacing rolling updates with more advanced deployment strategies, like blue-green or canary. You can deploy the new version side by side with the previous version while you ensure the new application/service version works as expected. If you detect a bug, you can quickly redirect traffic to the previous version.
+- Tightly-coupled code: when developing microservices, you make them independent, so they don't rely on other microservices. You can do the same in a monorepo when your team follows best practices and guidelines for microservice development. The idea is to split a big system into independently deployable, loosely-coupled units that, unlike components, communicate with each other over the process boundaries.
+- Independent update: You may think updating microservices independently is impossible with a monorepo. It's not. You can meet this challenge by replacing rolling updates with more advanced deployment strategies, like blue-green or canary. You can deploy the new version side by side with the previous version while you ensure the new application/service version works as expected. If you detect a bug, you can quickly redirect traffic to the previous version.
 
-Summarizing the points above
+## Summarizing the points above
+
 Automated continuous integration and continuous deployment (CI/CD) pipelines help mitigate all those monorepo challenges. Each development team can independently work the application/service, build its container image, and deploy it without affecting other teams. They can validate the microservice in a test environment before sending it into production, and keep both the old and new versions available. Containerization lets you deploy and test microservices independently without worrying about their different tools and programming languages.
 
 CI/CD tools can scale automatically and help you manage complex deployments so that you can build, test, and even deploy individual microservices from within a larger monorepo.
 
-### Deciding on a strategy that works for your team
+## Deciding on a strategy that works for your team
 
 How do you decide whether to use a monorepo or polyrepo for your team development?
 
-- Team’s culture: is it a good fit for the collaborative development?
-- Team’s discipline: will they be able to refrain from creating tightly-coupled code?
+- Team's culture: is it a good fit for the collaborative development?
+- Team's discipline: will they be able to refrain from creating tightly-coupled code?
 
 You can put all these practices into place with a unified, automated CI/CD pipeline where your team builds, tests, and deploys individual services from within a larger monorepo. Automating your pipeline makes it easier to manage your monorepo while keeping up your rapid deployment pace.
 
-So you decide to work with monorepo, what’s next?
+So you decide to work with monorepo, what's next?
 
-We’ll talk about that in the next chapter! 🥳
-
-Thanks for reading. If you have any thoughts or suggestions, feel free to leave a comment below.
-
-You can follow me on Twitter , Github and LinkedIn.
-
-See you! 👋
-
-By Vitor Britto on May 13, 2023.
-
-Canonical link
-
-Exported from Medium on February 3, 2025.
+We'll talk about that in the next chapter! 🥳
