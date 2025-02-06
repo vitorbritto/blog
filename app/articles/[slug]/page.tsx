@@ -6,11 +6,11 @@ import { ArticleShare } from "@/components/ArticleShare";
 import { ArticleNavigation } from "@/components/ArticleNavigation";
 import { ArticleContent } from "@/components/ArticleContent";
 
-interface PageProps {
+type Props = {
   params: { slug: string };
-}
+};
 
-export default async function ArticlePage({ params }: PageProps) {
+export default async function ArticlePage({ params }: Props) {
   const article = await getArticleBySlug(params.slug);
 
   if (!article) {
