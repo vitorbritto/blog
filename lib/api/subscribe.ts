@@ -11,8 +11,8 @@ export default async function handler(
   const { email } = req.body;
 
   try {
-    const FORM_ID = "seu_form_id";
-    const API_KEY = process.env.CONVERTKIT_API_KEY;
+    const FORM_ID = process.env.NEXT_PUBLIC_CONVERTKIT_FORM_ID;
+    const API_KEY = process.env.NEXT_PUBLIC_CONVERTKIT_API_KEY;
 
     const response = await fetch(
       `https://api.convertkit.com/v3/forms/${FORM_ID}/subscribe`,
