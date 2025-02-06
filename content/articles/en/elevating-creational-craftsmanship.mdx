@@ -149,7 +149,7 @@ An investment management system needs to create different types of financial rep
 
 The Factory Method allows the system to create specific instances of reports without needing to know details about their implementations. This makes the system easier to maintain and extend, allowing the addition of new types of reports without modifying the existing code.
 
-````js
+```js
 class Transaction {
   constructor(amount) {
     this.amount = amount;
@@ -179,6 +179,7 @@ In this example, the Factory was used to create different types of transactions 
 The Abstract Factory pattern provides an interface for creating families of related or dependent objects without specifying their concrete classes. It is useful when the system needs to be independent of how its objects are created, composed, and represented.
 
 ### Use case
+
 A digital banking platform offers various financial products, such as checking accounts, savings accounts, and investments. Each product may have different ways of processing transactions and creating accounts.
 
 The Abstract Factory pattern allows for the creation of families of related objects (such as different financial products) without the client code needing to know the concrete classes. This makes it easier to add new financial products and change how they are created or processed.
@@ -233,4 +234,3 @@ Happy coding! 🚀
 
 - https://en.wikipedia.org/wiki/Software_design_pattern
 - https://www.amazon.com/Design-Patterns-Elements-Reusable-Object-Oriented/dp/0201633612
-````
