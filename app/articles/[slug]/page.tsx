@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import { getArticleBySlug, getAllArticles } from "@/lib/content";
 import { notFound } from "next/navigation";
 import { ReadingProgress } from "@/components/ReadingProgress";
@@ -8,12 +6,7 @@ import { ArticleShare } from "@/components/ArticleShare";
 import { ArticleNavigation } from "@/components/ArticleNavigation";
 import { ArticleContent } from "@/components/ArticleContent";
 
-export default async function ArticlePage({
-  params,
-}: {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  params: any;
-}) {
+export default async function ArticlePage({ params }: { params: any }) {
   const resolvedParams = await Promise.resolve(params);
   const article = await getArticleBySlug(resolvedParams.slug);
 
