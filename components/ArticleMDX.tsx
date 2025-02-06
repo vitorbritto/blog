@@ -1,9 +1,9 @@
 "use client";
 
 import { MDXRemote } from "next-mdx-remote/rsc";
-import { mdxOptions } from "@/lib/mdx";
 import { useArticleContext } from "./ArticleLanguageProvider";
 import { CodeBlock } from "./CodeBlock";
+import remarkGfm from "remark-gfm";
 
 const components = {
   pre: ({ children }: { children: React.ReactNode }) => children,
@@ -21,7 +21,7 @@ const components = {
       <CodeBlock
         code={children.trim()}
         language={language}
-        title={language === "bash" ? "Terminal" : undefined}
+        // title={language === "bash" ? "Terminal" : undefined}
       />
     );
   },
@@ -35,7 +35,13 @@ export function ArticleMDX() {
       <MDXRemote
         source={translatedArticle.content}
         components={components}
-        options={mdxOptions}
+        options={{
+          parseFrontmatter: false,
+          mdxOptions: {
+            remarkPlugins: [remarkGfm],
+            format: "mdx",
+          },
+        }}
       />
     </div>
   );
