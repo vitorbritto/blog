@@ -1,5 +1,3 @@
-import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
 import { getAllArticles } from "@/lib/content";
 import { ArticleCard } from "@/components/ArticleCard";
 import { ArticlesHeader } from "@/components/ArticlesHeader";
