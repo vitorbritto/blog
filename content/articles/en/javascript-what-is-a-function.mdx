@@ -79,13 +79,13 @@ const someFunction = () => console.log("This is some function."); // Output: Typ
 
 This example shows that function expressions are not hoisted. In this case, someFunction was declared using a function expression instead of a function declaration, therefore it is not hoisted and it results in a TypeError when we try to call it before it is declared.
 
-Hoisting can make it easier to write JavaScript code, but it can also cause confusion and errors if used incorrectly. Therefore, it’s recommended to always declare variables and functions before using them to avoid hoisting-related issues.
+Hoisting can make it easier to write JavaScript code, but it can also cause confusion and errors if used incorrectly. Therefore, it's recommended to always declare variables and functions before using them to avoid hoisting-related issues.
 
 ### Params in action
 
-In JavaScript, parameters or params are values that can be passed into a function when it’s called. These parameters help a function to accept different values and execute different tasks based on those values.
+In JavaScript, parameters or params are values that can be passed into a function when it's called. These parameters help a function to accept different values and execute different tasks based on those values.
 
-Here’s an example of a function that takes two parameters and returns their sum:
+Here's an example of a function that takes two parameters and returns their sum:
 
 ```js
 function addNumbers(num1, num2) {
@@ -96,7 +96,7 @@ console.log(addNumbers(5, 7)); // Output: 12console.log(addNumbers(10, 3)); // O
 
 In this example, num1 and num2 are the parameters of the addNumbers function. When the function is called, the values passed in (5 and 7, or 10 and 3) become the values of num1 and num2, and the function returns their sum.
 
-Parameters can also have default values, which are used if no value is passed in when the function is called. Here’s an example:
+Parameters can also have default values, which are used if no value is passed in when the function is called. Here's an example:
 
 ```js
 function greet(name = "stranger") {
@@ -157,7 +157,7 @@ console.log(maxNum); // 5
 ```
 
 The bind() Method
-This method allows you to set a specific value for the ‘this’ keyword in a function. It creates a new function with the specified context.
+This method allows you to set a specific value for the ‘this' keyword in a function. It creates a new function with the specified context.
 
 In the example bellow, we use bind() method on the getDetails() method of the person object to set the context to person. We then create a new function, getVitorDetails, with the updated context. When we call getVitorDetails(), it logs the details of the person object.
 
@@ -171,7 +171,7 @@ Functions are unique because they are also objects, which means they can be acce
 
 The main difference between a function in JavaScript and other objects is the internal property [[Call]], which contains the instructions for executing the function. The typeof operator looks for this internal property on an object, and if found, “function” is returned.
 
-Since functions are objects, the Function constructor is present. You can create new functions with the Function Constructor, but I don’t recommend to do this.
+Since functions are objects, the Function constructor is present. You can create new functions with the Function Constructor, but I don't recommend to do this.
 
 For more information, you can check out the following resources:
 

@@ -1,10 +1,9 @@
 ---
 title: React Design Patterns: Render Props Pattern
-excerpt: React Design Patterns: Render Props Pattern
+excerpt: Dealing with cross-cutting concerns by sharing stateful logic between components
 ---
 
-Dealing with cross-cutting concerns by sharing stateful logic between components.Dealing with cross-cutting concerns by sharing stateful logic between components.Photo by[Alfonso Navarro](https://unsplash.com/@poncho_nj?utm_source=medium&utm_medium=referral)on[Unsplash](https://unsplash.com?utm_source=medium&utm_medium=referral)
-As per React’s official documentation, Render Prop refers to a technique that involves passing a function as a prop to a component, allowing the component to render content based on the logic provided by that function.
+As per React's official documentation, Render Prop refers to a technique that involves passing a function as a prop to a component, allowing the component to render content based on the logic provided by that function.
 
 In the Render Props design pattern, a component is structured to accept a function that produces a React Element as one of its props. Rather than relying on its own fixed rendering logic, the component invokes this provided function to determine what content to display.
 
@@ -18,15 +17,15 @@ While the user interface may vary across these sections, the underlying process 
 
 ### Hands-on
 
-Let’s create a simple example using the Render Props pattern to display a collection of products in different locations of our application.
+Let's create a simple example using the Render Props pattern to display a collection of products in different locations of our application.
 
-First, let’s declare a list of products:
+First, let's declare a list of products:
 
 ```js
 const products = [  {    id: 1,    title: 'Product 1',    description: 'This is product 1',  },  {    id: 2,    title: 'Product 2',    description: 'This is product 2',  },  {    id: 3,    title: 'Product 3',    description: 'This is product 3',  },  // ...];
 ```
 
-Then, let’s create a Products component that uses the render props pattern:
+Then, let's create a Products component that uses the render props pattern:
 
 ```js
 const Products = ({ render }) => {  // Fetching products can be done here.  return <>{render(products)}</>;};

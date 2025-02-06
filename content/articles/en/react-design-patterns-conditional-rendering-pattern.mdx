@@ -1,13 +1,11 @@
 ---
 title: React Design Patterns: Conditional Rendering Pattern
-excerpt: React Design Patterns: Conditional Rendering Pattern
+excerpt: Dynamically control what is displayed to the user
 ---
 
-Dynamically control what is displayed to the userDynamically control what is displayed to the userPhoto by[Anne Nygård](https://unsplash.com/@polarmermaid?utm_source=medium&utm_medium=referral)on[Unsplash](https://unsplash.com?utm_source=medium&utm_medium=referral)
-Conditional rendering in React refers to the practice of rendering different content or components based on certain conditions. This allows you to dynamically control what is displayed to the user in response to various situations or changes in your application state. There are several ways to implement conditional rendering in React, and one common pattern is using JavaScript’s conditional statements within your JSX.
+Conditional rendering in React refers to the practice of rendering different content or components based on certain conditions. This allows you to dynamically control what is displayed to the user in response to various situations or changes in your application state. There are several ways to implement conditional rendering in React, and one common pattern is using JavaScript's conditional statements within your JSX.
 
-This is undoubtedly one of the most basic and widely used patterns with React components.
-Typically conditional rendering is achieved using either the && operator or the ternary operator.
+This is undoubtedly one of the most basic and widely used patterns with React components. Typically conditional rendering is achieved using either the && operator or the ternary operator.
 
 ```js
 {
@@ -26,14 +24,41 @@ In some cases, we might also consider using if, switch, or object literals.
 
 In my React Projects, if I have more then two options, like a multiple variations, I'd prefer to use object literals.
 
-Why?
+**Why?**
 
 It's more elegant and ease to maintain.
 
-Check this example:
+**Check this example:**
 
 ```js
-import React from 'react';const variations = {  'variation1': <p>This is variation 1.</p>,  'variation2': <p>This is variation 2.</p>,  'default': <p>This is the default variation.</p>,};const MyComponent = ({ variation }) => {  // Use the variation prop to dynamically select the content  const content = variations[variation] ?? variations['default'];  return (    <div>      <h2>Conditional Rendering Example</h2>      {content}    </div>  );}// Example usageconst App = () => {  return (    <>      <MyComponent variation="variation1" />      <MyComponent variation="variation2" />      <MyComponent variation="unknownVariation" />    </>  );}export default App;
+import React from "react";
+const variations = {
+  variation1: <p>This is variation 1.</p>,
+  variation2: <p>This is variation 2.</p>,
+  default: <p>This is the default variation.</p>,
+};
+
+const MyComponent = ({ variation }) => {
+  // Use the variation prop to dynamically select the content
+  const content = variations[variation] ?? variations["default"];
+  return (
+    <div>
+      <h2>Conditional Rendering Example</h2>
+      {content}
+    </div>
+  );
+};
+
+// Example usage
+const App = () => {
+  return (
+    <>
+      <MyComponent variation="variation1" />
+      <MyComponent variation="variation2" />
+      <MyComponent variation="unknownVariation" />
+    </>
+  );
+};
 ```
 
 Or, you can handle the entire component like this:
@@ -46,7 +71,45 @@ const authSteps = {
   pin: <AuthPINStep />,
   biometrics: <AuthBiometricsStep />,
   default: <AuthEmailStep />,
-}; // AuthEmailStep.tsxconst AuthEmailStep = () => {  return (    // code goes here...  );}// AuthOTPStep.tsxconst AuthOTPStep = () => {  return (    // code goes here...  );}// AuthPINStep.tsxconst AuthPINStep = () => {  return (    // code goes here...  );}// AuthBiometricsStep.tsxconst AuthBiometricsStep = () => {  return (    // code goes here...  );}// AuthContainer.tsxconst AuthContainer = () => {  // Let's assume that we're using a Custom Hook to fetch the data from   // some service in Back-end and that service returns the OTP step.  const { step } = useAuthStep()  // authComponent will be the AuthOTPStep component.  const authComponent = authSteps[step] ?? authSteps['default'];  return (    <>       {authComponent}    </>  );}export default AuthContainer;
+};
+
+// AuthEmailStep.tsx
+const AuthEmailStep = () => {
+  return (
+    // code goes here...
+  );
+};
+
+// AuthOTPStep.tsx
+const AuthOTPStep = () => {
+  return (
+    // code goes here...
+  );
+};
+
+// AuthPINStep.tsx
+const AuthPINStep = () => {
+  return (
+    // code goes here...
+  );
+};
+
+// AuthBiometricsStep.tsx
+const AuthBiometricsStep = () => {
+  return (
+    // code goes here...
+  );
+};
+
+// AuthContainer.tsx
+const AuthContainer = () => {
+  // Let's assume that we're using a Custom Hook to fetch the data from
+  // some service in Back-end and that service returns the OTP step.
+  const { step } = useAuthStep();
+  // authComponent will be the AuthOTPStep component.
+  const authComponent = authSteps[step] ?? authSteps["default"];
+  return <>{authComponent}</>;
+};
 ```
 
 ### Conclusion

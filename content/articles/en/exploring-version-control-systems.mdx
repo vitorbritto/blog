@@ -9,7 +9,7 @@ Version Control Systems (VCS) assume the role of integral architects facilitatin
 
 Version control systems (VCS) have come a long way since their inception.
 
-In the early days, developers relied on local versioning, manually creating backups or using rudimentary tools like SCCS (Source Code Control System) and RCS (Revision Control System). These systems laid the groundwork for collaborative development but lacked the sophistication needed for today’s complex projects.
+In the early days, developers relied on local versioning, manually creating backups or using rudimentary tools like SCCS (Source Code Control System) and RCS (Revision Control System). These systems laid the groundwork for collaborative development but lacked the sophistication needed for today's complex projects.
 
 The process of using SCCS (Source Code Control System) and RCS (Revision Control System) represented early attempts to address the need for version control in software development, predating more modern systems like Git.
 
@@ -37,7 +37,7 @@ Similar to SCCS, developers could retrieve specific versions using the co (check
 
 ### The Rise of Centralized VCS
 
-As projects expanded, the need for centralized version control became evident. Concurrent Versions System (CVS) was one of the pioneers, providing a central repository for collaboration. Subversion (SVN) followed, improving on some of CVS’s limitations. These systems offered a leap forward in managing codebases but introduced challenges in branching, merging, and scalability.
+As projects expanded, the need for centralized version control became evident. Concurrent Versions System (CVS) was one of the pioneers, providing a central repository for collaboration. Subversion (SVN) followed, improving on some of CVS's limitations. These systems offered a leap forward in managing codebases but introduced challenges in branching, merging, and scalability.
 
 ## How the CVS works
 
@@ -45,13 +45,13 @@ The CVS repository, where versioned files were stored, was typically set up on a
 
 After the "CVS server" was initialized, developers would add their source code files to the CVS repository using the cvs add command. This step informed CVS of the existence of new files to be included in version control.
 
-To start working on a project, developers would perform a check-out operation using the cvs checkout command. This retrieved a copy of the project’s files to their local workspace. Changes made to these local files wouldn’t immediately affect the central repository.
+To start working on a project, developers would perform a check-out operation using the cvs checkout command. This retrieved a copy of the project's files to their local workspace. Changes made to these local files wouldn't immediately affect the central repository.
 
 After completing modifications, they would commit their changes back to the CVS repository using the cvs commit command. This process updated the central repository with the latest changes and created a new version.
 
 CVS introduced more advanced branching capabilities compared to its predecessors. Developers could create branches to work on parallel features or bug fixes. Merging changes between branches was also supported, although it still required manual intervention in some cases.
 
-Also, developers could tag specific points in the project’s history using the cvs tag command. This was useful for marking releases or significant milestones, providing a convenient way to reference specific versions.
+Also, developers could tag specific points in the project's history using the cvs tag command. This was useful for marking releases or significant milestones, providing a convenient way to reference specific versions.
 
 Like earlier version control systems, CVS required developers to manually resolve conflicts that arose during the merging process. Developers needed to compare and merge conflicting changes carefully.
 

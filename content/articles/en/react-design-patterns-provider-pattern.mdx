@@ -4,14 +4,14 @@ excerpt: React Design Patterns: Provider Pattern
 ---
 
 A structured way of managing and passing data through your component treeA structured way of managing and passing data through your component treePhoto by[Clark Van Der Beken](https://unsplash.com/@snapsbyclark?utm_source=medium&utm_medium=referral)on[Unsplash](https://unsplash.com?utm_source=medium&utm_medium=referral)
-The Provider Pattern in React is a design pattern that leverages React’s context API to create a structured way of managing and passing data through your component tree. It helps to avoid prop drilling, where you have to pass data down through multiple layers of components, even if some of them don’t need the data.
+The Provider Pattern in React is a design pattern that leverages React's context API to create a structured way of managing and passing data through your component tree. It helps to avoid prop drilling, where you have to pass data down through multiple layers of components, even if some of them don't need the data.
 
 ### The anatomy of the Provider Pattern
 
 The structure of the Provider Pattern typically consists of three parts.
 
 Context
-A file that defines the context variable used by the structure. It’s created using React’s createContext function.
+A file that defines the context variable used by the structure. It's created using React's createContext function.
 
 ```js
 import { createContext } from "react";
@@ -19,7 +19,7 @@ const UserContext = createContext({ state: {}, actions: {} });
 ```
 
 Provider
-The main context provider that wraps whatever children it’s given with a dynamic context. It’s a component that uses the context and provides its value to all components underneath it in the component tree.
+The main context provider that wraps whatever children it's given with a dynamic context. It's a component that uses the context and provides its value to all components underneath it in the component tree.
 
 ```js
 import { useState } from "react";
@@ -33,7 +33,7 @@ const UserProvider = ({ children }) => {
 ```
 
 Hook
-A custom hook that gives components access to the current context value. It’s used to consume the context in any component that needs the data.
+A custom hook that gives components access to the current context value. It's used to consume the context in any component that needs the data.
 
 ```js
 import { useContext } from "react";
@@ -43,7 +43,7 @@ const useUser = () => {
 };
 ```
 
-Be aware that all components that consume the context will re-render when the context value changes. Therefore, it’s advisable to split your data into different providers according to your logic to enhance the performance.
+Be aware that all components that consume the context will re-render when the context value changes. Therefore, it's advisable to split your data into different providers according to your logic to enhance the performance.
 
 ### Hands-on
 
@@ -61,9 +61,9 @@ In this way, the Provider Pattern can be used with the useContext hook to provid
 
 One of the main advantages of the Provider Pattern is that it reduces the risk of introducing bugs when refactoring code. With the Provider Pattern, if you need to rename a prop, you only have to change it in one place — the context provider. Without the Provider Pattern, you would have to find and change every instance of that prop throughout your application, which can be time-consuming and error-prone.
 
-The Provider Pattern also makes it easier to manage global state in your application. You can create a context provider that holds your global state, and then any component that needs to access that state can do so through the context. This makes it easy to keep track of and manage your application’s state.
+The Provider Pattern also makes it easier to manage global state in your application. You can create a context provider that holds your global state, and then any component that needs to access that state can do so through the context. This makes it easy to keep track of and manage your application's state.
 
-However, it’s important to use the Provider Pattern judiciously. While it’s great for sharing data across multiple components, overusing it can lead to performance issues. All components that consume the context will re-render when the context value changes. Therefore, it’s advisable to split your data into different providers according to your logic to enhance the performance.
+However, it's important to use the Provider Pattern judiciously. While it's great for sharing data across multiple components, overusing it can lead to performance issues. All components that consume the context will re-render when the context value changes. Therefore, it's advisable to split your data into different providers according to your logic to enhance the performance.
 
 Thanks for reading. If you have any thoughts or suggestions, feel free to leave a comment below.
 

@@ -3,65 +3,88 @@ title: React Design Patterns: Compound Component Pattern
 excerpt: React Design Patterns: Compound Component Pattern
 ---
 
-How to avoid prop drilling and write elegant components with implicit state sharingHow to avoid prop drilling and write elegant components with implicit state sharingPhoto by[Kelly Sikkema](https://unsplash.com/@kellysikkema?utm_source=medium&utm_medium=referral)on[Unsplash](https://unsplash.com?utm_source=medium&utm_medium=referral)
+How to avoid prop drilling and write elegant components with implicit state sharingHow to avoid prop drilling and write elegant components with implicit state sharingPhoto by[Kelly Sikkema](https://unsplash.com/@kellysikkema?utm_source=medium&utm_medium=referral)on[Unsplash](https://unsplash.com?utm_source=medium&utm_medium=referral)
 Working with state management in React applications can be a challenging task. Especially when we have to pass data from a root component down to deeply-nested components, we often find ourselves resorting to tools like the Context API and Redux. However, in many cases, we end up overcomplicating our code and introducing unnecessary redundancy.
 
-It is crucial for React developers to take a step back and consider alternative approaches to passing data down the component tree. React itself provides elegant solutions for state management, which we often overlook. Instead of relying on external libraries, we should explore the possibilities within React’s core functionality.
+It is crucial for React developers to take a step back and consider alternative approaches to passing data down the component tree. React itself provides elegant solutions for state management, which we often overlook. Instead of relying on external libraries, we should explore the possibilities within React's core functionality.
 
-One common issue we encounter is the problem of prop drilling. In simple terms, it refers to passing props through numerous intermediary components to reach deeply-nested ones. Many times, developers reach for Context API or Redux without considering React’s inherent capabilities.
+One common issue we encounter is the problem of prop drilling. In simple terms, it refers to passing props through numerous intermediary components to reach deeply-nested ones. Many times, developers reach for Context API or Redux without considering React's inherent capabilities.
 
-By exploring React’s built-in state management options, we can avoid unnecessary reliance on third-party libraries.
+By exploring React's built-in state management options, we can avoid unnecessary reliance on third-party libraries.
 
-React developers should be mindful of their use of state management tools and consider React’s native capabilities. By doing so, we can simplify our code, reduce redundancy, and create more efficient React applications.
+React developers should be mindful of their use of state management tools and consider React's native capabilities. By doing so, we can simplify our code, reduce redundancy, and create more efficient React applications.
 
-### The prop drilling effect
+## The prop drilling effect
 
 Prop drilling refers to the practice of passing data through multiple layers of nested child components in order to ultimately deliver the data to a deeply-nested component. However, this approach presents a problem as most of the intermediate components involved in passing the data do not actually require this data. Instead, these components are merely used as conduits to transport the data to its intended destination component.
 
 The term “drilling” is used to describe this process because these intermediate components are obligated to accept and pass on unrelated data to the next component in the chain, which then repeats the process until the data finally reaches its intended destination. Unfortunately, this can result in significant issues such as reduced component reusability and diminished app performance.
 
-### Context API for the rescue
+## Context API for the rescue
 
 The Context API basically lets you broadcast your state/data to multiple components by wrapping them with a context provider. It then passes this state to the context provider using its value attribute. The children components can then tap into this provider using a context consumer or the useContext Hook when needed, and access the state provided by the context provider.
 
-### Drawbacks of relying heavily on the Context API
+## Drawbacks of relying heavily on the Context API
 
-React’s Context API is a powerful feature that allows data sharing across components without having to pass props through each level of the component tree. However, it has some limitations that can impact the performance and maintainability of your application. Here are the main drawbacks:
+React's Context API is a powerful feature that allows data sharing across components without having to pass props through each level of the component tree. However, it has some limitations that can impact the performance and maintainability of your application. Here are the main drawbacks:
 
-1. Performance Issues: Updating the context value can potentially cause unnecessary re-renders in consuming components, even if the changes are not relevant to them. This can impact performance, especially in larger component trees. Therefore, careful consideration of when and how to update the context value is necessary to mitigate this issue. This is particularly a problem when one context is used for the entire app’s state, causing a lot of re-renders all over the place.
+1. Performance Issues: Updating the context value can potentially cause unnecessary re-renders in consuming components, even if the changes are not relevant to them. This can impact performance, especially in larger component trees. Therefore, careful consideration of when and how to update the context value is necessary to mitigate this issue. This is particularly a problem when one context is used for the entire app's state, causing a lot of re-renders all over the place.
 2. Testing Complexity: Testing components that consume context can be more complex compared to testing components with props-based state management. Mocking or providing the correct context values during testing may require additional setup and can make unit tests more cumbersome.
 3. Potential for Overuse: The simplicity and ease of use of the Context API can lead to its overuse, causing excessive coupling between components and making the codebase harder to understand and maintain. Overusing context for every piece of shared state, especially for unrelated concerns, can make the codebase less modular and harder to reason about.
 4. Lack of Type Safety: Context values are not type-checked by default, which means that incorrect usage or changes in the shape of the context value may not be caught by the compiler or development tools. This can lead to runtime errors and debugging challenges.
 5. Scaling Challenges: The Context API can be hard to scale and maintain for a large-scale app. You have to manage the dependencies and updates of multiple contexts, which can lead to code duplication and inconsistency.
 6. Absence of Dev Tools or Middleware: Unlike dedicated state management solutions like Redux, the Context API does not provide any dev tools or middleware to help you debug, test, or optimize your state management.
 
-### A better approach with Compound Components
+## A better approach with Compound Components
 
-Compound components are a pattern in React, where several components are used together such that they share an implicit state that allows them to communicate with each other in the background. This pattern is used when multiple components work together to have a shared state and handle logic together. An example of compound components can be seen in HTML with the <select> and <option> elements. They don't do much on their own, but together they allow you to create a complete experience. When you click on an option, select knows which option you clicked. Like select and option, the components share the state on their own, so you don't have to explicitly configure them.
+Compound components are a pattern in React, where several components are used together such that they share an implicit state that allows them to communicate with each other in the background. This pattern is used when multiple components work together to have a shared state and handle logic together. An example of compound components can be seen in HTML with the `<select>` and `<option>` elements. They don't do much on their own, but together they allow you to create a complete experience. When you click on an option, select knows which option you clicked. Like select and option, the components share the state on their own, so you don't have to explicitly configure them.
 
 Compound components provide a more flexible way to share state within React applications, which makes it easier to maintain and debug your apps.
 
-Here’s an example of how compound components might look in a code snippet:
+Here's an example of how compound components might look in a code snippet:
 
 ```js
-import React from ‘react’import { Dropdown } from ‘semantic-ui-react’const DropdownExampleDropdown = () => ( <Dropdown text='File'> <Dropdown.Menu> <Dropdown.Item text='New' /> <Dropdown.Item text='Open…' description='ctrl + o' /> <Dropdown.Item text='Save as…' description='ctrl + s' /> <Dropdown.Item text='Rename' description='ctrl + r' /> <Dropdown.Item text='Make a copy' /> <Dropdown.Item icon='folder' text='Move to folder' /> <Dropdown.Item icon='trash' text='Move to trash' /> <Dropdown.Divider /> <Dropdown.Item text='Download As…' /> <Dropdown.Item text='Publish To Web' /> <Dropdown.Item text='E-mail Collaborators' /> </Dropdown.Menu> </Dropdown>)export default DropdownExampleDropdown
+import React from "react";
+import { Dropdown } from "semantic-ui-react";
+
+const DropdownExampleDropdown = () => (
+  <Dropdown text="File">
+    <Dropdown.Menu>
+      <Dropdown.Item text="New" />
+      <Dropdown.Item text="Open…" description="ctrl + o" />
+      <Dropdown.Item text="Save as…" description="ctrl + s" />
+      <Dropdown.Item text="Rename" description="ctrl + r" />
+      <Dropdown.Item text="Make a copy" />
+      <Dropdown.Item icon="folder" text="Move to folder" />
+      <Dropdown.Item icon="trash" text="Move to trash" />
+      <Dropdown.Divider />
+      <Dropdown.Item text="Download As…" />
+      <Dropdown.Item text="Publish To Web" />
+      <Dropdown.Item text="E-mail Collaborators" />
+    </Dropdown.Menu>
+  </Dropdown>
+);
+
+export default DropdownExampleDropdown;
 ```
 
-Benefits of Compound Components
+## Benefits of Compound Components
+
 The benefits of using compound components in your React applications include:
 
-1. Reusability: the individual components within a compound component are designed to work together, they can be easily reused in different parts of your application without having to duplicate code or functionality. This can help to reduce the overall complexity of your codebase, and make it easier to maintain and update your application over time.
-2. Flexibility: compound components provide a flexible way to build complex UI components while maintaining a clean and concise API. This pattern allows you to create highly customizable and reusable components without passing too many props to the component.
-3. Separation of Concerns: with compound components, each child component is responsible for its specific functionality, making it easier to maintain and update individual components without affecting the entire system.
-4. Intuitive API: by encapsulating related child components within a parent component, the Compound Components pattern offers a clear and intuitive API that’s easy to understand and use for other developers.
-5. Enhanced Customization: this pattern allows developers to easily swap or extend child components, leading to enhanced customization.
-6. Consistency: by providing a consistent interface for interacting with a compound component, the compound component pattern can help to improve the user experience of your application.
-7. Less Prop Drilling: in compound components, instead of passing state through props, we pass elements as children to a parent element. This allows the parent to manage the implicit state and reduces the need for prop drilling.
-8. Maintainability: compound components provide a more flexible way to share state within React applications, so making use of compound components in your React applications makes it easier to maintain and actually debug your apps.
+1. **Reusability**: the individual components within a compound component are designed to work together, they can be easily reused in different parts of your application without having to duplicate code or functionality. This can help to reduce the overall complexity of your codebase, and make it easier to maintain and update your application over time.
+2. **Flexibility**: compound components provide a flexible way to build complex UI components while maintaining a clean and concise API. This pattern allows you to create highly customizable and reusable components without passing too many props to the component.
+3. **Separation of Concerns**: with compound components, each child component is responsible for its specific functionality, making it easier to maintain and update individual components without affecting the entire system.
+4. **Intuitive API**: by encapsulating related child components within a parent component, the Compound Components pattern offers a clear and intuitive API that's easy to understand and use for other developers.
+5. **Enhanced Customization**: this pattern allows developers to easily swap or extend child components, leading to enhanced customization.
+6. **Consistency**: by providing a consistent interface for interacting with a compound component, the compound component pattern can help to improve the user experience of your application.
+7. **Less Prop Drilling**: in compound components, instead of passing state through props, we pass elements as children to a parent element. This allows the parent to manage the implicit state and reduces the need for prop drilling.
+8. **Maintainability**: compound components provide a more flexible way to share state within React applications, so making use of compound components in your React applications makes it easier to maintain and actually debug your apps.
 
 In compound components, instead of passing state through props, we pass elements as children to a parent element. This allows the parent to manage the implicit state.
 
-Implementing a Compound Component
+## Implementing a Compound Component
+
 To implement compound components in React, you can follow the following steps:
 
 1. Define a parent component that will manage the state and logic of the compound component.
@@ -72,14 +95,46 @@ To implement compound components in React, you can follow the following steps:
 Here is an example of how to implement a Tabs component using the compound components pattern in React:
 
 ```js
-// Tabs.jsimport React, { useState } from 'react';const Tabs = ({ children }) => {  const [activeTab, setActiveTab] = useState(0);  const handleTabClick = (index) => {    setActiveTab(index);  };  return (    <div>      <div>        {React.Children.map(children, (child, index) => (          <button            key={index}            onClick={() => handleTabClick(index)}            style={{ fontWeight: activeTab === index ? 'bold' : 'normal' }}          >            {child.props.label}          </button>        ))}      </div>      <div>        {React.Children.map(children, (child, index) => (          <div style={{ display: activeTab === index ? 'block' : 'none' }}>            {child}          </div>        ))}      </div>    </div>  );};export default Tabs;
+// Tabs.js
+import React, { useState } from "react";
+
+const Tabs = ({ children }) => {
+  const [activeTab, setActiveTab] = useState(0);
+  const handleTabClick = (index) => {
+    setActiveTab(index);
+  };
+  return (
+    <div>
+      <div>
+        {React.Children.map(children, (child, index) => (
+          <button
+            key={index}
+            onClick={() => handleTabClick(index)}
+            style={{ fontWeight: activeTab === index ? "bold" : "normal" }}
+          >
+            {child.props.label}
+          </button>
+        ))}
+      </div>
+      <div>
+        {React.Children.map(children, (child, index) => (
+          <div style={{ display: activeTab === index ? "block" : "none" }}>
+            {child}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default Tabs;
 ```
 
-```graf graf--pre graf-after--pre graf--preV2
+```js
 // Tab.jsimport React from 'react';const Tab = ({ children }) => {  return <>{children}</>;};export default Tab;
 ```
 
-To use the Tabs component:
+**To use the Tabs component:**
 
 ```js
 import React from "react";
@@ -88,20 +143,19 @@ import Tab from "./Tab";
 const App = () => {
   return (
     <Tabs>
-      {" "}
       <Tab label="Tab 1">
-        {" "}
-        <p>Content for Tab 1</p>{" "}
-      </Tab> <Tab label="Tab 2">
-        {" "}
-        <p>Content for Tab 2</p>{" "}
-      </Tab> <Tab label="Tab 3">
-        {" "}
-        <p>Content for Tab 3</p>{" "}
-      </Tab>{" "}
+        <p>Content for Tab 1</p>
+      </Tab>
+      <Tab label="Tab 2">
+        <p>Content for Tab 2</p>
+      </Tab>
+      <Tab label="Tab 3">
+        <p>Content for Tab 3</p>
+      </Tab>
     </Tabs>
   );
 };
+
 export default App;
 ```
 
@@ -110,21 +164,39 @@ In this example, we have a Tabs component that manages the state of the active t
 Also, you can make use of Context API using Hooks. Check the example bellow.
 
 ```js
-import React, { createContext, useContext, useState } from "react"; // Create a context for the compound componentconst ToggleContext = createContext();// Create a custom hook to access the contextfunction useToggle() {  const context = useContext(ToggleContext);  if (!context) {    throw new Error('Toggle compound components must be rendered within the Toggle component');  }  return context;}// Compound componentfunction Toggle({ children }) {  const [on, setOn] = useState(false);  // Toggle function to update the state  const toggle = () => {    setOn((prevState) => !prevState);  };  // Provide the context value to the children components  const contextValue = {    on,    toggle,  };  return (    <ToggleContext.Provider value={contextValue}>      {children}    </ToggleContext.Provider>  );}// Child componentsfunction ToggleOn({ children }) {  const { on } = useToggle();  return on ? children : null;}function ToggleOff({ children }) {  const { on } = useToggle();  return on ? null : children;}function ToggleButton() {  const { on, toggle } = useToggle();  return <button onClick={toggle}>{on ? 'ON' : 'OFF'}</button>;}// Usagefunction App() {  return (    <Toggle>      <ToggleOn>The button is on</ToggleOn>      <ToggleOff>The button is off</ToggleOff>      <ToggleButton />    </Toggle>  );}
+import React, { createContext, useContext, useState } from "react";
+
+// Create a context for the compound component
+const ToggleContext = createContext();
+
+// Create a custom hook to access the context
+function useToggle() {
+  const context = useContext(ToggleContext);
+  if (!context) {
+    throw new Error(
+      "Toggle compound components must be rendered within the Toggle component"
+    );
+  }
+  return context;
+}
+
+// Compound component
+function Toggle({ children }) {
+  const [on, setOn] = useState(false);
+  // Toggle function to update the state
+  const toggle = () => {
+    setOn((prevState) => !prevState);
+  };
+  // Provide the context value to the children components
+  const contextValue = { on, toggle };
+  return (
+    <ToggleContext.Provider value={contextValue}>
+      {children}
+    </ToggleContext.Provider>
+  );
+}
 ```
 
-### Conclusion
+## Conclusion
 
 By using compound components, you can create reusable and flexible components that can be easily composed and reused throughout your application. Compound components promote a separation of concerns between the parent and child components, making your code more maintainable and easier to understand.
-
-Thanks for reading. If you have any thoughts or suggestions, feel free to leave a comment below.
-
-You can follow me on Twitter , Github and LinkedIn.
-
-See you! 👋
-
-By Vitor Britto on August 10, 2023.
-
-Canonical link
-
-Exported from Medium on February 3, 2025.

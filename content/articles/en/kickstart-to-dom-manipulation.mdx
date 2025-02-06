@@ -26,7 +26,7 @@ By using the getElementsByTagName method in JavaScript, developers can target an
 By ID
 Every HTML element can have an id attribute, which should be unique within the document. The getElementById method in JavaScript facilitates the retrieval of a single DOM element based on its unique ID.
 
-It’s important to note that the method returns`null`if no element with the specified ID exists in the document. Therefore, it's good practice to check for null before attempting to perform any operations on the returned element.
+It's important to note that the method returns`null`if no element with the specified ID exists in the document. Therefore, it's good practice to check for null before attempting to perform any operations on the returned element.
 
 ```graf graf--pre graf-after--blockquote graf--preV2
 const myUniqueElement = document.getElementById('uniqueId');if (myUniqueElement !== null) {    // Perform operations on myUniqueElement} else {    console.log('Element not found');}
@@ -48,7 +48,7 @@ Even though we have the options above to identify CSS selectors, whether by type
 
 ### Manipulating DOM Elements
 
-Manipulating DOM (Document Object Model) elements is a fundamental aspect of web development, allowing developers to dynamically alter the content, structure, and appearance of a webpage using JavaScript. The DOM represents the document’s structure as a tree of objects, where each HTML element is a node.
+Manipulating DOM (Document Object Model) elements is a fundamental aspect of web development, allowing developers to dynamically alter the content, structure, and appearance of a webpage using JavaScript. The DOM represents the document's structure as a tree of objects, where each HTML element is a node.
 
 Changing Element Content
 Changing element content is a common task in web development, and it involves updating the textual or HTML content within an HTML element dynamically. JavaScript provides several methods to achieve this, depending on the desired outcome.
@@ -72,7 +72,7 @@ The Web APIs provides methods to create new elements, append them and remove exi
 ```
 
 Styling Elements
-Even though it’s possible to use CSS through DOM manipulation, this is not considered a good practice. It’s always preferable to add or remove classes in CSS to reflect visual behaviors in your web application.
+Even though it's possible to use CSS through DOM manipulation, this is not considered a good practice. It's always preferable to add or remove classes in CSS to reflect visual behaviors in your web application.
 
 ```js
 // Change the background color of an elementelementById.style.backgroundColor = 'lightblue';// Add a CSS class to an elementelementById.classList.add('highlight');
@@ -132,7 +132,7 @@ Minimize DOM manipulations for better performance. Batch DOM updates, use effici
 
 ### Conclusion
 
-DOM manipulation is a powerful tool in the web developer’s arsenal, enabling the creation of dynamic and interactive web pages. By mastering the techniques outlined in this comprehensive guide, you can enhance your ability to create robust and user-friendly web applications.
+DOM manipulation is a powerful tool in the web developer's arsenal, enabling the creation of dynamic and interactive web pages. By mastering the techniques outlined in this comprehensive guide, you can enhance your ability to create robust and user-friendly web applications.
 
 ### References
 

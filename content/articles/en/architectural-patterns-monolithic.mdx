@@ -1,0 +1,75 @@
+---
+title: Architectural Patterns
+excerpt: The Monolithic Architecture
+---
+
+Monolithic architecture is one of the oldest and still widely used software architecture patterns. Characterized by a unified and cohesive approach, where all components of an application are integrated into a single codebase, monolithic architecture has its advantages and disadvantages.
+
+In this article, we will explore what a monolithic architecture is, its characteristics, advantages, disadvantages, and use cases.
+
+## What is a Monolithic Architecture?
+
+When we refer to a monolithic architecture, we are mainly talking about a deployment unit.
+
+This means that all the functionalities of a system are deployed together.
+
+The most common example that might come to mind when we talk about monolithic systems is a system in which all the code is deployed as a single process.
+
+We may have multiple instances of this process for reasons ranging from robustness to scalability, but essentially, all the code will be contained in a single process.
+
+## Modular Monolithic System
+
+A modular monolithic system is a software architecture approach that combines the advantages of a traditional monolith with the modularity found in microservices architectures.
+
+Instead of split an application into multiple independent services, as in microservices, a modular monolithic system keeps all functionalities in a single codebase, but organized into clearly defined and independent modules.
+
+But how do the modules communicate?
+
+The first method would be synchronous communication, which refers to an interaction model where a method call waits for the response before proceeding. This type of communication is widely used in monolithic systems, where components or modules make direct calls to each other and wait for the completion of these calls to continue execution.
+
+The second method would be asynchronous communication, where the modules communicate through messages. The call is made and execution continues, allowing the system to handle other tasks while awaiting the response. This model is particularly useful for improving the efficiency and scalability of complex systems.
+
+## Benefits
+
+- Ease of Initial Development: At the beginning of the project lifecycle, the monolithic architecture is simpler to implement and requires less configuration effort.
+- Strong Dependencies: Components within the monolith architecture are tightly coupled, which can increase the complexity of development and maintenance.
+- Simplified Debugging: With a single application, the debugging process and error tracking are more straightforward.
+- Functional Cohesion: All application modules are part of a single codebase, facilitating code and resource sharing.
+- Improved Performance: Without the communication overhead between services (as in microservices), monolithic applications can perform better in many cases.
+- Unified Deployment: Only one artifact needs to be deployed, simplifying the continuous integration and delivery (CI/CD) process.
+
+## Drawbacks
+
+- Limited Scalability: Scaling a monolithic application can be challenging because the entire application needs to be replicated instead of scaling only the necessary components.
+- Complex evolution and Maintenance: As the codebase grows, complexity increases, making maintenance and the addition of new features more difficult.
+- Single Point of Failure Risk: A critical bug or failure in one module can compromise the entire application, leading to total unavailability.
+- Barriers to Adopting New Technologies: Updating or replacing technologies in a monolithic architecture is more difficult because it requires modifying a large, integrated codebase.
+
+## Use cases
+
+It's important to know when and how you could use the Monolithic Architecture. So here's a list to understand when to use and avoid it.
+
+### When to use
+
+- Small Projects: For startups or small-scale projects with a limited scope, the simplicity of monolithic architecture can be advantageous.
+- Small Teams: In environments with a small development team, coordination and communication are easier with a single codebase.
+- Easy operations: For organizations with less experience in managing complex architectures, monolithic architecture provides a simpler entry point.
+
+### When to avoid
+
+- Large-scale projects: For applications that require high scalability and continuous maintenance, a monolithic architecture can become a bottleneck.
+- Agile development: In scenarios where different teams need to work independently on various parts of the application, microservices can offer more flexibility.
+
+## Conclusion
+
+Despite its limitations, monolithic architecture remains a valid choice for many organizations, especially those in early stages or with simple requirements. Its initial simplicity and ease of management can accelerate software development and delivery.
+
+However, as applications grow in complexity and scale, transitioning to more distributed architectures like microservices may be necessary to ensure efficient maintenance and scalability.
+
+Understand the specific needs of your project and the capabilities of your team for making the right decision about which architecture to adopt.
+
+Monolithic architecture is a solid starting point but should not be seen as a one-size-fits-all solution for every type of project.
+
+## References
+
+[https://microservices.io/patterns/monolithic.html](https://microservices.io/patterns/monolithic.html)

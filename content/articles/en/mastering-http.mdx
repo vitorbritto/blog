@@ -8,7 +8,7 @@ The HTTP (Hypertext Transfer Protocol) is a communication protocol that allows t
 
 HTTP defines how messages are formatted and transmitted, and how web servers and internet browsers should respond to these messages.
 
-When you type a URL (Uniform Resource Locator) in your browser’s address bar, the browser uses HTTP to request the web page from the server. The server then responds by sending the requested page’s files, also via HTTP. This process enables you to see and interact with websites on the internet.
+When you type a URL (Uniform Resource Locator) in your browser's address bar, the browser uses HTTP to request the web page from the server. The server then responds by sending the requested page's files, also via HTTP. This process enables you to see and interact with websites on the internet.
 
 ### History of HTTP
 
@@ -27,7 +27,7 @@ If the client needed to access a web page on the server, a simple request was ma
 GET / index.html;
 ```
 
-And the server’s response would be something like:
+And the server's response would be something like:
 
 ```js
 (response body)(connection closed)
@@ -66,7 +66,7 @@ See the code bellow:
 A new era for HTTP
 Launched in 2015, HTTP/2 represented a significant advancement in terms of performance and efficiency.
 
-Based on Google’s SPDY protocol, HTTP/2 introduced request multiplexing, allowing multiple requests and responses to be transmitted simultaneously over the same connection. This reduced latency and improved page loading speeds. Furthermore, HTTP/2 enhanced support for request prioritization and header compression.
+Based on Google's SPDY protocol, HTTP/2 introduced request multiplexing, allowing multiple requests and responses to be transmitted simultaneously over the same connection. This reduced latency and improved page loading speeds. Furthermore, HTTP/2 enhanced support for request prioritization and header compression.
 
 What comes next
 The most recent development in the history of HTTP is HTTP/3, which began to be implemented by some servers and browsers starting in 2020.
@@ -77,7 +77,7 @@ This version represents a significant change in how data is transmitted over the
 
 ### The HTTP pieces
 
-Here’s an overview of the primary components involved in HTTP-based systems.
+Here's an overview of the primary components involved in HTTP-based systems.
 
 Clients
 Clients are the starting point of any HTTP request. They are typically web browsers (like Chrome, Firefox, or Safari), but can also be any software that sends HTTP requests to the server, such as mobile apps or other web-based applications. Clients initiate the communication by requesting data from servers.
@@ -108,7 +108,7 @@ Client-Server Model
 HTTP operates on a client-server model, where a client (typically a web browser or mobile application) initiates an HTTP request and a server responds to the request. The client is responsible for requesting resources, and the server is responsible for providing them.
 
 URLs (Uniform Resource Locators)
-URLs provide the means to locate resources on the web. A URL contains information necessary for a client to locate a resource, including the protocol (e.g., HTTP or HTTPS), the server’s domain name (or IP address), and the path to the resource on the server. URLs are a critical element in the HTTP ecosystem, guiding clients to the desired content.
+URLs provide the means to locate resources on the web. A URL contains information necessary for a client to locate a resource, including the protocol (e.g., HTTP or HTTPS), the server's domain name (or IP address), and the path to the resource on the server. URLs are a critical element in the HTTP ecosystem, guiding clients to the desired content.
 
 HTTP Requests
 An HTTP request is made by a client to ask for a specific resource from a server. It consists of a request method (such as GET, POST, PUT, DELETE), the URL of the requested resource, HTTP headers (providing additional information about the request), and sometimes a body containing data (especially in POST or PUT requests).
@@ -141,7 +141,7 @@ The most common methods are:
 - OPTIONS: Describes the communication options for the target resource.
 
 Status Codes
-HTTP responses are accompanied by status codes that indicate the result of the server’s attempt to fulfill the request.
+HTTP responses are accompanied by status codes that indicate the result of the server's attempt to fulfill the request.
 
 These codes are grouped into categories:
 
@@ -156,7 +156,7 @@ These codes are grouped into categories:
 The HTTP flow is a standard process that follows several key steps for the transmission of information between clients and servers.
 
 Simplified HTTP flowOpen connection
-Before any exchange of information, a TCP/IP connection between the client and the server must be established. The client (browser) initiates the connection by resolving the server’s domain name to an IP address, and then sending a connection request to the server on the standard HTTP port, which is port 80 (or port 443 for HTTPS).
+Before any exchange of information, a TCP/IP connection between the client and the server must be established. The client (browser) initiates the connection by resolving the server's domain name to an IP address, and then sending a connection request to the server on the standard HTTP port, which is port 80 (or port 443 for HTTPS).
 
 Send HTTP Request
 Once the connection is established, the client sends a request message to the server.
@@ -192,22 +192,22 @@ Communication between client and server using the 4 layers from TCP/IP protocols
 
 ### Secure HTTP (HTTPS)
 
-Secure HTTP (HTTPS) is an extension of the Hypertext Transfer Protocol (HTTP) designed for secure communication over computer networks. HTTPS is widely used on the Internet for secure transactions, such as online banking, e-commerce, and to protect the exchange of confidential information between the user’s browser and the visited website.
+Secure HTTP (HTTPS) is an extension of the Hypertext Transfer Protocol (HTTP) designed for secure communication over computer networks. HTTPS is widely used on the Internet for secure transactions, such as online banking, e-commerce, and to protect the exchange of confidential information between the user's browser and the visited website.
 
 How HTTPS Works
-HTTPS secures communication between the user’s browser and the website’s server by encrypting the information sent and received. This is accomplished through the use of the SSL/TLS (Secure Sockets Layer/Transport Layer Security) protocol, which establishes an encrypted connection and verifies the authenticity of the visited server, ensuring that the user is communicating with the intended site and not an imposter.
+HTTPS secures communication between the user's browser and the website's server by encrypting the information sent and received. This is accomplished through the use of the SSL/TLS (Secure Sockets Layer/Transport Layer Security) protocol, which establishes an encrypted connection and verifies the authenticity of the visited server, ensuring that the user is communicating with the intended site and not an imposter.
 
 Key Components of HTTPS
 
 - Encryption: Ensures that transmitted data can only be read by the intended parties. Even if the data is intercepted, encryption ensures it remains indecipherable to the interceptor.
-- Authentication: Confirms the server’s identity to the client, typically through digital certificates issued by Certificate Authorities (CAs).
+- Authentication: Confirms the server's identity to the client, typically through digital certificates issued by Certificate Authorities (CAs).
 - Data Integrity: Ensures that the transmitted data is not altered or corrupted during transfer.
 
 Benefits of HTTPS
 
 - Security: Protects user data against interception, modification, and forgery.
 - Privacy: Ensures that communication between the client and server remains confidential.
-- Trust: Increases users’ trust by providing a visual indicator (such as a lock icon in the browser’s address bar) that their connection is secure.
+- Trust: Increases users' trust by providing a visual indicator (such as a lock icon in the browser's address bar) that their connection is secure.
 
 Implementing HTTPS
 To implement HTTPS on a website, the site owner needs to obtain an SSL/TLS certificate from a trusted Certificate Authority. This certificate is then installed on the web server, configuring it to use the HTTPS protocol for secure communications.
