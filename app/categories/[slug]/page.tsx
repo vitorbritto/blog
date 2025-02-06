@@ -1,5 +1,3 @@
-import fs from "fs";
-import path from "path";
 import { notFound } from "next/navigation";
 import { Article, Category } from "@/lib/types/content";
 import { getArticleBySlug } from "@/lib/content";
@@ -24,21 +22,34 @@ const icons = {
   Code2,
 };
 
+const categories = {
+  architecture: {
+    slug: "architecture",
+    name: "Arquitetura",
+    description: "Design patterns e boas práticas",
+    icon: "Network",
+    articles: ["clean-architecture-node"],
+  },
+  "back-end": {
+    slug: "back-end",
+    name: "Back-end",
+    description: "APIs, bancos de dados e servidores",
+    icon: "Terminal",
+    articles: ["clean-architecture-node"],
+  },
+  "front-end": {
+    slug: "front-end",
+    name: "Front-end",
+    description: "UI/UX, frameworks e bibliotecas",
+    icon: "Layout",
+    articles: ["react-performance"],
+  },
+};
+
 export const runtime = "edge";
 
 async function getCategoryData(slug: string): Promise<Category | null> {
-  try {
-    const filePath = path.join(
-      process.cwd(),
-      "content",
-      "categories",
-      `${slug}.json`
-    );
-    const fileContent = fs.readFileSync(filePath, "utf8");
-    return JSON.parse(fileContent);
-  } catch {
-    return null;
-  }
+  return categories[slug as keyof typeof categories] || null;
 }
 
 async function getCategoryArticles(slugs: string[]): Promise<Article[]> {
