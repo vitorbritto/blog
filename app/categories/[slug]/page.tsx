@@ -114,3 +114,12 @@ export default async function CategoryPage({ params }: PageProps) {
     </main>
   );
 }
+
+export function generateStaticParams() {
+  const categoriesPath = path.join(process.cwd(), "content", "categories");
+  const files = fs.readdirSync(categoriesPath);
+
+  return files.map((file) => ({
+    slug: file.replace(".json", ""),
+  }));
+}

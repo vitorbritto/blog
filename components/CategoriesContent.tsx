@@ -37,7 +37,7 @@ export function CategoriesContent() {
     },
     {
       name: t("categories.architecture.name"),
-      slug: "arquitetura",
+      slug: "architecture",
       description: t("categories.architecture.description"),
       count: 8,
       icon: Network,
