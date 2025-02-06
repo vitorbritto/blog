@@ -108,5 +108,8 @@
     "exclusiveTips": "Exclusive Tips",
     "newArticles": "New Articles",
     "emailPlaceholder": "your@email.com"
+  },
+  "articles": {
+    "description": "Explore articles about development, architecture and best practices. Shared knowledge to help you become a better developer."
   }
 }

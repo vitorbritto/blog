@@ -108,5 +108,9 @@
     "exclusiveTips": "Dicas exclusivas",
     "newArticles": "Novos artigos",
     "emailPlaceholder": "seu@email.com"
+  },
+
+  "articles": {
+    "description": "Explore artigos sobre desenvolvimento, arquitetura e boas práticas. Conhecimento compartilhado para ajudar você a se tornar um desenvolvedor melhor."
   }
 }
