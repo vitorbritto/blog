@@ -3,27 +3,9 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArticleImage } from "./ArticleImage";
+import { Article } from "@/lib/types/content";
 import { useLanguage } from "@/lib/hooks/useLanguage";
 import { getTranslatedArticle } from "@/lib/i18n";
-
-interface Article {
-  slug: string;
-  coverImage?: string;
-  date: string;
-  readTime: number;
-  translations: {
-    en: {
-      title: string;
-      excerpt: string;
-      content: string;
-    };
-    "pt-BR": {
-      title: string;
-      excerpt: string;
-      content: string;
-    };
-  };
-}
 
 interface TrackTimelineProps {
   articles: Article[];
@@ -34,7 +16,6 @@ export function TrackTimeline({ articles }: TrackTimelineProps) {
 
   return (
     <div className="relative space-y-12">
-      {/* Linha vertical central */}
       <div className="absolute left-6 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-emerald-400/50 to-transparent" />
 
       {articles.map((article, index) => {
@@ -48,15 +29,17 @@ export function TrackTimeline({ articles }: TrackTimelineProps) {
             transition={{ delay: index * 0.1 }}
             className="relative pl-16"
           >
-            {/* Círculo na timeline */}
-            <div className="absolute left-[1.5rem] top-8 w-4 h-4 rounded-full bg-emerald-400 -translate-x-1/2" />
+            <div className="absolute left-[1.5rem] top-8 w-8 h-8 rounded-full bg-emerald-400 -translate-x-1/2">
+              <p className="text-zinc-700 py-1 px-2.5 font-bold text-center">
+                {index + 1}
+              </p>
+            </div>
 
             <Link
               href={`/articles/${article.slug}`}
               className="block group bg-zinc-900 rounded-lg overflow-hidden hover:bg-zinc-800/50 transition-colors"
             >
               <div className="grid sm:grid-cols-[1fr,320px]">
-                {/* Conteúdo */}
                 <div className="p-6 space-y-4">
                   <div className="flex items-center gap-2 text-sm text-zinc-400">
                     <span>{article.readTime} min</span>
@@ -69,7 +52,6 @@ export function TrackTimeline({ articles }: TrackTimelineProps) {
                   </p>
                 </div>
 
-                {/* Imagem */}
                 <div className="relative aspect-video sm:aspect-auto">
                   <ArticleImage
                     src={article.coverImage}
