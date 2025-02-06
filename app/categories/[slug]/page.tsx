@@ -24,6 +24,8 @@ const icons = {
   Code2,
 };
 
+export const runtime = "edge";
+
 async function getCategoryData(slug: string): Promise<Category | null> {
   try {
     const filePath = path.join(
