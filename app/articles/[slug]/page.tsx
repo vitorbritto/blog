@@ -6,22 +6,20 @@ import { ArticleShare } from "@/components/ArticleShare";
 import { ArticleNavigation } from "@/components/ArticleNavigation";
 import { ArticleContent } from "@/components/ArticleContent";
 
-export default async function ArticlePage({
-  params,
-}: {
-  params: { slug: string } | Promise<{ slug: string }>;
-}) {
-  const resolvedParams = await Promise.resolve(params);
-  const article = await getArticleBySlug(resolvedParams.slug);
+interface PageProps {
+  params: Promise<{ slug: string }>;
+}
+
+export default async function ArticlePage({ params }: PageProps) {
+  const { slug } = await params;
+  const article = await getArticleBySlug(slug);
 
   if (!article) {
     notFound();
   }
 
   const articles = await getAllArticles();
-  const currentIndex = articles.findIndex(
-    (a) => a.slug === resolvedParams.slug
-  );
+  const currentIndex = articles.findIndex((a) => a.slug === slug);
   const previousArticle = articles[currentIndex + 1] || null;
   const nextArticle = articles[currentIndex - 1] || null;
 
