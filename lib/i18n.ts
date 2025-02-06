@@ -5,6 +5,7 @@ export function getTranslatedArticle(
   language: "en" | "pt-BR"
 ) {
   return {
+    ...article,
     title: article.translations[language].title,
     excerpt: article.translations[language].excerpt,
     content: article.translations[language].content,
