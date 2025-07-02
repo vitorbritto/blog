@@ -1,9 +1,8 @@
 ---
-title: React: An Overview about SyntheticEvent
-excerpt: React: An Overview about SyntheticEvent
+title: 'React: An Overview about SyntheticEvent'
+excerpt: An efficient way to deal with all events across browsers.
 ---
 
-An efficient way to deal with all events across browsers.An efficient way to deal with all events across browsers.Photo by[John Schnobrich](https://unsplash.com/@johnschno?utm_source=medium&utm_medium=referral)on[Unsplash](https://unsplash.com?utm_source=medium&utm_medium=referral)
 SyntheticEvent is a wrapper based on the browser's native events.
 
 It provides an unified API, prevents browser inconsistencies, and ensures that the event works across multiple platforms.
@@ -20,6 +19,8 @@ Each JavaScript event has an event handler that works with an event listener. Th
 
 React Synthetic Events are very similar to Native Events, however, with Synthetic Events, the same API interface is implemented across multiple browsers.
 
+![Synthetic Events](/blog/articles/img_68_2.jpg)
+
 Every Synthetic Events object has the following attributes:
 
 ```js
@@ -28,11 +29,13 @@ boolean bubblesboolean cancelableDOMEventTarget currentTarget // the element tha
 
 Here is a log from Chrome Dev Tools Console where you can see it in action.
 
+![Synthetic Events](/blog/articles/img_68_3.png)
+
 Both Synthetic Events and Native Events can implement the preventDefault and stopPropagation methods. However, synthetic events and native events are not exactly the same thing. For example, SyntheticEvent will point to mouseout for onMouseLeave Event.
 
 You can always access native events with the nativeEvent attribute if you need direct access. Other SyntheticEvent attributes include DOMEventTarget, currentTarget, boolean defaultPrevented, and string type, to name a few.
 
-## Why it's useful
+## Why it's useful
 
 - Cross-browser: It wraps the brower's native event through nativeEvent attribute and provices a uniform api and consistent behavior on top level
 - Better performance: Events are delegated to document through bubbling.

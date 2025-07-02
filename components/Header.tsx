@@ -1,13 +1,13 @@
-"use client";
+'use client'
 
-import Link from "next/link";
-import Image from "next/image";
-import { useTranslation } from "@/lib/hooks/useTranslation";
-import { LanguageSelector } from "./LanguageSelector";
-import { SocialLinks } from "./SocialLinks";
+import Link from 'next/link'
+import Image from 'next/image'
+import { useTranslation } from '@/lib/hooks/useTranslation'
+import { LanguageSelector } from './LanguageSelector'
+import { SocialLinks } from './SocialLinks'
 
 export function Header() {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   return (
     <header className="fixed left-1/2 -translate-x-1/2 w-[95%] max-w-full mx-auto px-6 top-6 z-10 bg-zinc-950/80 rounded-full border border-zinc-800 backdrop-blur-md">
@@ -28,26 +28,26 @@ export function Header() {
               href="/articles"
               className="text-sm hover:text-emerald-400 transition-colors"
             >
-              {t("nav.articles")}
+              {t('nav.articles')}
             </Link>
             <Link
               href="/tracks"
               className="text-sm hover:text-emerald-400 transition-colors"
             >
-              {t("nav.tracks")}
+              {t('nav.tracks')}
             </Link>
             <Link
               href="/categories"
               className="text-sm hover:text-emerald-400 transition-colors"
             >
-              {t("nav.categories")}
+              {t('nav.categories')}
             </Link>
             <Link
               target="_blank"
               href="https://vitorbritto.dev"
               className="text-sm hover:text-emerald-400 transition-colors"
             >
-              {t("nav.about")}
+              {t('nav.about')}
             </Link>
           </div>
 
@@ -61,5 +61,5 @@ export function Header() {
         </div>
       </nav>
     </header>
-  );
+  )
 }

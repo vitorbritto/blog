@@ -1,7 +1,7 @@
-import { Hero } from "@/components/Hero";
-import { Tracks } from "@/components/Tracks";
-import { FeaturedPosts } from "@/components/FeaturedPosts";
-import { Categories } from "@/components/Categories";
+import { Hero } from '@/components/Hero'
+import { FeaturedPosts } from '@/components/FeaturedPosts'
+import { Tracks } from '@/components/Tracks'
+import { Categories } from '@/components/Categories'
 
 export default async function Home() {
   return (
@@ -16,5 +16,5 @@ export default async function Home() {
         <Categories />
       </div>
     </main>
-  );
+  )
 }

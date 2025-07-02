@@ -1,24 +1,34 @@
-import { Github, Linkedin, Youtube, BookOpen } from "lucide-react";
+import { Github, Linkedin, Youtube, BookOpen, Code, FileStack } from 'lucide-react'
 
 export const socialLinks = [
   {
-    href: "https://github.com/vitorbritto",
+    href: 'https://github.com/vitorbritto',
     icon: Github,
-    label: "GitHub",
+    label: 'GitHub'
   },
   {
-    href: "https://linkedin.com/in/vitorbritto",
+    href: 'https://linkedin.com/in/vitorbritto',
     icon: Linkedin,
-    label: "LinkedIn",
+    label: 'LinkedIn'
   },
   {
-    href: "https://youtube.com/@vitor.britto",
+    href: 'https://youtube.com/@vitor.britto',
     icon: Youtube,
-    label: "YouTube",
+    label: 'YouTube'
   },
   {
-    href: "https://medium.com/@vitorbritto",
+    href: 'https://medium.com/@vitorbritto',
     icon: BookOpen,
-    label: "Medium",
+    label: 'Medium'
   },
-] as const;
+  {
+    href: 'https://dev.to/vitorbritto',
+    icon: Code,
+    label: 'Dev.to'
+  },
+  {
+    href: 'https://substack.com/@vitorbritto',
+    icon: FileStack,
+    label: 'Substack'
+  }
+] as const

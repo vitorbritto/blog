@@ -1,6 +1,6 @@
 ---
-title: JavaScript: What is a Function?
-excerpt: JavaScript: What is a Function?
+title: 'JavaScript: What is a Function?'
+excerpt: What you should know about Functions in JavaScript.
 ---
 
 What you should know about Functions in JavaScript.What you should know about Functions in JavaScript.Photo by[Alejandro Piñero Amerio](https://unsplash.com/@vjgalaxy?utm_source=medium&utm_medium=referral)on[Unsplash](https://unsplash.com?utm_source=medium&utm_medium=referral)
@@ -19,9 +19,9 @@ Here is an example of a declared function in JavaScript:
 
 ```js
 function addNumbers(a, b) {
-  return a + b;
+  return a + b
 }
-let result = addNumbers(2, 3); // calling the function and storing the result in a variableconsole.log(result); // output: 5
+let result = addNumbers(2, 3) // calling the function and storing the result in a variableconsole.log(result); // output: 5
 ```
 
 In this example, a function named addNumbers is declared using the function keyword with two parameters a and b. The function returns the sum of a and b. Later, the function is called with arguments 2 and 3 and the returned value is stored in a variable named result. Finally, the output is printed to the console using the console.log method which displays 5 in the console.
@@ -53,8 +53,8 @@ Check the examples bellow.
 Example 1: Variable hoisting
 
 ```js
-console.log(a);
-var a = 2; // Output: undefined
+console.log(a)
+var a = 2 // Output: undefined
 ```
 
 In the above code, the variable a is declared using the var keyword but it is used before its declaration. The output of this code will be undefined because only the declaration of the variable is hoisted to the top, and not the assignment of its value.
@@ -62,9 +62,9 @@ In the above code, the variable a is declared using the var keyword but it is us
 Example 2: Function hoisting
 
 ```js
-sayHello();
+sayHello()
 function sayHello() {
-  console.log("Hello!");
+  console.log('Hello!')
 } // Output: "Hello!"
 ```
 
@@ -73,8 +73,8 @@ In this example, the sayHello() function is declared after it is called but it s
 Example 3: Function expression
 
 ```js
-someFunction();
-const someFunction = () => console.log("This is some function."); // Output: TypeError: someFunction is not a function
+someFunction()
+const someFunction = () => console.log('This is some function.') // Output: TypeError: someFunction is not a function
 ```
 
 This example shows that function expressions are not hoisted. In this case, someFunction was declared using a function expression instead of a function declaration, therefore it is not hoisted and it results in a TypeError when we try to call it before it is declared.
@@ -89,9 +89,9 @@ Here's an example of a function that takes two parameters and returns their sum:
 
 ```js
 function addNumbers(num1, num2) {
-  return num1 + num2;
+  return num1 + num2
 }
-console.log(addNumbers(5, 7)); // Output: 12console.log(addNumbers(10, 3)); // Output: 13
+console.log(addNumbers(5, 7)) // Output: 12console.log(addNumbers(10, 3)); // Output: 13
 ```
 
 In this example, num1 and num2 are the parameters of the addNumbers function. When the function is called, the values passed in (5 and 7, or 10 and 3) become the values of num1 and num2, and the function returns their sum.
@@ -99,10 +99,10 @@ In this example, num1 and num2 are the parameters of the addNumbers function. Wh
 Parameters can also have default values, which are used if no value is passed in when the function is called. Here's an example:
 
 ```js
-function greet(name = "stranger") {
-  console.log(`Hello, ${name}!`);
+function greet(name = 'stranger') {
+  console.log(`Hello, ${name}!`)
 }
-greet(); // Output: Hello, stranger!greet('Vitor'); // Output: Hello, Vitor!
+greet() // Output: Hello, stranger!greet('Vitor'); // Output: Hello, Vitor!
 ```
 
 In this example, the greet function takes one parameter, name, which has a default value of 'stranger'. When the function is called without any arguments, name defaults to 'stranger' and the function prints "Hello, stranger!" to the console. When the function is called with an argument, that argument becomes the value of name.
@@ -111,13 +111,13 @@ Lastly, functions can also accept an unlimited number of arguments using the res
 
 ```js
 function getAverage(...nums) {
-  let total = 0;
+  let total = 0
   for (let num of nums) {
-    total += num;
+    total += num
   }
-  return total / nums.length;
+  return total / nums.length
 }
-console.log(getAverage(1, 2, 3, 4, 5)); // Output: 3console.log(getAverage(10, 20, 30)); // Output: 20
+console.log(getAverage(1, 2, 3, 4, 5)) // Output: 3console.log(getAverage(10, 20, 30)); // Output: 20
 ```
 
 In this example, the getAverage function accepts an unlimited number of arguments using the rest parameter syntax (...nums). The function then loops through all the arguments and adds them up to get their total, and finally, it returns the average of those numbers by dividing the total by the number of arguments passed in.
@@ -151,9 +151,9 @@ This method is similar to the call() method, but instead of passing each argumen
 In the example bellow, we use the Math.max() method to find the maximum number in an array of numbers. However, since Math.max() is not an array method, we cannot directly apply it to the array. Instead, we use the apply() method to pass the array as an argument.
 
 ```js
-const numbers = [1, 2, 3, 4, 5];
-const maxNum = Math.max.apply(null, numbers);
-console.log(maxNum); // 5
+const numbers = [1, 2, 3, 4, 5]
+const maxNum = Math.max.apply(null, numbers)
+console.log(maxNum) // 5
 ```
 
 The bind() Method
