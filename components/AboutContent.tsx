@@ -1,10 +1,10 @@
-"use client";
+'use client'
 
-import Image from "next/image";
-import { useTranslation } from "@/lib/hooks/useTranslation";
+import Image from 'next/image'
+import { useTranslation } from '@/lib/hooks/useTranslation'
 
 export function AboutContent() {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   return (
     <section className="border-t border-zinc-800 bg-zinc-900/30">
@@ -15,7 +15,7 @@ export function AboutContent() {
               <div className="absolute -inset-[2px] rounded-lg bg-gradient-to-r from-emerald-400 via-emerald-500 to-emerald-400 animate-glow blur-md opacity-40" />
               <div className="absolute -inset-[2px] rounded-lg bg-gradient-to-r from-emerald-400 via-emerald-500 to-emerald-400 animate-gradient-x" />
               <Image
-                src="/avatar.png"
+                src="/avatar.jpeg"
                 alt="Vitor Britto"
                 fill
                 className="relative rounded-lg object-cover"
@@ -37,22 +37,20 @@ export function AboutContent() {
           </div>
           <div className="lg:w-2/3 text-center lg:text-left">
             <div className="inline-flex items-center rounded-full px-3 py-1 text-xs font-medium bg-emerald-400/10 text-emerald-400 ring-1 ring-inset ring-emerald-400/20 mb-4">
-              {t("common.seniorSoftwareEngineer")}
+              {t('common.seniorSoftwareEngineer')}
             </div>
             <h2 className="text-3xl font-bold mb-6">
-              {t("common.hello")}{" "}
-              <span className="inline-block animate-wave origin-[70%_70%]">
-                👋
-              </span>
+              {t('common.hello')}{' '}
+              <span className="inline-block animate-wave origin-[70%_70%]">👋</span>
             </h2>
             <div className="space-y-4 text-zinc-400">
-              <p>{t("common.description1")}</p>
-              <p>{t("common.description2")}</p>
-              <p>{t("common.description3")}</p>
+              <p>{t('common.description1')}</p>
+              <p>{t('common.description2')}</p>
+              {/* <p>{t("common.description3")}</p> */}
             </div>
           </div>
         </div>
       </div>
     </section>
-  );
+  )
 }
