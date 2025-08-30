@@ -46,7 +46,6 @@ export function AboutContent() {
             <div className="space-y-4 text-zinc-400">
               <p>{t('common.description1')}</p>
               <p>{t('common.description2')}</p>
-              {/* <p>{t("common.description3")}</p> */}
             </div>
           </div>
         </div>

@@ -14,14 +14,14 @@ export const metadata: Metadata = {
   title: 'Vitor Britto',
   description: 'Um blog sobre tecnologia e carreira. 🚀',
   keywords: ['Vitor Britto', 'blog', 'tecnologia', 'carreira'],
-  metadataBase: new URL('https://vitorbritto.com'),
+  metadataBase: new URL('https://vitorbritto.dev'),
   icons: {
     icon: '/favicon.png'
   },
   openGraph: {
     type: 'website',
     locale: 'pt_BR',
-    url: 'https://vitorbritto.com',
+    url: 'https://vitorbritto.dev',
     title: 'Vitor Britto',
     description: 'Um blog sobre tecnologia e carreira. 🚀',
     siteName: 'Vitor Britto',

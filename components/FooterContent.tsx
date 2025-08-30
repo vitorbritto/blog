@@ -1,16 +1,14 @@
-"use client";
+'use client'
 
-import { Mail, Sparkles, Rocket } from "lucide-react";
-import { useTranslation } from "@/lib/hooks/useTranslation";
+import { Mail, Sparkles, Rocket } from 'lucide-react'
+import { useTranslation } from '@/lib/hooks/useTranslation'
 
 export function FooterContent() {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   return (
     <footer className="border-t border-zinc-800 bg-zinc-900/50 backdrop-blur-sm">
-      <div className="max-w-6xl mx-auto px-6 py-16">
-        {/* Newsletter Section */}
-        <div className="max-w-2xl mx-auto mb-16">
+      {/* <div className="max-w-2xl mx-auto mb-16">
           <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-8">
             <div className="flex flex-col items-center text-center mb-8">
               <div className="w-12 h-12 bg-emerald-400/10 rounded-xl flex items-center justify-center mb-4">
@@ -45,13 +43,11 @@ export function FooterContent() {
               </button>
             </form>
           </div>
-        </div>
+        </div> */}
 
-        {/* Copyright */}
-        <div className="text-center border-t border-zinc-800 pt-8">
-          <p className="text-sm text-zinc-400">{t("common.copyright")}</p>
-        </div>
+      <div className="text-center p-8">
+        <p className="text-sm text-zinc-400">{t('common.copyright')}</p>
       </div>
     </footer>
-  );
+  )
 }

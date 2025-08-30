@@ -1,11 +1,11 @@
-import { notFound } from "next/navigation";
-import Image from "next/image";
-import Link from "next/link";
-import fs from "fs";
-import path from "path";
-import { Article, Category } from "@/lib/types/content";
-import { getArticleBySlug } from "@/lib/content";
-import { getTranslatedArticle } from "@/lib/i18n";
+import { notFound } from 'next/navigation'
+import Image from 'next/image'
+import Link from 'next/link'
+import fs from 'fs'
+import path from 'path'
+import { Article, Category } from '@/lib/types/content'
+import { getArticleBySlug } from '@/lib/content'
+import { getTranslatedArticle } from '@/lib/i18n'
 import {
   Code2,
   Layout,
@@ -14,11 +14,11 @@ import {
   Terminal,
   Database,
   Lock,
-  Cpu,
-} from "lucide-react";
+  Cpu
+} from 'lucide-react'
 
 interface PageProps {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string }>
 }
 
 const icons = {
@@ -29,41 +29,34 @@ const icons = {
   Lock,
   Cpu,
   Code2,
-  Cloud,
-};
+  Cloud
+}
 
 async function getCategoryData(slug: string): Promise<Category | null> {
   try {
-    const filePath = path.join(
-      process.cwd(),
-      "content",
-      "categories",
-      `${slug}.json`
-    );
-    const fileContent = fs.readFileSync(filePath, "utf8");
-    return JSON.parse(fileContent);
+    const filePath = path.join(process.cwd(), 'content', 'categories', `${slug}.json`)
+    const fileContent = fs.readFileSync(filePath, 'utf8')
+    return JSON.parse(fileContent)
   } catch {
-    return null;
+    return null
   }
 }
 
 async function getCategoryArticles(slugs: string[]): Promise<Article[]> {
-  const articles = await Promise.all(
-    slugs.map((slug) => getArticleBySlug(slug))
-  );
-  return articles.filter((article): article is Article => article !== null);
+  const articles = await Promise.all(slugs.map(slug => getArticleBySlug(slug)))
+  return articles.filter((article): article is Article => article !== null)
 }
 
 export default async function CategoryPage({ params }: PageProps) {
-  const { slug } = await params;
-  const category = await getCategoryData(slug);
+  const { slug } = await params
+  const category = await getCategoryData(slug)
 
   if (!category) {
-    notFound();
+    notFound()
   }
 
-  const articles = await getCategoryArticles(category.articles);
-  const Icon = icons[category.icon as keyof typeof icons];
+  const articles = await getCategoryArticles(category.articles)
+  const Icon = icons[category.icon as keyof typeof icons]
 
   return (
     <main className="max-w-6xl mx-auto px-6 py-24">
@@ -78,14 +71,11 @@ export default async function CategoryPage({ params }: PageProps) {
 
       {/* Articles Grid */}
       <div className="grid gap-8 md:grid-cols-2">
-        {articles.map((article) => {
-          const translatedArticle = getTranslatedArticle(article, "pt-BR");
+        {articles.map(article => {
+          const translatedArticle = getTranslatedArticle(article, 'pt-BR')
           return (
             <article key={article.slug} className="group">
-              <Link
-                href={`/articles/${article.slug}`}
-                className="space-y-4 block"
-              >
+              <Link href={`/articles/${article.slug}`} className="space-y-4 block">
                 <div className="relative aspect-video rounded-lg overflow-hidden bg-zinc-900">
                   <Image
                     src={article.coverImage}
@@ -110,18 +100,9 @@ export default async function CategoryPage({ params }: PageProps) {
                 </div>
               </Link>
             </article>
-          );
+          )
         })}
       </div>
     </main>
-  );
-}
-
-export function generateStaticParams() {
-  const categoriesPath = path.join(process.cwd(), "content", "categories");
-  const files = fs.readdirSync(categoriesPath);
-
-  return files.map((file) => ({
-    slug: file.replace(".json", ""),
-  }));
+  )
 }
