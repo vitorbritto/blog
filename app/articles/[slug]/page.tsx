@@ -2,6 +2,8 @@ import { getArticleBySlug } from '@/lib/content'
 import { notFound } from 'next/navigation'
 import { ArticleContent } from '@/components/ArticleContent'
 
+export const runtime = 'edge'
+
 interface PageProps {
   params: Promise<{ slug: string }>
 }
