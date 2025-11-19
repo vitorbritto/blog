@@ -1,8 +1,13 @@
-import { getArticleBySlug } from '@/lib/content'
+import { getArticleBySlug, getAllArticles } from '@/lib/content'
 import { notFound } from 'next/navigation'
 import { ArticleContent } from '@/components/ArticleContent'
 
-export const runtime = 'edge'
+export async function generateStaticParams() {
+  const articles = await getAllArticles()
+  return articles.map((article) => ({
+    slug: article.slug
+  }))
+}
 
 interface PageProps {
   params: Promise<{ slug: string }>
