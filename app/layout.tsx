@@ -1,19 +1,18 @@
 import { Suspense } from 'react'
 import type { Metadata } from 'next'
-import { JetBrains_Mono } from 'next/font/google'
+import { Inter } from 'next/font/google'
 import { Toaster } from 'sonner'
 import { Header } from '@/components/Header'
-import { About } from '@/components/About'
-import { Footer } from '@/components/Footer'
+import { LanguageProvider } from '@/components/LanguageProvider'
 import GoogleAnalytics from '@/components/GoogleAnalytics'
 import './globals.css'
 
-const jetbrains = JetBrains_Mono({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Vitor Britto',
-  description: 'Um blog sobre tecnologia e carreira. 🚀',
-  keywords: ['Vitor Britto', 'blog', 'tecnologia', 'carreira'],
+  description: 'Thoughts on technology, development, and software engineering.',
+  keywords: ['Vitor Britto', 'blog', 'technology', 'software engineering'],
   metadataBase: new URL('https://vitorbritto.dev'),
   icons: {
     icon: '/favicon.png'
@@ -23,7 +22,7 @@ export const metadata: Metadata = {
     locale: 'pt_BR',
     url: 'https://vitorbritto.dev',
     title: 'Vitor Britto',
-    description: 'Um blog sobre tecnologia e carreira. 🚀',
+    description: 'Thoughts on technology, development, and software engineering.',
     siteName: 'Vitor Britto',
     images: [
       {
@@ -37,25 +36,25 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Vitor Britto',
-    description: 'Um blog sobre tecnologia e carreira. 🚀',
+    description: 'Thoughts on technology, development, and software engineering.',
     images: ['/preview.png']
   }
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR">
+    <html lang="en">
       <head>
         <Suspense>
           <GoogleAnalytics />
         </Suspense>
       </head>
-      <body className={`${jetbrains.className} bg-zinc-950 text-zinc-100 pt-12`}>
-        <Header />
-        {children}
-        <About />
-        <Footer />
-        <Toaster />
+      <body className={`${inter.className} bg-zinc-900 text-zinc-100 antialiased`}>
+        <LanguageProvider>
+          <Header />
+          {children}
+          <Toaster />
+        </LanguageProvider>
       </body>
     </html>
   )

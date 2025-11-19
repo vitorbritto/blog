@@ -33,7 +33,7 @@ export function CodeBlock({ code, language }: CodeBlockProps) {
     <div className="group relative">
       <button
         onClick={handleCopy}
-        className="absolute right-2 top-2 p-2 rounded-lg bg-zinc-800/50 text-zinc-400 opacity-0 group-hover:opacity-100 transition-opacity"
+        className="absolute right-2 top-2 p-2 rounded-lg bg-zinc-800/80 text-zinc-300 hover:bg-zinc-700 opacity-0 group-hover:opacity-100 transition-opacity"
       >
         {isCopied ? (
           <Check className="w-4 h-4" />
@@ -41,7 +41,7 @@ export function CodeBlock({ code, language }: CodeBlockProps) {
           <Copy className="w-4 h-4" />
         )}
       </button>
-      <pre className="overflow-x-auto rounded-lg border border-zinc-700 pre">
+      <pre className="overflow-x-auto rounded-lg border border-zinc-800 bg-zinc-900 pre">
         <code className={`language-${language}`}>{code}</code>
       </pre>
     </div>
