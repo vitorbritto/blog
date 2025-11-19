@@ -1,0 +1,61 @@
+---
+title: The power of React Hooks
+excerpt: The power of React Hooks
+---
+
+How Hooks can help you build complex Components in React.How Hooks can help you build complex Components in React.Photo by[M ZHA](https://unsplash.com/@0bserver?utm_source=medium&utm_medium=referral)on[Unsplash](https://unsplash.com?utm_source=medium&utm_medium=referral)
+Hooks is a set of APIs that were introduced in React 16.8 and that now allow the use of states, lifecycle, among other features in components, without the need to use classes (stateful components). Because of Hooks, we started to use more Functional programming, with less verbosity and in a more performative way to deal with the states and life cycle of each variable of a more complex component.
+
+
+Those who use React in more complex projects and have already needed to use HOCs and Render Props will understand how useful Hooks can be to facilitate and simplify the construction of components in a more practical way.
+
+
+Hooks empowers devs to do functional programming in React.
+
+
+### A brief history about React Composition
+
+
+Before you get into Hooks, check the articles above about Render Props and HOCs.
+
+[React Patterns — Começando pelo Render PropsVocê já deve ter ouvido um monte de gente falar sobre “padrões de código no JavaScript (React, specially)”. Mas você…medium.com](https://medium.com/collabcode/react-patterns-come%C3%A7ando-pelo-render-props-e0040ef723ce)[](https://medium.com/collabcode/react-patterns-come%C3%A7ando-pelo-render-props-e0040ef723ce)[Higher-Order Components (HOCs) no React e React NativeOs High-Order Components são formas de reutilizarmos lógicas repetidas em mais componentes de uma forma prática no…blog.rocketseat.com.br](https://blog.rocketseat.com.br/higher-order-components-hocs-no-react-e-react-native/)[](https://blog.rocketseat.com.br/higher-order-components-hocs-no-react-e-react-native/)
+### The React Hooks
+
+
+With React Hooks, we can isolate stateful logic and side-effects from a functional component. Hooks are JavaScript functions that manage the state’s behaviour and side effects by isolating them from a component.
+
+
+So, we can now isolate all the stateful logic in hooks and use (compose them, as hooks are functions, too) into the components.
+
+
+The question is, what is this stateful logic? It can be anything that needs to declare and manage a state variable locally.
+
+
+For example, the logic to fetch data and manage the data in a local variable is stateful. We may also want to reuse the fetching logic in multiple components.
+
+[React Hooks: Como utilizar, motivações e exemplos práticosA funcionalidade de Hooks trazida a partir da versão 16.7.0 do React visa basicamente oferecer formas de trabalharmos…blog.rocketseat.com.br](https://blog.rocketseat.com.br/react-hooks/)[](https://blog.rocketseat.com.br/react-hooks/)
+So, how can we define React Hooks in plain English? Now that we understand functions, composability, components, states, and side-effects, here goes a definition of React Hooks:
+
+
+React provides a bunch of standard in-built hooks:
+
+
+- useState: To manage states. Returns a stateful value and an updater function to update it.
+- useEffect: To manage side-effects like API calls, subscriptions, timers, mutations, and more.
+- useContext: To return the current value for a context.
+- useReducer: A useState alternative to help with complex state management.
+- useCallback: It returns a memorized version of a callback to help a child component not re-render unnecessarily.
+- useMemo: It returns a memoized value that helps in performance optimizations.
+- useRef: It returns a ref object with a .current property. The ref object is mutable. It is mainly used to access a child component imperatively.
+- useLayoutEffect: It fires at the end of all DOM mutations. It's best to use useEffect as much as possible over this one as the useLayoutEffect fires synchronously.
+- useDebugValue: Helps to display a label in React DevTools for custom hooks.
+
+
+https://dev.to/meatboy/react-hooks-definitive-guide-for-beginners-3817
+
+
+View original.
+
+
+Exported from Medium on February 3, 2025.
+

@@ -68,6 +68,11 @@ export async function getArticlesByTrack(track: string): Promise<Article[]> {
 
 export async function getAllTracks(): Promise<Track[]> {
   const tracksDirectory = path.join(process.cwd(), 'content', 'tracks')
+  
+  if (!fs.existsSync(tracksDirectory)) {
+    return []
+  }
+  
   const trackFiles = fs.readdirSync(tracksDirectory)
 
   const tracks = trackFiles.map(fileName => {
@@ -81,6 +86,11 @@ export async function getAllTracks(): Promise<Track[]> {
 
 export async function getAllCategories(): Promise<Category[]> {
   const categoriesDirectory = path.join(process.cwd(), 'content', 'categories')
+  
+  if (!fs.existsSync(categoriesDirectory)) {
+    return []
+  }
+  
   const categoryFiles = fs.readdirSync(categoriesDirectory)
 
   const categories = categoryFiles.map(fileName => {
@@ -95,4 +105,22 @@ export async function getAllCategories(): Promise<Category[]> {
 export async function getCategoryBySlug(slug: string): Promise<Category | null> {
   const categories = await getAllCategories()
   return categories.find(category => category.slug === slug) || null
+}
+
+export async function getAllTags(): Promise<string[]> {
+  const articles = await getAllArticles()
+  const allTags = new Set<string>()
+  
+  articles.forEach(article => {
+    if (article.tags) {
+      article.tags.forEach(tag => allTags.add(tag))
+    }
+  })
+  
+  return Array.from(allTags).sort()
+}
+
+export async function getArticlesByTag(tag: string): Promise<Article[]> {
+  const articles = await getAllArticles()
+  return articles.filter(article => article.tags?.includes(tag))
 }

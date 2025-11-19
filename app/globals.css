@@ -3,31 +3,24 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: #18181b;
+  --foreground: #fafafa;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
 }
 
 html {
   scroll-behavior: smooth;
 }
 
+/* Code blocks */
 .pre {
   overflow-x: auto;
   border-radius: 0.5rem;
-  background-color: #111 !important;
+  background-color: #18181b !important;
   padding: 1.5rem !important;
   margin: 1.5rem 0 !important;
 }
@@ -43,16 +36,16 @@ html {
   border-left-color: transparent;
 }
 
-/* Estilo para código inline */
+/* Inline code */
 :not(pre) > code {
   padding: 0.2rem 0.4rem;
   font-size: 0.875em;
-  background-color: rgb(39 39 42);
-  color: rgb(74 222 128);
+  background-color: rgb(24 24 27);
+  color: rgb(52 211 153);
   border-radius: 0.25rem;
+  font-weight: 500;
 }
 
-/* Remove os backticks do código inline */
 :not(pre) > code::before,
 :not(pre) > code::after {
   display: none;

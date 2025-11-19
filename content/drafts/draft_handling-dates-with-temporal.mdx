@@ -1,0 +1,133 @@
+---
+title: Handling Dates with Temporal
+excerpt: Handling Dates with Temporal
+---
+
+A developer-friendly API for working with dates and timesA developer-friendly API for working with dates and timesPhoto by[Lucas Santos](https://unsplash.com/@_staticvoid?utm_source=medium&utm_medium=referral)on[Unsplash](https://unsplash.com?utm_source=medium&utm_medium=referral)
+Temporal is a proposal for a new JavaScript API designed to handle date and time functionality more effectively. It aims to address some of the shortcomings of the existing Date object, providing a more modern and developer-friendly API for working with dates and times.
+
+Please keep in mind that the Temporal proposal is[currently at stage 3](https://tc39.es/proposal-temporal/docs/index.html), so it’s not ready for production use yet.
+### Some key points
+
+
+Those who develop with JavaScript know how painful it can be to work with dates in it. That’s why Temporal is being put to the test to solve persistent headaches caused by the Date object.
+
+
+Here are some key points about the Temporal proposal:
+
+
+- Richer API: Temporal introduces a more comprehensive and intuitive API for handling dates and times. It includes separate objects for dates, times, and durations, making it easier to work with specific aspects of date and time information.
+- Immutability: Temporal objects are designed to be immutable, which means that once created, their values cannot be changed. This helps prevent unexpected side effects and makes it easier to reason about code that involves date and time manipulation.
+- Time Zone Support: Temporal provides built-in support for working with time zones, addressing one of the common pain points with the Date object. This makes it simpler to handle time zone conversions and daylight saving time adjustments.
+- Improved Precision: Temporal introduces the Temporal.Time object, which allows for representation of time with nanosecond precision. This finer granularity is beneficial for scenarios where high precision is required.
+- Parsing and Formatting: Temporal includes methods for parsing and formatting dates and times, making it easier to convert between string representations and Temporal objects. This is an improvement over the somewhat cumbersome methods provided by the Date object.
+- Consistent Behavior: Temporal aims to provide more consistent and predictable behavior compared to the Date object, which has some quirks and inconsistencies. The goal is to reduce the likelihood of bugs caused by unexpected behavior.
+
+
+The Temporal API introduces a modern set of features and objects designed to provide developers with more precision, flexibility, and clarity in working with temporal data. 
+
+Credit:Temporal Documentation.
+Let’s take a brief look at each of them.
+
+
+### Temporal.now
+
+
+Temporal.Now is designed to retrieve the current date and time with higher precision and more information than the traditional Date.now() method.
+
+📚Documentation:[https://tc39.es/proposal-temporal/docs/now.html](https://tc39.es/proposal-temporal/docs/now.html)Quick example
+```graf graf--pre graf-after--h4 graf--preV2
+const nowInstant = Temporal.Now.instant();console.log(nowInstant.toString()); // Output: 2024-01-25T12:34:56.789012345Z
+```
+
+Comparison:Temporal vs. Date
+```graf graf--pre graf-after--h4 graf--preV2
+// Using Temporal.Nowconst temporalInstant = Temporal.Now.instant(); // Get the current moment with nanosecond precisionconst temporalPlus5Days = temporalInstant.add({ days: 5 }); // Add 5 days to the current momentconsole.log("Temporal.Now Result:");console.log("Original Instant:", temporalInstant.toString()); // Display the original momentconsole.log("After Adding 5 Days:", temporalPlus5Days.toString()); // Display the moment after adding 5 daysconsole.log("");// Using Date.nowconst dateNowTimestamp = Date.now(); // Get the current timestamp in millisecondsconst datePlus5Days = new Date(dateNowTimestamp); // Create a Date object based on the current timestampdatePlus5Days.setDate(datePlus5Days.getDate() + 5); // Add 5 days to the Date objectconsole.log("Date.now Result:");console.log("Original Timestamp:", dateNowTimestamp); // Display the original timestampconsole.log("After Adding 5 Days:", datePlus5Days.toISOString()); // Display the date after adding 5 days in ISO format
+```
+
+
+### Temporal.instant
+
+
+The Temporal.Instant is a key component of the Temporal API in JavaScript, designed to represent an exact point in time with extremely high precision. It is part of the proposal aimed at modernizing date and time handling in JavaScript, providing developers with a more accurate and comprehensive solution than the existing Date object.
+
+📚Documentation:[https://tc39.es/proposal-temporal/docs/instant.html](https://tc39.es/proposal-temporal/docs/instant.html)Quick example
+```graf graf--pre graf-after--h4 graf--preV2
+const instant = Temporal.Instant.from('1969-07-20T20:17Z');instant.toString(); // Output: '1969-07-20T20:17:00Z'instant.epochMilliseconds; // Output: -14182980000
+```
+
+Comparison: Temporal vs. Date
+### Temporal.ZonedDateTime
+
+
+The Temporal.ZonedDateTime is designed to handle date and time information in conjunction with specific time zones. This object combines details about the date, time, and time zone, providing a comprehensive solution for representing moments in time accurately. With nanosecond precision and built-in support for time zone adjustments, including daylight saving time, Temporal.ZonedDateTime offers developers a modern and immutable alternative to the existing Date object.
+
+📚Documentation:[https://tc39.es/proposal-temporal/docs/zoneddatetime.html](https://tc39.es/proposal-temporal/docs/zoneddatetime.html)Quick example
+```graf graf--pre graf-after--h4 graf--preV2
+const zonedDateTime = Temporal.ZonedDateTime.from({  timeZone: 'America/Los_Angeles',  year: 1995,  month: 12,  day: 7,  hour: 3,  minute: 24,  second: 30,  millisecond: 0,  microsecond: 3,  nanosecond: 500}); // => 1995-12-07T03:24:30.0000035-08:00[America/Los_Angeles]
+```
+
+Comparison: Temporal vs. Date
+### Temporal.PlainDate
+
+
+Foo
+
+📚Documentation:Quick exampleComparison: Temporal vs. Date
+### Temporal.PlainTime
+
+
+Foo
+
+📚Documentation:Quick exampleComparison: Temporal vs. Date
+### Temporal.PlainDateTime
+
+
+Foo
+
+📚Documentation:Quick exampleComparison: Temporal vs. Date
+### Temporal.PlainYearMonth
+
+
+Foo
+
+📚Documentation:Quick exampleComparison: Temporal vs. Date
+### Temporal.PlainMonthDay
+
+
+Foo
+
+📚Documentation:Quick exampleComparison: Temporal vs. Date
+### Temporal.Duration
+
+
+Foo
+
+📚Documentation:Quick exampleComparison: Temporal vs. Date
+### Temporal.TimeZone
+
+
+Foo
+
+📚Documentation:Quick exampleComparison: Temporal vs. Date
+### Temporal.Calendar
+
+
+Foo
+
+📚Documentation:Quick exampleComparison: Temporal vs. Date
+### Conclusion
+
+
+### References
+
+
+- https://github.com/tc39/proposal-temporal
+- https://tc39.es/proposal-temporal/docs/index.html
+
+
+View original.
+
+
+Exported from Medium on February 3, 2025.
+

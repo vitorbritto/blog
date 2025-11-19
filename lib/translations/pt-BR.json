@@ -110,6 +110,17 @@
   },
 
   "articles": {
-    "description": "Explore artigos sobre desenvolvimento, arquitetura e boas práticas. Conhecimento compartilhado para ajudar você a se tornar um desenvolvedor melhor."
+    "description": "Explore artigos sobre desenvolvimento, arquitetura e boas práticas. Conhecimento compartilhado para ajudar você a se tornar um desenvolvedor melhor.",
+    "allArticles": "Todos os Artigos",
+    "browseDescription": "Navegue por todos os artigos por tópico ou tag.",
+    "noArticlesFound": "Nenhum artigo encontrado."
+  },
+  "filters": {
+    "topics": "Tópicos",
+    "tags": "Tags",
+    "all": "Todos"
+  },
+  "home": {
+    "subtitle": "Pensamentos sobre tecnologia, desenvolvimento e engenharia de software."
   }
 }

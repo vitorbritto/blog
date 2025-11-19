@@ -6,6 +6,7 @@ import { useLanguage } from "@/lib/hooks/useLanguage";
 import { getTranslatedArticle } from "@/lib/i18n";
 
 const ArticleContext = createContext<{
+  article: Article;
   language: string;
   translatedArticle: ReturnType<typeof getTranslatedArticle>;
 } | null>(null);
@@ -30,7 +31,7 @@ export function ArticleLanguageProvider({
   const translatedArticle = getTranslatedArticle(article, language);
 
   return (
-    <ArticleContext.Provider value={{ language, translatedArticle }}>
+    <ArticleContext.Provider value={{ article, language, translatedArticle }}>
       {children}
     </ArticleContext.Provider>
   );

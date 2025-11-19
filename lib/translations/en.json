@@ -109,6 +109,17 @@
     "emailPlaceholder": "your@email.com"
   },
   "articles": {
-    "description": "Explore articles about development, architecture and best practices. Shared knowledge to help you become a better developer."
+    "description": "Explore articles about development, architecture and best practices. Shared knowledge to help you become a better developer.",
+    "allArticles": "All Articles",
+    "browseDescription": "Browse all articles by topic or tag.",
+    "noArticlesFound": "No articles found."
+  },
+  "filters": {
+    "topics": "Topics",
+    "tags": "Tags",
+    "all": "All"
+  },
+  "home": {
+    "subtitle": "Thoughts on technology, development, and software engineering."
   }
 }

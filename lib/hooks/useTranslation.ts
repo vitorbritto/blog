@@ -7,6 +7,18 @@ const translations = {
   'pt-BR': ptBR
 } as const
 
+// Mapeamento entre slugs de categorias e chaves de tradução
+const categorySlugToTranslationKey: Record<string, string> = {
+  'front-end': 'frontend',
+  'back-end': 'backend',
+  'architecture': 'architecture',
+  'devops': 'devops',
+  'databases': 'databases',
+  'security': 'security',
+  'performance': 'performance',
+  'algorithms': 'algorithms'
+}
+
 export function useTranslation() {
   const { language } = useLanguage()
 
@@ -22,5 +34,10 @@ export function useTranslation() {
     return value || key
   }
 
-  return { t }
+  function translateCategory(slug: string): string {
+    const translationKey = categorySlugToTranslationKey[slug] || slug
+    return t(`categories.${translationKey}.name`) || slug
+  }
+
+  return { t, translateCategory }
 }
