@@ -13,7 +13,7 @@ interface HomeContentProps {
 export function HomeContent({ articles, categories, tags }: HomeContentProps) {
   return (
     <main className="min-h-screen">
-      <div className="max-w-4xl mx-auto px-6 py-16">
+      <div className="max-w-6xl mx-auto px-6 py-16">
         <ArticlesList initialArticles={articles} categories={categories} tags={tags} />
       </div>
     </main>
