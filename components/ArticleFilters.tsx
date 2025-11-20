@@ -105,56 +105,66 @@ export function ArticleFilters({
                 className="ml-1 hover:text-zinc-100 transition-colors"
                 aria-label="Remove filter"
               >
-                ×
+                &times;
               </button>
             </div>
           ))}
         </div>
 
-        {/* Filter Chips - Click to open select */}
         <div className="flex flex-wrap gap-2">
           {categories.length > 0 && (
-            <button
-              onClick={() => setOpenFilter(openFilter === 'topic' ? null : 'topic')}
-              className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
-                selectedCategories.length > 0
-                  ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
-                  : openFilter === 'topic'
-                  ? 'bg-zinc-700 text-zinc-200 border border-zinc-600'
-                  : 'bg-zinc-800/50 text-zinc-400 hover:bg-zinc-800 border border-zinc-700/50'
-              }`}
-            >
-              {t('filters.topics')}
-              {selectedCategories.length > 0 && (
-                <span className="ml-1.5">({selectedCategories.length})</span>
-              )}
-            </button>
+            <div className="flex items-center gap-1">
+              <button
+                onClick={() => setOpenFilter(openFilter === 'topic' ? null : 'topic')}
+                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors flex items-center gap-1.5 ${
+                  selectedCategories.length > 0
+                    ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                    : openFilter === 'topic'
+                    ? 'bg-zinc-700 text-zinc-200 border border-zinc-600'
+                    : 'bg-zinc-800/50 text-zinc-400 hover:bg-zinc-800 border border-zinc-700/50'
+                }`}
+              >
+                <span>
+                  {t('filters.topics')}
+                  {selectedCategories.length > 0 && (
+                    <span className="ml-1.5">({selectedCategories.length})</span>
+                  )}
+                </span>
+                <span className="text-[12px]">+</span>
+              </button>
+            </div>
           )}
 
           {tags.length > 0 && (
-            <button
-              onClick={() => setOpenFilter(openFilter === 'tag' ? null : 'tag')}
-              className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
-                selectedTags.length > 0
-                  ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
-                  : openFilter === 'tag'
-                  ? 'bg-zinc-700 text-zinc-200 border border-zinc-600'
-                  : 'bg-zinc-800/50 text-zinc-400 hover:bg-zinc-800 border border-zinc-700/50'
-              }`}
-            >
-              {t('filters.tags')}
-              {selectedTags.length > 0 && (
-                <span className="ml-1.5">({selectedTags.length})</span>
-              )}
-            </button>
+            <div className="flex items-center gap-1">
+              <button
+                onClick={() => setOpenFilter(openFilter === 'tag' ? null : 'tag')}
+                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors flex items-center gap-1.5 ${
+                  selectedTags.length > 0
+                    ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                    : openFilter === 'tag'
+                    ? 'bg-zinc-700 text-zinc-200 border border-zinc-600'
+                    : 'bg-zinc-800/50 text-zinc-400 hover:bg-zinc-800 border border-zinc-700/50'
+                }`}
+              >
+                <span>
+                  {t('filters.tags')}
+                  {selectedTags.length > 0 && (
+                    <span className="ml-1.5">({selectedTags.length})</span>
+                  )}
+                </span>
+                <span className="text-[12px]">+</span>
+              </button>
+            </div>
           )}
         </div>
 
-        {/* Checkbox Lists - Shown when chip is clicked */}
         {openFilter === 'topic' && categories.length > 0 && (
           <div className="space-y-2 max-h-[300px] overflow-y-auto bg-zinc-900/50 rounded-lg p-3 border border-zinc-800">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-xs text-zinc-400">{t('filters.topics')}</span>
+              <span className="text-xs text-zinc-400 font-medium">
+                {t('filters.topics')}
+              </span>
               {selectedCategories.length > 0 && (
                 <button
                   onClick={clearAllCategories}
