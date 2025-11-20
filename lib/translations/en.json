@@ -117,7 +117,8 @@
   "filters": {
     "topics": "Topics",
     "tags": "Tags",
-    "all": "All"
+    "all": "All",
+    "clearAll": "Clear all"
   },
   "home": {
     "subtitle": "Thoughts on technology, development, and software engineering."

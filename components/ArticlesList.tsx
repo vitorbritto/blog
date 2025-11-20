@@ -18,7 +18,7 @@ export function ArticlesList({ initialArticles, categories, tags }: ArticlesList
   const [filteredArticles, setFilteredArticles] = useState<Article[]>(initialArticles)
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-8">
+    <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-8">
       <aside className="lg:sticky lg:top-24 lg:self-start">
         <ArticleFilters
           articles={initialArticles}

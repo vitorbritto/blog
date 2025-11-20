@@ -118,7 +118,8 @@
   "filters": {
     "topics": "Tópicos",
     "tags": "Tags",
-    "all": "Todos"
+    "all": "Todos",
+    "clearAll": "Limpar todos"
   },
   "home": {
     "subtitle": "Pensamentos sobre tecnologia, desenvolvimento e engenharia de software."
