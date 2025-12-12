@@ -225,9 +225,9 @@ export function ArticleFilters({
       </div>
 
       {/* Desktop View - Keep buttons for larger screens */}
-      <div className="hidden lg:block space-y-6">
+      <div className="hidden lg:block space-y-6 h-[calc(100vh-210px)]">
         {categories.length > 0 && (
-          <div>
+          <div className="h-[50%]">
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-sm font-semibold text-zinc-300 uppercase tracking-wide">
                 {t('filters.topics')}
@@ -241,7 +241,7 @@ export function ArticleFilters({
                 </button>
               )}
             </div>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 max-h-[calc(100%-20px)] overflow-y-auto">
               {categories.map(category => (
                 <button
                   key={category.slug}
@@ -271,7 +271,7 @@ export function ArticleFilters({
         )}
 
         {tags.length > 0 && (
-          <div>
+          <div className="h-[50%]">
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-sm font-semibold text-zinc-300 uppercase tracking-wide">
                 {t('filters.tags')}
@@ -285,7 +285,7 @@ export function ArticleFilters({
                 </button>
               )}
             </div>
-            <div className="flex flex-col gap-2 max-h-[400px] overflow-y-auto">
+            <div className="flex flex-col gap-2 max-h-[calc(100%-20px)] overflow-y-auto">
               {tags.slice(0, 30).map(tag => (
                 <button
                   key={tag}
