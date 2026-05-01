@@ -181,9 +181,9 @@ export function LeftSidebar({
       </div>
 
       {/* Desktop View */}
-      <div className="hidden lg:block space-y-10 h-[calc(100vh-210px)]">
+      <div className="hidden lg:block space-y-6">
         {categories.length > 0 && (
-          <div className="h-[50%]">
+          <div className="rounded-xl border border-zinc-800/60 bg-zinc-900/40 p-4">
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-sm font-semibold text-zinc-300 uppercase tracking-wide">
                 {t('filters.topics')}
@@ -197,7 +197,7 @@ export function LeftSidebar({
                 </button>
               )}
             </div>
-            <div className="flex flex-col gap-2 max-h-[calc(100%-20px)] overflow-y-auto">
+            <div className="flex flex-col gap-2 max-h-72 overflow-y-auto">
               {categories.map(category => (
                 <button
                   key={category.slug}
@@ -227,7 +227,7 @@ export function LeftSidebar({
         )}
 
         {tags.length > 0 && (
-          <div className="h-[50%]">
+          <div className="rounded-xl border border-zinc-800/60 bg-zinc-900/40 p-4">
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-sm font-semibold text-zinc-300 uppercase tracking-wide">
                 {t('filters.tags')}
@@ -241,7 +241,7 @@ export function LeftSidebar({
                 </button>
               )}
             </div>
-            <div className="flex flex-col gap-2 max-h-[calc(100%-20px)] overflow-y-auto">
+            <div className="flex flex-col gap-2 max-h-72 overflow-y-auto">
               {tags.slice(0, 30).map(tag => (
                 <button
                   key={tag}

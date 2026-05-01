@@ -70,20 +70,20 @@ export function RightSidebar({ tracks, articles, searchQuery, onSearchChange }: 
   const resultLabel = t('search.resultCount').replace('{count}', String(articles.length))
 
   return (
-    <aside className="space-y-10">
-      <div className="space-y-2">
+    <aside className="space-y-6">
+      <div className="rounded-xl border border-zinc-800/60 bg-zinc-900/40 p-4 space-y-2">
         <input
           type="search"
           value={localQuery}
           onChange={e => setLocalQuery(e.target.value)}
           placeholder={t('search.placeholder')}
-          className="w-full px-3 py-2 rounded-lg bg-zinc-900/50 border border-zinc-800 text-sm text-zinc-200 placeholder:text-zinc-500 focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/30"
+          className="w-full px-3 py-2 rounded-lg bg-zinc-950/40 border border-zinc-800 text-sm text-zinc-200 placeholder:text-zinc-500 focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/30"
         />
         <p className="text-xs text-zinc-500">{resultLabel}</p>
       </div>
 
       {tracks.length > 0 && (
-        <div>
+        <div className="rounded-xl border border-zinc-800/60 bg-zinc-900/40 p-4">
           <h3 className="text-sm font-semibold text-zinc-300 uppercase tracking-wide mb-3">
             {t('filters.tracks')}
           </h3>
@@ -104,7 +104,7 @@ export function RightSidebar({ tracks, articles, searchQuery, onSearchChange }: 
       )}
 
       {archive.length > 0 && (
-        <div>
+        <div className="rounded-xl border border-zinc-800/60 bg-zinc-900/40 p-4">
           <h3 className="text-sm font-semibold text-zinc-300 uppercase tracking-wide mb-3">
             {t('archive.title')}
           </h3>
