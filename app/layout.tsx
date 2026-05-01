@@ -49,7 +49,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <GoogleAnalytics />
         </Suspense>
       </head>
-      <body className={`${inter.className} bg-zinc-900 text-zinc-100 antialiased`}>
+      <body className={`${inter.className} bg-zinc-950 text-zinc-100 antialiased`}>
         <LanguageProvider>
           <Header />
           {children}
