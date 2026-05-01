@@ -27,10 +27,12 @@ async function generateArticlesMetadata() {
       const fileContent = fs.readFileSync(filePath, "utf8");
       const { data: frontmatter } = matter(fileContent);
 
+      const fallbackDate = fs.statSync(filePath).mtime.toISOString().split("T")[0];
+
       const metadata = {
         slug,
         coverImage: frontmatter.coverImage,
-        date: frontmatter.date,
+        date: frontmatter.date || fallbackDate,
         author: frontmatter.author,
         categories: frontmatter.categories || [],
         tracks: frontmatter.tracks || [],

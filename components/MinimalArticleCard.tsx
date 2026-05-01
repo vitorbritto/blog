@@ -45,8 +45,10 @@ export function MinimalArticleCard({ article }: MinimalArticleCardProps) {
   const { translateCategory, t } = useTranslation()
   const translatedArticle = getTranslatedArticle(article, language)
 
-  const formatDate = (dateString: string) => {
+  const formatDate = (dateString?: string) => {
+    if (!dateString) return null
     const date = new Date(dateString)
+    if (isNaN(date.getTime())) return null
     return date.toLocaleDateString(language === 'en' ? 'en-US' : 'pt-BR', {
       year: 'numeric',
       month: 'long',
@@ -54,6 +56,7 @@ export function MinimalArticleCard({ article }: MinimalArticleCardProps) {
     })
   }
 
+  const formattedDate = formatDate(article.date)
   const contentPreview = getContentPreview(translatedArticle.content)
   const trackSlug = article.tracks?.[0]
   const trackName = trackSlug ? t(`tracks.${trackSlug}.title`) : null
@@ -72,8 +75,12 @@ export function MinimalArticleCard({ article }: MinimalArticleCardProps) {
               </div>
             )}
             <div className="flex items-center flex-wrap gap-x-3 gap-y-1 text-sm text-zinc-400">
-              <time dateTime={article.date}>{formatDate(article.date)}</time>
-              <span>·</span>
+              {formattedDate && (
+                <>
+                  <time dateTime={article.date}>{formattedDate}</time>
+                  <span>·</span>
+                </>
+              )}
               <span>
                 {article.readTime} {t('article.readTime')}
               </span>
