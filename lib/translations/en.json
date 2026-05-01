@@ -121,7 +121,8 @@
     "tags": "Tags",
     "tracks": "Tracks",
     "all": "All",
-    "clearAll": "Clear all"
+    "clearAll": "Clear all",
+    "comingSoon": "Coming Soon"
   },
   "search": {
     "placeholder": "Search articles...",

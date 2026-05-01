@@ -122,7 +122,8 @@
     "tags": "Tags",
     "tracks": "Trilhas",
     "all": "Todos",
-    "clearAll": "Limpar todos"
+    "clearAll": "Limpar todos",
+    "comingSoon": "Em breve"
   },
   "search": {
     "placeholder": "Buscar artigos...",

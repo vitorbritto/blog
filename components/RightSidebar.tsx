@@ -84,9 +84,14 @@ export function RightSidebar({ tracks, articles, searchQuery, onSearchChange }: 
 
       {tracks.length > 0 && (
         <div className="rounded-xl border border-zinc-800/60 bg-zinc-900 p-4">
-          <h3 className="text-sm font-semibold text-zinc-300 uppercase tracking-wide mb-3">
-            {t('filters.tracks')}
-          </h3>
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-sm font-semibold text-zinc-300 uppercase tracking-wide">
+              {t('filters.tracks')}
+            </h3>
+            <span className="text-[10px] font-medium uppercase tracking-wide px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+              {t('filters.comingSoon')}
+            </span>
+          </div>
           <ul className="space-y-2">
             {tracks.map(track => (
               <li
