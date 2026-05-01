@@ -126,6 +126,9 @@
     "placeholder": "Buscar artigos...",
     "resultCount": "{count} artigos"
   },
+  "archive": {
+    "title": "Arquivo"
+  },
   "home": {
     "subtitle": "Pensamentos sobre tecnologia, desenvolvimento e engenharia de software."
   }

@@ -125,6 +125,9 @@
     "placeholder": "Search articles...",
     "resultCount": "{count} articles"
   },
+  "archive": {
+    "title": "Archive"
+  },
   "home": {
     "subtitle": "Thoughts on technology, development, and software engineering."
   }
