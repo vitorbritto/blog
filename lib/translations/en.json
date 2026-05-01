@@ -117,8 +117,13 @@
   "filters": {
     "topics": "Topics",
     "tags": "Tags",
+    "tracks": "Tracks",
     "all": "All",
     "clearAll": "Clear all"
+  },
+  "search": {
+    "placeholder": "Search articles...",
+    "resultCount": "{count} articles"
   },
   "home": {
     "subtitle": "Thoughts on technology, development, and software engineering."

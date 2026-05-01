@@ -1,7 +1,9 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import { ArticlesList } from './ArticlesList'
+import { ArticleFeed } from './ArticleFeed'
+import { LeftSidebar } from './LeftSidebar'
+import { RightSidebar } from './RightSidebar'
 import { Article, Category, Track } from '@/lib/types/content'
 
 interface HomeContentProps {
@@ -43,7 +45,6 @@ export function HomeContent({ articles, categories, tags, tracks }: HomeContentP
     })
   }, [articles, selectedCategories, selectedTags, searchQuery])
 
-  // Callbacks wired to children in T6 — defined here as state lives in HomeContent
   function toggleCategory(slug: string) {
     setSelectedTags([])
     setSelectedCategories(prev =>
@@ -62,22 +63,32 @@ export function HomeContent({ articles, categories, tags, tracks }: HomeContentP
   function clearAllTags() { setSelectedTags([]) }
   function handleSearchChange(query: string) { setSearchQuery(query) }
 
-  // All below wired to columns in T6
-  void tracks
-  void toggleCategory
-  void toggleTag
-  void clearAllCategories
-  void clearAllTags
-  void handleSearchChange
-
   return (
     <main className="min-h-screen">
-      <div className="max-w-6xl mx-auto px-6 py-16">
-        <ArticlesList
-          initialArticles={filteredArticles}
-          categories={categories}
-          tags={tags}
-        />
+      <div className="max-w-7xl mx-auto px-6 py-16">
+        <div className="grid grid-cols-1 lg:grid-cols-[240px_1fr] xl:grid-cols-[240px_1fr_260px] gap-8">
+          <LeftSidebar
+            categories={categories}
+            tags={tags}
+            selectedCategories={selectedCategories}
+            selectedTags={selectedTags}
+            onToggleCategory={toggleCategory}
+            onToggleTag={toggleTag}
+            onClearAllCategories={clearAllCategories}
+            onClearAllTags={clearAllTags}
+          />
+
+          <ArticleFeed articles={filteredArticles} />
+
+          <div className="hidden xl:block">
+            <RightSidebar
+              tracks={tracks}
+              articles={filteredArticles}
+              searchQuery={searchQuery}
+              onSearchChange={handleSearchChange}
+            />
+          </div>
+        </div>
       </div>
     </main>
   )

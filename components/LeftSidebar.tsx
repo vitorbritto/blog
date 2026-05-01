@@ -1,82 +1,38 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { Article } from '@/lib/types/content'
+import { useState } from 'react'
 import { Category } from '@/lib/types/content'
 import { useTranslation } from '@/lib/hooks/useTranslation'
 
-interface ArticleFiltersProps {
-  articles: Article[]
+interface LeftSidebarProps {
   categories: Category[]
   tags: string[]
-  onFilterChange: (filteredArticles: Article[]) => void
+  selectedCategories: string[]
+  selectedTags: string[]
+  onToggleCategory: (slug: string) => void
+  onToggleTag: (tag: string) => void
+  onClearAllCategories: () => void
+  onClearAllTags: () => void
 }
 
 type FilterType = 'topic' | 'tag' | null
 
-export function ArticleFilters({
-  articles,
+export function LeftSidebar({
   categories,
   tags,
-  onFilterChange
-}: ArticleFiltersProps) {
+  selectedCategories,
+  selectedTags,
+  onToggleCategory,
+  onToggleTag,
+  onClearAllCategories,
+  onClearAllTags
+}: LeftSidebarProps) {
   const { t, translateCategory } = useTranslation()
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
-  const [selectedTags, setSelectedTags] = useState<string[]>([])
   const [openFilter, setOpenFilter] = useState<FilterType>(null)
-
-  useEffect(() => {
-    let filtered = articles
-
-    if (selectedCategories.length > 0) {
-      filtered = filtered.filter(article =>
-        selectedCategories.some(cat => article.categories.includes(cat))
-      )
-    }
-
-    if (selectedTags.length > 0) {
-      filtered = filtered.filter(article =>
-        selectedTags.some(tag => article.tags?.includes(tag))
-      )
-    }
-
-    onFilterChange(filtered)
-  }, [selectedCategories, selectedTags, articles, onFilterChange])
-
-  const toggleCategory = (categorySlug: string) => {
-    setSelectedCategories(prev => {
-      const isRemoving = prev.includes(categorySlug)
-
-      if (isRemoving) {
-        return prev.filter(cat => cat !== categorySlug)
-      }
-
-      setSelectedTags([])
-      return [...prev, categorySlug]
-    })
-  }
-
-  const toggleTag = (tag: string) => {
-    setSelectedTags(prev => {
-      const isRemoving = prev.includes(tag)
-
-      if (isRemoving) {
-        return prev.filter(t => t !== tag)
-      }
-
-      setSelectedCategories([])
-      return [...prev, tag]
-    })
-  }
-
-  const clearCategory = (categorySlug: string) =>
-    setSelectedCategories(prev => prev.filter(cat => cat !== categorySlug))
-  const clearTag = (tag: string) => setSelectedTags(prev => prev.filter(t => t !== tag))
-  const clearAllCategories = () => setSelectedCategories([])
-  const clearAllTags = () => setSelectedTags([])
 
   return (
     <div className="space-y-4">
+      {/* Mobile View */}
       <div className="lg:hidden space-y-4">
         <div className="flex flex-wrap gap-2">
           {selectedCategories.map(categorySlug => (
@@ -86,7 +42,7 @@ export function ArticleFilters({
             >
               <span className="capitalize">{translateCategory(categorySlug)}</span>
               <button
-                onClick={() => clearCategory(categorySlug)}
+                onClick={() => onToggleCategory(categorySlug)}
                 className="ml-1 hover:text-zinc-100 transition-colors"
                 aria-label="Remove filter"
               >
@@ -101,7 +57,7 @@ export function ArticleFilters({
             >
               <span>{tag}</span>
               <button
-                onClick={() => clearTag(tag)}
+                onClick={() => onToggleTag(tag)}
                 className="ml-1 hover:text-zinc-100 transition-colors"
                 aria-label="Remove filter"
               >
@@ -167,7 +123,7 @@ export function ArticleFilters({
               </span>
               {selectedCategories.length > 0 && (
                 <button
-                  onClick={clearAllCategories}
+                  onClick={onClearAllCategories}
                   className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors"
                 >
                   {t('filters.clearAll')}
@@ -182,7 +138,7 @@ export function ArticleFilters({
                 <input
                   type="checkbox"
                   checked={selectedCategories.includes(category.slug)}
-                  onChange={() => toggleCategory(category.slug)}
+                  onChange={() => onToggleCategory(category.slug)}
                   className="w-4 h-4 rounded border-zinc-600 bg-zinc-800 text-emerald-500 focus:ring-2 focus:ring-emerald-400 focus:ring-offset-0 focus:ring-offset-zinc-900"
                 />
                 <span className="text-sm text-zinc-300 capitalize">
@@ -199,7 +155,7 @@ export function ArticleFilters({
               <span className="text-xs text-zinc-400">{t('filters.tags')}</span>
               {selectedTags.length > 0 && (
                 <button
-                  onClick={clearAllTags}
+                  onClick={onClearAllTags}
                   className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors"
                 >
                   {t('filters.clearAll')}
@@ -214,7 +170,7 @@ export function ArticleFilters({
                 <input
                   type="checkbox"
                   checked={selectedTags.includes(tag)}
-                  onChange={() => toggleTag(tag)}
+                  onChange={() => onToggleTag(tag)}
                   className="w-4 h-4 rounded border-zinc-600 bg-zinc-800 text-emerald-500 focus:ring-2 focus:ring-emerald-400 focus:ring-offset-0 focus:ring-offset-zinc-900"
                 />
                 <span className="text-sm text-zinc-300">{tag}</span>
@@ -224,7 +180,7 @@ export function ArticleFilters({
         )}
       </div>
 
-      {/* Desktop View - Keep buttons for larger screens */}
+      {/* Desktop View */}
       <div className="hidden lg:block space-y-6 h-[calc(100vh-210px)]">
         {categories.length > 0 && (
           <div className="h-[50%]">
@@ -234,7 +190,7 @@ export function ArticleFilters({
               </h3>
               {selectedCategories.length > 0 && (
                 <button
-                  onClick={clearAllCategories}
+                  onClick={onClearAllCategories}
                   className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors"
                 >
                   {t('filters.clearAll')}
@@ -245,7 +201,7 @@ export function ArticleFilters({
               {categories.map(category => (
                 <button
                   key={category.slug}
-                  onClick={() => toggleCategory(category.slug)}
+                  onClick={() => onToggleCategory(category.slug)}
                   className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors text-left capitalize flex items-center gap-2 ${
                     selectedCategories.includes(category.slug)
                       ? 'bg-zinc-100 text-zinc-900'
@@ -278,7 +234,7 @@ export function ArticleFilters({
               </h3>
               {selectedTags.length > 0 && (
                 <button
-                  onClick={clearAllTags}
+                  onClick={onClearAllTags}
                   className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors"
                 >
                   {t('filters.clearAll')}
@@ -289,7 +245,7 @@ export function ArticleFilters({
               {tags.slice(0, 30).map(tag => (
                 <button
                   key={tag}
-                  onClick={() => toggleTag(tag)}
+                  onClick={() => onToggleTag(tag)}
                   className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors text-left flex items-center gap-2 ${
                     selectedTags.includes(tag)
                       ? 'bg-zinc-100 text-zinc-900'

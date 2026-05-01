@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import Link from 'next/link'
 import { useLanguage } from '@/lib/hooks/useLanguage'
 import { useTranslation } from '@/lib/hooks/useTranslation'
@@ -54,40 +55,69 @@ export function MinimalArticleCard({ article }: MinimalArticleCardProps) {
   }
 
   const contentPreview = getContentPreview(translatedArticle.content)
+  const trackSlug = article.tracks?.[0]
+  const trackName = trackSlug ? t(`tracks.${trackSlug}.title`) : null
 
   return (
     <article className="py-6 border-b border-zinc-800/50 last:border-b-0">
       <Link href={`/articles/${article.slug}`} className="group block">
-        <div className="space-y-2">
-          <div className="flex items-center gap-3 text-sm text-zinc-400">
-            <time dateTime={article.date}>{formatDate(article.date)}</time>
-            <span>·</span>
-            <span>
-              {article.readTime} {t('article.readTime')}
-            </span>
-            {article.categories.length > 0 && (
-              <>
-                <span>·</span>
-                <span className="capitalize">
-                  {translateCategory(article.categories[0])}
+        <div className="flex gap-4">
+          <div className="flex-1 min-w-0 space-y-2">
+            {trackName && (
+              <div>
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs bg-zinc-700/60 text-zinc-400">
+                  <span aria-hidden>◈</span>
+                  <span>{trackName}</span>
                 </span>
-              </>
+              </div>
+            )}
+            <div className="flex items-center flex-wrap gap-x-3 gap-y-1 text-sm text-zinc-400">
+              <time dateTime={article.date}>{formatDate(article.date)}</time>
+              <span>·</span>
+              <span>
+                {article.readTime} {t('article.readTime')}
+              </span>
+              {article.categories.length > 0 && (
+                <>
+                  <span>·</span>
+                  <span className="capitalize">
+                    {translateCategory(article.categories[0])}
+                  </span>
+                </>
+              )}
+              {article.featured && (
+                <>
+                  <span>·</span>
+                  <span className="text-emerald-400">★ Featured</span>
+                </>
+              )}
+            </div>
+            <h2 className="text-xl font-semibold text-zinc-50 group-hover:text-emerald-400 transition-colors">
+              {translatedArticle.title}
+            </h2>
+            <p className="text-zinc-400 line-clamp-2 leading-relaxed">{contentPreview}</p>
+            {article.tags && article.tags.length > 0 && (
+              <div className="flex flex-wrap gap-2 pt-2">
+                {article.tags.slice(0, 3).map(tag => (
+                  <span
+                    key={tag}
+                    className="text-xs px-2 py-1 rounded-full bg-zinc-800/70 text-zinc-300"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
             )}
           </div>
-          <h2 className="text-xl font-semibold text-zinc-50 group-hover:text-emerald-400 transition-colors">
-            {translatedArticle.title}
-          </h2>
-          <p className="text-zinc-400 line-clamp-2 leading-relaxed">{contentPreview}</p>
-          {article.tags && article.tags.length > 0 && (
-            <div className="flex flex-wrap gap-2 pt-2">
-              {article.tags.slice(0, 3).map(tag => (
-                <span
-                  key={tag}
-                  className="text-xs px-2 py-1 rounded-full bg-zinc-800/70 text-zinc-300"
-                >
-                  {tag}
-                </span>
-              ))}
+          {article.coverImage && (
+            <div className="shrink-0">
+              <Image
+                src={article.coverImage}
+                alt=""
+                width={80}
+                height={80}
+                className="w-20 h-20 rounded-md object-cover bg-zinc-800"
+              />
             </div>
           )}
         </div>

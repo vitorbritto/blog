@@ -118,8 +118,13 @@
   "filters": {
     "topics": "Tópicos",
     "tags": "Tags",
+    "tracks": "Trilhas",
     "all": "Todos",
     "clearAll": "Limpar todos"
+  },
+  "search": {
+    "placeholder": "Buscar artigos...",
+    "resultCount": "{count} artigos"
   },
   "home": {
     "subtitle": "Pensamentos sobre tecnologia, desenvolvimento e engenharia de software."
