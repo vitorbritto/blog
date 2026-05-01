@@ -1,13 +1,8 @@
 {
   "slug": "the-authentication-strategies",
-  "coverImage": "/blog/the-authentication-strategies.jpg",
-  "date": "Feb 28, 2024",
-  "author": {
-    "name": "Vitor Britto",
-    "picture": "/authors/vitor.jpg"
-  },
-  "categories": ["web-security", "authentication"],
-  "tracks": ["front-end", "back-end"],
-  "tags": ["Web Security", "Software Development", "Authentication"],
-  "readTime": 12
+  "categories": [],
+  "tracks": [],
+  "tags": [],
+  "readTime": 5,
+  "featured": false
 }

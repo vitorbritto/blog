@@ -1,13 +1,8 @@
 {
   "slug": "introduction-graphql",
-  "coverImage": "/blog/introduction-graphql.jpg",
-  "date": "Nov 24, 2023",
-  "author": {
-    "name": "Vitor Britto",
-    "picture": "/authors/vitor.jpg"
-  },
-  "categories": ["graphql", "front-end"],
-  "tracks": ["front-end"],
-  "tags": ["GraphQL", "Software Development", "Web Development", "BFF"],
-  "readTime": 11
+  "categories": [],
+  "tracks": [],
+  "tags": [],
+  "readTime": 5,
+  "featured": false
 }

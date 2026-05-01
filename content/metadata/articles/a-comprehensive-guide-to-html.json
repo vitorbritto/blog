@@ -1,13 +1,8 @@
 {
   "slug": "a-comprehensive-guide-to-html",
-  "coverImage": "/blog/a-comprehensive-guide-to-html.jpg",
-  "date": "Apr 12, 2023",
-  "author": {
-    "name": "Vitor Britto",
-    "picture": "/authors/vitor.jpg"
-  },
-  "categories": ["html", "web"],
-  "tracks": ["front-end"],
-  "tags": ["html", "web", "development"],
-  "readTime": 5
+  "categories": [],
+  "tracks": [],
+  "tags": [],
+  "readTime": 5,
+  "featured": false
 }

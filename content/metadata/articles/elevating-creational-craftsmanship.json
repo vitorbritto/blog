@@ -1,13 +1,8 @@
 {
   "slug": "elevating-creational-craftsmanship",
-  "coverImage": "/blog/elevating-creational-craftsmanship.jpg",
-  "date": "Jul 7, 2024",
-  "author": {
-    "name": "Vitor Britto",
-    "picture": "/authors/vitor.jpg"
-  },
-  "categories": ["design-patterns"],
-  "tracks": ["design-patterns"],
-  "tags": ["Design Patterns", "Software Development", "Programming"],
-  "readTime": 6
+  "categories": [],
+  "tracks": [],
+  "tags": [],
+  "readTime": 5,
+  "featured": false
 }

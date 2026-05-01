@@ -1,13 +1,8 @@
 {
   "slug": "understanding-package-managers",
-  "coverImage": "/blog/understanding-package-managers.jpg",
-  "date": "Feb 25, 2024",
-  "author": {
-    "name": "Vitor Britto",
-    "picture": "/authors/vitor.jpg"
-  },
-  "categories": ["front-end"],
-  "tracks": ["front-end"],
-  "tags": ["Package Managers", "Software Development", "Programming"],
-  "readTime": 2
+  "categories": [],
+  "tracks": [],
+  "tags": [],
+  "readTime": 5,
+  "featured": false
 }

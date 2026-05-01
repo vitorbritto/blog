@@ -1,18 +1,8 @@
 {
   "slug": "code-integrity-with-type-checkers",
-  "coverImage": "/blog/code-integrity-with-type-checkers.jpg",
-  "date": "Feb 28, 2024",
-  "author": {
-    "name": "Vitor Britto",
-    "picture": "/authors/vitor.jpg"
-  },
-  "categories": ["type-checkers", "front-end"],
-  "tracks": ["front-end"],
-  "tags": [
-    "JavaScript",
-    "TypeScript",
-    "Software Development",
-    "Web Development"
-  ],
-  "readTime": 3
+  "categories": [],
+  "tracks": [],
+  "tags": [],
+  "readTime": 5,
+  "featured": false
 }

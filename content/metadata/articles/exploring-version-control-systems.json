@@ -1,13 +1,8 @@
 {
   "slug": "exploring-version-control-systems",
-  "coverImage": "/blog/exploring-version-control-systems.jpg",
-  "date": "Feb 1, 2024",
-  "author": {
-    "name": "Vitor Britto",
-    "picture": "/authors/vitor.jpg"
-  },
-  "categories": ["git", "version-control"],
-  "tracks": ["front-end", "back-end"],
-  "tags": ["Git", "Version Control", "Software Development", "Programming"],
-  "readTime": 5
+  "categories": [],
+  "tracks": [],
+  "tags": [],
+  "readTime": 5,
+  "featured": false
 }
