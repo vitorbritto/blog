@@ -65,7 +65,7 @@ export function HomeContent({ articles, categories, tags, tracks }: HomeContentP
 
   return (
     <main className="min-h-screen">
-      <div className="mx-auto px-6 py-16">
+      <div className="mx-auto px-10 py-16">
         <div className="grid grid-cols-1 lg:grid-cols-[220px_1fr_240px] gap-6">
           <LeftSidebar
             categories={categories}

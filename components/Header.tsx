@@ -7,7 +7,7 @@ import { LanguageSelector } from './LanguageSelector'
 export function Header() {
   return (
     <header className="border-b border-zinc-800/50 bg-zinc-950/90 backdrop-blur-sm sticky top-0 z-10">
-      <nav className="mx-auto px-6 py-2">
+      <nav className="mx-auto px-10 py-2">
         <div className="flex items-center justify-between">
           <Link
             href="/"
