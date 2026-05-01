@@ -88,7 +88,7 @@ export function RightSidebar({ tracks, articles, searchQuery, onSearchChange }: 
             <h3 className="text-sm font-semibold text-zinc-300 uppercase tracking-wide">
               {t('filters.tracks')}
             </h3>
-            <span className="text-[10px] font-medium uppercase tracking-wide px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+            <span className="text-[10px] font-medium uppercase tracking-wide px-2 py-0.5 rounded-full bg-yellow-500/10 text-yellow-400 border border-yellow-500/30">
               {t('filters.comingSoon')}
             </span>
           </div>
