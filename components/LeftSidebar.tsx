@@ -181,7 +181,7 @@ export function LeftSidebar({
       </div>
 
       {/* Desktop View */}
-      <div className="hidden lg:block space-y-6 h-[calc(100vh-210px)]">
+      <div className="hidden lg:block space-y-10 h-[calc(100vh-210px)]">
         {categories.length > 0 && (
           <div className="h-[50%]">
             <div className="flex items-center justify-between mb-3">

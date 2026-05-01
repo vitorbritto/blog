@@ -70,7 +70,7 @@ export function RightSidebar({ tracks, articles, searchQuery, onSearchChange }: 
   const resultLabel = t('search.resultCount').replace('{count}', String(articles.length))
 
   return (
-    <aside className="space-y-6">
+    <aside className="space-y-10">
       <div className="space-y-2">
         <input
           type="search"
