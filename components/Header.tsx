@@ -13,7 +13,7 @@ export function Header() {
             className="font-mono text-base text-zinc-100 hover:text-emerald-400 transition-colors tracking-tight"
             style={{ fontFamily: 'var(--font-mono)' }}
           >
-            blog.vitorbritto.dev
+            vitorbritto
           </Link>
           <LanguageSelector />
         </div>
