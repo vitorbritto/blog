@@ -108,13 +108,27 @@ export function RightSidebar({ tracks, articles, searchQuery, onSearchChange }: 
           <h3 className="text-sm font-semibold text-zinc-300 uppercase tracking-wide mb-3">
             {t('archive.title')}
           </h3>
-          <div className="space-y-4">
+          <div className="space-y-2">
             {archive.map(group => (
-              <div key={group.key}>
-                <p className="text-xs font-medium text-zinc-500 uppercase tracking-wide mb-2">
-                  {group.label}
-                </p>
-                <ul className="space-y-1.5">
+              <details
+                key={group.key}
+                className="group/archive border-b border-zinc-800/50 last:border-b-0"
+              >
+                <summary className="flex items-center justify-between gap-2 py-2 cursor-pointer list-none text-xs font-medium text-zinc-400 uppercase tracking-wide hover:text-zinc-200 transition-colors">
+                  <span className="flex items-center gap-2">
+                    {group.label}
+                    <span className="text-zinc-600 normal-case tracking-normal">
+                      ({group.articles.length})
+                    </span>
+                  </span>
+                  <span
+                    aria-hidden
+                    className="text-zinc-500 transition-transform group-open/archive:rotate-90"
+                  >
+                    ›
+                  </span>
+                </summary>
+                <ul className="space-y-1.5 pb-3 pt-1">
                   {group.articles.map(article => {
                     const translated = getTranslatedArticle(article, language)
                     return (
@@ -129,7 +143,7 @@ export function RightSidebar({ tracks, articles, searchQuery, onSearchChange }: 
                     )
                   })}
                 </ul>
-              </div>
+              </details>
             ))}
           </div>
         </div>
