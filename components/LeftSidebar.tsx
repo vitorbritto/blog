@@ -197,7 +197,7 @@ export function LeftSidebar({
                 </button>
               )}
             </div>
-            <div className="flex flex-col gap-2 max-h-72 overflow-y-auto">
+            <div className="flex flex-col gap-2">
               {categories.map(category => (
                 <button
                   key={category.slug}
@@ -241,7 +241,7 @@ export function LeftSidebar({
                 </button>
               )}
             </div>
-            <div className="flex flex-col gap-2 max-h-72 overflow-y-auto">
+            <div className="flex flex-col gap-2">
               {tags.slice(0, 30).map(tag => (
                 <button
                   key={tag}
