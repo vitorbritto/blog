@@ -10,10 +10,13 @@ export function Header() {
         <div className="flex items-center justify-between">
           <Link
             href="/"
-            className="font-mono text-base text-zinc-100 hover:text-emerald-400 transition-colors tracking-tight"
+            className="font-mono text-base tracking-tight transition-colors group"
             style={{ fontFamily: 'var(--font-mono)' }}
           >
-            vitorbritto - carreira, programação e inteligencia artificial
+            <span className="font-semibold text-zinc-100 group-hover:text-emerald-400 transition-colors">
+              vitorbritto
+            </span>
+            <span className="text-zinc-500"> - carreira, programação e inteligencia artificial</span>
           </Link>
           <LanguageSelector />
         </div>
