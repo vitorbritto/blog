@@ -66,7 +66,7 @@ export function HomeContent({ articles, categories, tags, tracks }: HomeContentP
   return (
     <main className="min-h-screen">
       <div className="max-w-7xl mx-auto px-6 py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-[240px_1fr] xl:grid-cols-[240px_1fr_260px] gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-[220px_1fr_240px] gap-6">
           <LeftSidebar
             categories={categories}
             tags={tags}
@@ -80,7 +80,7 @@ export function HomeContent({ articles, categories, tags, tracks }: HomeContentP
 
           <ArticleFeed articles={filteredArticles} />
 
-          <div className="hidden xl:block">
+          <div className="hidden lg:block">
             <RightSidebar
               tracks={tracks}
               articles={filteredArticles}
