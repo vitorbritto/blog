@@ -71,7 +71,7 @@ export function RightSidebar({ tracks, articles, searchQuery, onSearchChange }: 
 
   return (
     <aside className="space-y-6">
-      <div className="rounded-xl border border-zinc-800/60 bg-[#1c1f1f] p-4 space-y-2">
+      <div className="rounded-xl border border-zinc-800/60 bg-[#222525] p-4 space-y-2">
         <input
           type="search"
           value={localQuery}
@@ -83,7 +83,7 @@ export function RightSidebar({ tracks, articles, searchQuery, onSearchChange }: 
       </div>
 
       {tracks.length > 0 && (
-        <div className="rounded-xl border border-zinc-800/60 bg-[#1c1f1f] p-4">
+        <div className="rounded-xl border border-zinc-800/60 bg-[#222525] p-4">
           <h3 className="text-sm font-semibold text-zinc-300 uppercase tracking-wide mb-3">
             {t('filters.tracks')}
           </h3>
@@ -104,7 +104,7 @@ export function RightSidebar({ tracks, articles, searchQuery, onSearchChange }: 
       )}
 
       {archive.length > 0 && (
-        <div className="rounded-xl border border-zinc-800/60 bg-[#1c1f1f] p-4">
+        <div className="rounded-xl border border-zinc-800/60 bg-[#222525] p-4">
           <h3 className="text-sm font-semibold text-zinc-300 uppercase tracking-wide mb-3">
             {t('archive.title')}
           </h3>
