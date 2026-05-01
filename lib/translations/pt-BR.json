@@ -4,7 +4,8 @@
     "tracks": "Trilhas",
     "categories": "Categorias",
     "about": "Sobre",
-    "contact": "Contato"
+    "contact": "Contato",
+    "tagline": "pensar(); codar(); evoluir();"
   },
   "hero": {
     "title1": "Um blog sobre",

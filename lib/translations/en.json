@@ -4,7 +4,8 @@
     "tracks": "Tracks",
     "categories": "Categories",
     "about": "About",
-    "contact": "Contact"
+    "contact": "Contact",
+    "tagline": "think(); code(); evolve();"
   },
   "hero": {
     "title1": "A blog about",
