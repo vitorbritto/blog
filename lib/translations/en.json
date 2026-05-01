@@ -15,7 +15,8 @@
     "readTime": "min read",
     "previous": "Previous",
     "next": "Next",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "back": "Back"
   },
   "tracks": {
     "title": "Available tracks",

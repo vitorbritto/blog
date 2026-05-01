@@ -15,7 +15,8 @@
     "readTime": "min de leitura",
     "previous": "Anterior",
     "next": "Próximo",
-    "loading": "Carregando..."
+    "loading": "Carregando...",
+    "back": "Voltar"
   },
   "tracks": {
     "title": "Trilhas disponíveis",

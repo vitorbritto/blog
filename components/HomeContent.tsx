@@ -1,6 +1,7 @@
 'use client'
 
 import { useMemo, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { ArticleFeed } from './ArticleFeed'
 import { LeftSidebar } from './LeftSidebar'
 import { RightSidebar } from './RightSidebar'
@@ -14,9 +15,14 @@ interface HomeContentProps {
 }
 
 export function HomeContent({ articles, categories, tags, tracks }: HomeContentProps) {
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
-  const [selectedTags, setSelectedTags] = useState<string[]>([])
-  const [searchQuery, setSearchQuery] = useState<string>('')
+  const params = useSearchParams()
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(() =>
+    params.get('cat') ? [params.get('cat')!] : []
+  )
+  const [selectedTags, setSelectedTags] = useState<string[]>(() =>
+    params.get('tag') ? [params.get('tag')!] : []
+  )
+  const [searchQuery, setSearchQuery] = useState<string>(() => params.get('q') || '')
 
   const filteredArticles = useMemo(() => {
     return articles.filter(article => {

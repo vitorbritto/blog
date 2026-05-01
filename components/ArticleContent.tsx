@@ -7,7 +7,7 @@ import { ArticleLanguageProvider } from './ArticleLanguageProvider'
 
 export function ArticleContent({ article }: { article: Article }) {
   return (
-    <article className="max-w-4xl mx-auto px-6 py-16">
+    <article>
       <ArticleLanguageProvider article={article}>
         <ArticleHeader />
         <ArticleMDX />
