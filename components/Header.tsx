@@ -16,7 +16,7 @@ export function Header() {
             <span className="text-xl font-semibold text-zinc-100 group-hover:text-emerald-400 transition-colors">
               vitorbritto
             </span>
-            <span className="text-xs text-zinc-500">— carreira, programação e inteligencia artificial</span>
+            <span className="text-xs text-zinc-500">— carreira() + programacao() + IA()</span>
           </Link>
           <LanguageSelector />
         </div>
