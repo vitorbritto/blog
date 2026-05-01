@@ -67,20 +67,22 @@ export function HomeContent({ articles, categories, tags, tracks }: HomeContentP
     <main className="min-h-screen">
       <div className="mx-auto px-10 py-16">
         <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr_300px] gap-32">
-          <LeftSidebar
-            categories={categories}
-            tags={tags}
-            selectedCategories={selectedCategories}
-            selectedTags={selectedTags}
-            onToggleCategory={toggleCategory}
-            onToggleTag={toggleTag}
-            onClearAllCategories={clearAllCategories}
-            onClearAllTags={clearAllTags}
-          />
+          <div className="lg:sticky lg:top-24 lg:self-start">
+            <LeftSidebar
+              categories={categories}
+              tags={tags}
+              selectedCategories={selectedCategories}
+              selectedTags={selectedTags}
+              onToggleCategory={toggleCategory}
+              onToggleTag={toggleTag}
+              onClearAllCategories={clearAllCategories}
+              onClearAllTags={clearAllTags}
+            />
+          </div>
 
           <ArticleFeed articles={filteredArticles} />
 
-          <div className="hidden lg:block">
+          <div className="hidden lg:block lg:sticky lg:top-24 lg:self-start">
             <RightSidebar
               tracks={tracks}
               articles={filteredArticles}
