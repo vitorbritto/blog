@@ -105,16 +105,13 @@ export function RightSidebar({ tracks, articles, searchQuery, onSearchChange }: 
 
       {archive.length > 0 && (
         <div className="rounded-xl border border-zinc-800/60 bg-zinc-900 p-4">
-          <h3 className="text-sm font-semibold text-zinc-300 uppercase tracking-wide mb-3">
+          <h3 className="text-sm font-semibold text-zinc-300 uppercase tracking-wide mb-4">
             {t('archive.title')}
           </h3>
-          <div className="space-y-2">
+          <div className="divide-y divide-zinc-800/60">
             {archive.map(group => (
-              <details
-                key={group.key}
-                className="group/archive border-b border-zinc-800/50 last:border-b-0"
-              >
-                <summary className="flex items-center justify-between gap-2 py-2 cursor-pointer list-none text-xs font-medium text-zinc-400 uppercase tracking-wide hover:text-zinc-200 transition-colors">
+              <details key={group.key} className="group/archive">
+                <summary className="flex items-center justify-between gap-2 py-3 cursor-pointer list-none text-xs font-medium text-zinc-400 uppercase tracking-wide hover:text-zinc-200 transition-colors">
                   <span className="flex items-center gap-2">
                     {group.label}
                     <span className="text-zinc-600 normal-case tracking-normal">
@@ -128,14 +125,14 @@ export function RightSidebar({ tracks, articles, searchQuery, onSearchChange }: 
                     ›
                   </span>
                 </summary>
-                <ul className="space-y-1.5 pb-3 pt-1">
+                <ul className="space-y-3 pt-2 pb-4">
                   {group.articles.map(article => {
                     const translated = getTranslatedArticle(article, language)
                     return (
                       <li key={article.slug}>
                         <Link
                           href={`/articles/${article.slug}`}
-                          className="text-sm text-zinc-400 hover:text-emerald-400 transition-colors line-clamp-2"
+                          className="block text-sm leading-relaxed text-zinc-400 hover:text-emerald-400 transition-colors"
                         >
                           {translated.title}
                         </Link>
