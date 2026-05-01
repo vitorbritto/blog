@@ -10,9 +10,13 @@ export async function getArticleBySlug(slug: string): Promise<Article | null> {
     const metadataPath = path.join(contentDirectory, 'metadata/articles', `${slug}.json`)
     const metadata = JSON.parse(fs.readFileSync(metadataPath, 'utf8'))
 
+    const en = await getArticleTranslation(slug, 'en')
+    const ptBR = await getArticleTranslation(slug, 'pt-BR')
+    if (!en && !ptBR) return null
+
     const translations: Article['translations'] = {
-      en: await getArticleTranslation(slug, 'en'),
-      'pt-BR': await getArticleTranslation(slug, 'pt-BR')
+      en: en ?? ptBR!,
+      'pt-BR': ptBR ?? en!
     }
 
     return {
@@ -27,8 +31,9 @@ export async function getArticleBySlug(slug: string): Promise<Article | null> {
 async function getArticleTranslation(
   slug: string,
   language: 'en' | 'pt-BR'
-): Promise<ArticleTranslation> {
+): Promise<ArticleTranslation | null> {
   const filePath = path.join(contentDirectory, 'articles', language, `${slug}.mdx`)
+  if (!fs.existsSync(filePath)) return null
   const fileContents = fs.readFileSync(filePath, 'utf8')
   const { data, content } = matter(fileContents)
 
