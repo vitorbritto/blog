@@ -1,19 +1,19 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
 import { LanguageSelector } from './LanguageSelector'
 
 export function Header() {
   return (
     <header className="border-b border-zinc-800/50 bg-[#161718] sticky top-0 z-10">
-      <nav className="mx-auto px-10 py-2">
+      <nav className="mx-auto px-10 py-4">
         <div className="flex items-center justify-between">
           <Link
             href="/"
-            className="text-xl font-semibold text-zinc-100 hover:text-emerald-400 transition-colors"
+            className="font-mono text-base text-zinc-100 hover:text-emerald-400 transition-colors tracking-tight"
+            style={{ fontFamily: 'var(--font-mono)' }}
           >
-            <Image src="/logo.png" alt="Vitor Britto" width={48} height={48} />
+            blog.vitorbritto.dev
           </Link>
           <LanguageSelector />
         </div>

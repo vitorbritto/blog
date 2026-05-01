@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Inter, JetBrains_Mono } from 'next/font/google'
 import { Toaster } from 'sonner'
 import { Header } from '@/components/Header'
 import { LanguageProvider } from '@/components/LanguageProvider'
@@ -8,6 +8,7 @@ import GoogleAnalytics from '@/components/GoogleAnalytics'
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
+const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono' })
 
 export const metadata: Metadata = {
   title: 'Vitor Britto',
@@ -49,7 +50,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <GoogleAnalytics />
         </Suspense>
       </head>
-      <body className={`${inter.className} bg-[#161718] text-zinc-100 antialiased`}>
+      <body className={`${inter.className} ${jetbrainsMono.variable} bg-[#161718] text-zinc-100 antialiased`}>
         <LanguageProvider>
           <Header />
           {children}
