@@ -1,7 +1,9 @@
 {
   "slug": "building-a-monorepo-the-right-way",
   "date": "2023-07-14",
-  "categories": [],
+  "categories": [
+    "devops"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,

@@ -1,7 +1,9 @@
 {
   "slug": "the-back-end-roadmap",
   "date": "2024-12-10",
-  "categories": [],
+  "categories": [
+    "back-end"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,

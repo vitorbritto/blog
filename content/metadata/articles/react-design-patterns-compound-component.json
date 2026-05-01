@@ -1,7 +1,10 @@
 {
   "slug": "react-design-patterns-compound-component",
   "date": "2024-05-28",
-  "categories": [],
+  "categories": [
+    "architecture",
+    "front-end"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,

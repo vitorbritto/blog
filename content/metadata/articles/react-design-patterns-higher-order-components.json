@@ -1,7 +1,10 @@
 {
   "slug": "react-design-patterns-higher-order-components",
   "date": "2024-08-09",
-  "categories": [],
+  "categories": [
+    "architecture",
+    "front-end"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,

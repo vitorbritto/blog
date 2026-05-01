@@ -1,7 +1,10 @@
 {
   "slug": "react-design-patterns-render-props",
   "date": "2024-09-15",
-  "categories": [],
+  "categories": [
+    "architecture",
+    "front-end"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,

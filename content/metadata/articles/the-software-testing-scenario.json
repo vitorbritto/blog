@@ -1,7 +1,9 @@
 {
   "slug": "the-software-testing-scenario",
   "date": "2025-04-12",
-  "categories": [],
+  "categories": [
+    "front-end"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,

@@ -1,7 +1,10 @@
 {
   "slug": "understanding-css-architecture",
   "date": "2025-06-12",
-  "categories": [],
+  "categories": [
+    "architecture",
+    "front-end"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,

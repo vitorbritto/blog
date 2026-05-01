@@ -1,7 +1,10 @@
 {
   "slug": "code-splitting-in-react",
   "date": "2023-08-20",
-  "categories": [],
+  "categories": [
+    "performance",
+    "front-end"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,

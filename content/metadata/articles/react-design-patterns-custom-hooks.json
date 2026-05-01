@@ -1,7 +1,10 @@
 {
   "slug": "react-design-patterns-custom-hooks",
   "date": "2024-07-16",
-  "categories": [],
+  "categories": [
+    "architecture",
+    "front-end"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,

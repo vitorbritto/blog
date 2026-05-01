@@ -1,7 +1,9 @@
 {
   "slug": "react-overview-about-synthetic-event",
   "date": "2024-10-22",
-  "categories": [],
+  "categories": [
+    "front-end"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,

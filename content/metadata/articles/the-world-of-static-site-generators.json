@@ -1,7 +1,9 @@
 {
   "slug": "the-world-of-static-site-generators",
   "date": "2025-05-31",
-  "categories": [],
+  "categories": [
+    "front-end"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,

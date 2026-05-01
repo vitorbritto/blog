@@ -1,7 +1,9 @@
 {
   "slug": "error-boundaries-on-react-apps",
   "date": "2023-11-01",
-  "categories": [],
+  "categories": [
+    "front-end"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,

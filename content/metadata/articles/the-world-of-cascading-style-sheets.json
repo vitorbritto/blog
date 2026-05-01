@@ -1,7 +1,9 @@
 {
   "slug": "the-world-of-cascading-style-sheets",
   "date": "2025-05-06",
-  "categories": [],
+  "categories": [
+    "front-end"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,

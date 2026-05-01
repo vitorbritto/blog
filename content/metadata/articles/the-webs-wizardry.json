@@ -1,7 +1,9 @@
 {
   "slug": "the-webs-wizardry",
   "date": "2025-04-24",
-  "categories": [],
+  "categories": [
+    "front-end"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,

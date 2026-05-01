@@ -1,7 +1,9 @@
 {
   "slug": "elevating-creational-craftsmanship",
   "date": "2023-10-20",
-  "categories": [],
+  "categories": [
+    "architecture"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,

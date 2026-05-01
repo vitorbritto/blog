@@ -1,7 +1,9 @@
 {
   "slug": "introduction-graphql",
   "date": "2024-01-14",
-  "categories": [],
+  "categories": [
+    "back-end"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,

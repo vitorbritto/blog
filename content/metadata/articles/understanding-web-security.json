@@ -1,7 +1,9 @@
 {
   "slug": "understanding-web-security",
   "date": "2025-07-06",
-  "categories": [],
+  "categories": [
+    "security"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,

@@ -1,7 +1,9 @@
 {
   "slug": "building-a-monorepo",
   "date": "2023-07-26",
-  "categories": [],
+  "categories": [
+    "devops"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,

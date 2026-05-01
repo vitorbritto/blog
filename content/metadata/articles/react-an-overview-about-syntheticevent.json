@@ -1,7 +1,9 @@
 {
   "slug": "react-an-overview-about-syntheticevent",
   "date": "2024-05-16",
-  "categories": [],
+  "categories": [
+    "front-end"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,

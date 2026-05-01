@@ -1,7 +1,9 @@
 {
   "slug": "the-right-introduction-to-javascript",
   "date": "2025-03-18",
-  "categories": [],
+  "categories": [
+    "front-end"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,

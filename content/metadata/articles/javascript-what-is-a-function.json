@@ -1,7 +1,9 @@
 {
   "slug": "javascript-what-is-a-function",
   "date": "2024-03-03",
-  "categories": [],
+  "categories": [
+    "front-end"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,

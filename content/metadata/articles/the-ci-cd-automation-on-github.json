@@ -1,7 +1,9 @@
 {
   "slug": "the-ci-cd-automation-on-github",
   "date": "2024-12-22",
-  "categories": [],
+  "categories": [
+    "devops"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,

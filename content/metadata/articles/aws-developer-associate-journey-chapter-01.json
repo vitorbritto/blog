@@ -1,7 +1,9 @@
 {
   "slug": "aws-developer-associate-journey-chapter-01",
   "date": "2023-06-07",
-  "categories": [],
+  "categories": [
+    "devops"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,

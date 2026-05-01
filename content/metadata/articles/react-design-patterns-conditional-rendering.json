@@ -1,7 +1,10 @@
 {
   "slug": "react-design-patterns-conditional-rendering",
   "date": "2024-06-09",
-  "categories": [],
+  "categories": [
+    "architecture",
+    "front-end"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,

@@ -1,7 +1,9 @@
 {
   "slug": "function-composition-in-react-applications",
   "date": "2023-12-08",
-  "categories": [],
+  "categories": [
+    "front-end"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,

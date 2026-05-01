@@ -1,7 +1,9 @@
 {
   "slug": "architectural-patterns-microservices",
   "date": "2023-05-14",
-  "categories": [],
+  "categories": [
+    "architecture"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,

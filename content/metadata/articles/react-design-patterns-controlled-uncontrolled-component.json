@@ -1,7 +1,10 @@
 {
   "slug": "react-design-patterns-controlled-uncontrolled-component",
   "date": "2024-07-04",
-  "categories": [],
+  "categories": [
+    "architecture",
+    "front-end"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,

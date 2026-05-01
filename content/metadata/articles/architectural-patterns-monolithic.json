@@ -1,7 +1,9 @@
 {
   "slug": "architectural-patterns-monolithic",
   "date": "2023-05-26",
-  "categories": [],
+  "categories": [
+    "architecture"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,

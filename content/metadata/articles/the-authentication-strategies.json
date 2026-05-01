@@ -1,7 +1,9 @@
 {
   "slug": "the-authentication-strategies",
   "date": "2024-11-28",
-  "categories": [],
+  "categories": [
+    "security"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,

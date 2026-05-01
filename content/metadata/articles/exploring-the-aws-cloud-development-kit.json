@@ -1,7 +1,9 @@
 {
   "slug": "exploring-the-aws-cloud-development-kit",
   "date": "2023-11-14",
-  "categories": [],
+  "categories": [
+    "devops"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,

@@ -1,7 +1,9 @@
 {
   "slug": "react-diving-into-pure-components",
   "date": "2024-10-10",
-  "categories": [],
+  "categories": [
+    "front-end"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,

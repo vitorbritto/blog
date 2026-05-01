@@ -1,7 +1,9 @@
 {
   "slug": "aws-developer-associate-journey",
   "date": "2023-07-02",
-  "categories": [],
+  "categories": [
+    "devops"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,

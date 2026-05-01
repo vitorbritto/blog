@@ -1,7 +1,9 @@
 {
   "slug": "introduction-to-progressive-web-apps",
   "date": "2024-02-20",
-  "categories": [],
+  "categories": [
+    "front-end"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,

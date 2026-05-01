@@ -1,7 +1,9 @@
 {
   "slug": "kickstart-to-dom-manipulation",
   "date": "2024-03-15",
-  "categories": [],
+  "categories": [
+    "front-end"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,

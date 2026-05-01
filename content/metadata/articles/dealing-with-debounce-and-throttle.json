@@ -1,7 +1,9 @@
 {
   "slug": "dealing-with-debounce-and-throttle",
   "date": "2023-09-13",
-  "categories": [],
+  "categories": [
+    "performance"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,

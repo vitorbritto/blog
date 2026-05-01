@@ -1,7 +1,10 @@
 {
   "slug": "react-design-patterns-foundational",
   "date": "2024-07-28",
-  "categories": [],
+  "categories": [
+    "architecture",
+    "front-end"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,

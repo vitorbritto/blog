@@ -1,7 +1,9 @@
 {
   "slug": "exploring-version-control-systems",
   "date": "2023-11-26",
-  "categories": [],
+  "categories": [
+    "devops"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,

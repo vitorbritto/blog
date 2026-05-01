@@ -1,7 +1,9 @@
 {
   "slug": "code-integrity-with-type-checkers",
   "date": "2023-08-07",
-  "categories": [],
+  "categories": [
+    "front-end"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,

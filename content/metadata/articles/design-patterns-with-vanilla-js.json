@@ -1,7 +1,9 @@
 {
   "slug": "design-patterns-with-vanilla-js",
   "date": "2023-10-08",
-  "categories": [],
+  "categories": [
+    "architecture"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,

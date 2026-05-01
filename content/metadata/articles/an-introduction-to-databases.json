@@ -1,7 +1,9 @@
 {
   "slug": "an-introduction-to-databases",
   "date": "2023-04-19",
-  "categories": [],
+  "categories": [
+    "databases"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,

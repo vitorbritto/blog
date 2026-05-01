@@ -1,7 +1,9 @@
 {
   "slug": "application-strategy-deployment",
   "date": "2023-05-01",
-  "categories": [],
+  "categories": [
+    "devops"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,

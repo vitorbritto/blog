@@ -1,7 +1,9 @@
 {
   "slug": "web-development-with-build-tools",
   "date": "2025-07-31",
-  "categories": [],
+  "categories": [
+    "performance"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,

@@ -1,7 +1,10 @@
 {
   "slug": "react-design-patterns-provider",
   "date": "2024-09-03",
-  "categories": [],
+  "categories": [
+    "architecture",
+    "front-end"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,

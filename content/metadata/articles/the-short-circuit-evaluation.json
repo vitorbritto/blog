@@ -1,7 +1,9 @@
 {
   "slug": "the-short-circuit-evaluation",
   "date": "2025-03-30",
-  "categories": [],
+  "categories": [
+    "front-end"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,

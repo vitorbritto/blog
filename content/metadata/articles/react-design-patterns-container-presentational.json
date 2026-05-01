@@ -1,7 +1,10 @@
 {
   "slug": "react-design-patterns-container-presentational",
   "date": "2024-06-21",
-  "categories": [],
+  "categories": [
+    "architecture",
+    "front-end"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,

@@ -1,7 +1,9 @@
 {
   "slug": "mastering-date-and-time-in-javascript",
   "date": "2024-03-27",
-  "categories": [],
+  "categories": [
+    "front-end"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,

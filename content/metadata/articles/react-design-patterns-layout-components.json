@@ -1,7 +1,10 @@
 {
   "slug": "react-design-patterns-layout-components",
   "date": "2024-08-22",
-  "categories": [],
+  "categories": [
+    "architecture",
+    "front-end"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,

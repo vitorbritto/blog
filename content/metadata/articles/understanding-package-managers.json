@@ -1,7 +1,9 @@
 {
   "slug": "understanding-package-managers",
   "date": "2025-06-24",
-  "categories": [],
+  "categories": [
+    "front-end"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,

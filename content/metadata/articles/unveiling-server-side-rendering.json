@@ -1,7 +1,9 @@
 {
   "slug": "unveiling-server-side-rendering",
   "date": "2025-07-19",
-  "categories": [],
+  "categories": [
+    "performance"
+  ],
   "tracks": [],
   "tags": [],
   "readTime": 5,
