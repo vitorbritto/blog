@@ -18,7 +18,7 @@ export function Header() {
             <span className="text-xl font-semibold text-zinc-100 group-hover:text-emerald-400 transition-colors">
               vitorbritto
             </span>
-            <span className="text-sm italic text-zinc-500">— {t('nav.tagline')}</span>
+            <span className="text-xs italic text-zinc-500">— {t('nav.tagline')}</span>
           </Link>
           <LanguageSelector />
         </div>
