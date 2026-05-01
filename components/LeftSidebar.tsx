@@ -183,7 +183,7 @@ export function LeftSidebar({
       {/* Desktop View */}
       <div className="hidden lg:block space-y-6">
         {categories.length > 0 && (
-          <div className="rounded-xl border border-zinc-800/60 bg-[#222525] p-4">
+          <div className="rounded-xl border border-zinc-800/60 bg-zinc-900 p-4">
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-sm font-semibold text-zinc-300 uppercase tracking-wide">
                 {t('filters.topics')}
@@ -227,7 +227,7 @@ export function LeftSidebar({
         )}
 
         {tags.length > 0 && (
-          <div className="rounded-xl border border-zinc-800/60 bg-[#222525] p-4">
+          <div className="rounded-xl border border-zinc-800/60 bg-zinc-900 p-4">
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-sm font-semibold text-zinc-300 uppercase tracking-wide">
                 {t('filters.tags')}
