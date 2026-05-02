@@ -38,12 +38,18 @@ async function downloadImages(urls, selector, outputDir) {
       "Sec-Fetch-User": "?1",
     });
 
-    await page.setCookie({
-      name: "sid",
-      value: process.env.MEDIUM_SID_COOKIE,
-      domain: ".medium.com",
-      path: "/",
-    });
+    const mediumSidCookie = process.env.MEDIUM_SID_COOKIE;
+
+    if (mediumSidCookie) {
+      await page.setCookie({
+        name: "sid",
+        value: mediumSidCookie,
+        domain: ".medium.com",
+        path: "/",
+      });
+    } else {
+      console.warn("MEDIUM_SID_COOKIE is not set. Continuing without a Medium session cookie.");
+    }
 
     await page.setRequestInterception(true);
     page.on("request", (request) => {
@@ -60,11 +66,11 @@ async function downloadImages(urls, selector, outputDir) {
     await page.setViewport({ width: 1280, height: 800 });
 
     page.on("error", (err) => {
-      console.error("🔴 Erro na página:", err);
+      console.error("🔴 Page error:", err);
     });
 
     page.on("console", (msg) => {
-      console.log("📝 Console do navegador:", msg.text());
+      console.log("📝 Browser console:", msg.text());
     });
 
     page.on("request", (request) => {
@@ -76,7 +82,7 @@ async function downloadImages(urls, selector, outputDir) {
     });
 
     for (const [index, url] of urls.entries()) {
-      console.log(`\n🌐 Tentando acessar ${url}`);
+      console.log(`\n🌐 Opening ${url}`);
 
       try {
         const response = await page.goto(url, {
@@ -88,8 +94,8 @@ async function downloadImages(urls, selector, outputDir) {
           throw new Error(`Status: ${response.status()}`);
         }
 
-        console.log(`✅ Página carregada com sucesso (${response.status()})`);
-        console.log(`📍 URL atual: ${page.url()}`);
+        console.log(`✅ Page loaded successfully (${response.status()})`);
+        console.log(`📍 Current URL: ${page.url()}`);
 
         await page.waitForSelector("article", { timeout: 30000 });
 
@@ -112,7 +118,7 @@ async function downloadImages(urls, selector, outputDir) {
             }));
         });
 
-        console.log(`🔍 Encontradas ${images.length} imagens relevantes`);
+        console.log(`🔍 Found ${images.length} relevant images`);
 
         for (const [imgIndex, image] of images.entries()) {
           if (!image.src || image.src.startsWith("data:")) continue;
@@ -127,23 +133,23 @@ async function downloadImages(urls, selector, outputDir) {
             const filePath = path.join(outputDir, fileName);
 
             fs.writeFileSync(filePath, buffer);
-            console.log(`✅ Baixada: ${fileName}`);
+            console.log(`✅ Downloaded: ${fileName}`);
 
             await page.waitForTimeout(500);
           } catch (imgError) {
             console.error(
-              `❌ Erro ao baixar imagem: ${image.src}`,
+              `❌ Error downloading image: ${image.src}`,
               imgError.message
             );
           }
         }
       } catch (pageError) {
-        console.error(`❌ Erro ao processar página: ${url}`, pageError.message);
+        console.error(`❌ Error processing page: ${url}`, pageError.message);
       }
     }
   } finally {
     await browser.close();
-    console.log("\n✨ Processo finalizado!");
+    console.log("\n✨ Process finished!");
   }
 }
 

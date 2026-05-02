@@ -43,7 +43,7 @@ async function generateArticlesMetadata() {
 
       const outputPath = path.join(metadataDir, `${slug}.json`);
       fs.writeFileSync(outputPath, JSON.stringify(metadata, null, 2), "utf8");
-      console.log(`✅ Metadata gerado para ${slug}`);
+      console.log(`✅ Generated metadata for ${slug}`);
     }
   }
 }

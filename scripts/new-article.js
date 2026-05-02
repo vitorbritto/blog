@@ -28,7 +28,7 @@ Options:
 Examples:
   pnpm new-article "Understanding Event Loops"
   pnpm new-article "React State Machines" --category front-end --tag react --read-time 8
-  pnpm new-article "Designing APIs" --slug designing-apis --title-pt "Desenhando APIs"
+  pnpm new-article "Designing APIs" --slug designing-apis --title-pt "Designing APIs in Portuguese"
 `);
 }
 
@@ -148,40 +148,41 @@ function validateOptions(options) {
 }
 
 function buildMdx({ title, excerpt, language }) {
+  const languageLabel = language === "pt-BR" ? "Portuguese" : "English";
   const intro =
     language === "pt-BR"
-      ? "Escreva a ideia de abertura aqui. Comece pelo problema, contexto ou pergunta que este artigo responde."
+      ? "Write the Portuguese opening idea here. Start with the problem, context, or question this article answers."
       : "Write the opening idea here. Start with the problem, context, or question this article answers.";
   const mainIdea =
     language === "pt-BR"
-      ? "Desenvolva o argumento ou explicacao central."
+      ? "Develop the central argument or explanation in Portuguese."
       : "Develop the central argument or explanation.";
   const example =
     language === "pt-BR"
-      ? "Adicione um exemplo concreto, trecho de codigo, explicacao de diagrama ou cenario."
+      ? "Add a concrete example, code snippet, diagram explanation, or scenario in Portuguese."
       : "Add a concrete example, code snippet, diagram explanation, or scenario.";
-  const codeComment = language === "pt-BR" ? "Codigo de exemplo" : "Example code";
+  const codeComment = `${languageLabel} example code`;
   const takeaways =
     language === "pt-BR"
-      ? ["Primeiro aprendizado.", "Segundo aprendizado.", "Terceiro aprendizado."]
+      ? ["First Portuguese takeaway.", "Second Portuguese takeaway.", "Third Portuguese takeaway."]
       : ["First takeaway.", "Second takeaway.", "Third takeaway."];
   const references =
-    language === "pt-BR" ? "Adicione as referencias aqui." : "Add references here.";
+    language === "pt-BR" ? "Add Portuguese references here." : "Add references here.";
 
   return `---
 title: ${JSON.stringify(title)}
 excerpt: ${JSON.stringify(excerpt)}
 ---
 
-## ${language === "pt-BR" ? "Introducao" : "Introduction"}
+## Introduction
 
 ${intro}
 
-## ${language === "pt-BR" ? "Ideia principal" : "Main Idea"}
+## Main Idea
 
 ${mainIdea}
 
-## ${language === "pt-BR" ? "Exemplo pratico" : "Practical Example"}
+## Practical Example
 
 ${example}
 
@@ -189,11 +190,11 @@ ${example}
 // ${codeComment}
 \`\`\`
 
-## ${language === "pt-BR" ? "Principais aprendizados" : "Key Takeaways"}
+## Key Takeaways
 
 ${takeaways.map(item => `- ${item}`).join("\n")}
 
-## ${language === "pt-BR" ? "Referencias" : "References"}
+## References
 
 - ${references}
 `;
