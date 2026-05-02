@@ -104,7 +104,40 @@ export async function getAllCategories(): Promise<Category[]> {
     return JSON.parse(fileContent) as Category
   })
 
-  return categories
+  const metadataDirectory = path.join(contentDirectory, 'metadata/articles')
+  if (!fs.existsSync(metadataDirectory)) {
+    return categories
+  }
+
+  const validCategories = new Set(categories.map(category => category.slug))
+  const articlesByCategory = new Map<string, string[]>(
+    categories.map(category => [category.slug, []])
+  )
+
+  const articleMetadata = fs
+    .readdirSync(metadataDirectory)
+    .filter(fileName => fileName.endsWith('.json'))
+    .map(fileName => {
+      const filePath = path.join(metadataDirectory, fileName)
+      return JSON.parse(fs.readFileSync(filePath, 'utf8')) as Pick<
+        Article,
+        'slug' | 'date' | 'categories'
+      >
+    })
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+
+  for (const article of articleMetadata) {
+    for (const category of article.categories || []) {
+      if (validCategories.has(category)) {
+        articlesByCategory.get(category)?.push(article.slug)
+      }
+    }
+  }
+
+  return categories.map(category => ({
+    ...category,
+    articles: articlesByCategory.get(category.slug) || []
+  }))
 }
 
 export async function getCategoryBySlug(slug: string): Promise<Category | null> {
