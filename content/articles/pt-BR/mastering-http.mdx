@@ -1,6 +1,234 @@
 ---
-title: "Dominando o protocolo HTTP"
-excerpt: "Tudo o que você precisa saber sobre ele."
+title: "Dominando HTTP"
+excerpt: "Tudo o que você precisa saber sobre HTTP — métodos, headers, status codes, caching e a evolução do 1.1 ao HTTP/3."
 ---
 
-🚧 A tradução deste artigo está em andamento.
+Tudo o que você precisa saber sobre ele.
+O HTTP (Hypertext Transfer Protocol) é um protocolo de comunicação que permite a transferência de informação na internet. Ele é a base de qualquer troca de dados na web, sendo essencial para o funcionamento da World Wide Web.
+
+O HTTP define como as mensagens são formatadas e transmitidas e como os web servers e os browsers devem responder a essas mensagens.
+
+Quando você digita uma URL (Uniform Resource Locator) na barra de endereço do seu browser, o browser usa HTTP para requisitar a página web do servidor. O servidor então responde enviando os arquivos da página requisitada, também via HTTP. Esse processo permite que você veja e interaja com os sites na internet.
+
+### História do HTTP
+
+A história do HTTP (Hypertext Transfer Protocol) é essencial para entender como a internet evoluiu até se tornar a vasta rede interconectada que conhecemos hoje. Desde sua concepção, o HTTP tem sido a pedra angular da comunicação de dados na World Wide Web, permitindo que informações sejam compartilhadas e acessadas globalmente.
+
+O começo
+A origem do HTTP remonta a 1989, quando Tim Berners-Lee, um cientista da computação trabalhando no CERN (European Organization for Nuclear Research), propôs um novo sistema de gerenciamento de informação.
+
+Esse sistema, que mais tarde evoluiria para a World Wide Web, usava o conceito de hipertexto para permitir que documentos fossem interligados através de links.
+
+Em 1991, o HTTP/0.9 foi introduzido como um protocolo simples para a transferência de dados brutos entre web servers e clients. Nessa versão, havia apenas um método chamado GET, e não havia headers.
+
+Se o client precisasse acessar uma página web no servidor, uma request simples era feita assim:
+
+```js
+GET / index.html;
+```
+
+E a resposta do servidor seria algo como:
+
+```js
+(response body)(connection closed)
+```
+
+A formalização
+O HTTP/1.0 foi introduzido em 1996 como a primeira versão formalizada do protocolo. Essa versão trouxe melhorias significativas, incluindo a definição de métodos de request (como GET, POST e HEAD), status de response e headers para permitir a transmissão de metadados.
+
+Esses headers incluíam informações sobre o tipo de conteúdo, codificação do conteúdo e outros dados relevantes para uma comunicação eficiente entre clients e servers.
+
+Dessa forma, a request seria algo como:
+
+```js
+GET / HTTP/1.0Host: hostname.comUser-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5)Accept: */*
+```
+
+E a resposta, algo como:
+
+```js
+HTTP/1.0 200 OK Content-Type: text/plainContent-Length: 137582Expires: Thu, 05 Dec 1997 16:00:00 GMTLast-Modified: Wed, 5 August 1996 15:55:28 GMTServer: Apache 0.84(response body)(connection closed)
+```
+
+Os aprimoramentos
+Em 1997, o HTTP/1.1 foi introduzido, trazendo várias otimizações e novas features.
+
+Essa versão melhorou a eficiência da comunicação e o gerenciamento de conexões, introduzindo conexões persistentes (que permitem múltiplas requests por conexão) e chunked transfer encoding, aprimorando a transferência de dados.
+
+Além disso, o HTTP/1.1 introduziu conceitos como caching, autenticação e compressão de conteúdo, otimizando ainda mais o tráfego web.
+
+Veja o código abaixo:
+
+```js
+# Client envia:GET /index.html HTTP/1.1Host: www.example.comConnection: keep-alive                           # conexão persistenteAccept-Encoding: gzip, deflate                   # otimiza tráfegoIf-Modified-Since: Tue, 10 Jan 2024 13:45:26 GMT # cachingAuthorization: Bearer token_goes_here            # Authorization# Server retorna:HTTP/1.1 304 Not ModifiedDate: Mon, 23 May 2024 22:38:34 GMTServer: Apache/2.4.1 (Unix)Connection: keep-alive                           # conexão persistenteContent-Encoding: gzip.                          # otimiza tráfegoContent-Type: text/htmlAuthorization: Bearer token_goes_here            # Authorization<html>...</html>
+```
+
+Uma nova era para o HTTP
+Lançado em 2015, o HTTP/2 representou um avanço significativo em termos de performance e eficiência.
+
+Baseado no protocolo SPDY do Google, o HTTP/2 introduziu request multiplexing, permitindo que múltiplas requests e responses sejam transmitidas simultaneamente pela mesma conexão. Isso reduziu a latência e melhorou as velocidades de carregamento de página. Além disso, o HTTP/2 aprimorou o suporte para priorização de requests e compressão de headers.
+
+O que vem depois
+O desenvolvimento mais recente na história do HTTP é o HTTP/3, que começou a ser implementado por alguns servers e browsers a partir de 2020.
+
+O HTTP/3 usa o protocolo QUIC (Quick UDP Internet Connections) em vez de TCP, visando reduzir a latência, melhorar a recuperação de packet loss e otimizar conexões em redes instáveis.
+
+Essa versão representa uma mudança significativa em como os dados são transmitidos pela internet, prometendo tornar a web ainda mais rápida e confiável.
+
+### As peças do HTTP
+
+Aqui está uma visão geral dos principais componentes envolvidos em sistemas baseados em HTTP.
+
+Clients
+Clients são o ponto de partida de qualquer HTTP request. Eles tipicamente são browsers (como Chrome, Firefox ou Safari), mas podem também ser qualquer software que envie HTTP requests para o servidor, como apps mobile ou outras aplicações web. Clients iniciam a comunicação requisitando dados dos servers.
+
+Servers
+Servers são computadores ou softwares que escutam e respondem a requests de clients. Quando um server recebe uma HTTP request, ele processa a request, acessa os recursos requisitados (como arquivos HTML, imagens ou dados de um banco de dados) e então envia uma HTTP response de volta ao client. Web servers como Apache, Nginx e IIS são exemplos de software projetado para lidar com HTTP requests.
+
+Cookies
+Cookies são pequenos pedaços de dados que servers enviam aos clients, que são armazenados no lado do client e enviados de volta ao servidor com requests subsequentes. Cookies são usados para vários propósitos, como gerenciamento de sessão, personalização e tracking do comportamento do usuário entre sites.
+
+Sessions
+Embora o HTTP seja stateless (significando que cada request é independente), as sessions oferecem uma forma de preservar o state através de múltiplas HTTP requests. Isso é frequentemente alcançado usando cookies, tokens ou outros mecanismos para rastrear interações do usuário ao longo do tempo.
+
+Caching
+Mecanismos de caching são empregados para reduzir a carga no server e melhorar a performance, armazenando cópias de recursos frequentemente acessados no lado do client ou em caches intermediários. Quando um recurso é requisitado, o sistema primeiro checa se uma versão atual está armazenada no cache, reduzindo a necessidade de buscar o recurso no server.
+
+Encryption (HTTPS)
+HTTPS, a versão segura do HTTP, usa SSL/TLS para criptografar dados em trânsito, protegendo-os contra interceptação e adulteração. Isso adiciona uma camada de segurança, garantindo que os dados trocados entre clients e servers permaneçam confidenciais e com a integridade verificada.
+
+### Conceitos centrais do HTTP
+
+Entender os conceitos centrais do HTTP é essencial para compreender como a internet funciona em um nível fundamental.
+
+Stateless Protocol
+HTTP é um protocolo stateless, o que significa que cada request de um client para um server é tratada como independente; não há vínculo entre requests sucessivas. Esse design simplifica o design do server, mas exige mecanismos adicionais, como cookies ou sessions, para rastrear o state do usuário entre múltiplas requests.
+
+Modelo Client-Server
+HTTP opera em um modelo client-server, em que um client (tipicamente um browser ou aplicação mobile) inicia uma HTTP request e um server responde à request. O client é responsável por requisitar recursos, e o server é responsável por fornecê-los.
+
+URLs (Uniform Resource Locators)
+URLs oferecem o meio de localizar recursos na web. Uma URL contém informações necessárias para que um client localize um recurso, incluindo o protocolo (ex.: HTTP ou HTTPS), o nome de domínio do server (ou endereço IP) e o caminho para o recurso no server. URLs são um elemento crítico no ecossistema HTTP, guiando os clients ao conteúdo desejado.
+
+HTTP Requests
+Uma HTTP request é feita por um client para pedir um recurso específico de um server. Consiste em um método de request (como GET, POST, PUT, DELETE), a URL do recurso requisitado, HTTP headers (oferecendo informações adicionais sobre a request) e, às vezes, um body contendo dados (especialmente em requests POST ou PUT).
+
+HTTP Responses
+Em resposta a uma HTTP request, um server envia de volta uma HTTP response contendo um status code (indicando o sucesso ou falha da request), HTTP headers (com metadados sobre a response ou o recurso requisitado) e frequentemente um body contendo o recurso requisitado (como um documento HTML ou dados JSON).
+
+HTTP Headers
+HTTP headers são pares chave-valor enviados tanto em HTTP requests quanto em responses.
+
+Headers contêm informações importantes sobre a request ou response, ou sobre o objeto enviado no body da mensagem.
+
+Existem vários tipos de headers, incluindo:
+
+- General headers: aplicam-se tanto a requests quanto a responses, mas sem relação com os dados no body.
+- Request headers: contêm mais informações sobre o recurso a ser buscado ou sobre o próprio client.
+- Response headers: oferecem informações adicionais sobre a response, como sua localização ou sobre o server.
+- Entity headers: contêm informações sobre o body do recurso, como seu content length ou MIME type.
+
+HTTP Methods
+HTTP define vários métodos (também conhecidos como "verbos") para indicar a ação desejada a ser realizada em um recurso.
+
+Os métodos mais comuns são:
+
+- GET: requisita uma representação do recurso especificado. GET requests devem apenas recuperar dados e não ter outros efeitos.
+- POST: submete dados para serem processados a um recurso especificado, frequentemente resultando em uma mudança de state ou efeitos colaterais no server.
+- PUT: substitui todas as representações atuais do recurso alvo pelo payload da request.
+- DELETE: remove o recurso especificado.
+- HEAD: semelhante ao GET, mas pede pela response sem o body da response.
+- OPTIONS: descreve as opções de comunicação para o recurso alvo.
+
+Status Codes
+HTTP responses são acompanhadas por status codes que indicam o resultado da tentativa do server de cumprir a request.
+
+Esses códigos são agrupados em categorias:
+
+- 1xx (Informational): indica que a request foi recebida e entendida pelo server, e o processamento continua.
+- 2xx (Success): indica que a request foi recebida, entendida e aceita com sucesso.
+- 3xx (Redirection): indica que mais ações precisam ser tomadas pelo client para completar a request.
+- 4xx (Client Error): indica um erro que o client cometeu, como uma bad request ou acesso não autorizado.
+- 5xx (Server Error): indica que o server falhou em cumprir uma request válida.
+
+### O fluxo do HTTP
+
+O fluxo do HTTP é um processo padrão que segue várias etapas-chave para a transmissão de informação entre clients e servers.
+
+Fluxo HTTP simplificadoOpen connection
+Antes de qualquer troca de informação, uma conexão TCP/IP entre o client e o server precisa ser estabelecida. O client (browser) inicia a conexão resolvendo o nome de domínio do server para um endereço IP e, em seguida, enviando uma request de conexão para o server na porta HTTP padrão, que é a porta 80 (ou a porta 443 para HTTPS).
+
+Send HTTP Request
+Uma vez estabelecida a conexão, o client envia uma mensagem de request para o server.
+
+Essa mensagem inclui:
+
+- o método de request (GET para requisitar dados, POST para submeter dados, entre outros);
+- o caminho do recurso requisitado (URL);
+- a versão do protocolo HTTP;
+- headers opcionais que podem fornecer informações adicionais ao server, como o tipo de browser (user agent) ou tipos de conteúdo aceitáveis.
+
+Server process
+Após receber a request, o server processa o pedido. Esse processamento pode envolver recuperar um arquivo estático, executar um script para gerar conteúdo dinâmico ou qualquer outra operação necessária para cumprir a request.
+
+Server response
+O server responde ao client com uma mensagem de HTTP response, que inclui:
+
+- uma status line, indicando se a request foi bem-sucedida (ex.: 200 OK) ou não (ex.: 404 Not Found).
+- response headers, que podem oferecer informações adicionais sobre o server ou o conteúdo da response.
+- o body da response, contendo o conteúdo requisitado (ex.: um arquivo HTML, uma imagem) ou uma mensagem de erro.
+
+Close connection
+Depois que a response é entregue, a conexão TCP/IP pode ser fechada pelo server ou mantida aberta para futuras requests, dependendo dos connection headers enviados na request e na response.
+
+Para lembrar: o HTTP/1.1 introduziu o conceito de conexões persistentes (keep-alive), permitindo que múltiplas requests e responses sejam transmitidas pela mesma conexão, melhorando a eficiência.
+Renderização do conteúdo no browser
+Por fim, o browser processa a response recebida. Se a response contém um documento HTML, o browser interpreta o HTML, o CSS e o JavaScript relacionado, e renderiza a página para o usuário. Se a response é um redirect, o browser inicia automaticamente uma nova request para o novo local.
+
+### Simplificando com TCP/IP
+
+Esta seria uma representação, através do protocolo TCP/IP, de como as etapas acima funcionariam:
+
+Comunicação entre client e server usando as 4 camadas dos protocolos TCP/IP.
+
+### Secure HTTP (HTTPS)
+
+Secure HTTP (HTTPS) é uma extensão do Hypertext Transfer Protocol (HTTP) projetada para comunicação segura em redes de computadores. HTTPS é amplamente usado na internet para transações seguras, como online banking, e-commerce, e para proteger a troca de informações confidenciais entre o browser do usuário e o site visitado.
+
+Como o HTTPS funciona
+O HTTPS protege a comunicação entre o browser do usuário e o servidor do site criptografando as informações enviadas e recebidas. Isso é feito através do uso do protocolo SSL/TLS (Secure Sockets Layer/Transport Layer Security), que estabelece uma conexão criptografada e verifica a autenticidade do servidor visitado, garantindo que o usuário esteja se comunicando com o site pretendido e não com um impostor.
+
+Componentes-chave do HTTPS
+
+- Encryption: garante que os dados transmitidos só possam ser lidos pelas partes pretendidas. Mesmo que os dados sejam interceptados, a criptografia garante que permaneçam indecifráveis para o interceptador.
+- Authentication: confirma a identidade do server para o client, tipicamente através de certificados digitais emitidos por Certificate Authorities (CAs).
+- Data Integrity: garante que os dados transmitidos não sejam alterados ou corrompidos durante a transferência.
+
+Benefícios do HTTPS
+
+- Segurança: protege os dados do usuário contra interceptação, modificação e falsificação.
+- Privacidade: garante que a comunicação entre o client e o server permaneça confidencial.
+- Confiança: aumenta a confiança dos usuários ao oferecer um indicador visual (como um ícone de cadeado na barra de endereço do browser) de que sua conexão é segura.
+
+Implementando HTTPS
+Para implementar HTTPS em um site, o dono do site precisa obter um certificado SSL/TLS de uma Certificate Authority confiável. Esse certificado é então instalado no web server, configurando-o para usar o protocolo HTTPS para comunicações seguras.
+
+### Conclusão
+
+Entender os fundamentos e conceitos-chave do HTTP (Hypertext Transfer Protocol) é realmente importante para todo desenvolvedor por várias razões. Em primeiro lugar, o HTTP serve como a base da comunicação de dados na World Wide Web, o que significa que um forte domínio de como o HTTP funciona é essencial para o desenvolvimento, deploy e troubleshooting de aplicações web.
+
+### Referências
+
+- https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview
+
+Se tiver alguma observação ou sugestão, fique à vontade para deixar um comentário. Obrigado pela leitura.
+
+Você pode me seguir no X, Github ou LinkedIn.
+
+Até mais! 👋
+
+Por Vitor Britto, em 6 de março de 2024.
+
+Link canônico
+
+Exportado do Medium em 3 de fevereiro de 2025.

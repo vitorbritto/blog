@@ -1,6 +1,213 @@
 ---
-title: "As estratégias de autenticação"
-excerpt: "Construindo confiança e aumentando a segurança."
+title: "Estratégias de Autenticação"
+excerpt: "Uma comparação prática de métodos de autenticação — de Basic Auth a OAuth e JWT — e como escolher a certa."
 ---
 
-🚧 A tradução deste artigo está em andamento.
+Existem várias estratégias de autenticação disponíveis, cada uma com suas próprias vantagens e desvantagens, e escolher a estratégia certa depende dos requisitos específicos do sistema e das preocupações de segurança.
+
+Em alguns casos, uma combinação de várias estratégias é usada para oferecer uma camada adicional de segurança e atender às diversas necessidades dos usuários.
+
+## Basic Authentication
+
+Basic Authentication é um método de autenticação amplamente usado na web para controlar o acesso a recursos protegidos através da especificação do protocolo HTTP. Sua história remonta aos primeiros dias da internet, quando surgiu a necessidade de proteger páginas web. Basic Authentication foi definida pela primeira vez na especificação HTTP/1.0, em 1996.
+
+### Como funciona
+
+A operação da Basic Authentication é relativamente simples.
+
+Quando um client (neste caso, um browser) faz alguma HTTP request para acessar um recurso protegido, o servidor responde com um status code 401 (Unauthorized) junto com um response header chamado "WWW-Authenticate", indicando que a autenticação é necessária e especificando o método de autenticação a ser usado, que neste caso é "Basic".
+
+O client então responde enviando suas credenciais (geralmente username e senha) codificadas em Base64 no request header "Authorization".
+
+**Exemplo:**
+
+```bash
+Authorization: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==
+```
+
+No lado do servidor, as credenciais são verificadas comparando-as com um banco de dados de usuários autorizados. Se as credenciais forem válidas, o servidor concede acesso ao recurso protegido; caso contrário, retorna um status code 403 (Forbidden).
+
+{/* TODO: Add diagram */}
+
+### Casos de uso
+
+1. Proteção de APIs: Basic Authentication é comumente usada para proteger APIs RESTful, em que requests são feitas por clients como apps mobile ou web services.
+2. Acesso a páginas web restritas: pode ser usada para restringir o acesso a determinadas páginas web, exigindo que os usuários forneçam credenciais válidas para visualizar o conteúdo.
+3. Acesso a diretórios protegidos: em web servers, Basic Authentication pode ser configurada para restringir o acesso a diretórios específicos, exigindo autenticação antes de o conteúdo ser servido.
+4. Controle de acesso a sistemas internos: em ambientes corporativos, Basic Authentication pode ser usada para controlar o acesso a sistemas internos, como intranets ou ferramentas administrativas.
+
+**Resumindo**
+
+Embora a Basic Authentication seja simples de implementar e entender, tem algumas limitações significativas. Uma delas é a falta de segurança, já que as credenciais são enviadas em texto plano (embora codificadas em Base64, podem ser facilmente decodificadas). Além disso, não suporta features avançadas de autenticação, como autenticação de dois fatores. Por essas razões, é recomendado usá-la apenas em situações em que segurança não é uma preocupação crítica ou quando combinada com HTTPS para criptografar a comunicação entre client e server.
+
+## Session-Based Authentication
+
+A autenticação baseada em sessão começou a ser amplamente adotada na web à medida que as aplicações web se tornavam mais dinâmicas e interativas. Inicialmente, sessões eram primariamente implementadas usando cookies, que armazenavam um identificador de sessão único no browser do usuário. O servidor então associava esse identificador aos dados de autenticação do usuário armazenados em sua memória.
+
+Com o tempo, as práticas de segurança evoluíram, e novos métodos para gerenciar sessões foram introduzidos. Isso incluiu a implementação de tokens de sessão mais seguros e técnicas para se proteger contra ataques de cross-site request forgery (CSRF).
+
+### Como funciona
+
+A operação básica da autenticação baseada em sessão envolve as seguintes etapas:
+
+1. Autenticação do Usuário: o usuário fornece suas credenciais de login (como username e senha) para acessar uma aplicação web.
+2. Validação de Credenciais: o servidor verifica as credenciais fornecidas pelo usuário contra os dados armazenados no banco de dados ou em outro sistema seguro de armazenamento.
+3. Criação da Sessão: se as credenciais forem válidas, o servidor cria uma sessão única para o usuário e associa um identificador de sessão único a essa sessão.
+4. Armazenamento da Sessão: o identificador de sessão é então enviado ao browser do usuário, geralmente através de um cookie. O servidor também pode armazenar informações adicionais sobre a sessão, como dados de autenticação do usuário, em seu próprio sistema de armazenamento.
+5. Autenticação Subsequente: em requests subsequentes, o browser envia o identificador de sessão de volta ao servidor. O servidor usa esse identificador para recuperar os dados de sessão associados e autenticar o usuário.
+6. Encerramento da Sessão: quando o usuário faz logout ou quando a sessão expira, o servidor invalida o identificador de sessão e limpa os dados de sessão associados.
+
+{/* TODO: Add diagram */}
+
+### Casos de uso
+
+A autenticação baseada em sessão é amplamente usada em uma variedade de cenários, incluindo:
+
+1. Aplicações Web Tradicionais: muitos sites e aplicações web usam autenticação baseada em sessão para controlar o acesso de usuários e oferecer uma experiência personalizada.
+2. E-commerce: plataformas de e-commerce frequentemente usam sessões para rastrear o carrinho de compras do usuário e manter o state da sessão durante todo o processo de compra.
+3. Content Management Systems: Content Management Systems (CMS) usam autenticação baseada em sessão para controlar o acesso de usuários ao conteúdo e a funcionalidades administrativas.
+4. Aplicações Corporativas: muitas aplicações corporativas usam autenticação baseada em sessão para controlar o acesso de funcionários a recursos internos, como sistemas de gerenciamento de RH e sistemas de planejamento de recursos empresariais.
+
+**Resumindo**
+
+A autenticação baseada em sessão tem um papel-chave na segurança e na experiência do usuário de muitas aplicações web, oferecendo um meio seguro de controlar o acesso do usuário e manter o state da sessão durante a interação do usuário com a aplicação.
+
+## Token-Based Authentication
+
+Antes da Token Based Authentication, os sistemas frequentemente usavam métodos de autenticação baseados em sessão, em que o servidor mantinha um registro do state de autenticação do usuário. No entanto, esse método tinha suas limitações, especialmente em ambientes distribuídos e escaláveis.
+
+O surgimento da Token Based Authentication foi impulsionado pela necessidade de superar essas limitações. Nos anos 2000, com a ascensão das Service-Oriented Architectures (SOA) e mais tarde o surgimento das APIs RESTful, a autenticação baseada em token ganhou popularidade como uma alternativa mais eficiente e flexível.
+
+### Como funciona
+
+Na Token Based Authentication, quando um usuário fornece suas credenciais de autenticação (como username e senha) para acessar um sistema, o servidor de autenticação valida essas credenciais e, se corretas, gera um access token. Esse token é então enviado de volta ao client, que o inclui em cada request subsequente para acessar recursos protegidos.
+
+Tokens podem ser de diferentes tipos, como JSON Web Tokens (JWT), tokens OAuth, entre outros. Geralmente são criptografados e contêm informações sobre o usuário autenticado e outras informações relevantes de autorização.
+
+Quando o servidor recebe uma request contendo um token, verifica a validade do token, geralmente através de uma assinatura digital ou outro mecanismo de verificação de integridade. Se o token for válido e autorizado a acessar o recurso requisitado, o servidor processa a request.
+
+Diagrama da Token Based Authentication
+
+### Casos de uso
+
+1. Aplicações Web e APIs RESTful: é um método de autenticação comum em aplicações web e APIs, onde sessões tradicionais podem ser inadequadas devido à natureza stateless das interações.
+2. Single Sign-On (SSO): em ambientes corporativos, tokens são frequentemente usados em sistemas SSO para permitir que os usuários acessem múltiplas aplicações com uma única autenticação.
+3. Aplicações Mobile: em aplicações mobile, Token Based Authentication é amplamente usada devido à sua capacidade de escalar e lidar com requests com eficiência.
+4. Microservices e Service-Oriented Architectures: em ambientes distribuídos, em que múltiplos serviços precisam se comunicar com segurança entre si, o uso de tokens simplifica o processo de autenticação e autorização.
+
+**Resumindo**
+
+Token Based Authentication revolucionou a forma como lidamos com autenticação e autorização em sistemas distribuídos, oferecendo uma abordagem mais escalável, segura e flexível para proteger recursos e garantir a identidade do usuário.
+
+## JWT (JSON Web Tokens)
+
+A segurança digital é uma preocupação cada vez mais urgente conforme a tecnologia avança. Entre as muitas ferramentas e técnicas empregadas para garantir a integridade do sistema, a autenticação via JSON Web Tokens (JWT) surge como uma estratégia poderosa e flexível. Neste artigo, exploramos a história, o funcionamento e os casos de uso dessa abordagem de autenticação.
+
+JWT se originou no contexto da web moderna e surgiu da necessidade de uma forma segura e eficiente de transmitir informações de autenticação entre partes. Foi introduzido pela primeira vez em 2010 como um padrão aberto (RFC 7519) pela IETF (Internet Engineering Task Force) e, desde então, ganhou popularidade em muitas aplicações que exigem autenticação e autorização.
+
+### Como funciona
+
+JWT é um formato compacto e autocontido para transmitir informações com segurança entre duas partes.
+
+Consiste em três partes:
+
+1. Header: contém metadados sobre o tipo do token e o algoritmo de criptografia usado para assinar o token.
+2. Payload: é onde os dados do token são armazenados. Pode incluir informações como identidade e permissões do usuário.
+3. Signature: é a parte final do token, usada para verificar se o token foi adulterado durante a transmissão. A assinatura é gerada combinando o header, o payload e uma chave secreta usando um algoritmo de hashing, como HMAC (Hash-based Message Authentication Code) ou RSA (Rivest-Shamir-Adleman).
+
+{/* TODO: Add diagram */}
+
+### Casos de uso
+
+1. Autenticação de Usuário: um dos usos mais comuns do JWT é na autenticação de usuário para aplicações web e mobile. Após o login bem-sucedido, um token JWT é gerado e enviado ao client, que o inclui em cada request subsequente. Isso permite que o servidor valide a identidade do usuário sem precisar consultar um banco de dados a cada request.
+2. Autorização e Controle de Acesso: além de autenticar usuários, JWTs podem conter informações sobre permissões do usuário. Isso permite que servers autorizem ações do usuário com base nos dados contidos no token, simplificando o controle de acesso.
+3. Integração de Microservices: em arquiteturas de microservices, em que várias partes de uma aplicação são distribuídas entre diferentes servers, JWTs são frequentemente usados para autenticar e autorizar requests entre serviços.
+4. Soluções de Single Sign-On (SSO): JWTs são uma escolha popular para implementações de SSO, em que um único login é usado para acessar múltiplas aplicações. O token JWT é emitido após o login inicial e pode ser usado para acessar diferentes serviços sem precisar fazer login novamente.
+
+**Resumindo**
+
+A estratégia de autenticação JWT oferece uma forma poderosa e flexível de garantir segurança em várias aplicações e cenários. Sua simplicidade, eficiência e capacidade de transmitir informações com segurança entre partes a tornaram uma escolha popular entre os desenvolvedores. Entendendo a história, o funcionamento e os casos de uso do JWT, os desenvolvedores podem aproveitar ao máximo essa ferramenta poderosa para segurança digital.
+
+## OAuth (Open Authorization)
+
+OAuth (Open Authorization) se tornou uma pedra angular das estratégias modernas de autenticação, possibilitando o acesso seguro a recursos em várias plataformas e aplicações. Este artigo mergulha na história, no funcionamento e nas diversas aplicações do OAuth, mostrando seu papel central no cenário digital de hoje.
+
+OAuth se originou da necessidade de conceder acesso de terceiros a recursos hospedados por um usuário em um determinado serviço sem expor as credenciais do usuário. Foi conceitualizado pela primeira vez por Blaine Cook e Chris Messina em 2006, com a versão 1.0 sendo lançada em 2007. OAuth 1.0 se mostrou eficaz, mas complexo, levando ao desenvolvimento do OAuth 2.0, que foi oficialmente padronizado pela Internet Engineering Task Force (IETF) em 2012. OAuth 2.0 tratou muitas das complexidades de seu predecessor, oferecendo um framework simplificado e mais flexível para autenticação.
+
+### Como funciona
+
+OAuth opera com base em um princípio de delegação, em que um usuário (resource owner) concede a uma aplicação de terceiros (client) acesso limitado a seus recursos protegidos em um servidor (resource server), sem revelar suas credenciais. Isso é alcançado através de uma série de interações entre o resource owner, o client, o authorization server e o resource server:
+
+1. Authorization Request: o client requisita autorização do resource owner para acessar seus recursos.
+2. Authorization Grant: após aprovação, o resource owner fornece um authorization grant ao client.
+3. Access Token Request: o client apresenta o authorization grant ao authorization server e requisita um access token.
+4. Access Token Issuance: se o authorization grant for válido, o authorization server emite um access token ao client.
+5. Resource Access: o client apresenta o access token ao resource server para acessar os recursos protegidos.
+6. Resource Server Response: se o access token for válido, o resource server entrega os recursos requisitados ao client.
+
+{/* TODO: Add diagram */}
+
+### Casos de uso
+
+OAuth tem uma ampla gama de aplicações em várias indústrias e plataformas:
+
+1. Integração com Redes Sociais: plataformas como Facebook, Twitter e LinkedIn usam OAuth para permitir que os usuários façam login em aplicações de terceiros usando suas contas de redes sociais.
+2. Single Sign-On (SSO): OAuth facilita soluções de SSO, permitindo aos usuários acessar múltiplas aplicações com um único conjunto de credenciais.
+3. Autorização de API: muitas APIs, como as fornecidas por Google, Microsoft e Amazon, utilizam OAuth para autenticação e controle de acesso seguros.
+4. Aplicações Mobile: OAuth é amplamente adotado no desenvolvimento de apps mobile para conceder acesso a dados do usuário enquanto mantém segurança e privacidade.
+5. Internet of Things (IoT): dispositivos IoT frequentemente usam OAuth para interagir com segurança com serviços cloud e acessar dados específicos do usuário.
+
+**Resumindo**
+
+OAuth revolucionou a forma como as aplicações autenticam usuários e acessam seus dados, oferecendo um framework seguro e padronizado para autorização baseada em delegação. Com sua ampla adoção e versatilidade, OAuth continua moldando o futuro do gerenciamento de identidade e acesso na era digital.
+
+## SSO — Single Sign On
+
+No mundo digital de hoje, em que segurança e conveniência são igualmente cruciais, a estratégia de autenticação Single Sign-On (SSO) se destaca como uma solução poderosa. Essa abordagem revolucionária simplifica o acesso a uma variedade de sistemas e aplicações, oferecendo uma experiência de usuário mais eficiente e segura. Neste artigo, vamos explorar a história, o funcionamento e os casos de uso do SSO, revelando como essa estratégia transformou a forma como interagimos com a tecnologia.
+
+O conceito de Single Sign-On remonta ao final do século XX, quando as empresas começaram a enfrentar o desafio crescente de gerenciar múltiplas contas e senhas para acessar diferentes sistemas e aplicações. A necessidade de simplificar esse processo e aprimorar a segurança digital levou ao desenvolvimento do SSO.
+
+A primeira implementação significativa de SSO surgiu com o projeto Kerberos, desenvolvido pelo Massachusetts Institute of Technology (MIT) nos anos 1980. Kerberos introduziu um sistema de autenticação de rede centralizado, permitindo que os usuários fossem autenticados uma vez e ganhassem acesso a vários serviços sem a necessidade de re-autenticação.
+
+Com o avanço da tecnologia e a popularização da internet, o SSO evoluiu para se adaptar a ambientes distribuídos e aplicações baseadas na web. Hoje, o SSO é amplamente usado em diversos setores, de empresas e instituições educacionais a serviços online e plataformas de redes sociais.
+
+### Como funciona
+
+A funcionalidade do SSO é relativamente simples, mas altamente eficaz. Em vez de exigir que os usuários façam login separadamente em cada sistema ou aplicação, o SSO permite que façam login uma vez e acessem todos os recursos para os quais têm permissão.
+
+Quando um usuário tenta acessar uma aplicação protegida por SSO, o processo de autenticação ocorre da seguinte forma:
+
+1. O usuário fornece suas credenciais de login em um portal de autenticação centralizado.
+2. O sistema SSO verifica as credenciais e autentica o usuário com base nas informações fornecidas.
+3. Uma vez autenticado com sucesso, o sistema emite um session token ao usuário.
+4. Esse session token é então usado para conceder acesso às aplicações e sistemas conectados ao ambiente SSO, sem a necessidade de fornecer credenciais novamente.
+
+{/* TODO: Add diagram */}
+
+Essencialmente, o SSO atua como um intermediário entre o usuário e as aplicações, simplificando o processo de autenticação e aumentando a segurança ao reduzir a exposição de senhas.
+
+### Casos de uso
+
+SSO é amplamente adotado em uma variedade de casos de uso, oferecendo benefícios significativos tanto para empresas quanto para usuários finais. Alguns dos casos de uso mais comuns incluem:
+
+1. Ambientes Corporativos: em organizações, o SSO é frequentemente usado para simplificar o acesso a uma variedade de sistemas internos, como intranets, sistemas de gerenciamento de RH e plataformas de produtividade. Isso não só aumenta a eficiência dos funcionários, como também fortalece a segurança ao reduzir o número de senhas que precisam ser gerenciadas.
+2. Aplicações Web: muitos serviços online e plataformas software-as-a-service (SaaS) suportam SSO como forma de aprimorar a experiência do usuário. Isso permite aos usuários acessar facilmente várias ferramentas e aplicações sem a necessidade de múltiplos conjuntos de credenciais.
+3. Educação e Instituições Acadêmicas: universidades e instituições educacionais usam SSO para simplificar o acesso dos alunos a recursos online, como bibliotecas digitais, plataformas de aprendizado e sistemas de gerenciamento de cursos.
+4. Redes Sociais e Serviços de Entretenimento: plataformas de redes sociais e serviços de streaming frequentemente implementam SSO para facilitar o acesso do usuário e melhorar a integração entre diferentes aplicações e serviços.
+
+**Resumindo**
+
+A estratégia de autenticação Single Sign-On representa um avanço significativo no gerenciamento de identidade digital, oferecendo uma forma eficiente e segura de acessar sistemas e aplicações online. Simplificando o processo de login e reduzindo a carga das senhas, o SSO aprimora a experiência do usuário e fortalece a segurança digital em uma variedade de contextos. À medida que a tecnologia continua evoluindo, espera-se que o SSO desempenhe um papel cada vez mais importante em como interagimos com a tecnologia digital.
+
+## Conclusão
+
+A escolha de uma estratégia de autenticação deve ser guiada pelos requisitos específicos do sistema, equilibrando necessidades de segurança com usabilidade e escalabilidade. Entendendo os pontos fortes e as limitações de cada abordagem, os desenvolvedores podem implementar mecanismos robustos de autenticação para proteger as identidades dos usuários e proteger informações sensíveis no mundo digital interconectado de hoje.
+
+## Referências
+
+- https://en.wikipedia.org/wiki/Basic_access_authentication
+- https://www.okta.com/identity-101/what-is-token-based-authentication/
+- https://www.criipto.com/blog/session-token-based-authentication
+- https://jwt.io/introduction
+- https://oauth.net/2/
+- https://en.wikipedia.org/wiki/Single_sign-on

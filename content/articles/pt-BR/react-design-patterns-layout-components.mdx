@@ -1,6 +1,44 @@
 ---
 title: "React Design Patterns: Layout Components Pattern"
-excerpt: "Fornecendo uma experiência de usuário consistente em toda a aplicação."
+excerpt: "Como Layout Components separam estrutura e lógica para manter sua UI consistente e fácil de manter."
 ---
 
-🚧 A tradução deste artigo está em andamento.
+O Layout Components Pattern no React é um design pattern que ajuda os desenvolvedores a organizar a estrutura e o layout da aplicação. Esses componentes se preocupam principalmente com a aparência e o posicionamento das coisas na página, e não com como elas funcionam.
+
+A ideia central por trás do Layout Component Pattern é que os componentes não devem saber onde estão sendo exibidos, e os Layout Components devem se preocupar apenas em exibir o componente.
+
+No desenvolvimento com React, é comum ter conteúdo ou componentes semelhantes compartilhados entre múltiplas páginas, como uma navigation bar ou um footer. Em vez de importar e renderizar esses componentes em cada página individualmente, você pode utilizar o Layout Components Pattern para simplificar esse processo. Layout components são, essencialmente, uma forma de definir o layout da sua aplicação, permitindo escrever o código uma vez e reutilizá-lo em toda a aplicação. Isso pode ser particularmente útil para implementar layouts baseados em sistemas de Grid ou no modelo Flex Box.
+
+Considere um exemplo básico de um Layout component que compartilha um Header e um Footer entre múltiplas páginas.
+
+Primeiro, você definiria um Layout component que inclui um Header e um Footer e também renderiza quaisquer componentes filhos passados:
+
+```js
+import React from 'react';import Header from './Header';import Footer from './Footer';const Layout = ({ children }) => {  return (    <>      <Header />      {children}      <Footer />    </>  );}export default Layout;
+```
+
+Neste exemplo, `{children}` é uma prop especial no React que nos permite passar componentes como dados para outros componentes. O Layout component definido aqui sempre vai renderizar um Header e um Footer, além de quaisquer componentes filhos passados para ele.
+
+Em seguida, você pode usar esse Layout component na sua aplicação principal ou em páginas individuais:
+
+```js
+import React from 'react';import Layout from './Layout';const HomePage = () => {  return (    <Layout>      <h1>Bem-vindo à Home Page!</h1>      <p>Este é um conteúdo específico da Home Page.</p>    </Layout>  );}export default HomePage;
+```
+
+No componente HomePage, o Layout component é usado para envolver o conteúdo específico da Home Page. Isso significa que o Header e o Footer serão compartilhados entre todas as páginas que usam o Layout component, permitindo o reuso de seções comuns em múltiplas páginas.
+
+### Conclusão
+
+Usar o Layout Component Pattern no React leva a um código mais manutenível, escalável e limpo, ao mesmo tempo em que oferece uma experiência de usuário consistente em toda a aplicação.
+
+Obrigado pela leitura. Se tiver alguma observação ou sugestão, fique à vontade para deixar um comentário abaixo.
+
+Você pode me seguir no Twitter, Github e LinkedIn.
+
+Até mais! 👋
+
+Por Vitor Britto, em 25 de novembro de 2023.
+
+Link canônico
+
+Exportado do Medium em 3 de fevereiro de 2025.

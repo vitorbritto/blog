@@ -1,14 +1,121 @@
 ---
-title: "Solid Principles for Software Wizards"
-excerpt: "The Series: Design Patterns with Vanilla JS"
-coverImage: ""
-date: Jan 16, 2024
-author:
-  name: "Vitor Britto"
-  picture: "/authors/vitor.jpg"
-categories: []
-tags: []
-tracks: []
-readTime: 7
-featured: false
+title: "SOLID Principles for Software Wizards"
+excerpt: "A Série: Design Patterns com Vanilla JS."
 ---
+
+Em meio à crescente complexidade das aplicações de software e à demanda por sistemas mais robustos, escaláveis e flexíveis, a engenharia de software tem buscado consistentemente abordagens e princípios que promovam a criação de código eficiente e fácil de manter. Nesse contexto, os princípios SOLID surgem como diretrizes fundamentais que oferecem uma base sólida para o desenvolvimento de software orientado a objetos.
+
+Antes de mergulhar nos detalhes dos design patterns, é crucial entender e aplicar os princípios SOLID. Esse entendimento não só aprimora a qualidade do código, como também estabelece uma base sólida para a adoção eficiente de design patterns, que são soluções reutilizáveis para problemas comuns no desenvolvimento de software.
+
+## Iniciando a jornada
+
+Os princípios SOLID, um acrônimo derivado das letras iniciais de cinco diretrizes essenciais para o design de software, representam um conjunto de conceitos fundamentais que visam melhorar a qualidade, a flexibilidade e a manutenibilidade do código. Criados por Robert C. Martin e amplamente adotados na engenharia de software, esses princípios — Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation e Dependency Inversion — oferecem diretrizes claras para os desenvolvedores que buscam criar sistemas mais robustos, adaptáveis e facilmente extensíveis.
+
+Esses princípios servem como pilares para a construção de software robusto e sustentável.
+
+Vamos mergulhar em cada um deles. 🚀
+
+## (S) - Single Responsibility Principle
+
+Quando falamos sobre o SRP, estamos enfatizando a ideia de que uma classe deve ter apenas uma razão para mudar. Isso implica que uma classe deve ter apenas uma responsabilidade, uma única tarefa que ela é designada a realizar. Ao isolar responsabilidades, tornamos nosso código mais modular, facilitando a manutenção, o entendimento e a extensão do sistema.
+
+Vamos considerar um exemplo simples de uma classe JavaScript que viola o SRP:
+
+```js
+class Order {  private items: Item[];    constructor(items: Item[]) {    this.items = items;  }  calculateOrder(): number {    // Code to calculate the order total value    // ...  }  printOrder() {    // Code to print the order details    // ...  }}
+```
+
+Neste exemplo, a classe `Order` tem duas responsabilidades distintas: calcular o total da order e imprimir a order. Se houver uma mudança nos requisitos de impressão, isso afetará a classe mesmo que a lógica de cálculo do total permaneça inalterada. Isso viola o SRP, tornando a classe menos coesa.
+
+Vamos aplicar uma melhoria à classe `Order` aderindo ao SRP:
+
+```js
+class Order {  private items: Item[];    constructor(items: Item[]) {    this.items = items;  }  calculateTotal(): number {    // Code to calculate the order total value    // ...  }}class PrintOrder {  printOrder(order: IOrder) {    // Code to print the order details    // ...  }}
+```
+
+Agora temos duas classes distintas: uma para lidar com a lógica de cálculo do total (`Order`) e outra para lidar com a lógica de impressão (`PrintOrder`). Cada classe tem uma única responsabilidade, aderindo ao SRP. Isso torna o código mais modular e facilita a manutenção, pois mudanças em uma responsabilidade não afetam a outra.
+
+No entanto, pode ser o caso de você não precisar de uma classe e uma função poder resolver seu problema. Considere a função a seguir, em que o SRP não é aplicado:
+
+```js
+const orderUtils = (items: Item[]) => {  // Code to calculate the order total value  // ...    // Code to print the order details  // ...};
+```
+
+Neste exemplo, a função `orderUtils` tem duas responsabilidades distintas, violando o SRP. Mudanças na lógica de impressão podem afetar a lógica de cálculo, e vice-versa. Vamos aplicar uma melhoria usando o SRP:
+
+```js
+const calculateOrder = (items: Item[]) => {  // Code to calculate the order total value  // ...};const printOrder = (order: IOrder) => {  // Code to print the order details  // ...};
+```
+
+Agora temos duas funções distintas: `calculateOrder` para lidar com a lógica de cálculo do total e `printOrder` para lidar com a lógica de impressão. Cada função tem uma única responsabilidade, aderindo ao SRP.
+
+## (O) - Open/Closed Principle
+
+O Open/Closed Principle é um conceito importante no design de software que enfatiza a necessidade de um sistema ser aberto para extensão, mas fechado para modificação. Isso significa que classes ou módulos em um programa devem ser projetados de uma forma que permita serem estendidos para incluir novos comportamentos sem modificar seu código-fonte original.
+
+No JavaScript, podemos ilustrar esse princípio através de um exemplo simples.
+
+Suponha que temos um sistema de processamento de pagamento que inicialmente suporta apenas pagamentos com cartão de crédito. Podemos criar uma classe base chamada `PaymentProcessor`:
+
+```js
+class PaymentProcessor { processPayment(amount) { // Logic to process credit card payments console.log(`Processing payment of $${amount} via credit card.`); }}
+```
+
+Agora, imagine que queremos adicionar suporte para pagamentos via boleto bancário sem modificar a classe original. Para aderir ao Open/Closed Principle, podemos criar uma nova classe que estende a funcionalidade da classe original:
+
+```js
+class BoletoPaymentProcessor extends PaymentProcessor { processPayment(amount) { // Additional logic to process payments via bank slip console.log(`Processing payment of $${amount} via bank slip.`); }}
+```
+
+Dessa forma, introduzimos uma nova feature sem alterar o código da classe `PaymentProcessor` original. Ele mantém o sistema fechado para modificações, mas aberto para extensões, já que podemos adicionar novos tipos de processadores de pagamento sem afetar o código existente.
+
+Assim, o Open/Closed Principle promove modularidade e flexibilidade no design de software, permitindo que novas features sejam adicionadas sem a necessidade de modificar o código já existente.
+
+## (L) - Liskov Substitution Principle
+
+O Liskov Substitution Principle (LSP) é uma diretriz fundamental na programação orientada a objetos que afirma que objetos de uma classe base devem ser substituíveis por objetos de suas classes derivadas sem afetar a corretude do programa. Em outras palavras, se a classe A é uma subclasse de B, então objetos da classe B devem ser substituíveis por objetos da classe A sem alterar a integridade do programa.
+
+Vamos considerar um exemplo em JavaScript:
+
+```js
+class Bird {  fly() {    console.log("Flying...");  }}class Penguin extends Bird {  // Sobrescreve o método fly  fly() {    console.log("I can't fly!");  }}const makeBirdFly = bird => bird.fly();const eagle = new Bird();const penguin = new Penguin();makeBirdFly(eagle); // Output: Flying...makeBirdFly(penguin); // Output: I can't fly!
+```
+
+Neste exemplo, temos uma classe base `Bird` com um método `fly`. A classe derivada `Penguin` herda de `Bird` e sobrescreve o método `fly` para refletir o fato de que pinguins não voam.
+
+O Liskov Substitution Principle é respeitado aqui, já que `Penguin` substitui `Bird` em um contexto em que um objeto da classe base é esperado. O código funciona corretamente mesmo quando objetos de `Penguin` são passados para a função `makeBirdFly`. Isso demonstra adesão ao princípio, já que a substituição não afeta a semântica do programa.
+
+## (I) - Interface Segregation Principle
+
+O Interface Segregation Principle (ISP) é um conceito de design de software que afirma que uma classe não deve ser obrigada a implementar interfaces que não usa. Em vez disso, as interfaces devem ser específicas para as necessidades das classes que as implementam. Esse princípio visa evitar que as classes dependam de métodos que não precisam, reduzindo a complexidade e facilitando a manutenção do código.
+
+Vamos considerar um exemplo para ilustrar o Interface Segregation Principle no JavaScript:
+
+```js
+// Interface para um veículoclass Vehicle {  startEngine() {    throw new Error("Not implemented");  }  drive() {    throw new Error("Not implemented");  }  stopEngine() {    throw new Error("Not implemented");  }}// Implementação para um carroclass Car extends Vehicle {  startEngine() {    console.log("Car engine started.");  }  drive() {    console.log("Car is moving.");  }    stopEngine() {    console.log("Car engine stopped.");  }}// Implementação para uma bicicletaclass Bicycle {  drive() {    console.log("Bicycle is moving.");  }}// Função que aceita qualquer veículo e chama seus métodosconst operateVehicle = vehicle => {  vehicle.startEngine();  vehicle.drive();  vehicle.stopEngine();}const myCar = new Car();const myBicycle = new Bicycle();operateVehicle(myCar); // Funciona para carrosoperateVehicle(myBicycle); // Funciona para bicicletas
+```
+
+Neste exemplo, temos uma interface mais específica para veículos que inclui métodos como `startEngine`, `drive` e `stopEngine`. A classe `Car` implementa todos esses métodos, já que é um veículo motorizado. Por outro lado, a classe `Bicycle` implementa apenas o método `drive`, já que não tem motor.
+
+A função `operateVehicle` demonstra o uso da interface, aceitando qualquer objeto que a implemente. Isso adere ao Interface Segregation Principle, já que cada classe oferece apenas as funcionalidades relevantes para si, evitando assim a implementação de métodos desnecessários.
+
+## (D) - Dependency Inversion Principle
+
+O Dependency Inversion Principle (DIP) é um conceito de design que sugere que camadas de alto nível não devem depender diretamente de camadas de baixo nível, mas sim de abstrações. Isso implica que abstrações não devem depender de detalhes; em vez disso, detalhes devem depender de abstrações. Em termos simples, classes de alto nível e baixo nível devem depender de abstrações.
+
+Para ilustrar o Dependency Inversion Principle no JavaScript, vamos considerar um exemplo de um sistema de notificações:
+
+```js
+// Interface de Notificaçãoclass NotificationService {  sendNotification(message) {    throw new Error("Not implemented");  }}// Implementação concreta usando e-mailclass EmailNotification extends NotificationService {  sendNotification(message) {    console.log(`Sending email notification: ${message}`);  }}// Implementação concreta usando SMSclass SMSNotification extends NotificationService {  sendNotification(message) {    console.log(`Sending SMS notification: ${message}`);  }}// Classe de alto nível que depende de uma abstraçãoclass NotificationManager {  constructor(notificationService) {    this.notificationService = notificationService;  }  sendNotification(message) {    this.notificationService.sendNotification(message);  }}// Uso do sistema de notificaçõesconst emailNotifier = new EmailNotification();const smsNotifier = new SMSNotification();const notificationManagerWithEmail = new NotificationManager(emailNotifier);const notificationManagerWithSMS = new NotificationManager(smsNotifier);notificationManagerWithEmail.sendNotification("New update available!");notificationManagerWithSMS.sendNotification("Meeting at 2 PM.");
+```
+
+Neste exemplo, temos um `NotificationService` como uma abstração e duas implementações concretas: `EmailNotification` e `SMSNotification`. A classe de alto nível `NotificationManager` depende da abstração `NotificationService`, e isso inverte a dependência, seguindo o Dependency Inversion Principle. Isso torna o sistema mais flexível, já que podemos facilmente adicionar novas implementações de notificação sem modificar a classe de alto nível `NotificationManager`.
+
+## Conclusão
+
+Como você pode ver, esses princípios oferecem uma base sólida para o desenvolvimento de sistemas robustos, flexíveis e facilmente manuteníveis, lançando as bases para a adoção eficiente de design patterns e enfrentando os crescentes desafios na engenharia de software.
+
+## Referências
+
+- https://www.youtube.com/watch?v=zHiWqnTWsn4
+- https://blog.cleancoder.com/uncle-bob/2020/10/18/Solid-Relevance.html

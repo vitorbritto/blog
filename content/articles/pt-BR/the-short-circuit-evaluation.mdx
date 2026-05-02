@@ -1,6 +1,57 @@
 ---
-title: "A avaliação de curto circuito"
+title: "Short Circuit Evaluation"
 excerpt: "E como você pode usá-lo em aplicações React."
 ---
 
-🚧 A tradução deste artigo está em andamento.
+Short circuit evaluation é uma técnica usada para melhorar a performance em expressões booleanas. Também é conhecida como minimal evaluation, McCarthy evaluation ou McCarthy conditional. É usada em muitas linguagens de programação de alto nível, incluindo C, C++, Java e Python.
+
+Trata-se do processo de avaliar uma expressão booleana, como `x < 100 && y < 100`, em que o segundo operando é avaliado apenas se o primeiro não for suficiente para determinar o valor da expressão. Nesse caso, se `x` for maior ou igual a 100, a expressão sempre será falsa, então `y < 100` não será avaliado.
+
+## Usando Short Circuit Evaluation no React
+
+No React, podemos usar Short Circuit Evaluation para renderizar componentes condicionalmente. Por exemplo, se quisermos renderizar um componente apenas quando determinada condição for verdadeira, podemos usar o operador `&&` para verificar se a condição é verdadeira e então renderizar o componente.
+
+Por exemplo, se quisermos renderizar um componente apenas quando determinada condição for verdadeira, podemos usar o operador `&&` para verificar a condição e então renderizar o componente.
+
+```js
+const App = () => {
+  const [show, setShow] = useState(false);
+  return (
+    <div>
+      {" "}
+      {show && <Component />} <button onClick={() => setShow(!show)}>
+        Toggle
+      </button>{" "}
+    </div>
+  );
+};
+```
+
+No exemplo acima, temos um componente que é renderizado apenas quando o state `show` é verdadeiro. Quando o botão é clicado, o state `show` é alternado, e o componente é renderizado ou não, dependendo do state.
+
+Também podemos usar Short Circuit Evaluation para renderizar componentes condicionalmente com base no valor de uma prop. Por exemplo, se quisermos renderizar um componente apenas quando determinada prop for verdadeira, podemos usar o operador `&&` para verificar se a prop é verdadeira e então renderizar o componente.
+
+```js
+const App = () => {
+  const [show, setShow] = useState(false);
+  return (
+    <div>
+      {" "}
+      <Component show={show} /> <button onClick={() => setShow(!show)}>
+        Toggle
+      </button>{" "}
+    </div>
+  );
+};
+const Component = ({ show }) => {
+  return <>{show && <div>Component</div>}</>;
+};
+```
+
+No exemplo acima, temos um componente que é renderizado apenas quando a prop `show` é verdadeira. Quando o botão é clicado, a prop `show` é alternada, e o componente é renderizado ou não, dependendo da prop.
+
+## Conclusão
+
+Short Circuit Evaluation melhora a performance de um programa e também evita erros em runtime.
+
+No React, deixa o código mais performático, legível e conciso.

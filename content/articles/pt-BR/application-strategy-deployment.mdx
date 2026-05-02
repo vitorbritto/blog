@@ -1,6 +1,130 @@
 ---
-title: "Estratégia de implantação de aplicativos"
-excerpt: "Os benefícios e considerações sobre estratégias de implantação."
+title: "Application Deployment Strategy"
+excerpt: "Os principais benefícios e considerações sobre estratégias de deploy."
 ---
 
-🚧 A tradução deste artigo está em andamento.
+Application deployment strategies referem-se ao processo de fazer deploy de aplicações de software em um ambiente de produção. Uma estratégia de deploy eficaz garante que a aplicação seja deployada de forma eficiente e segura, ao mesmo tempo em que minimiza downtime e disrupções.
+
+Fazer deploy de aplicações pode ser um processo complexo, mas com a estratégia certa, ele pode ser ágil e eficiente.
+
+## Considerações sobre deploy
+
+Aqui estão algumas considerações comumente aplicadas ao fazer deploy de uma aplicação para produção:
+
+- Minimizar o downtime da aplicação, se houver
+- Gerenciar e resolver incidentes com mínimo impacto aos usuários
+- Lidar com deploys que falharam de forma confiável e eficaz
+- Minimizar erros de pessoas e processos para alcançar deploys previsíveis e repetíveis
+
+## Padrões de deploy
+
+- Recreate: a versão A é finalizada e então a versão B entra em produção.
+- Ramped (também conhecido como rolling-update ou incremental): a versão B é lançada lentamente, substituindo a versão A.
+- Blue/Green: a versão B é lançada em paralelo à versão A, e então o tráfego é redirecionado para a versão B.
+- Canary: a versão B é lançada para um subconjunto de usuários e, em seguida, segue para um rollout completo.
+- A/B testing: a versão B é lançada para um subconjunto de usuários sob condições específicas.
+- Shadow: a versão B recebe tráfego do mundo real em paralelo à versão A e não impacta a resposta.
+
+### Recreate
+
+A estratégia recreate é um deploy básico que consiste em desligar a versão A e então fazer deploy da versão B depois que a versão A é desligada. Essa técnica implica downtime do serviço, que depende tanto da duração do shutdown quanto do boot da aplicação.
+
+**Principais benefícios**
+
+- Fácil de configurar.
+- Estado da aplicação completamente renovado.
+
+**Considerações**
+
+- Alto impacto no usuário; espere downtime que depende tanto da duração do shutdown quanto do boot da aplicação.
+
+### Rolling Update
+
+A estratégia de deploy ramped consiste em lançar lentamente uma versão de uma aplicação substituindo as instâncias uma após a outra até que todas as instâncias estejam atualizadas. Geralmente segue o seguinte processo: com um pool de instâncias da versão A atrás de um load balancer, uma instância da versão B é deployada. Quando o serviço está pronto para aceitar tráfego, a instância é adicionada ao pool. Em seguida, uma instância da versão A é removida do pool e desligada.
+
+**Principais benefícios**
+
+- Fácil de configurar.
+- A versão é lançada lentamente entre as instâncias.
+- Conveniente para aplicações com state que podem lidar com rebalanceamento dos dados.
+
+**Considerações**
+
+- Rollout/rollback pode demorar.
+- Suportar múltiplas APIs é difícil.
+- Sem controle sobre o tráfego.
+
+### Blue/Green
+
+A estratégia de deploy blue/green difere de um deploy ramped: a versão B (green) é deployada em paralelo à versão A (blue), com exatamente a mesma quantidade de instâncias. Depois de testar que a nova versão atende a todos os requisitos, o tráfego é alternado da versão A para a versão B no nível do load balancer.
+
+**Principais benefícios**
+
+- Rollout/rollback instantâneo.
+- Evita problemas de versionamento; o estado inteiro da aplicação muda de uma só vez.
+
+**Considerações**
+
+- Caro, pois exige o dobro de recursos.
+- O teste apropriado de toda a plataforma deve ser feito antes de liberar para produção.
+- Lidar com aplicações com state pode ser difícil.
+
+### Canary
+
+Um deploy canary consiste em deslocar gradualmente o tráfego de produção da versão A para a versão B. Geralmente, o tráfego é dividido com base em pesos. Por exemplo, 90% das requests vão para a versão A, 10% vão para a versão B.
+
+Essa técnica é mais usada quando os testes não são suficientes ou confiáveis, ou quando há pouca confiança sobre a estabilidade da nova release na plataforma.
+
+**Principais benefícios**
+
+- Zero downtime.
+- Conveniente para monitoramento de taxa de erros e performance.
+- Rollback rápido.
+
+**Considerações**
+
+- Rollout lento.
+
+### A/B testing
+
+Deploys de A/B testing consistem em rotear um subconjunto de usuários para uma nova funcionalidade sob condições específicas. Geralmente é uma técnica para tomar decisões de negócio com base em estatísticas, mais do que uma estratégia de deploy. No entanto, está relacionado e pode ser implementado adicionando funcionalidade extra a um deploy canary, então vamos discutir brevemente aqui.
+
+Essa técnica é amplamente usada para testar a conversão de uma feature e lançar somente a versão que mais converte.
+
+**Principais benefícios**
+
+- Várias versões rodam em paralelo.
+- Controle total sobre a distribuição do tráfego.
+
+**Considerações**
+
+- Requer um load balancer inteligente.
+- Difícil de troubleshootar erros para uma sessão específica; distributed tracing se torna obrigatório.
+
+### Shadow
+
+Um deploy shadow consiste em lançar a versão B em paralelo à versão A, fazer fork das requests recebidas pela versão A e enviá-las também para a versão B sem impactar o tráfego de produção. Isso é particularmente útil para testar carga de produção em uma nova feature. Um rollout da aplicação é disparado quando a estabilidade e a performance atendem aos requisitos.
+
+Essa técnica é razoavelmente complexa de configurar e exige requisitos especiais, especialmente com tráfego de saída. Por exemplo, dada uma plataforma de carrinho de compras, se você quiser fazer shadow test do serviço de pagamento, pode acabar tendo clientes pagando duas vezes pelo pedido. Nesse caso, você pode resolver criando um serviço de mock que replica a resposta do provider.
+
+**Principais benefícios**
+
+- Teste de performance da aplicação com tráfego de produção.
+- Sem impacto no usuário.
+- Sem rollout até que a estabilidade e a performance da aplicação atendam aos requisitos.
+- Monitora o público-alvo.
+
+**Considerações**
+
+- Caro, pois exige o dobro de recursos.
+- Não é um teste real de usuário e pode ser enganoso.
+- Complexo de configurar.
+- Requer um serviço de mock para certos casos.
+
+Confira o resumo abaixo.
+
+![Deployment Strategies](/blog/articles/img_63_2.png)
+
+## Conclusão
+
+Escolher a estratégia de deploy certa depende das necessidades específicas de uma organização e da aplicação que está sendo deployada. No entanto, uma estratégia de deploy eficaz deve garantir que a aplicação seja deployada de forma eficiente e segura, ao mesmo tempo em que minimiza disrupções e downtime.

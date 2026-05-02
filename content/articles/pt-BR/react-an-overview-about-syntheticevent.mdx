@@ -1,6 +1,56 @@
 ---
-title: 'React: Um overview sobre SyntheticEvent'
-excerpt: Uma forma eficiente de lidar com todos os eventos em todos os navegadores.
+title: "React: Um overview sobre SyntheticEvent"
+excerpt: "Uma forma eficiente de lidar com todos os eventos entre os navegadores."
 ---
 
-🚧 A tradução deste artigo está em andamento.
+SyntheticEvent é um wrapper baseado nos eventos nativos do browser.
+
+Ele oferece uma API unificada, evita inconsistências entre browsers e garante que o evento funcione em múltiplas plataformas.
+
+Neste artigo, vamos cobrir os fundamentos dos eventos do JavaScript puro e dos Synthetic Events do React.
+
+## Eventos no JavaScript
+
+Os eventos no JavaScript essencialmente permitem que um usuário interaja com uma aplicação web e execute operações, como registrar ações de click, focus, mouseover e keypress quando elas são disparadas dentro do browser.
+
+Cada evento do JavaScript tem um event handler que trabalha em conjunto com um event listener. O event listener fica escutando o evento específico que deve ocorrer, enquanto o event handler é uma função que contém os blocos de código que serão executados assim que o evento for registrado ou disparado.
+
+## Synthetic Events
+
+Os Synthetic Events do React são muito parecidos com os Native Events; no entanto, com Synthetic Events, a mesma interface de API é implementada em múltiplos browsers.
+
+![Synthetic Events](/blog/articles/img_68_2.jpg)
+
+Todo objeto de Synthetic Events possui os seguintes atributos:
+
+```js
+boolean bubblesboolean cancelableDOMEventTarget currentTarget // o elemento em que o handler está registradoboolean defaultPreventednumber eventPhaseboolean isTrustedDOMEvent nativeEventvoid preventDefault()boolean isDefaultPrevented()void stopPropagation()boolean isPropagationStopped()void persist()DOMEventTarget target // o elemento em que o handler é disparadonumber timeStampstring type
+```
+
+Aqui está um log do Console do Chrome Dev Tools onde você pode vê-lo em ação.
+
+![Synthetic Events](/blog/articles/img_68_3.png)
+
+Tanto Synthetic Events quanto Native Events podem implementar os métodos `preventDefault` e `stopPropagation`. No entanto, synthetic events e native events não são exatamente a mesma coisa. Por exemplo, o SyntheticEvent vai apontar para `mouseout` no caso do evento `onMouseLeave`.
+
+Você sempre pode acessar os eventos nativos pelo atributo `nativeEvent` se precisar de acesso direto. Outros atributos do SyntheticEvent incluem `DOMEventTarget`, `currentTarget`, `boolean defaultPrevented` e `string type`, para citar alguns.
+
+## Por que é útil
+
+- Cross-browser: faz wrapper do evento nativo do browser por meio do atributo `nativeEvent` e oferece uma API uniforme e comportamento consistente em alto nível.
+- Melhor performance: os eventos são delegados ao document via bubbling.
+
+## Pontos-chave
+
+- Escute no document se quiser receber os eventos depois de todos os handlers do React.
+- Escute em qualquer outro lugar para receber antes dos handlers do React.
+- Os event handlers do React sempre serão executados depois dos handlers de capture nativos.
+
+## Conclusão
+
+Synthetic Events permitem que os eventos no React se adaptem facilmente a diferentes browsers, resolvendo um problema que causou frustrações desnecessárias para os desenvolvedores.
+
+## Referências
+
+- https://legacy.reactjs.org/docs/events.html
+- https://react.dev/reference/react-dom/components/common

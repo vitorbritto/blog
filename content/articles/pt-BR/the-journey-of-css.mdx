@@ -1,14 +1,219 @@
 ---
-title: "The journey of CSS"
-excerpt: "From chaos to serenity."
-coverImage: ""
-date: Dec 22, 2023
-author:
-  name: "Vitor Britto"
-  picture: "/authors/vitor.jpg"
-categories: []
-tags: []
-tracks: []
-readTime: 7
-featured: false
+title: "A jornada do CSS"
+excerpt: "Do caos à serenidade."
 ---
+
+A história do CSS (Cascading Style Sheets) é uma jornada fascinante que se estende por vários anos. O CSS desempenhou um papel crucial em moldar a apresentação visual de páginas web, permitindo que os desenvolvedores separassem a estrutura e o conteúdo de um documento do seu estilo.
+
+## Breve história do CSS
+
+### 1996: CSS Level 1
+
+O World Wide Web Consortium (W3C) publica a primeira especificação oficial do CSS, conhecida como CSS Level 1. Foi projetado para estilizar documentos HTML e separar a estrutura da apresentação.
+
+### 1997: CSS Level 2
+
+O CSS Level 2 foi introduzido como uma extensão modularizada do CSS Level 1. Trouxe novas features, como positioning, z-index, media types e mais.
+
+> Você nunca usou `z-index: 999999999999999;` ou `z-index: -1;`? E que tal `margin-top: -10px;`? 😆
+
+### 1998: CSS Level 2 Recommendation
+
+O CSS Level 2 se torna uma W3C Recommendation, oferecendo uma base estável para estilizar documentos web.
+
+Uma nota especial para as pseudo-classes `:hover`, `:active` e `:focus`, que foram introduzidas para permitir aos autores definirem estilos que se aplicam quando um usuário interage com um elemento.
+
+### 1999–2000: Browser Wars e inconsistências
+
+Durante o final dos anos 1990 e o início dos anos 2000, os web developers enfrentaram desafios devido a inconsistências nas implementações de CSS em vários browsers, incluindo Internet Explorer, Netscape Navigator e outros.
+
+### 2001–2002: O desenvolvimento do CSS3 começa
+
+A W3C começa a trabalhar no CSS Level 3 para expandir as capacidades do CSS. Isso marca o início de uma abordagem modular e incremental para o desenvolvimento do CSS.
+
+### 2007: CSS3 Selectors
+
+A W3C lança a especificação Selectors Level 3, introduzindo novos seletores como `nth-child` e attribute selectors para aprimorar a flexibilidade e o poder do CSS.
+
+### 2011: CSS3 Transitions e Animations
+
+CSS3 transitions e animations são introduzidas, permitindo aos desenvolvedores criar efeitos mais suaves e visualmente atraentes sem depender de JavaScript.
+
+### 2012: CSS Flexible Box Layout (Flexbox)
+
+O módulo Flexbox é introduzido como uma W3C Recommendation, oferecendo um modelo de layout para projetar layouts web complexos com responsividade aprimorada.
+
+### 2014: CSS3 Grid Layout
+
+O CSS Grid Layout Module se torna uma W3C Candidate Recommendation, oferecendo um sistema de layout bidimensional para criar designs baseados em grid.
+
+### 2015: CSS3 Fonts Level 4
+
+A especificação Fonts Level 4 é introduzida, adicionando novas features para tipografia web, incluindo variable fonts e controle aprimorado sobre a renderização de fontes.
+
+### 2017: CSS Grid Layout vira Recommendation
+
+O CSS Grid Layout se torna uma W3C Recommendation oficial, oferecendo um sistema de layout poderoso para web developers.
+
+### 2019: CSS Scroll Snap Module
+
+O Scroll Snap Module é introduzido, permitindo aos desenvolvedores criar interações baseadas em scroll e aprimorando a experiência do usuário.
+
+### 2020: CSS Color Module Level 4
+
+O CSS Color Module Level 4 é introduzido, expandindo features e capacidades relacionadas a cores no CSS.
+
+## The show must go on
+
+O desenvolvimento do CSS é contínuo, com novos módulos e features sendo continuamente propostos e implementados para atender às necessidades em evolução de web developers e designers. O CSS continua sendo uma tecnologia fundamental para o desenvolvimento web, possibilitando a criação de páginas web visualmente atraentes e responsivas.
+
+## Desafios por trás de Layouting
+
+Ao longo dos anos, o CSS evoluiu e enfrentou vários desafios, particularmente no contexto de positioning, media queries, responsive web design, adaptação de designs para dispositivos móveis e o uso histórico de tabelas para layout. Aqui está um resumo dos obstáculos encontrados em cada uma dessas áreas:
+
+### Positioning
+
+Durante as "Browser Wars" (final dos anos 1990 — início dos anos 2000), diferentes browsers implementaram propriedades de positioning do CSS de forma inconsistente, levando a problemas de compatibilidade entre browsers. Os desenvolvedores frequentemente recorriam a hacks específicos de browser para alcançar layouts consistentes.
+
+Antes da introdução de Flexbox e Grid Layout, alcançar layouts complexos frequentemente exigia uma combinação de floats, positioning e margins negativas, levando a um código difícil de entender e manter.
+
+Usar tabelas HTML para fins de layout era uma prática comum nos primórdios do desenvolvimento web. No entanto, essa abordagem carecia de significado semântico e acessibilidade, dificultando para screen readers e search engines interpretarem o conteúdo corretamente.
+
+Layouts baseados em tabelas eram rígidos e não se adaptavam bem a diferentes tamanhos de tela. Isso representou um desafio significativo conforme a demanda por design responsivo aumentava.
+
+```css
+body {
+  margin: 0;
+  padding: 20px;
+  background-color: #f0f0f0;
+}
+.header,
+.footer {
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 10px;
+}
+.nav {
+  float: left;
+  width: 20%;
+  background-color: #eee;
+  padding: 20px;
+  box-sizing: border-box;
+}
+.page-content {
+  float: left;
+  width: 60%;
+  background-color: #fff;
+  padding: 20px;
+  box-sizing: border-box;
+}
+.page-sidebar {
+  float: left;
+  width: 20%;
+  background-color: #eee;
+  padding: 20px;
+  box-sizing: border-box;
+}
+.clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.footer {
+  clear: both;
+  margin-top: 20px;
+}
+```
+
+Floating era basicamente dizer aos elementos do site para grudar à esquerda OU à direita e fazer os elementos seguintes ficarem na mesma direção. Você precisava dizer a um elemento que ele ia flutuar:
+
+```css
+.element {
+  float: left | right | both;
+}
+```
+
+E, se quisesse parar de fazer isso, precisava fazer um clear:
+
+```css
+.clearfix {
+  clear: left | right | both;
+}
+```
+
+A classe `.clearfix` era usada para conter os elementos flutuantes dentro do div, evitando problemas de layout causados por elementos flutuantes.
+
+## Responsive Web Design
+
+Quando o responsive web design se tornou popular (início dos anos 2010), browsers mais antigos não suportavam media queries. Isso significava que alguns usuários experimentavam layouts não-responsivos em seus dispositivos. Conforme a variedade de dispositivos e tamanhos de tela aumentava, criar designs one-size-fits-all com media queries sozinhas se tornou desafiador. Isso levou a preocupações sobre performance, já que os sites podiam acabar carregando estilos desnecessários para certos dispositivos.
+
+Embora o termo "responsive web design" tenha sido oficialmente cunhado por Ethan Marcotte em 2010, as práticas e abordagens para alcançar responsividade evoluíram durante esse período.
+
+Mudar de uma abordagem desktop-first para uma abordagem mobile-first apresentou desafios para os desenvolvedores acostumados a projetar primariamente para telas maiores. Adaptar designs existentes para serem mobile-friendly exigia uma mudança de mindset e workflow.
+
+Garantir o tratamento adequado de viewport meta tags e evitar problemas de scaling em dispositivos móveis foi inicialmente um desafio comum. Alguns sites não se adaptavam bem a diferentes resoluções e orientações de tela.
+
+Em 2015, eu construí um script em NodeJS usando PhantomJS (um browser headless) para capturar screenshots com base em alguns viewports para visualizar e testar a responsividade dos meus projetos.
+
+## Bootstraps e outras ferramentas ao resgate
+
+Os web developers começaram a usar fluid grid layouts, que permitiam dimensionar elementos em unidades relativas, como porcentagens, em vez de pixels fixos. Isso ajudou a criar designs que podiam se adaptar a diferentes tamanhos de tela.
+
+Para complementar fluid grids, flexible images se tornaram um componente-chave do design responsivo. Propriedades CSS como `max-width:100%` foram aplicadas a imagens para evitar que excedessem a largura do seu container, mantendo seu aspect ratio.
+
+Além disso, Media Queries se tornaram uma ferramenta crucial para o design responsivo. Elas permitiam aos desenvolvedores aplicar estilos com base nas características do dispositivo, como largura da tela, altura ou orientação. Media queries eram tipicamente usadas em conjunto com regras CSS para criar layouts diferentes para tamanhos de tela diferentes.
+
+```css
+/* Telas pequenas (celulares) */
+@media only screen and (max-width: 600px) {
+  /* Estilos para telas pequenas vão aqui */
+} /* Telas médias (tablets) */
+@media only screen and (min-width: 601px) and (max-width: 1024px) {
+  /* Estilos para telas médias vão aqui */
+} /* Telas grandes (desktops) */
+@media only screen and (min-width: 1025px) {
+  /* Estilos para telas grandes vão aqui */
+}
+```
+
+A viewport meta tag se tornou amplamente usada para controlar o scale inicial e a largura do viewport, garantindo que os sites fossem exibidos corretamente em vários dispositivos.
+
+```html
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+```
+
+Frameworks responsivos de CSS como Bootstrap e Foundation ganharam popularidade. Esses frameworks ofereciam componentes pré-prontos e sistemas de grid que facilitavam para os desenvolvedores criar layouts responsivos sem começar do zero.
+
+A abordagem "mobile-first", defendida por designers como Luke Wroblewski, se tornou mais predominante. Isso envolvia projetar e estilizar primeiro para dispositivos móveis e, em seguida, aprimorar progressivamente o design para telas maiores usando media queries.
+
+## Mais desafios pela frente
+
+À medida que os designs responsivos se tornavam mais complexos, os desenvolvedores focaram em otimizar a performance. Técnicas como conditional loading de assets, lazy loading de imagens e minimização de requests HTTP foram empregadas para melhorar os tempos de carregamento de sites responsivos.
+
+Essas abordagens lançaram a base para os princípios do responsive web design que continuam evoluindo e sendo refinados hoje. O período de 2010 a 2016 marcou uma mudança significativa em como designers e desenvolvedores abordavam a criação de sites para acomodar a diversa gama de dispositivos e tamanhos de tela em uso.
+
+## Hoje em dia
+
+As práticas de desenvolvimento web continuaram a evoluir, e os desenvolvedores adotaram várias ferramentas e metodologias para simplificar o processo de construir sites, especialmente com foco em responsive web design.
+
+Aqui estão algumas tendências e ferramentas-chave:
+
+- Abordagens: Mobile First e Offline first
+- Adoções de CSS: Flexbox Grid e variáveis globais
+- Frameworks Front-End: Bootstrap e Foundation
+- Arquiteturas de CSS: OOCSS (Object-Oriented CSS), BEM (Block Element Modifier), SMACSS (Scalable and Modular Architecture for CSS), Atomic CSS, ITCSS (Inverted Triangle CSS) e Functional CSS.
+- Build Tools: Webpack, Parcel e Vite.
+- Managers: Bower e Npm
+- Task runners: Makefile ❤️, Gulp, Grunt e Yeoman.
+- Pre/Post-processors: Sass, Less, Stylus e Post-CSS.
+- Static Generators: Gatsby, Jekyll, Hugo, Middleman e DocPad.
+- Design System: Design Tokens
+- Mocks e Protótipos: Miro, Figma, Invision e Sketch.
+- e muito mais!
+
+Essas ferramentas e práticas nascem para construir sites responsivos de forma mais eficiente, abraçando tendências modernas de desenvolvimento web e tecnologias. O uso de desenvolvimento baseado em componentes, princípios de design responsivo e uma variedade de ferramentas contribuiu para um cenário de desenvolvimento web mais ágil e produtivo.
+
+## Conclusão
+
+Embora esses obstáculos tenham apresentado desafios no passado, o desenvolvimento contínuo do CSS, a introdução de novos modelos de layout como Flexbox e Grid e a ampla adoção de boas práticas melhoraram significativamente o cenário de desenvolvimento web. O CSS moderno visa enfrentar esses desafios e oferecer soluções mais robustas para criar designs flexíveis, responsivos e acessíveis em vários dispositivos e tamanhos de tela.

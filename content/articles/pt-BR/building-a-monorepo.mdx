@@ -3,4 +3,17 @@ title: "Construindo um Monorepo"
 excerpt: "A maneira certa."
 ---
 
-🚧 A tradução deste artigo está em andamento.
+Hoje em dia, para manter uma pequena aplicação baseada em React, por exemplo, você tem que lidar com bundlers, suítes de teste, scripts de CI/CD e muitas outras coisas.
+
+Agora, imagine que, em vez de uma pequena aplicação, você precise manter uma plataforma enorme composta por várias áreas funcionais. Se você está pensando em arquitetura, vai querer fazer duas coisas principais: separar as responsabilidades e evitar duplicação de código.
+
+Para que isso aconteça, você provavelmente vai querer isolar grandes funcionalidades em alguns pacotes e então usá-los através de um único ponto de entrada na sua aplicação principal.
+
+Cada pacote vai precisar ter sua própria configuração de ambiente de trabalho, e isso significa que toda vez que você quiser criar um novo pacote, vai ter que configurar um novo ambiente, copiar todos os arquivos de configuração e por aí vai. Ou, por exemplo, se você precisar mudar algo no seu sistema de build, vai ter que ir em cada repositório, fazer um commit, abrir um pull request e esperar cada build, o que te atrasa muito. Mas como gerenciar esses pacotes?
+
+Nesta série, vou trazer 4 capítulos:
+
+1. Os benefícios e desafios do desenvolvimento com Monorepo
+2. Integrando o PNPM Workspace em um Monorepo
+3. Acelerando o gerenciamento do Monorepo com NX Workspace
+4. Como integrar e potencializar o processo de build usando NX e CI/CD

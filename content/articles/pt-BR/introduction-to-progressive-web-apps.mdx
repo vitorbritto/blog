@@ -1,6 +1,91 @@
 ---
-title: "Introdução a Aplicações Progressivas"
-excerpt: "Uma experiência rápida, integrada e confiável para os usuários."
+title: "Introdução a Progressive Web Apps"
+excerpt: "O que são PWAs, como service workers e o Web App Manifest funcionam juntos, e quando vale construir uma."
 ---
 
-🚧 A tradução deste artigo está em andamento.
+Uma experiência rápida, integrada e confiável para os usuários.
+Progressive Web Apps (PWAs) representam uma abordagem inovadora no desenvolvimento de apps, com o objetivo de oferecer uma experiência de usuário semelhante à de apps nativos, mas usando tecnologias web.
+
+Essas aplicações são projetadas para funcionar em qualquer plataforma que use um browser padrão, incluindo dispositivos desktop e mobile. A ideia central por trás das PWAs é oferecer uma experiência rápida, integrada e confiável, independentemente das condições da conexão com a internet ou do dispositivo utilizado.
+
+## Principais características
+
+#### Responsividade
+
+PWAs são projetadas para funcionar em qualquer dispositivo, adaptando-se de forma fluida a qualquer tamanho de tela, de celulares a tablets e desktops.
+
+#### Independência de conexão
+
+Graças ao uso de Service Workers, PWAs podem operar offline ou em redes de baixa qualidade, fazendo o pré-carregamento dos dados necessários para execução.
+
+Semelhança com apps nativos
+PWAs são projetadas para oferecer uma experiência de usuário semelhante à dos apps nativos, incluindo a possibilidade de serem adicionadas à tela inicial do dispositivo, receberem push notifications e acessarem recursos de hardware.
+
+Atualização automática
+Usando a tecnologia de Service Worker, as PWAs são capazes de se atualizar silenciosamente em background, garantindo que o usuário sempre tenha a versão mais recente do app sem precisar visitar uma app store.
+
+#### Segurança
+
+PWAs são servidas via HTTPS, garantindo que o tráfego entre o servidor e o usuário seja criptografado e seguro.
+
+## Vantagens das PWAs
+
+Progressive Web Apps (PWAs) usam uma variedade de tecnologias web modernas para entregar experiências ricas e parecidas com as de apps nativos. Entre essas tecnologias, destacam-se Storage, WebSockets, Server Sent Events (SSE), Service Workers e APIs como Location, Notifications, Device Orientation, Payments e Credentials.
+
+A combinação dessas tecnologias permite que as PWAs ofereçam uma experiência de usuário altamente otimizada, eficiente e engajadora, aproximando-se cada vez mais da performance e das capacidades dos apps nativos.
+
+### Desafios
+
+Apesar das muitas vantagens, as PWAs enfrentam alguns desafios, como limitações no acesso a determinados recursos de hardware em comparação com apps nativos, e a necessidade de os usuários estarem usando um browser e dispositivo compatíveis com os padrões web mais recentes.
+
+### Requisitos para começar
+
+Começar com o desenvolvimento de Progressive Web Apps (PWAs) envolve uma combinação de entender as tecnologias web, seguir boas práticas e aproveitar APIs modernas para entregar uma experiência semelhante à de um app na web.
+
+#### Familiaridade com Service Workers
+
+Service Workers são o coração da funcionalidade de uma PWA, habilitando recursos como suporte offline, sincronização em background e push notifications. Entender seu lifecycle, escopo e tratamento de eventos é crucial.
+
+#### Conhecimento sobre Web Manifest
+
+O Web App Manifest é um arquivo JSON que permite controlar como seu app aparece para o usuário e garante que ele possa ser adicionado à tela inicial, simulando a sensação de um app nativo.
+
+#### Técnicas de design responsivo
+
+PWAs devem oferecer uma experiência de usuário consistente e engajadora em todos os dispositivos. Familiaridade com práticas de responsive web design, incluindo layouts flexíveis, media queries e imagens adaptativas, é essencial.
+
+#### Entendimento de Progressive Enhancement
+
+Construir seu app com progressive enhancement em mente garante que ele permaneça acessível a todos os usuários, independentemente do browser ou da qualidade da conexão à internet.
+
+#### Conhecimento de algumas Web APIs
+
+- Fetch API para network requests.
+- Cache API como parte dos service workers para fazer cache de assets e respostas de API.
+- Push API e Notifications API para implementar push notifications.
+- Background Sync API para sincronizar dados em background.
+- IndexedDB para soluções de storage no client.
+
+#### Práticas de segurança
+
+Garantir que sua PWA seja servida via HTTPS para proteger a conexão entre o usuário e o seu site.
+
+#### Otimização de performance
+
+Entender como analisar e otimizar a performance do seu web app, incluindo otimização de assets, lazy loading de recursos e uso de ferramentas como o Lighthouse para auditar sua PWA.
+
+#### Ferramentas e bibliotecas
+
+Familiaridade com ferramentas e bibliotecas de desenvolvimento pode acelerar o processo. Ferramentas como Workbox para implementar service workers, React, Vue ou Angular para o desenvolvimento da UI, e Webpack ou Vite para module bundling e otimização de assets são bastante úteis.
+
+#### Testes e debugging
+
+Saber testar sua PWA em diferentes dispositivos e browsers é crucial para garantir uma experiência de usuário consistente. Ferramentas como o Chrome DevTools podem ajudar a simular condições diversas e debugar service workers.
+
+#### Deploy e manutenção
+
+Entender o processo de deploy, incluindo configurar HTTPS, configurar seu servidor para os recursos de PWA e manter seu app ao longo do tempo.
+
+## Conclusão
+
+Progressive Web Apps representam uma parte importante do futuro do desenvolvimento web, oferecendo uma abordagem híbrida que combina o melhor da web e dos apps nativos. À medida que a tecnologia por trás das PWAs continua evoluindo e sendo cada vez mais adotada, é provável que vejamos uma expansão ainda maior em sua popularidade e uso.

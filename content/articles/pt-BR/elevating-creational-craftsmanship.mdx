@@ -1,6 +1,236 @@
 ---
-title: "Elevando o Criacionismo"
-excerpt: "Padrões de design criacionais em JavaScript."
+title: "Elevando o artesanato Criacional"
+excerpt: "Creational Design Patterns em JavaScript."
 ---
 
-🚧 A tradução deste artigo está em andamento.
+Creational design patterns são essenciais para construir software escalável.
+
+Esses patterns lidam com a criação de objetos de uma forma que adapta o sistema às mudanças necessárias, evitando grandes reestruturações e promovendo o reuso do código existente.
+
+Neste artigo, vamos explorar os patterns existentes na categoria criacional.
+
+Vamos lá! 🚀
+
+## Singleton
+
+O pattern Singleton garante que uma classe tenha apenas uma instância e oferece um ponto global de acesso a ela. Esse pattern é útil quando o controle centralizado de recursos é necessário, como conexões de banco de dados ou configuration managers.
+
+### Caso de uso
+
+Imagine uma aplicação de pagamentos online que precisa acessar uma API de terceiros para processar transações. Conectar a essa API é um recurso caro, e ter múltiplas conexões abertas simultaneamente pode sobrecarregar o sistema ou levar a inconsistências.
+
+O pattern Singleton resolve esse problema garantindo que apenas uma única instância da conexão com a API seja criada e usada em toda a aplicação. Isso economiza recursos e garante que todas as operações de pagamento usem a mesma conexão.
+
+### Como implementar
+
+```js
+const mongoose = require("mongoose");
+class Database {
+  constructor() {
+    if (Database.instance) {
+      return Database.instance;
+    }
+    this.connection = this.connect();
+    Database.instance = this;
+  }
+  async connect() {
+    try {
+      await mongoose.connect("mongodb://localhost:27017/mydatabase", {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      });
+      console.log("Connected to the database.");
+    } catch (error) {
+      console.error("Error connecting to the database.", error);
+    }
+  }
+}
+// Uso
+const db1 = new Database();
+const db2 = new Database();
+console.log(db1 === db2); // true
+
+// Exemplo de schema e model
+const userSchema = new mongoose.Schema({ name: String, email: String });
+const User = mongoose.model("User", userSchema);
+```
+
+Este exemplo usa mongoose para conectar ao MongoDB. A conexão com o banco de dados é gerenciada pelo pattern singleton, garantindo que apenas uma instância da conexão seja criada.
+
+## Prototype
+
+O pattern Prototype permite a criação de novos objetos a partir de um protótipo existente, clonando-o. É útil quando a criação direta de objetos pode ser cara ou complexa.
+
+### Caso de uso
+
+Uma plataforma de trading de ações precisa criar múltiplas ordens de compra e venda com base em uma ordem inicial, com pequenas variações de parâmetros (como quantidade ou preço).
+
+O pattern Prototype permite a criação de novas ordens clonando uma ordem existente e ajustando apenas os parâmetros necessários. Isso é mais eficiente do que criar novas instâncias do zero e garante que todas as ordens compartilhem a mesma estrutura inicial.
+
+### Como implementar
+
+```js
+class Transaction {
+  constructor(amount) {
+    this.amount = amount;
+  }
+  clone() {
+    return new Transaction(this.amount);
+  }
+}
+
+const originalTransaction = new Transaction(100);
+const clonedTransaction = originalTransaction.clone();
+console.log(originalTransaction); // Transaction { amount: 100 }
+console.log(clonedTransaction); // Transaction { amount: 100 }
+```
+
+Neste exemplo, o pattern Prototype foi usado para clonar transações financeiras que precisam ser replicadas com pequenas variações, economizando tempo e recursos em comparação com a criação de novas instâncias do zero.
+
+## Builder
+
+O pattern Builder separa a construção de um objeto complexo de sua representação, permitindo a criação de diferentes representações usando o mesmo processo de construção. É útil quando a criação de um objeto envolve múltiplas etapas.
+
+### Caso de uso
+
+Uma aplicação de empréstimos online precisa coletar várias informações do usuário para criar um perfil de empréstimo personalizado (incluindo informações pessoais, financeiras e de crédito). Construir esse perfil envolve múltiplas etapas e combinações de dados.
+
+O pattern Builder resolve esse problema permitindo a construção flexível e incremental de um objeto complexo (o perfil de empréstimo), sem precisar passar todos os parâmetros no construtor. Isso torna o código mais legível e fácil de manter.
+
+### Como implementar
+
+```js
+class BankAccount {
+  constructor(bank) {
+    this.accountNumber = bank.accountNumber;
+    this.owner = bank.owner;
+    this.balance = bank.balance;
+    this.type = bank.type;
+  }
+}
+class BankAccountBuilder {
+  constructor(accountNumber) {
+    this.accountNumber = accountNumber;
+  }
+  setOwner(owner) {
+    this.owner = owner;
+    return this;
+  }
+  setBalance(balance) {
+    this.balance = balance;
+    return this;
+  }
+  setStatus(status) {
+    this.status = status;
+    return this;
+  }
+  build() {
+    return new BankAccount(this);
+  }
+}
+const account = new BankAccountBuilder("1234567890")
+  .setOwner("John Doe")
+  .setBalance(1000)
+  .setStatus("pending")
+  .build();
+
+console.log(account);
+```
+
+Neste exemplo, o pattern Builder foi usado para criar objetos de bank account com diferentes propriedades (account number, account holder, balance, account type) de forma flexível, sem precisar passar todos os parâmetros no construtor.
+
+## Factory
+
+O pattern Factory Method define uma interface para criar objetos em uma classe pai, mas permite que subclasses alterem o tipo de objetos que serão criados. É útil quando uma classe não consegue antecipar o tipo de objetos que precisa criar.
+
+### Caso de uso
+
+Um sistema de gestão de investimentos precisa criar diferentes tipos de relatórios financeiros (diário, mensal, anual) com base em dados do usuário. A lógica para criar cada tipo de relatório pode variar significativamente.
+
+O Factory Method permite ao sistema criar instâncias específicas de relatórios sem precisar conhecer detalhes sobre suas implementações. Isso facilita a manutenção e a extensão do sistema, permitindo a adição de novos tipos de relatórios sem modificar o código existente.
+
+```js
+class Transaction {
+  constructor(amount) {
+    this.amount = amount;
+  }
+  process() {
+    // Implementação genérica
+  }
+}
+
+class CreditTransaction extends Transaction {
+  process() {
+    console.log(`Processing credit of ${this.amount}`);
+  }
+}
+
+class DebitTransaction extends Transaction {
+  process() {
+    console.log(`Processing debit of ${this.amount}`);
+  }
+}
+```
+
+Neste exemplo, o Factory foi usado para criar diferentes tipos de transações (credit e debit) dinamicamente, conforme a necessidade do sistema. Isso facilita adicionar novos tipos de transações no futuro sem modificar o código existente.
+
+## Abstract Factory
+
+O pattern Abstract Factory oferece uma interface para criar famílias de objetos relacionados ou dependentes sem especificar suas classes concretas. É útil quando o sistema precisa ser independente de como seus objetos são criados, compostos e representados.
+
+### Caso de uso
+
+Uma plataforma bancária digital oferece vários produtos financeiros, como contas correntes, poupanças e investimentos. Cada produto pode ter formas diferentes de processar transações e criar contas.
+
+O pattern Abstract Factory permite a criação de famílias de objetos relacionados (como diferentes produtos financeiros) sem que o código client precise conhecer as classes concretas. Isso facilita adicionar novos produtos financeiros e mudar como eles são criados ou processados.
+
+### Como implementar
+
+```js
+class CreditCardPayment {
+  processPayment(amount) {
+    console.log(`Processing credit card payment of ${amount}`);
+  }
+}
+class BankTransferPayment {
+  processPayment(amount) {
+    console.log(`Processing bank transfer of ${amount}`);
+  }
+}
+class PaymentFactory {
+  createPayment() {
+    throw new Error("This method must be overridden!");
+  }
+}
+class CreditCardPaymentFactory extends PaymentFactory {
+  createPayment() {
+    return new CreditCardPayment();
+  }
+}
+class BankTransferPaymentFactory extends PaymentFactory {
+  createPayment() {
+    return new BankTransferPayment();
+  }
+}
+const creditCardFactory = new CreditCardPaymentFactory();
+const bankTransferFactory = new BankTransferPaymentFactory();
+const payment1 = creditCardFactory.createPayment();
+const payment2 = bankTransferFactory.createPayment();
+payment1.processPayment(200); // Processing credit card payment of 200
+payment2.processPayment(500); // Processing bank transfer of 500
+```
+
+Este exemplo demonstra o pattern Abstract Factory, em que `PaymentFactory` oferece uma interface para criar diferentes tipos de objetos de payment, e as subclasses (`CreditCardPaymentFactory` e `BankTransferPaymentFactory`) especificam as classes concretas a serem criadas.
+
+## Conclusão
+
+Creational design patterns são ferramentas importantes para criar software flexível e manutenível. Eles ajudam a separar a lógica de criação de objetos da lógica de negócio, facilitando adicionar novos tipos de objetos e adaptar a requisitos em mudança. Entendendo e aplicando esses patterns, você estará mais preparado para enfrentar os desafios do desenvolvimento de software.
+
+Espero que este artigo tenha agregado valor à sua jornada como desenvolvedor. Tente implementar esses patterns nos seus projetos e veja como eles podem transformar a forma como você constrói software.
+
+Happy coding! 🚀
+
+## Referências
+
+- https://en.wikipedia.org/wiki/Software_design_pattern
+- https://www.amazon.com/Design-Patterns-Elements-Reusable-Object-Oriented/dp/0201633612

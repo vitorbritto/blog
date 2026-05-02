@@ -1,6 +1,136 @@
 ---
-title: "Funções Compostas em Aplicações React"
-excerpt: "Por que você deveria se importar com isso?."
+title: "Function Composition em aplicações React"
+excerpt: "Por que você deveria se importar com isso?"
 ---
 
-🚧 A tradução deste artigo está em andamento.
+Function composition é uma técnica amplamente usada em programação para criar aplicações complexas e evitar cross-cutting concerns.
+
+É o processo de combinar duas ou mais funções para criar uma nova função. Nesse processo, a saída de uma função se torna a entrada da próxima. O resultado é uma nova função que executa ambas as operações em um único passo.
+
+## Como aplicar Function Composition
+
+Suponha que temos duas funções, `sum` e `square`.
+
+```js
+const sum = (x, y) => x + y;
+const square = (z) => Math.pow(z, 2);
+```
+
+Podemos criar uma nova função chamada `sumAndSquare` combinando essas duas funções:
+
+```js
+const sumAndSquare = (x, y) => square(sum(x, y));
+```
+
+Essa nova função recebe dois números, soma esses números e então eleva o resultado ao quadrado.
+
+Mas vamos imaginar outro cenário. Algo mais próximo do mundo real.
+
+Suponha que temos duas funções, `getUsers` e `getOrders`.
+
+```js
+function getUser(userId) {  // Retorna o objeto user}function getOrders(user) {  // Retorna um array de objetos order para o user passado}
+```
+
+Podemos criar uma nova função chamada `getUserOrders` combinando essas duas funções:
+
+```js
+function getUserOrders(userId) {
+  const user = getUser(userId);
+  const orders = getOrders(user);
+  return orders;
+}
+```
+
+Essa nova função recebe um user ID, recupera o objeto user correspondente e então recupera todas as orders associadas a esse user.
+
+## Function Composition com React
+
+No React, function composition é usada para criar componentes reutilizáveis que podem ser usados em toda a aplicação.
+
+Um exemplo de function composition no React é o uso de Higher-Order Components (HOCs). HOCs são funções que recebem um componente como argumento e retornam um novo componente com funcionalidades adicionais.
+
+De novo, isso nos permite criar componentes reutilizáveis.
+
+Aqui está um exemplo de um HOC que adiciona um loading indicator a um componente:
+
+```js
+const withLoadingIndicator = (Component) => {
+  return function (props) {
+    const [isLoading, setIsLoading] = useState(false);
+    const startLoading = setIsLoading(true);
+    const stopLoading = setIsLoading(false);
+    return (
+      <>
+        {isLoading && <div>Loading...</div>}
+        <Component
+          {...props}
+          startLoading={startLoading}
+          stopLoading={stopLoading}
+        />
+      </>
+    );
+  };
+};
+```
+
+Neste exemplo, `withLoadingIndicator` é um HOC que recebe um componente como argumento e retorna um novo componente que inclui um loading indicator. O novo componente também inclui duas funções, `startLoading` e `stopLoading`, que podem ser usadas para controlar o loading indicator.
+
+Aqui está um exemplo de como podemos usar esse HOC na nossa aplicação:
+
+```js
+function MyComponent({ startLoading, stopLoading }) {
+  useEffect(() => {
+    startLoading();
+    fetchData().then(() => {
+      stopLoading();
+    });
+  }, []);
+  return <div> {/* Conteúdo do componente */} </div>;
+}
+const MyComponentWithLoadingIndicator = withLoadingIndicator(MyComponent);
+```
+
+Neste exemplo, criamos um novo componente chamado `MyComponent` que inclui um loading indicator. Em seguida, usamos o HOC `withLoadingIndicator` para criar um novo componente chamado `MyComponentWithLoadingIndicator`, que inclui o componente `MyComponent` com o loading indicator adicionado.
+
+Você pode estar familiarizado com o código abaixo:
+
+```js
+interface ProviderProps {
+  children: ReactElement[];
+}
+const App = ({ children }: ProviderProps): ReactElement => (
+  <>
+    <AuthProvider>
+      <FeatureProvider>
+        <LogProvider>{children}</LogProvider>
+      </FeatureProvider>
+    </AuthProvider>
+  </>
+);
+```
+
+E você pode transformar o código acima usando Function Composition assim:
+
+```js
+const compose =
+  (...providers) =>
+  (x) =>
+    providers.reduceRight((y, f) => f(y), x);
+const AppWithProviders = compose(
+  withAuthProvider,
+  withFeaturesProvider,
+  withLoggerProvider
+)(App);
+
+export default AppWithProviders;
+```
+
+## Conclusão
+
+Function composition é uma ferramenta poderosa para criar aplicações complexas. Ao combinar funções, podemos criar novas funções que executam várias operações em um único passo. Isso pode simplificar nosso código e torná-lo mais fácil de manter.
+
+## Referências
+
+- https://www.mathsisfun.com/sets/functions-composition.html
+- https://legacy.reactjs.org/docs/higher-order-components.html

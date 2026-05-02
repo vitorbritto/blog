@@ -1,6 +1,188 @@
 ---
-title: "Começando com Design de Sistemas"
-excerpt: "A arte de criar sistemas eficientes, escaláveis e fáceis de manter."
+title: "Primeiros passos com System Design"
+excerpt: "A arte de criar estruturas eficientes, escaláveis e fáceis de manter."
 ---
 
-🚧 A tradução deste artigo está em andamento.
+System design envolve definir a arquitetura, módulos, interfaces e dados de um sistema para atender a requisitos especificados. Esse processo oferece uma visão de alto nível do sistema, destacando os aspectos lógicos e funcionais do software. O objetivo principal é garantir que a arquitetura do sistema esteja bem definida e atenda às necessidades dos stakeholders.
+
+Mas antes mesmo de falar de System Design, vamos dar alguns passos atrás e ver como funciona a arquitetura de um computador.
+
+### Arquitetura de Computadores
+
+Uma coisa que precisamos saber sobre System Design é ter um entendimento sólido sobre arquitetura de computadores.
+
+Mas por que isso é tão importante?
+
+A resposta é simples e está no fato de que todo software, do mais simples ao mais complexo, depende dos componentes básicos de um computador para funcionar.
+
+A arquitetura de computadores é a fundação sobre a qual construímos software.
+Vamos explorar os principais componentes dessa arquitetura e entender sua relevância no contexto de System Design.
+
+Storage
+Storage é onde toda a sua informação é mantida permanentemente. Pense nisso como uma biblioteca gigante onde você armazena todos os seus livros (dados), e pode acessá-los sempre que precisar. No contexto de computadores, temos dispositivos como hard drives (HDDs) e solid-state drives (SSDs) que armazenam dados mesmo quando o computador é desligado.
+
+Storage não é só sobre armazenar dados, mas também sobre a velocidade com que esses dados são gravados e recuperados do seu centro de armazenamento.
+
+Toda essa velocidade está relacionada à mecânica que esses dispositivos de hardware usam. Enquanto o HDD usa um mecanismo manual, empregando um disco metálico e uma cabeça de leitura/gravação para armazenar ou ler dados em um local específico, o SSD garante acesso mais rápido porque usa um mecanismo eletrônico e consegue identificar os dados através de células, que são gravadas em seu hardware.
+
+Note que em um SSD não há tempo de espera dos seus componentes para que uma operação de leitura ou escrita seja realizada; é instantâneo.
+
+É por isso que há uma diferença significativa na entrega dos dados.
+
+Memory
+Memory, ou RAM (Random Access Memory), é como uma mesa de trabalho onde você coloca os livros que está lendo no momento. Quanto mais RAM você tem, mais "livros" pode ter abertos e acessar rapidamente. No entanto, a RAM é volátil, o que significa que perde toda a informação quando o computador é desligado.
+
+Ter uma quantidade adequada de RAM melhora a velocidade, a multitarefa e a estabilidade do sistema, enquanto a falta de RAM pode causar lentidão e instabilidade.
+
+Cache
+Cache é como uma pequena mesa de trabalho ao lado da sua mesa principal (RAM). Ele armazena temporariamente dados que você está acessando com muita frequência. Isso permite acesso ainda mais rápido, já que o cache está fisicamente localizado mais perto do processador (CPU).
+
+CPU
+A CPU (Central Processing Unit) é o "cérebro" do computador. Ela executa as instruções do programa, realizando os cálculos e o processamento necessários para garantir que tudo funcione. É como o gestor da biblioteca, que direciona todas as operações, garantindo que os dados sejam processados e armazenados corretamente.
+
+OK, mas por que entender arquitetura de computadores é importante para System Design?
+
+Entender arquitetura de computadores é fundamental para System Design por várias razões que se entrelaçam para formar a base sobre a qual sistemas robustos e eficientes são construídos. Se você entende o que cada componente faz e sua responsabilidade, pode garantir performance, eficiência, escalabilidade, segurança e compatibilidade no seu sistema.
+
+Além disso, você poderá tomar decisões técnicas assertivas e reduzir custos com base nos recursos estritamente necessários para o seu software.
+
+Avançando, vamos entender o que é um sistema.
+
+### O que é um sistema?
+
+Um sistema é um conjunto de componentes inter-relacionados que trabalham juntos para alcançar um objetivo comum. Isso pode incluir hardware, software, dados e pessoas.
+
+E para definir como esses componentes são organizados e como interagem entre si, usamos System Design. É como a planta de um edifício, em que cada parte precisa estar no lugar certo para que tudo funcione harmoniosamente.
+
+### Princípios centrais de System Design
+
+Para construir software que atenda às expectativas de performance e manutenção, é necessário entender e aplicar alguns princípios fundamentais de System Design também.
+
+Todo sistema deve aderir a três pilares principais: confiabilidade (reliability), escalabilidade (scalability) e manutenibilidade (maintainability).
+
+### Reliability
+
+Aqui estamos falando da capacidade de um sistema operar corretamente e de forma consistente ao longo do tempo. Em outras palavras, garante que o sistema vai performar como esperado, mesmo sob condições adversas. Um sistema confiável minimiza downtime e falhas, oferecendo uma experiência estável aos usuários.
+
+Como garantir a confiabilidade?
+É necessário ter componentes redundantes para que, se um falhar, o outro possa assumir. Além disso, testes rigorosos devem ser conduzidos para identificar e corrigir problemas antes que afetem os usuários.
+
+Técnicas que podem ser usadas
+
+- Redundância: envolve duplicar componentes críticos dentro do sistema. Se um componente falhar, sua duplicata pode assumir, garantindo que o sistema continue funcionando sem interrupção. Isso pode se aplicar tanto a hardware (ex.: servidores, dispositivos de rede) quanto a software (ex.: bancos de dados, serviços).
+- Testes e Validação: testar é essencial para garantir que o sistema funciona corretamente sob várias condições. Isso inclui unit tests, integration tests, system tests e stress tests. Identificando e tratando potenciais issues cedo, você pode reduzir o risco de falhas em produção.
+- Design Tolerante a Falhas: criar sistemas tolerantes a falhas garante que eles permaneçam operacionais mesmo se alguns componentes falharem. Isso pode ser alcançado através de métodos como graceful degradation, em que features não-críticas são desligadas durante uma falha, mas funções essenciais continuam funcionando. Outra estratégia é implementar failover, em que o sistema transita automaticamente para um componente de backup.
+- Monitoramento e Recuperação: monitorar constantemente a performance e a saúde do sistema é essencial para identificar problemas cedo. Usar métodos automatizados de recuperação permite que o sistema se recupere rapidamente de falhas. Ferramentas de monitoramento podem notificar os administradores de quaisquer issues, e ações de recuperação podem envolver restarts automáticos, failovers ou reparos.
+- Segurança e Controle de Acesso: garantir que o sistema esteja seguro contra acesso não autorizado e ataques é um aspecto-chave da confiabilidade. Implementar medidas robustas de segurança, como criptografia, autenticação e controles de acesso, ajuda a proteger o sistema contra atividades maliciosas que poderiam causar falhas. Auditorias de segurança regulares e atualizações são necessárias para manter um ambiente seguro.
+
+### Scalability
+
+Escalabilidade é a capacidade de um sistema crescer e lidar com uma carga de trabalho crescente. É como expandir uma padaria para atender mais clientes sem comprometer a qualidade dos produtos.
+
+Como garantir a escalabilidade?
+O sistema precisa ser projetado em partes menores que podem ser escaladas individualmente e ser configurável a ponto de poder adicionar recursos automaticamente quando a demanda aumenta.
+
+Técnicas que podem ser usadas
+
+- Escalabilidade horizontal (scaling out): uma técnica comum para escalar um sistema é a escalabilidade horizontal, que envolve adicionar mais instâncias do sistema em um ambiente distribuído. Isso pode ser alcançado replicando o sistema em múltiplos servidores, cada um lidando com uma porção da carga de trabalho, e usando técnicas de load balancing para distribuir as requests uniformemente entre eles.
+- Escalabilidade vertical (scaling up): outra técnica para escalar um sistema é a escalabilidade vertical, que envolve adicionar mais recursos a uma única instância do sistema. Isso pode ser alcançado aumentando a quantidade de memória, poder de processamento ou capacidade de storage disponível para o sistema, seja atualizando o hardware ou usando tecnologias de virtualização.
+- Caching: caching é outra técnica que pode ser usada para melhorar a escalabilidade de um sistema. Armazenando dados frequentemente acessados em memória ou em disco, o sistema pode reduzir o número de requests que precisam ser processadas, melhorando a performance e reduzindo a carga no sistema.
+- Database sharding: database sharding é uma técnica para escalar a camada de banco de dados de um sistema. Isso envolve particionar os dados em múltiplas instâncias de banco de dados, cada uma lidando com uma porção dos dados, e usar uma shard key para rotear as requests para a instância correta.
+- Processamento assíncrono: o processamento assíncrono é uma técnica que pode ser usada para melhorar a escalabilidade de um sistema, reduzindo a quantidade de tempo gasto esperando que operações de I/O sejam concluídas. Usando I/O não-bloqueante e arquiteturas event-driven, o sistema pode lidar com mais requests em paralelo, melhorando o throughput e reduzindo os tempos de resposta.
+
+### Maintainability
+
+Manutenibilidade é a facilidade com que um sistema pode ser mantido e atualizado.
+
+Como garantir a manutenibilidade?
+É importante escrever código fácil de entender e modificar. Além disso, é essencial manter documentação detalhada e atualizada sobre o sistema e sua operação.
+
+Técnicas que podem ser usadas
+
+- Modularidade: é uma técnica de quebrar um sistema complexo em partes menores e mais gerenciáveis, ou módulos. Isso permite aos desenvolvedores trabalharem em diferentes partes do sistema de forma independente, sem afetar o resto do sistema. Design modular facilita localizar e corrigir bugs ou fazer mudanças em partes específicas do sistema sem impactar o sistema inteiro.
+- Abstração: é uma técnica de esconder detalhes de implementação e expor apenas as features essenciais de um sistema ou módulo. Essa técnica ajuda a reduzir a complexidade de um sistema, tornando-o mais fácil de manter e entender.
+- Encapsulamento: é uma técnica de agrupar dados e métodos que operam sobre esses dados em uma única unidade, ou classe. Essa técnica ajuda a manter os detalhes internos de um módulo ou componente escondidos das outras partes do sistema, reduzindo o risco de mudanças não intencionais e facilitando a manutenção.
+- Padronização: envolve definir e seguir um conjunto de padrões de código, boas práticas e convenções para o desenvolvimento de software. Isso ajuda a garantir que o sistema seja consistente e previsível, facilitando a manutenção ao longo do tempo.
+- Documentação: é um aspecto crítico para manter um sistema de software. Envolve criar e manter documentação clara, concisa e atualizada do design, arquitetura, código e processos do sistema. Boa documentação facilita para os desenvolvedores entender e manter o sistema ao longo do tempo.
+
+### Teorema CAP
+
+Agora que você conhece os pilares de um System Design e como garantir cada um deles, precisa entender o Teorema CAP, também conhecido como Teorema de Brewer.
+
+O teorema CAP para computação distribuída foi publicado por Eric Brewer.
+
+Ele afirma que é impossível para um sistema de computação distribuída fornecer simultaneamente todas as três garantias a seguir:
+
+- Consistency: todas as instâncias têm o state mais recente; caso contrário, são impedidas de fornecer informações.
+- Availability: todas as instâncias devem ter acesso consistente para leitura e escrita.
+- Partition Tolerance: o sistema deve funcionar independentemente das partições de rede a que está conectado. Isso é uma decisão de negócio.
+
+O acrônimo CAP corresponde a essas três garantias. Esse teorema lançou as bases para abordagens modernas em computação distribuída. A maioria das empresas de alto tráfego do mundo (ex.: Amazon, Google, Facebook) usa isso como base para decidir sua arquitetura de software.
+
+É importante entender que apenas duas dessas três condições podem ser garantidas por um sistema.
+
+Caso de uso #01: Consistency + Availability (CA):
+O sistema garante que todos os nodes vejam os mesmos dados ao mesmo tempo e que cada request receba uma resposta. Não pode tolerar falhas de comunicação entre nodes (partições).
+
+Por exemplo, sistemas em um único datacenter com alta confiabilidade de rede.
+
+Caso de uso #02: Consistency + Partition Tolerance (CP)
+O sistema continua funcionando corretamente mesmo se houver falhas de comunicação, e todos os nodes veem os mesmos dados ao mesmo tempo.
+
+Como resultado, não pode garantir que todas as requests recebam uma resposta (a disponibilidade pode ser sacrificada durante partições).
+
+Por exemplo, alguns sistemas de banco de dados preferem consistency em vez de availability, como certos bancos de dados NoSQL.
+
+Caso de uso #03: Availability + Partition Tolerance (AP):
+O sistema continua funcionando mesmo se houver falhas de comunicação, e todas as requests recebem uma resposta.
+
+Como resultado, não pode garantir que todos os nodes vejam os mesmos dados ao mesmo tempo (a consistency pode ser sacrificada).
+
+Um exemplo seriam sistemas de banco de dados que preferem availability em vez de consistency, como Cassandra e DynamoDB.
+
+### KPIs
+
+KPIs (Key Performance Indicators) são métricas usadas para medir a performance de um sistema. Elas ajudam a monitorar se o sistema está alcançando seus objetivos.
+
+Sobre Reliability
+
+- Mean Time Between Failures (MTBF): essa métrica mede o tempo médio entre falhas do sistema. Um MTBF mais alto indica um sistema mais confiável.
+- Mean Time to Failure (MTTF): essa métrica mede o tempo médio até o sistema experimentar sua primeira falha. Um MTTF mais alto indica um sistema mais confiável.
+- Mean Time to Repair (MTTR): essa métrica mede o tempo médio necessário para reparar uma falha do sistema. Um MTTR mais baixo indica um sistema mais confiável.
+- Availability: essa métrica mede a porcentagem de tempo em que o sistema está disponível e funcionando corretamente. Uma availability mais alta indica um sistema mais confiável.
+- Error Rate: essa métrica mede a porcentagem de transações ou operações que resultam em erros ou falhas. Uma error rate mais baixa indica um sistema mais confiável.
+- Fault Tolerance: essa métrica mede a capacidade do sistema de continuar funcionando mesmo diante de falhas parciais ou erros. Um nível mais alto de fault tolerance indica um sistema mais confiável.
+- Recovery Time Objective (RTO): essa métrica mede a quantidade de tempo necessária para se recuperar de uma falha do sistema e restaurar a operação normal. Um RTO mais baixo indica um sistema mais confiável.
+- Recovery Point Objective (RPO): essa métrica mede a quantidade de perda de dados que pode ser tolerada no caso de uma falha do sistema. Um RPO mais baixo indica um sistema mais confiável.
+
+Sobre Scalability
+
+- Response Time: essa métrica acompanha quanto tempo o sistema leva para responder a uma request ou transação do usuário. Um response time mais curto sugere que o sistema é mais escalável.
+- Throughput: essa métrica indica o número de transações ou requests que o sistema pode processar dentro de um intervalo de tempo específico. Um throughput mais alto significa um sistema mais escalável.
+- Resource Utilization: essa métrica avalia o uso de recursos como CPU, memória e disco pelo sistema. Uma utilização de recursos mais baixa sugere que o sistema é mais escalável.
+- Concurrency: essa métrica avalia o número de usuários ou transações que o sistema pode gerenciar simultaneamente. Maior concurrency indica um sistema mais escalável.
+- Elasticity: essa métrica mede a capacidade do sistema de ajustar automaticamente sua escala para cima ou para baixo com base em mudanças na demanda ou na carga de trabalho. Maior elasticity significa um sistema mais escalável.
+- Latency: essa métrica mede o atraso de tempo entre uma request do usuário e a resposta do sistema. Menor latency indica um sistema mais escalável.
+
+Sobre Maintainability
+
+- Mean Time to Repair (MTTR): este KPI acompanha a duração média necessária para reparar um sistema depois que ele experimenta uma falha. Um MTTR mais baixo sugere que o sistema é direto de diagnosticar e corrigir, indicando boa manutenibilidade.
+- Mean Time Between Failures (MTBF): este KPI acompanha o intervalo médio entre falhas do sistema. Um MTBF mais alto sugere que o sistema é confiável e bem mantido.
+- Code Complexity: avalia o quão desafiador é entender e manter o código do sistema. Uma complexidade de código mais alta pode implicar que o sistema é mais difícil de manter.
+- Code Duplication: mede a extensão de código repetido dentro de um sistema. Níveis mais altos de duplicação de código podem apontar para design ruim e manutenibilidade ruim.
+- Test Coverage: avalia a proporção do sistema verificada por testes automatizados. Maior test coverage pode implicar que o sistema é completamente testado e mais simples de manter.
+- Technical Debt: mede o custo contínuo de manter o sistema. Níveis mais altos de technical debt podem apontar para design ruim e manutenibilidade ruim.
+
+### Conclusão
+
+É importante entender cada um desses pontos que foram levantados aqui para projetar sistemas eficazes e robustos. Da arquitetura de computadores à implementação de sistemas complexos na nuvem, cada passo é essencial para garantir que o sistema seja confiável, escalável e fácil de manter.
+
+Agora que você tem uma visão geral de System Design, vamos mergulhar mais fundo nos próximos capítulos para explorar mais sobre esse tópico.
+
+Ao final desta jornada, estou confiante de que você estará mais do que preparado para enfrentar os desafios do system design e construir soluções que atendam às necessidades dos seus usuários.
+
+### Leitura adicional
+
+- https://martinfowler.com/architecture/
+- https://github.com/donnemartin/system-design-primer?tab=readme-ov-file
+- https://newsletter.systemdesigncodex.com/

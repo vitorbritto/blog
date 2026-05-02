@@ -3,4 +3,188 @@ title: "JavaScript: O que é uma função?"
 excerpt: "O que você deveria saber sobre funções em JavaScript."
 ---
 
-🚧 A tradução deste artigo está em andamento.
+No JavaScript, funções são tratadas como objetos de primeira classe, o que significa que podem ser atribuídas a variáveis, passadas como argumentos para outras funções e retornadas de funções.
+
+### Anatomia de uma função
+
+Uma função em JavaScript é um bloco de código que realiza uma tarefa específica e retorna um valor ou executa uma ação. É um pedaço de código reutilizável que pode ser chamado várias vezes com diferentes argumentos para produzir resultados diferentes. Funções podem receber input na forma de parâmetros e retornar output através de um statement de return. Elas ajudam a quebrar grandes tarefas em tarefas menores e mais gerenciáveis, tornando o código mais fácil de ler, debugar e manter.
+
+Funções são objetos no JavaScript; o que as distingue de outros objetos é a presença de uma propriedade interna chamada `[[Call]]`. Propriedades internas não são acessíveis pelo código, mas definem seu comportamento durante a execução. O ECMAScript define várias propriedades internas de objetos no JavaScript, e essas propriedades são indicadas por uma notação envolvida em colchetes duplos.
+
+Declared Function
+Uma declared function em JavaScript é uma função definida usando a keyword `function` e que pode ser chamada mais tarde no código.
+
+Aqui está um exemplo de uma declared function em JavaScript:
+
+```js
+function addNumbers(a, b) {
+  return a + b
+}
+let result = addNumbers(2, 3) // chamando a função e armazenando o resultado em uma variávelconsole.log(result); // output: 5
+```
+
+Neste exemplo, uma função chamada `addNumbers` é declarada usando a keyword `function` com dois parâmetros, `a` e `b`. A função retorna a soma de `a` e `b`. Mais tarde, a função é chamada com argumentos 2 e 3, e o valor retornado é armazenado em uma variável chamada `result`. Por fim, o output é impresso no console usando o método `console.log`, que exibe 5 no console.
+
+Expression Function
+No JavaScript, uma expression function é uma função que é atribuída a uma variável. Pode ser declarada usando a keyword `function` ou usando uma arrow function.
+
+Aqui está um exemplo de uma expression function declarada usando a keyword `function`:
+
+```js
+const add = function(a, b) {  return a + b;}const result = add(2, 3); // result é 5
+```
+
+Aqui está um exemplo de uma expression function declarada usando uma arrow function:
+
+```js
+const multiply = (a, b) => {  return a * b;}const result = multiply(2, 3); // result é 6
+```
+
+Em ambos os exemplos, a função é atribuída a uma variável (`add` ou `multiply`) e pode ser chamada usando o nome da variável. Isso permite que a função seja passada como argumento para outras funções ou armazenada em estruturas de dados como arrays ou objetos.
+
+A diferença entre Declared Function e Function Expression
+A principal diferença entre Declared Function e Function Expression é Hoisting.
+
+Hoisting é um termo usado no JavaScript para descrever o comportamento de declarações de variáveis e declarações de função sendo movidas para o topo do seu escopo (global ou local) durante a fase de compilação. Isso permite que os desenvolvedores usem essas variáveis ou funções antes de serem declaradas.
+
+Veja os exemplos abaixo.
+
+Exemplo 1: Variable hoisting
+
+```js
+console.log(a)
+var a = 2 // Output: undefined
+```
+
+No código acima, a variável `a` é declarada usando a keyword `var`, mas é usada antes da sua declaração. O output desse código será `undefined`, porque apenas a declaração da variável é içada para o topo, e não a atribuição do seu valor.
+
+Exemplo 2: Function hoisting
+
+```js
+sayHello()
+function sayHello() {
+  console.log('Hello!')
+} // Output: "Hello!"
+```
+
+Neste exemplo, a função `sayHello()` é declarada depois de ser chamada, mas ainda funciona porque funções no JavaScript são içadas para o topo do seu escopo. Por isso, o output desse código será `Hello!`.
+
+Exemplo 3: Function expression
+
+```js
+someFunction()
+const someFunction = () => console.log('This is some function.') // Output: TypeError: someFunction is not a function
+```
+
+Este exemplo mostra que function expressions não são içadas. Nesse caso, `someFunction` foi declarada usando uma function expression em vez de uma function declaration; portanto, ela não é içada e resulta em um `TypeError` quando tentamos chamá-la antes de ser declarada.
+
+O hoisting pode facilitar escrever código JavaScript, mas também pode causar confusão e erros se usado incorretamente. Por isso, é recomendado sempre declarar variáveis e funções antes de usá-las para evitar problemas relacionados ao hoisting.
+
+### Params em ação
+
+No JavaScript, parameters ou params são valores que podem ser passados para uma função quando ela é chamada. Esses parameters ajudam uma função a aceitar valores diferentes e executar tarefas diferentes com base nesses valores.
+
+Aqui está um exemplo de uma função que recebe dois parameters e retorna a soma deles:
+
+```js
+function addNumbers(num1, num2) {
+  return num1 + num2
+}
+console.log(addNumbers(5, 7)) // Output: 12console.log(addNumbers(10, 3)); // Output: 13
+```
+
+Neste exemplo, `num1` e `num2` são os parameters da função `addNumbers`. Quando a função é chamada, os valores passados (5 e 7, ou 10 e 3) se tornam os valores de `num1` e `num2`, e a função retorna a soma deles.
+
+Parameters também podem ter valores default, que são usados se nenhum valor for passado quando a função for chamada. Aqui está um exemplo:
+
+```js
+function greet(name = 'stranger') {
+  console.log(`Hello, ${name}!`)
+}
+greet() // Output: Hello, stranger!greet('Vitor'); // Output: Hello, Vitor!
+```
+
+Neste exemplo, a função `greet` recebe um parameter, `name`, que tem um valor default `'stranger'`. Quando a função é chamada sem nenhum argumento, `name` assume o default `'stranger'` e a função imprime "Hello, stranger!" no console. Quando a função é chamada com um argumento, esse argumento se torna o valor de `name`.
+
+Por último, funções também podem aceitar um número ilimitado de argumentos usando a sintaxe de rest parameter (`...`). Aqui está um exemplo:
+
+```js
+function getAverage(...nums) {
+  let total = 0
+  for (let num of nums) {
+    total += num
+  }
+  return total / nums.length
+}
+console.log(getAverage(1, 2, 3, 4, 5)) // Output: 3console.log(getAverage(10, 20, 30)); // Output: 20
+```
+
+Neste exemplo, a função `getAverage` aceita um número ilimitado de argumentos usando a sintaxe de rest parameter (`...nums`). A função então itera sobre todos os argumentos e os soma para obter o total e, por fim, retorna a média desses números dividindo o total pelo número de argumentos passados.
+
+### Object Methods
+
+No JavaScript, methods são funções atribuídas como propriedades de um objeto. Object methods podem ser chamados em um objeto invocando o method como uma propriedade do objeto. Em outras palavras, object methods são funções que pertencem a um objeto e podem acessar e manipular suas propriedades. Aqui estão alguns pontos-chave sobre object methods em JavaScript:
+
+1. Object methods são definidos como funções dentro de uma classe ou de um object literal.
+2. Eles podem aceitar parâmetros e retornar valores como funções normais.
+3. Object methods podem acessar e modificar as propriedades do objeto a que pertencem usando a keyword "this".
+4. Eles podem ser usados para realizar ações no objeto, como checar seu state, mudar suas propriedades ou retornar informações úteis sobre ele.
+5. Object methods podem ser adicionados a um objeto dinamicamente, mesmo depois de o objeto ter sido criado.
+
+Usando object methods no JavaScript, você pode criar código mais poderoso e flexível, capaz de realizar uma variedade de tarefas e manipular dados de formas úteis.
+
+Os methods `call()`, `apply()` e `bind()` são alguns dos object methods mais frequentemente usados.
+
+O método call()
+Esse método permite que uma função/method que pertence a um objeto seja atribuída e chamada para outro objeto usar. Em outras palavras, permite que a função/method seja chamada como um method de um objeto diferente.
+
+No exemplo abaixo, temos dois objetos diferentes, `person1` e `person2`. O method `fullName()` pertence a `person1`, mas estamos chamando-o para `person2` usando o method `call()`.
+
+```js
+const person1 = {   fullName: function() {      return `${this.firstName} ${this.lastName}`;   }}const person2 = {   firstName: "Vitor",   lastName: "Britto"}person1.fullName.call(person2); // "Vitor Britto"
+```
+
+O método apply()
+Esse method é semelhante ao `call()`, mas, em vez de passar cada argumento individualmente, ele aceita um array de argumentos.
+
+No exemplo abaixo, usamos o method `Math.max()` para encontrar o número máximo em um array de números. No entanto, como `Math.max()` não é um method de array, não podemos aplicá-lo diretamente ao array. Em vez disso, usamos o method `apply()` para passar o array como argumento.
+
+```js
+const numbers = [1, 2, 3, 4, 5]
+const maxNum = Math.max.apply(null, numbers)
+console.log(maxNum) // 5
+```
+
+O método bind()
+Esse method permite definir um valor específico para a keyword `this` em uma função. Ele cria uma nova função com o contexto especificado.
+
+No exemplo abaixo, usamos o method `bind()` no method `getDetails()` do objeto `person` para definir o contexto para `person`. Em seguida, criamos uma nova função, `getVitorDetails`, com o contexto atualizado. Quando chamamos `getVitorDetails()`, ela loga os detalhes do objeto `person`.
+
+```js
+const person = {  name: "Vitor",  age: 42,  getDetails: function() {    console.log(`Name: ${this.name}, Age: ${this.age}`);  }}const getVitorDetails = person.getDetails.bind(person);// cria uma nova função getDetails com person como contextogetVitorDetails(); // --> "Name: Vitor, Age: 42"
+```
+
+### Conclusão
+
+Funções são únicas porque também são objetos, o que significa que podem ser acessadas, copiadas, sobrescritas e geralmente são tratadas como qualquer outro objeto.
+
+A principal diferença entre uma função em JavaScript e outros objetos é a propriedade interna `[[Call]]`, que contém as instruções para executar a função. O operador `typeof` procura essa propriedade interna em um objeto e, se encontrada, retorna `"function"`.
+
+Como funções são objetos, o constructor `Function` está presente. Você pode criar novas funções com o Function Constructor, mas não recomendo fazer isso.
+
+Para mais informações, você pode conferir os seguintes recursos:
+
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions
+- https://javascript.info/function-basics
+
+Obrigado pela leitura. Se tiver alguma observação ou sugestão, fique à vontade para deixar um comentário abaixo.
+
+Você pode me seguir no Twitter, Github e LinkedIn.
+
+Até mais! 👋
+
+Por Vitor Britto, em 22 de abril de 2023.
+
+Link canônico
+
+Exportado do Medium em 3 de fevereiro de 2025.

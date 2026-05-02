@@ -1,6 +1,67 @@
 ---
-title: "O mundo dos geradores de sites estáticos"
-excerpt: "Construindo as próximas gerações de experiências web."
+title: "O mundo dos Static Site Generators"
+excerpt: "Construindo a próxima geração de experiências web."
 ---
 
-🚧 A tradução deste artigo está em andamento.
+Um Static Site Generator (SSG) é uma ferramenta usada para criar sites estáticos, ou seja, cada página é gerada uma única vez no momento do build e servida ao visitante exatamente como está armazenada. Ao contrário dos sites dinâmicos, que são gerados sob demanda por um servidor web a cada requisição de página, sites estáticos são construídos de antemão e podem ser hospedados sem a necessidade de um servidor de aplicação ou banco de dados.
+
+## Os benefícios dos SSGs
+
+Static Site Generators funcionam processando seu conteúdo, geralmente escrito em formatos simples como Markdown, junto com templates, e gerando arquivos HTML, CSS e JavaScript prontos para publicação. Essa abordagem oferece várias vantagens.
+
+### Velocidade
+
+Como as páginas são pré-geradas, podem ser carregadas muito rapidamente pelos browsers.
+
+### Segurança
+
+Sem a necessidade de um banco de dados ou de uma linguagem de scripting server-side, o risco de vulnerabilidades de segurança é minimizado.
+
+### Hospedagem
+
+Sites estáticos podem ser hospedados em qualquer lugar, incluindo serviços gratuitos ou de baixo custo como GitHub Pages, Netlify, Vercel, entre outros.
+
+### Controle de versão
+
+Como o conteúdo e o código do site podem ser armazenados em sistemas de controle de versão, fica fácil rastrear mudanças, colaborar e voltar a versões anteriores se necessário.
+
+## Exemplos populares de Static Site Generators
+
+Exemplos populares de Static Site Generators incluem Jekyll, Hugo, Gatsby, Next.js (em modo static export) e muitos outros. Cada um oferece diferentes recursos, performance e ecossistemas de plugins, permitindo aos desenvolvedores escolher o que melhor se adapta às suas necessidades específicas.
+
+## Pontapé inicial com SSG
+
+Primeiro, você precisa escolher um Static Site Generator que atenda às suas necessidades. A escolha vai depender de fatores como a linguagem de programação que você prefere (Ruby, Go, JavaScript/React), complexidade do site, velocidade de geração e o ecossistema de plugins.
+
+Depois de escolher o SSG, você precisa instalá-lo no seu ambiente de desenvolvimento. Isso normalmente envolve alguns passos simples executados via linha de comando. Durante ou após a instalação, você vai configurar seu site (título, descrição, URL, etc.) no arquivo de configuração do SSG escolhido.
+
+O próximo passo é criar o conteúdo do seu site. A maioria dos SSGs permite escrever o conteúdo em Markdown, uma linguagem de marcação leve, que é então transformada em HTML. Você também pode adicionar metadados ao seu conteúdo para auxiliar na organização e geração das páginas.
+
+Você vai precisar criar ou escolher um tema ou layout para o seu site. Muitos SSGs têm temas prontos para usar que você pode utilizar ou customizar. Como alternativa, pode criar o seu próprio definindo os templates HTML, as stylesheets CSS e, se necessário, os arquivos JavaScript.
+
+Com o conteúdo criado e o tema pronto, você vai usar o SSG para gerar o site. Isso é feito através de um comando no terminal, instruindo o SSG a processar seu conteúdo e templates, gerando os arquivos estáticos de HTML, CSS e JavaScript.
+
+Antes de publicar seu site, você deveria testá-lo localmente. SSGs costumam vir com um servidor web local que permite visualizar o site no seu browser como se ele estivesse hospedado online.
+
+Por fim, quando estiver satisfeito com o resultado, você publica o site. Isso envolve subir os arquivos estáticos gerados para um servidor web ou serviço de hosting. Serviços como GitHub Pages, Netlify e Vercel são populares para hospedar sites estáticos, muitos oferecendo integração direta com repositórios de código para simplificar o processo de deploy.
+
+Esse processo destaca a simplicidade e a eficiência dos SSGs para criar sites rápidos, seguros e fáceis de manter.
+
+## Evolução e Ecossistema
+
+A tendência recente de desacoplar o frontend do backend (headless CMS) e a ascensão do JAMstack (JavaScript, APIs e Markup) consolidaram ainda mais a posição dos SSGs. Os desenvolvedores agora podem usar SSGs em conjunto com plataformas headless CMS para gerenciar conteúdo e gerar sites estáticos dinamicamente, combinando o melhor dos dois mundos: a flexibilidade e a facilidade de gerenciamento de conteúdo de um CMS com a velocidade e a segurança de sites estáticos.
+
+## O que é JAMStack?
+
+O JAMstack é uma arquitetura moderna de desenvolvimento web que significa JavaScript, APIs e Markup. Ele representa uma mudança na forma como aplicações web são construídas, afastando-se das tradicionais arquiteturas monolíticas server-side em direção a uma abordagem mais desacoplada que aproveita todo o potencial da web moderna. Os princípios centrais do JAMstack focam em performance, segurança e escalabilidade, ao mesmo tempo em que promovem a eficiência do desenvolvedor e uma melhor experiência de usuário.
+
+O ecossistema JAMstack cresceu rapidamente, sustentado por uma série de ferramentas e serviços projetados para otimizar o workflow de desenvolvimento. Isso inclui static site generators (Hugo, Gatsby, Next.js), opções de headless CMS (Contentful, Sanity, Strapi) e serviços de hospedagem e deploy (Netlify, Vercel, GitHub Pages) que oferecem pipelines de continuous integration e continuous deployment (CI/CD) feitas sob medida para projetos JAMstack.
+
+## Conclusão
+
+Seja você está construindo um blog pessoal, um portfólio, um site corporativo ou uma plataforma de e-commerce, os Static Site Generators oferecem uma solução escalável, com bom custo-benefício e amigável para desenvolvedores. Eles representam um retorno aos fundamentos do desenvolvimento web, ao mesmo tempo em que ampliam os limites do que sites estáticos podem alcançar. À medida que a web continua evoluindo, os SSGs se destacam como uma ferramenta-chave para construir a próxima geração de experiências web.
+
+## Referências
+
+- https://en.wikipedia.org/wiki/Static_site_generator
+- https://jamstack.org/

@@ -1,6 +1,75 @@
 ---
-title: "Padrões arquiteturais"
-excerpt: "O padrão de arquitetura Monolítico."
+title: "Padrões Arquiteturais"
+excerpt: "A Arquitetura Monolítica."
 ---
 
-🚧 A tradução deste artigo está em andamento.
+A arquitetura monolítica é um dos patterns de arquitetura de software mais antigos e ainda amplamente utilizados. Caracterizada por uma abordagem unificada e coesa, em que todos os componentes de uma aplicação são integrados em uma única codebase, a arquitetura monolítica tem suas vantagens e desvantagens.
+
+Neste artigo, vamos explorar o que é uma arquitetura monolítica, suas características, vantagens, desvantagens e casos de uso.
+
+## O que é uma Arquitetura Monolítica?
+
+Quando nos referimos a uma arquitetura monolítica, estamos falando principalmente de uma unidade de deploy.
+
+Isso significa que todas as funcionalidades de um sistema são deployadas juntas.
+
+O exemplo mais comum que pode vir à cabeça quando falamos de sistemas monolíticos é um sistema em que todo o código é deployado como um único processo.
+
+Podemos ter múltiplas instâncias desse processo por razões que vão desde robustez até escalabilidade, mas, essencialmente, todo o código estará contido em um único processo.
+
+## Sistema Monolítico Modular
+
+Um sistema monolítico modular é uma abordagem de arquitetura de software que combina as vantagens de um monólito tradicional com a modularidade encontrada em arquiteturas de microservices.
+
+Em vez de dividir uma aplicação em múltiplos serviços independentes, como nos microservices, um sistema monolítico modular mantém todas as funcionalidades em uma única codebase, mas organizadas em módulos claramente definidos e independentes.
+
+Mas como os módulos se comunicam?
+
+O primeiro método seria comunicação síncrona, que se refere a um modelo de interação em que uma chamada de método espera pela resposta antes de prosseguir. Esse tipo de comunicação é amplamente usado em sistemas monolíticos, em que componentes ou módulos fazem chamadas diretas uns para os outros e esperam pela conclusão dessas chamadas para continuar a execução.
+
+O segundo método seria comunicação assíncrona, em que os módulos se comunicam através de mensagens. A chamada é feita e a execução continua, permitindo que o sistema lide com outras tarefas enquanto aguarda a resposta. Esse modelo é particularmente útil para melhorar a eficiência e a escalabilidade de sistemas complexos.
+
+## Benefícios
+
+- Facilidade no desenvolvimento inicial: no início do ciclo de vida do projeto, a arquitetura monolítica é mais simples de implementar e exige menos esforço de configuração.
+- Dependências fortes: os componentes dentro da arquitetura monolítica são fortemente acoplados, o que pode aumentar a complexidade do desenvolvimento e da manutenção.
+- Debugging simplificado: com uma única aplicação, o processo de debugging e o rastreamento de erros são mais diretos.
+- Coesão funcional: todos os módulos da aplicação fazem parte de uma única codebase, facilitando o compartilhamento de código e recursos.
+- Performance aprimorada: sem o overhead de comunicação entre serviços (como em microservices), aplicações monolíticas podem performar melhor em muitos casos.
+- Deploy unificado: apenas um artefato precisa ser deployado, simplificando o processo de continuous integration e continuous delivery (CI/CD).
+
+## Desvantagens
+
+- Escalabilidade limitada: escalar uma aplicação monolítica pode ser desafiador, pois a aplicação inteira precisa ser replicada, em vez de escalar apenas os componentes necessários.
+- Evolução e manutenção complexas: à medida que a codebase cresce, a complexidade aumenta, dificultando a manutenção e a adição de novas features.
+- Risco de single point of failure: um bug crítico ou falha em um módulo pode comprometer a aplicação inteira, levando à indisponibilidade total.
+- Barreiras para adotar novas tecnologias: atualizar ou substituir tecnologias em uma arquitetura monolítica é mais difícil, pois exige modificar uma codebase grande e integrada.
+
+## Casos de uso
+
+É importante saber quando e como você pode usar a Arquitetura Monolítica. Aqui vai uma lista para entender quando usar e quando evitar.
+
+### Quando usar
+
+- Pequenos projetos: para startups ou projetos de pequena escala com escopo limitado, a simplicidade da arquitetura monolítica pode ser vantajosa.
+- Times pequenos: em ambientes com um time de desenvolvimento pequeno, coordenação e comunicação são mais fáceis com uma única codebase.
+- Operações simples: para organizações com menos experiência em gerenciar arquiteturas complexas, a arquitetura monolítica oferece um ponto de entrada mais simples.
+
+### Quando evitar
+
+- Projetos de grande escala: para aplicações que exigem alta escalabilidade e manutenção contínua, uma arquitetura monolítica pode se tornar um gargalo.
+- Desenvolvimento ágil: em cenários em que diferentes times precisam trabalhar de forma independente em várias partes da aplicação, microservices podem oferecer mais flexibilidade.
+
+## Conclusão
+
+Apesar de suas limitações, a arquitetura monolítica continua sendo uma escolha válida para muitas organizações, especialmente as que estão em estágios iniciais ou com requisitos simples. A simplicidade inicial e a facilidade de gerenciamento podem acelerar o desenvolvimento e a entrega de software.
+
+No entanto, à medida que as aplicações crescem em complexidade e escala, a transição para arquiteturas mais distribuídas, como microservices, pode ser necessária para garantir manutenção e escalabilidade eficientes.
+
+Entenda as necessidades específicas do seu projeto e as capacidades do seu time para tomar a decisão certa sobre qual arquitetura adotar.
+
+A arquitetura monolítica é um ponto de partida sólido, mas não deve ser vista como uma solução one-size-fits-all para todos os tipos de projeto.
+
+## Referências
+
+[https://microservices.io/patterns/monolithic.html](https://microservices.io/patterns/monolithic.html)

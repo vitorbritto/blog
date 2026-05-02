@@ -1,87 +1,77 @@
 ---
 title: "React: The Virtual DOM"
-excerpt: "How it works and why React uses it"
-coverImage: "/blog/react-virtual-dom.png"
-date: "2023-04-12"
-author:
-  name: "Vitor Britto"
-  picture: "/authors/vitor.png"
-categories: ["react", "javascript", "front-end"]
-tags: ["React", "JavaScript", "Virtual DOM", "Software Development"]
-tracks: []
-readTime: 4
-featured: false
+excerpt: "Como funciona e por que o React usa."
 ---
 
-The Virtual DOM is one of the main features of React. It is a JavaScript object that is basically an abstraction of the real DOM and is one of the main pieces for the high performance of the application.
+O Virtual DOM é uma das principais features do React. É um objeto JavaScript que basicamente é uma abstração do DOM real e uma das peças centrais para a alta performance da aplicação.
 
-In this article, we'll cover the Virtual DOM, exploring its benefits in React Applications.
+Neste artigo, vamos cobrir o Virtual DOM, explorando seus benefícios em aplicações React.
 
-## A brief context about the DOM
+## Um breve contexto sobre o DOM
 
-To understand the Virtual DOM and learn why React implements it, let's take a look on how the actual browser DOM works.
+Para entender o Virtual DOM e descobrir por que o React o implementa, vamos dar uma olhada em como o DOM real do browser funciona.
 
-When a user requests a web page, the browser receives an HTML document for that page from the server. The browser engine then constructs a tree-like structure from the HTML to show the user the requested page in the client.
+Quando um usuário faz uma requisição de uma página web, o browser recebe do servidor um documento HTML correspondente. A engine do browser então constrói uma estrutura em árvore a partir do HTML para mostrar ao usuário a página solicitada no client.
 
-This tree-like structure is called the Document Object Model, also known as the DOM. It is a structural representation of the web document as nodes and objects.
+Essa estrutura em árvore é chamada de Document Object Model, também conhecida como DOM. É uma representação estrutural do documento web em forma de nodes e objetos.
 
-The DOM serves as an interface for the web document so that JavaScript can access, manipulate, and programmatically interact with the document's content. For example, developers can use DOM APIs to add or remove elements, modify their appearance, and perform user actions on web elements.
+O DOM serve como uma interface para o documento web, de modo que o JavaScript possa acessar, manipular e interagir programaticamente com o conteúdo do documento. Por exemplo, os desenvolvedores podem usar APIs do DOM para adicionar ou remover elementos, modificar sua aparência e executar ações de usuário em elementos web.
 
-If you want to know more about DOM, I recommend that you check out the link above.
+Se você quiser saber mais sobre DOM, recomendo conferir o link abaixo.
 
 > DOM Enlightenment - [domenlightenment.com](https://domenlightenment.com)
 
-## The impacts of Repaint and Reflow
+## Os impactos de Repaint e Reflow
 
-Changing whatever information which was used to construct the render tree may result in one or both of the conditions above.
+Mudar qualquer informação que tenha sido usada para construir a render tree pode resultar em uma das condições abaixo (ou nas duas).
 
-- Reflow: when parts of the render tree (or the whole tree) need to be revalidated and the node dimensions recalculated.
-- Repaint: when parts of the screen need to be updated, either because of changes in geometric properties of a node or because of stylistic change, such as changing the background color.
+- Reflow: quando partes da render tree (ou a árvore inteira) precisam ser revalidadas e as dimensões dos nodes recalculadas.
+- Repaint: quando partes da tela precisam ser atualizadas, seja por mudanças nas propriedades geométricas de um node, seja por mudanças estilísticas, como alterar a cor de fundo.
 
 ### Reflow
 
-Reflow means re-calculating the positions and geometries of elements in the document, for the purpose of re-rendering part or all of the document. Because reflow is a user-blocking operation in the browser, it is useful for developers to understand how to improve reflow time and also to understand the effects of various document properties (DOM depth, CSS rule efficiency, different types of style changes) on reflow time. Sometimes reflowing a single element in the document may require reflowing its parent elements and also any elements which follow it.
+Reflow significa recalcular as posições e geometrias dos elementos no documento, com o propósito de re-renderizar parte ou todo o documento. Como o reflow é uma operação que bloqueia o usuário no browser, é útil os desenvolvedores entenderem como melhorar o tempo de reflow e também os efeitos de várias propriedades do documento (profundidade do DOM, eficiência de regras CSS, diferentes tipos de mudanças de estilo) sobre o tempo de reflow. Às vezes, fazer reflow de um único elemento no documento pode exigir reflow dos seus elementos pais e também de quaisquer elementos que o sigam.
 
 ### Repaint
 
-Repaint means the repainting element on the screen as the skin of element change which affects the visibility of an element but do not affects layout.
+Repaint significa repintar o elemento na tela quando a aparência do elemento muda, afetando a visibilidade dele, mas não afetando o layout.
 
-Things that would trigger a repaint:
+Coisas que disparariam um repaint:
 
-- change the visibility of an element;
-- change an outline of the element;
-- change the background color.
+- mudar a visibilidade de um elemento;
+- mudar o outline do elemento;
+- mudar a cor de fundo.
 
-## Virtual DOM for the rescue
+## Virtual DOM ao resgate
 
-The strategy of reducing and baching DOM changes taken to another level of abstraction is the idea behind React's Virtual DOM.
+A estratégia de reduzir e agrupar mudanças no DOM, levada a outro nível de abstração, é a ideia por trás do Virtual DOM do React.
 
-React doesn't really do anything new. It's just a strategic move. It stores a replica of real DOM in memory. When you modify the DOM, it first applies these changes to the in-memory DOM and using it's diffing algorithm, figures out what has really changed.
+O React não está realmente fazendo nada novo. É só uma jogada estratégica. Ele guarda uma réplica do DOM real em memória. Quando você modifica o DOM, o React aplica primeiro essas mudanças no DOM em memória e, usando seu diffing algorithm, descobre o que realmente mudou.
 
-Finally, it batches the changes and call applies them on real-dom in one go. Thus, minimizing the re-flow and re-paint.
+Por fim, ele agrupa as mudanças e as aplica no DOM real de uma só vez. Assim, minimizando o reflow e o repaint.
 
-Essentially, the virtual DOM provides a mechanism that allows the actual DOM to compute minimal DOM operations when re-rendering the UI.
+Essencialmente, o virtual DOM oferece um mecanismo que permite ao DOM real computar operações mínimas no DOM ao re-renderizar a UI.
 
-It allows you to update a view whenever state changes by creating a full representation of the view and then patching the DOM efficiently to look exactly as you described it.
+Ele permite que você atualize uma view sempre que o state muda, criando uma representação completa da view e então fazendo patch no DOM de forma eficiente para que ele fique exatamente como você descreveu.
 
-For example, when an element in the real DOM is changed, the DOM will re-render the element and all of its children. When it comes to building complex web applications with a lot of interactivity and state changes, this approach is slow and inefficient.
+Por exemplo, quando um elemento no DOM real é alterado, o DOM vai re-renderizar o elemento e todos os seus filhos. Quando se trata de construir aplicações web complexas com bastante interatividade e mudanças de state, essa abordagem é lenta e ineficiente.
 
-Instead, in the rendering process, React employs the concept of the virtual DOM, which conforms with its declarative approach. Therefore, we can specify what state we want the UI to be in, after which React makes it happen.
+Em vez disso, no processo de renderização, o React usa o conceito de virtual DOM, que se alinha com sua abordagem declarativa. Assim, podemos especificar em qual state queremos que a UI esteja, e depois o React faz isso acontecer.
 
-## How React implements the Virtual DOM
+## Como o React implementa o Virtual DOM
 
-When we render an application user interface, React creates a virtual DOM tree representing that UI and stores it in memory. On the next update, when the data that renders the app changes, React will automatically create a new virtual DOM tree for the update.
+Quando renderizamos a interface do usuário de uma aplicação, o React cria uma virtual DOM tree representando aquela UI e a guarda em memória. Na próxima atualização, quando os dados que renderizam o app mudam, o React vai automaticamente criar uma nova virtual DOM tree para a atualização.
 
-![Virtual DOM](/blog/virtual-dom.png)
+![Virtual DOM](/blog/articles/img_69_2.png)
 
-After React creates the new virtual DOM tree, it compares it to the previous snapshot using a diffing algorithm called reconciliation to figure out what changes are necessary.
+Depois que o React cria a nova virtual DOM tree, ele a compara com o snapshot anterior usando um diffing algorithm chamado reconciliation para descobrir quais mudanças são necessárias.
 
-After the reconciliation process, React uses a renderer library like ReactDOM, which takes the difference information to update the rendered app. This library ensures that the actual DOM only receives and repaints the updated node or nodes.
+Após o processo de reconciliation, o React usa uma renderer library como o ReactDOM, que pega as informações do diff para atualizar o app renderizado. Essa biblioteca garante que o DOM real só receba e repinte o node ou nodes atualizados.
 
-In summary, on every render, React compares the virtual DOM tree with the previous version to determine which node gets updated, ensuring that the updated node matches up with the actual DOM.
+Em resumo, a cada render, o React compara a virtual DOM tree com a versão anterior para determinar qual node será atualizado, garantindo que o node atualizado esteja em sintonia com o DOM real.
 
-## Conclusion
+## Conclusão
 
-React uses the virtual DOM as a strategy to compute minimal DOM operations when re-rendering the UI.
+O React usa o virtual DOM como uma estratégia para computar operações mínimas no DOM ao re-renderizar a UI.
 
-The virtual DOM provides a mechanism that abstracts manual DOM manipulations away from the developer, helping us to write more predictable code. It does so by comparing two render trees to determine exactly what has changed, only updating what is necessary on the actual DOM.
+O virtual DOM oferece um mecanismo que abstrai manipulações manuais do DOM, longe do desenvolvedor, ajudando a escrever um código mais previsível. Ele faz isso comparando duas render trees para determinar exatamente o que mudou, atualizando apenas o necessário no DOM real.

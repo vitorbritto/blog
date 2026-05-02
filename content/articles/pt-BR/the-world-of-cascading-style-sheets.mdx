@@ -1,6 +1,295 @@
 ---
 title: "O mundo do Cascading Style Sheets"
-excerpt: "Um guia de início rápido para o CSS."
+excerpt: "Um guia rápido para iniciantes em CSS."
 ---
 
-🚧 A tradução deste artigo está em andamento.
+CSS é a linguagem de estilização que transforma a estrutura simples do HTML em páginas web visualmente atraentes e interativas.
+
+Em sua essência, o CSS opera sobre um conceito enganosamente simples: seletores identificam elementos HTML e propriedades ditam como esses elementos devem aparecer.
+
+Essa sintaxe aparentemente direta esconde um universo de possibilidades de design, indo de criar layouts responsivos a animar elementos da página.
+
+## Aplicando CSS
+
+Existem três formas de aplicar CSS ao HTML: inline, internal e external.
+
+### Inline CSS
+
+É usado para aplicar estilos diretamente a elementos HTML individuais usando o atributo `style`. Esse método permite adicionar estilos específicos a um único elemento sem precisar escrever um arquivo CSS separado ou um bloco `<style>`.
+
+```html
+<p style="color: blue; font-size: 20px;">
+  This is a blue paragraph with inline CSS.
+</p>
+```
+
+### Internal CSS
+
+Envolve colocar suas regras CSS dentro de uma tag `<style>` na seção `<head>` do seu documento HTML. Esse método é útil para aplicar estilos a um único documento HTML.
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      p {
+        color: green;
+        font-size: 18px;
+      }
+    </style>
+  </head>
+  <body>
+    <p>This is a green paragraph with internal CSS.</p>
+  </body>
+</html>
+```
+
+### External CSS
+
+Quando seu CSS está separado em um arquivo `.css` e é referenciado a partir do seu documento HTML usando a tag `<link>` na seção `<head>`. Esse método é a forma mais eficiente e escalável de aplicar estilos a múltiplos documentos HTML.
+
+Arquivo HTML (`index.html`):
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+  </head>
+  <body>
+    <p class="main-text">This is a paragraph styled with external CSS.</p>
+  </body>
+</html>
+```
+
+Arquivo CSS (`styles.css`):
+
+```css
+.main-text {
+  color: red;
+  font-size: 16px;
+}
+```
+
+Cada método tem seus próprios casos de uso e vantagens, e frequentemente uma combinação desses métodos é usada no desenvolvimento web para alcançar a estilização e a manutenibilidade desejadas.
+
+### Entendendo o básico do CSS
+
+#### Seletores
+
+Seletores são patterns usados para selecionar os elementos que você quer estilizar. Podem ser simples, focando em elementos específicos, ou mais complexos, focando em elementos com base em atributos, states ou em sua relação com outros elementos.
+
+**Element Selector**: seleciona todos os elementos de um tipo específico.
+
+```css
+p {
+  /* estilos para todos os elementos <p> */
+}
+```
+
+**Class Selector**: seleciona todos os elementos com um atributo class específico.
+
+```css
+.example {
+  /* estilos para elementos com class="example" */
+}
+```
+
+**ID Selector**: seleciona um elemento com um atributo ID específico.
+
+```css
+#unique {
+  /* estilos para o elemento com id="unique" */
+}
+```
+
+**Attribute Selector**: seleciona elementos com um atributo específico.
+
+```css
+[type="text"] {
+  /* estilos para elementos com o atributo type="text" */
+}
+```
+
+**Pseudo-Class Selector**: seleciona elementos com base no seu state.
+
+```css
+a:hover {
+  /* estilos para elementos <a> quando hovered */
+}
+```
+
+**Combinators**: selecionam elementos com base na sua relação com outros elementos.
+
+```css
+div > p {
+  /* estilos para elementos <p> que são filhos diretos de elementos <div> */
+}
+```
+
+#### Propriedades
+
+Propriedades são os aspectos de um elemento que você quer alterar. Elas definem que tipo de estilo será aplicado aos elementos selecionados.
+
+Para cada seletor, há "propriedades" dentro das chaves, que assumem a forma de palavras como `color`, `font-size`, `margin` ou `padding`.
+
+Aqui estão algumas delas:
+
+- `color`: define a cor do texto de um elemento.
+- `font-size`: define o tamanho da fonte.
+- `margin`: define o espaço ao redor de um elemento.
+- `padding`: define o espaço dentro de um elemento, entre o conteúdo e a borda.
+- `border`: define a borda ao redor de um elemento.
+- `background-color`: define a cor de fundo de um elemento.
+
+#### Valores
+
+Valores são as configurações que você aplica às propriedades. Eles especificam como os estilos devem ser aplicados.
+
+**Valores de cor**:
+
+```css
+color: red; /* keyword value */
+color: #ff0000; /* hex value */
+color: rgb(255, 0, 0); /* RGB value */
+```
+
+**Valores de tamanho**:
+
+```css
+font-size: 16px; /* pixels */
+margin: 1em; /* unidades em */
+```
+
+**Valores de keyword**:
+
+```css
+display: block;
+position: absolute;
+```
+
+**Valores percentuais**:
+
+```css
+width: 50%;
+```
+
+**Valores de URL**:
+
+```css
+background-image: url("image.jpg");
+```
+
+#### Juntando tudo
+
+Aqui está um exemplo que combina seletores, propriedades e valores:
+
+```css
+/* Seletor focando em todos os elementos <p> */
+p {
+  color: blue; /* Propriedade: color, Valor: blue */
+  font-size: 16px; /* Propriedade: font-size, Valor: 16px */
+  margin: 10px; /* Propriedade: margin, Valor: 10px */
+} /* Seletor focando em elementos com class="example" */
+.example {
+  background-color: yellow; /* Propriedade: background-color, Valor: yellow */
+  padding: 20px; /* Propriedade: padding, Valor: 20px */
+} /* Seletor focando no elemento com id="unique" */
+#unique {
+  border: 1px solid black; /* Propriedade: border, Valor: 1px solid black */
+}
+```
+
+Em resumo:
+
+- Seletores determinam quais elementos HTML estilizar.
+- Propriedades especificam quais estilos aplicar.
+- Valores definem as configurações específicas para essas propriedades.
+
+#### Box Model
+
+Dominar o Box Model é fundamental. Cada elemento HTML pode ser visualizado como uma caixa com content, padding, border e margin.
+
+Manipular esses componentes permite controle preciso sobre layout e espaçamento.
+
+```css
+.box {
+  width: 200px;
+  padding: 20px;
+  border: 2px solid #ccc;
+  margin: 10px;
+}
+```
+
+### Criando layouts com CSS
+
+Criar layouts com CSS vai além de organizar elementos em uma página web; é orquestrar uma experiência de usuário fluida e esteticamente agradável. O CSS oferece aos desenvolvedores modelos de layout versáteis, entre os quais Flexbox e Grid se destacam como ferramentas poderosas que redefinem como pensamos design web.
+
+#### Flexbox
+
+Flexbox é um modelo de layout poderoso que simplifica o processo de design de layouts complexos e responsivos. Ao definir um container como `display: flex`, você pode controlar o alinhamento, a distribuição e a ordem dos seus filhos.
+
+```css
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+```
+
+#### Grid
+
+CSS Grid oferece um sistema de layout bidimensional, permitindo designs mais intricados. Defina um grid container e o layout de suas colunas e linhas.
+
+```css
+.container {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-gap: 10px;
+}
+```
+
+### Responsive Web Design
+
+#### Media Queries
+
+Criar sites que se adaptem a vários tamanhos de tela é essencial. Media queries permitem aplicar estilos específicos com base nas características do dispositivo.
+
+```css
+@media only screen and (max-width: 600px) {
+  /* Estilos para telas de 600px ou menores */
+  body {
+    font-size: 14px;
+  }
+}
+```
+
+#### Abordagem Mobile-First
+
+Adotar uma mentalidade mobile-first envolve projetar primeiro para telas menores e, em seguida, aprimorar progressivamente para telas maiores. Isso garante uma experiência fluida em todos os dispositivos.
+
+```css
+/* Estilos default para todas as telas */
+body {
+  font-size: 16px;
+}
+```
+
+```css
+/* Estilos adicionais para telas de 600px ou maiores */
+@media only screen and (min-width: 600px) {
+  body {
+    font-size: 18px;
+  }
+}
+```
+
+## Conclusão
+
+À medida que você mergulha fundo na sua jornada com CSS, lembre-se de que experimentação e prática são as chaves para a maestria. O CSS oferece o toque estético que transforma código em sites cativantes. Abrace os desafios, mantenha a curiosidade e continue explorando as vastas possibilidades que o CSS revela no campo do desenvolvimento web.
+
+Happy coding! 😄
+
+## Referências
+
+- https://www.w3.org/Style/CSS/Overview.en.html
+- https://developer.mozilla.org/pt-BR/docs/Web/CSS

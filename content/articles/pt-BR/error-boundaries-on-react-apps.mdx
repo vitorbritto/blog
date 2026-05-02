@@ -1,6 +1,60 @@
 ---
-title: "Error Boundaries em Aplicações React"
-excerpt: "Evitando experiências ruins para o usuário."
+title: "Error Boundaries em aplicações React"
+excerpt: "Falhando com elegância e evitando experiências ruins para o usuário."
 ---
 
-🚧 A tradução deste artigo está em andamento.
+Há um problema comum quando você está construindo uma aplicação JavaScript: erros de JavaScript acontecem a qualquer momento, em qualquer página, e quando acontecem, quebram a aplicação inteira. Isso não é uma boa experiência para os usuários.
+
+Os erros podem acontecer de várias formas. Por exemplo, quando você está esperando um array vindo da API e itera sobre ele sem checar se contém dados ou não.
+
+Em uma aplicação React, podemos lidar com isso de duas maneiras: usando try-catch (só funciona com código imperativo) e usando Error Boundary.
+
+Usar o bloco try-catch dentro do componente é OK, mas imagine fazer isso para todos os componentes que lidam com uma regra de negócio ou data fetching de uma API. Vai ser muito exaustivo lidar dessa forma. Na minha opinião, o ideal é guiar o state do seu componente para tratar esses side effects.
+
+Por exemplo:
+
+```js
+// O componente "Feature" tem um Initial State como:
+state = { isLoading: true, hasError: false, data: null };
+// Se 'hasError' estiver como "true",
+// o componente vai renderizar uma mensagem apropriada.
+```
+
+## Introdução ao Error Boundary
+
+Error boundaries foram introduzidos no React 16 como uma forma de capturar e tratar erros de JavaScript que ocorrem nas partes da UI dos nossos componentes. Então, error boundaries só capturam erros que ocorrem em um lifecycle method, no método render e dentro de Hooks como o `useEffect`.
+
+O que compõe um Error Boundary Component?
+
+Duas ou três coisas simples:
+
+- um class component
+- os lifecycle methods `static getDerivedStateFromError()`
+- ou `componentDidCatch()`.
+
+O `static getDerivedStateFromError()` é usado para renderizar uma fallback UI depois que um erro foi disparado, e o `componentDidCatch()` para logar informações do erro.
+
+De acordo com a documentação do React, error boundaries não tratam erros em:
+
+- Event handlers
+- Código assíncrono (ex.: callbacks de `setTimeout` ou `requestAnimationFrame`)
+- Server-side rendering
+- Erros disparados no próprio error boundary (em vez de nos seus filhos)
+
+Então, basicamente, error boundaries só tratam erros nas partes do nosso código que envolvem React.
+
+Aqui está um Error Boundary Component de exemplo que captura erros nos componentes filhos. Temos um lifecycle method `componentDidCatch` no qual você pode até logar os erros e enviá-los para uma API de back-end. Você pode fornecer qualquer componente de UI a ser exibido em vez de erros estranhos de JavaScript na tela.
+
+Você pode colocar o `AppError` Component acima em qualquer nível da árvore de componentes.
+
+## Resumo
+
+- Blocos `try/catch` não capturam erros dentro de hooks como `useEffect` e dentro de qualquer componente filho
+- O ErrorBoundary pode capturá-los, mas não captura erros em código assíncrono e em event handlers
+- Ainda assim, você pode fazer o ErrorBoundary capturar esses casos — basta capturá-los com `try/catch` primeiro e então re-disparar para o lifecycle do React
+
+## Conclusão
+
+Incorporar Error Boundary na sua aplicação React leva a um tratamento de erros mais robusto, debug mais fácil e um produto final melhor.
+
+Isso pode oferecer uma UX muito melhor do que ter a aplicação quebrando ou exibindo uma tela em branco.

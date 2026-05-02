@@ -1,14 +1,102 @@
 ---
-title: "The EcmaScript journey"
-excerpt: "The changes and benefits of the JavaScript Language"
-coverImage: ""
-date: Apr 21, 2023
-author:
-  name: "Vitor Britto"
-  picture: "/authors/vitor.jpg"
-categories: []
-tags: []
-tracks: []
-readTime: 6
-featured: false
+title: "A jornada do EcmaScript"
+excerpt: "As mudanças e os benefícios da linguagem JavaScript ao longo dos anos."
 ---
+
+As mudanças e os benefícios da linguagem JavaScript
+
+## Onde tudo começa
+
+A primeira release do EcmaScript foi padronizada pela Ecma International como um esforço de padronização para o JavaScript, que é uma linguagem popular de scripting client-side. A primeira versão do EcmaScript, conhecida como ES 1.0, foi lançada em junho de 1997.
+
+A ECMA (European Computer Manufacturers Association) era uma associação comercial da indústria de computação responsável por desenvolver padrões para várias tecnologias. Nos anos 1990, a Netscape Communications Corporation estava desenvolvendo o JavaScript como uma linguagem de scripting client-side para browsers. Para tornar o JavaScript uma linguagem padronizada, a Netscape submeteu o JavaScript à Ecma para padronização.
+
+Em março de 1996, a Ecma formou o Technical Committee 39 (TC39) para trabalhar no desenvolvimento do padrão para JavaScript, o que finalmente resultou na release do EcmaScript 1.0.
+
+O EcmaScript 1.0 é uma versão básica do JavaScript que incluía features como tipos primitivos, funções, expressões e instruções condicionais. Também incluía métodos de Date, matemáticos e de tratamento de erros.
+
+O EcmaScript 1.0 foi um esforço de padronização significativo, que ajudou a consolidar o lugar do JavaScript como uma das linguagens de scripting mais amplamente usadas na web. Com sua sintaxe e features padronizadas, o EcmaScript 1.0 ajudou a promover a interoperabilidade cross-platform e a aumentar a confiabilidade geral dos programas em JavaScript.
+
+A release do EcmaScript 1.0 marcou o início de uma nova era no desenvolvimento web, em que o JavaScript se tornou uma ferramenta essencial para construir aplicações web dinâmicas e interativas. Com o tempo, o padrão continuou a evoluir, com releases subsequentes introduzindo novas features e melhorias na linguagem.
+
+## Os primeiros passos
+
+O EcmaScript 2 (ES2) foi lançado em junho de 1998 como uma versão atualizada do padrão inicial do EcmaScript, ES1, com algumas pequenas atualizações e mudanças editoriais.
+
+O EcmaScript 3 (ES3) foi lançado em 2000. Introduziu várias features importantes, incluindo o statement `try / catch / finally`, Regular Expressions e a capacidade de definir funções usando tanto a sintaxe de function declaration quanto a de function expression.
+
+No ES3, objetos são definidos usando o pattern de constructor function. Esse pattern envolve definir uma função que atua como construtor para o objeto e usar a keyword `new` para criar novas instâncias do objeto. Essa abordagem ainda é amplamente usada na programação JavaScript moderna.
+
+Uma das principais limitações do ES3 é a falta de suporte para construções modernas de programação, como classes e modules. Também tem alguns esquisitices e inconsistências, como o uso do statement `with` e variáveis globais implícitas, que podem dificultar a escrita de código manutenível.
+
+Apesar de sua idade e limitações, o ES3 continua sendo uma parte importante da linguagem JavaScript e ainda é usado extensivamente em codebases legadas e em aplicações web mais antigas. Engines de JavaScript modernas continuam suportando a sintaxe do ES3, junto com versões mais recentes da linguagem.
+
+## A release que falhou
+
+O EcmaScript 4 (ES4) foi proposto pela primeira vez em 2007 e seu desenvolvimento continuou até 2008, quando foi oficialmente abandonado com a release do ES3.1.
+
+O ES4 foi projetado para introduzir mudanças e melhorias significativas na linguagem ECMAScript, incluindo um modelo de objetos mais poderoso, melhor suporte para tipagem dinâmica e estática e um sistema de modules para melhor encapsulamento e reuso de código. Também incluía nova sintaxe, como ponto-e-vírgula opcional e um novo loop `for-in`.
+
+No entanto, o desenvolvimento do ES4 foi atormentado por desentendimentos entre diferentes stakeholders, incluindo browser vendors, e as mudanças propostas foram vistas por alguns como radicais e complexas demais. Isso, no fim, levou ao seu abandono e à decisão de focar em atualizações incrementais ao padrão ES3 existente, levando à release do ES5 em 2009.
+
+## O início de uma revolução na linguagem
+
+O EcmaScript 5, também conhecido como ES5, foi lançado em 2009.
+
+Algumas das mudanças mais significativas introduzidas no ES5 incluem aprimoramentos na sintaxe do JavaScript e suporte para JSON.
+
+O Strict mode, introduzido no ES5, permite aos desenvolvedores optar por um conjunto mais estrito de regras para seu código, possibilitando evitar armadilhas comuns do JavaScript e melhorar a qualidade do código. Essa feature permite aos desenvolvedores capturar erros cedo no desenvolvimento, e também encoraja melhores hábitos de programação e práticas de codificação mais seguras.
+
+Outra feature útil são as funções getter e setter, que permitem aos desenvolvedores definir um par de funções que possibilitam a manipulação das propriedades de um objeto. Getters recuperam o valor de uma propriedade, e setters permitem a modificação desse valor. Essa feature ajuda a simplificar o código e reduz a necessidade de escrever boilerplate code.
+
+O ES5 também inclui suporte aprimorado para JSON, que permite aos desenvolvedores serializar dados em um formato padrão que pode ser facilmente transferido pela internet. Essa feature se tornou incrivelmente popular, pois permite aos desenvolvedores trabalhar com dados trocados em APIs, aplicações web e outros cenários.
+
+Pouco depois, o EcmaScript 5.1 foi lançado em 2011 e foi considerado uma parte crítica do ecossistema de desenvolvimento web.
+
+Algumas das principais features do EcmaScript 5.1 incluem suporte aprimorado para programação orientada a objetos, melhor reporte de erros, modo de interpretação mais estrito e mais.
+
+Uma vantagem significativa do EcmaScript 5.1 é sua compatibilidade retroativa com versões anteriores do EcmaScript, o que facilita para os desenvolvedores migrarem seu código para o novo padrão. Sua ampla adoção e compatibilidade o tornam uma escolha popular para projetos de desenvolvimento web, e é suportado por todos os principais browsers.
+
+## O JavaScript revela seu poder
+
+O EcmaScript 6 (ES6), também conhecido como ECMAScript 2015, foi a sexta release principal da especificação da linguagem ECMAScript. Ele introduz muitas novas features e melhorias de sintaxe para tornar o código JavaScript mais conciso, legível e manutenível.
+
+Vamos dar uma olhada nas principais features introduzidas no ES6.
+
+- Arrow Functions: permitem aos desenvolvedores escrever expressões de função de forma mais concisa, oferecendo uma sintaxe abreviada para escrever funções com retornos simples.
+- Variáveis como `let` e `const`: oferecem escopo de bloco para variáveis, o que melhora a legibilidade geral e a manutenibilidade do código.
+- Template Literals: permitem aos desenvolvedores criar strings mais legíveis e expressivas embutindo expressões diretamente em string literals.
+- Classes: oferecem uma sintaxe mais intuitiva e estruturada para criar objetos e definir seu comportamento, levando a um código mais limpo e manutenível.
+- Destructuring: permite aos desenvolvedores desempacotar valores de arrays ou objetos com mais facilidade, tornando mais fácil trabalhar com estruturas de dados complexas.
+- Promises: oferecem uma sintaxe mais limpa e estruturada para lidar com operações assíncronas, facilitando escrever código manutenível que lida com operações complexas.
+
+## JavaScript com mais esteróides
+
+A partir do EcmaScript 6, o JavaScript ganhou mais poder e se tornou ainda mais prático para escrever código elegante, reutilizável e limpo.
+
+Algumas das features são:
+
+- Método `Array.prototype.includes()`: este método permite checar se um array contém certo elemento ou não.
+- Operador de exponenciação: este operador (`**`) permite realizar operações de exponenciação de forma mais concisa e legível.
+- Object initialization shorthand: esta feature permite declarar propriedades e valores de objeto de forma mais concisa e eficiente.
+- Async functions: async functions simplificam a programação assíncrona ao permitir escrever código assíncrono em um estilo síncrono.
+- Shared memory: esta feature permite que múltiplas threads JavaScript compartilhem o mesmo espaço de memória, possibilitando uma execução de código mais rápida e eficiente.
+- Atomics: esta feature oferece um conjunto de operações atômicas, permitindo acesso seguro à memória compartilhada por múltiplas threads.
+- String padding: esta feature oferece dois novos métodos (`padStart` e `padEnd`) para preencher strings com caracteres.
+- `Object.values`/`Object.entries`: esses métodos permitem iteração mais fácil sobre os values e entries de um objeto, respectivamente.
+
+## Conclusão
+
+Entender a história de uma linguagem de programação é muito importante. Faz com que você entenda os prós e contras, o que foi proposto para melhoria e o que pode ser útil na construção dos seus projetos.
+
+Conheça a essência da linguagem de programação com a qual você trabalha.
+
+Entenda como todas as peças funcionam juntas para que você possa construir coisas incríveis.
+
+## Referências
+
+- EcmaScript 1: https://www.ecma-international.org/wp-content/uploads/ECMA-262_1st_edition_june_1997.pdf
+- EcmaScript 2: https://www-archive.mozilla.org/js/language/E262-2.pdf
+- EcmaScript 3: https://www-archive.mozilla.org/js/language/e262-3.pdf
+- EcmaScript 4: https://www-archive.mozilla.org/js/language/old-es4
+- EcmaScript 5.1+: https://www.ecma-international.org/publications-and-standards/standards/ecma-262/

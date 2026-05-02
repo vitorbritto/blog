@@ -1,6 +1,105 @@
 ---
-title: "Entendendo a segurança da web"
+title: "Entendendo Web Security"
 excerpt: "O guia do guardião para o desenvolvimento de software."
 ---
 
-🚧 A tradução deste artigo está em andamento.
+Com a crescente dependência da internet em todas as esferas da vida, de transações bancárias a comunicações pessoais, a web security se tornou uma preocupação importante para indivíduos, empresas e governos.
+
+A rápida evolução das tecnologias da informação e a sofisticação dos ataques cibernéticos apresentam desafios constantes para a proteção de dados e da privacidade online.
+
+## Desafios de Web Security
+
+1. Vulnerabilidades de software: aplicações web são frequentemente alvo de ataques devido a vulnerabilidades em seu código. SQL injection, Cross-Site Scripting (XSS) e Cross-Site Request Forgery (CSRF) estão entre as ameaças mais comuns que exploram falhas de segurança em software web.
+2. Phishing e Engenharia Social: ataques de phishing visam enganar os usuários para que revelem informações confidenciais, como senhas e detalhes de cartão de crédito, através de e-mails forjados ou sites fraudulentos. A engenharia social também é usada para manipular indivíduos a fim de obter acesso não autorizado a sistemas ou informações.
+3. Identity and Access Management: o controle inadequado sobre quem tem acesso a sistemas e dados sensíveis pode levar a brechas de segurança. Senhas fracas, falta de autenticação de dois fatores e políticas de acesso frouxas são fatores que aumentam o risco de comprometimento da segurança.
+4. Ataques DDoS: ataques de Distributed Denial of Service (DDoS) sobrecarregam servidores web com tráfego malicioso, tornando os serviços inacessíveis para usuários legítimos. Esses ataques podem ter um impacto significativo na disponibilidade e na confiabilidade de sites e aplicações.
+
+## Estratégias para aprimorar Web Security
+
+Seguindo algumas boas práticas, você pode aprimorar significativamente a segurança das suas aplicações web e protegê-las contra ameaças e vulnerabilidades comuns.
+
+Aqui está uma lista que você deve considerar.
+
+Uso de HTTPS
+Implementar o protocolo HTTPS garante uma comunicação segura entre o browser do usuário e o servidor web, protegendo os dados transmitidos por meio de criptografia. Certificados SSL/TLS devem ser usados para autenticar a identidade do servidor e garantir a integridade da informação.
+
+## Atualizações e Patches
+
+Manter todos os sistemas e aplicações web atualizados com as últimas correções de segurança é essencial para mitigar vulnerabilidades conhecidas. Isso inclui o sistema operacional, web servers, bancos de dados e qualquer software de terceiros usado no desenvolvimento da aplicação.
+
+## Princípio do Menor Privilégio
+
+Os princípios de segurança do "princípio do menor privilégio" exigem que os usuários tenham apenas as permissões necessárias para realizar suas tarefas. Isso reduz o potencial de dano causado por contas comprometidas ou acesso não autorizado.
+
+## Filtragem de Input e Output
+
+Validar e sanitizar todos os dados de input recebidos dos usuários é crítico para evitar ataques de injeção de código, como SQL injection e XSS. Além disso, implementar medidas de segurança para controlar o output de dados é importante para evitar vazamentos de informações sensíveis.
+
+## Conscientização e Treinamento
+
+Educar os usuários sobre práticas seguras na web e o reconhecimento de ameaças, como phishing, é uma estratégia eficaz para fortalecer a segurança. Treinamentos regulares de cybersecurity podem ajudar a promover uma cultura de segurança dentro de organizações e comunidades.
+
+## HTTPS: garantindo comunicações web seguras
+
+HTTPS (Hypertext Transfer Protocol Secure) é uma extensão do protocolo HTTP que usa criptografia para garantir a segurança das comunicações entre o browser do usuário e o servidor web. Ele protege contra interceptação de dados por terceiros, garantindo a integridade e a confidencialidade das informações transmitidas pela internet.
+
+O HTTPS é amplamente adotado em sites que lidam com informações sensíveis, como transações financeiras, informações pessoais e credenciais de login. Ele usa o protocolo SSL/TLS (Secure Sockets Layer/Transport Layer Security) para estabelecer uma conexão segura entre o client e o servidor. Isso é feito através da troca de certificados digitais, que autenticam a identidade do servidor e criam uma chave de sessão criptografada para proteger os dados transmitidos.
+
+## Como funciona
+
+O HTTPS (Hypertext Transfer Protocol Secure) funciona como uma camada adicional de segurança sobre o protocolo HTTP (Hypertext Transfer Protocol) usado para comunicação entre um browser e um servidor. O principal objetivo do HTTPS é garantir a segurança das informações transmitidas pela internet, protegendo contra a interceptação de dados por terceiros.
+
+Explicação simplificada do fluxo
+Quando um client (geralmente um browser) faz uma request de uma página web por meio de uma conexão HTTPS, o servidor responde enviando seu certificado digital. Esse certificado contém uma chave pública.
+
+O client verifica a autenticidade do certificado digital do servidor. Isso é feito usando uma cadeia de certificados de Autoridades Certificadoras (CAs) confiáveis, que garantem a validade e a autenticidade do certificado do servidor. Se o certificado for considerado válido, o client pode confiar na identidade do servidor.
+
+Uma vez autenticados, o client e o servidor iniciam um processo de acordo de chaves. Isso envolve trocar informações para determinar uma chave de sessão compartilhada que será usada para criptografar e descriptografar os dados durante a sessão.
+
+Com a chave de sessão estabelecida, o client e o servidor usam algoritmos de criptografia para proteger a comunicação entre eles. Todos os dados transmitidos durante a sessão HTTPS são criptografados antes de serem enviados e descriptografados ao serem recebidos, garantindo que apenas o client e o servidor possam acessar a informação.
+
+Além da criptografia, o HTTPS também garante a integridade dos dados transmitidos. Isso é feito usando Message Authentication Codes (MACs) ou algoritmos de hash para verificar se os dados não foram alterados durante a transmissão.
+
+Fluxo de comunicação HTTPS
+
+## OWASP: protegendo Web Apps de ameaças
+
+OWASP (Open Web Application Security Project) é uma comunidade global dedicada a melhorar a segurança de software. Ela oferece recursos, ferramentas e diretrizes para ajudar as organizações a identificar e mitigar as principais vulnerabilidades em aplicações web. O projeto OWASP mantém uma lista das 10 principais vulnerabilidades de segurança em aplicações web, conhecida como "OWASP Top 10", que inclui ameaças como SQL injection, cross-site scripting (XSS) e broken authentication.
+
+Seguindo as recomendações do OWASP e adotando práticas de desenvolvimento seguro, as organizações podem reduzir o risco de ataques cibernéticos e proteger suas aplicações web da exploração de vulnerabilidades.
+
+## Content Security Policy
+
+CSP (Content Security Policy) é uma camada adicional de segurança que ajuda a mitigar XSS e outros ataques de injeção de código. Ele permite que os donos de sites especifiquem quais fontes de conteúdo são consideradas legítimas, restringindo o carregamento de recursos de fontes não confiáveis. Com uma política de CSP apropriada, os desenvolvedores podem reduzir o risco de execução de scripts maliciosos e proteger os usuários contra ataques de manipulação de conteúdo.
+
+Implementar uma política de CSP envolve definir diretrizes claras sobre que tipos de conteúdo podem ser carregados em uma página web e quais origens são consideradas seguras. Isso pode incluir restrições sobre origens de scripts, imagens, fontes e outros recursos embutidos em uma página.
+
+Veja o diagrama abaixo de como o CSP funciona em poucas palavras.
+
+CSP em ação
+
+## Cross-Origin Resource Sharing
+
+CORS (Cross-Origin Resource Sharing) é um mecanismo de segurança que controla como os browsers permitem que scripts em uma página acessem recursos de origens diferentes. É projetado para mitigar riscos de segurança associados ao compartilhamento de recursos entre origens, protegendo contra ataques de cross-site scripting (XSS) e cross-origin request forgery (CSRF).
+
+Configurando políticas de CORS apropriadas, os desenvolvedores podem especificar quais origens são permitidas a acessar recursos de um domínio específico e quais tipos de requests são permitidos (ex.: GET, POST, PUT). Isso ajuda a evitar que scripts maliciosos explorem a confiança do browser para acessar dados sensíveis de outros domínios, protegendo a integridade e a privacidade das informações do usuário.
+
+Aqui está um fluxo básico entre um browser e dois servidores em que um servidor está fazendo uma request para outro servidor localizado em uma origem diferente.
+
+Fluxo de sequência CORS em múltiplas origens
+
+## Conclusão
+
+Web security é um desafio contínuo que exige uma abordagem multifacetada, envolvendo tecnologia, processos e conscientização.
+
+Adotando boas práticas de segurança, como implementação de HTTPS, atualizações regulares de software e conscientização do usuário, é possível reduzir significativamente o risco de ataques cibernéticos e proteger dados e privacidade online. No entanto, é importante reconhecer que web security é uma responsabilidade compartilhada e exige vigilância constante para acompanhar as ameaças em evolução e proteger sistemas e informações de forma eficaz.
+
+## Referências
+
+- https://en.wikipedia.org/wiki/HTTPS
+- https://en.wikipedia.org/wiki/Transport_Layer_Security
+- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
+- https://en.wikipedia.org/wiki/Cross-site_scripting
+- https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
+- https://en.wikipedia.org/wiki/Cross-site_request_forgery
+- https://owasp.org/

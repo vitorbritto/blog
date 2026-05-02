@@ -1,6 +1,121 @@
 ---
 title: "Code splitting no React"
-excerpt: "Como otimizar o desempenho e entregar melhores experiências para os usuários."
+excerpt: "Como otimizar a performance do seu app e entregar melhores experiências para os usuários."
 ---
 
-🚧 A tradução deste artigo está em andamento.
+Code splitting é uma forma de dividir seu código de um arquivo grande em bundles menores. Eles podem então ser requisitados sob demanda ou em paralelo.
+
+Não é um conceito novo, mas pode ser difícil de entender.
+
+Quando você está fazendo code splitting, é importante manter os bundle sizes de HTML, CSS e JavaScript o menor possível. Mas, frequentemente, à medida que as aplicações crescem, bundles maiores se tornam inevitáveis.
+
+Conforme uma aplicação cresce, sua complexidade também cresce, assim como os bundles de CSS, especialmente à medida que o número e o tamanho das bibliotecas aumentam. O bundle pode ser dividido em múltiplos arquivos menores para mitigar o download de todos os arquivos.
+
+## O cenário atual e o desejado
+
+Imagine que temos um único arquivo JavaScript enorme, mesclado, gerado pelo WebPack, e ele é responsável por carregar e disponibilizar tudo quando necessário (sempre 😅). O nome desse arquivo poderia ser `bundle.js`.
+
+Agora, imagine o quão pesado isso pode ficar à medida que nossa aplicação cresce.
+
+Sim, não vai ser nada performático.
+
+## Code Splitting ao resgate
+
+Code splitting é uma prática comum em aplicações React grandes, e o ganho de velocidade que ele oferece pode determinar se um usuário continua usando uma aplicação web ou a abandona. Economizar até frações de segundo pode ser significativo.
+
+## Como funciona o code splitting no React?
+
+A responsabilidade do Code-splitting é adaptar a aplicação para que apenas o que o usuário precisa em determinado momento seja carregado naquele momento. Esse trabalho de lazy loading vai trazer uma redução drástica na quantidade total de arquivos, além de uma otimização de performance. No geral, isso será uma melhoria de experiência para o usuário.
+
+Existem algumas alternativas, mas o foco deste artigo será nas funções `React.lazy()` e `React.Suspense()`.
+
+## A abordagem com Dynamic Imports
+
+Dynamic import é uma feature moderna do JavaScript que importa arquivos de forma semelhante a Promises. Alguns bundlers conseguem fazer parse de instruções de dynamic import nativamente, enquanto outros exigem alguma configuração. A sintaxe de dynamic import funciona tanto para static site generation quanto para server-side rendering.
+
+Dynamic imports usam a função `then` para importar apenas o código que é necessário. Qualquer chamada ao código importado precisa estar dentro dessa função.
+
+## Como funciona?
+
+Loadable components vêm prontos com uma função `Loadable()` para criar componentes assíncronos que podem ser importados dinamicamente em uma aplicação React. Embora funcione melhor para aplicações server-side rendered, ele aceita um fallback sem o componente Suspense. Loadable components usam a função `Loadable()` para injetar props em um componente e suportam importar componentes React dinamicamente.
+
+Veja o código abaixo.
+
+```jsx
+import { Routes, Route } from "react-router-dom";
+import loadable from "@loadable/component";
+import Home from "./scenes/Home";
+
+const LoadableScene = loadable((props) => import(`./scenes/${props.scene}`), {
+  fallback: <div>Loading...</div>,
+  cacheKey: (props) => props.scene,
+});
+
+export default function App() {
+  return (
+    <div className="App">
+      <h1>React Loadable Component</h1>
+      <Routes>
+        <Route path="/" element={<AppLayout />}>
+          <Route index element={<Home />} />
+          <Route
+            path="Gamification"
+            element={<LoadableScene scene="Gamification" />}
+          />
+        </Route>
+      </Routes>
+    </div>
+  );
+}
+```
+
+## Code splitting usando React.lazy e React.Suspense 🔥
+
+Por fim, vamos conferir a abordagem de code-splitting com `React.lazy()` e `React.Suspense()`.
+
+## A função React.lazy()
+
+A função `React.lazy()` permite renderizar um dynamic import como um componente comum. Basicamente, `React.lazy()` faz uma chamada para um dynamic import e retorna uma Promise. Isso pode ser visto abaixo:
+
+```jsx
+import React, { lazy } from "react";
+
+const Blog = React.lazy(() => import("./Scenes/Gamification"));
+```
+
+Veja que, no código acima, `React.lazy()` vai bundlar a página Gamification quando o componente for renderizado em uma página web. Quando a página é carregada, isso garante que um chunk de `Gamification.js` seja carregado quando o componente é renderizado.
+
+No React, lazy components geralmente são renderizados dentro de um componente Suspense, que nos permite mostrar conteúdo de fallback — na maioria das vezes, um ícone de loading — enquanto os usuários esperam um lazy component carregar.
+
+## A função React.Suspense()
+
+`React.Suspense` permite que os desenvolvedores React suspendam condicionalmente a renderização de um componente React até que ele esteja carregado. `React.Suspense` oferece uma prop `fallback` que aceita um React element, que pode ser um trecho de JSX ou um componente React.
+
+Quando os usuários visitam uma página que usa dynamic imports do React, frequentemente experimentam uma tela em branco — isso acontece enquanto a aplicação carrega o módulo, e também pode causar erros como resultado de uma conexão lenta com a internet para alguns usuários. `React.lazy` e `React.Suspense`, quando combinados, resolvem esse problema para os usuários.
+
+Para fazer isso, use `React.Suspense` para suspender a renderização de um componente até que todas as dependências sejam carregadas via lazy load. O `React.Suspense` também vai exibir sua fallback UI para o usuário.
+
+```jsx
+import React, { lazy, Suspense } from "react";
+
+const Home = lazy(() => import('./Scenes/Home'));
+const Gamification = lazy(() => import('./Scenes/Gamification');
+const Shopping = lazy(() => import('./Scenes/Shopping');
+
+const Routes = () => {
+return (
+
+<div>
+  <Suspense fallback={<Loading />}>
+    <Home />
+    <Gamification />
+    <Shopping />
+      </Suspense>
+    </div>
+  );
+};
+```
+
+## Conclusão
+
+Como você pode ver, code-splitting é um recurso muito útil quando se pensa em performance e em melhorar a experiência do usuário em aplicações React.

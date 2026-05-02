@@ -1,6 +1,32 @@
 ---
-title: "Integridade de código com verificadores de tipo"
-excerpt: "Como o TypeScript pode ajudar com tipos de dados."
+title: "Integridade de código com Type Checkers"
+excerpt: "Como o TypeScript pode te ajudar com tipos de dados."
 ---
 
-🚧 A tradução deste artigo está em andamento.
+A checagem de tipos no JavaScript, antes da introdução do TypeScript, era notoriamente flexível — o que era ao mesmo tempo uma bênção e uma maldição. JavaScript é uma linguagem fracamente tipada e dinâmica, o que significa que as variáveis não exigem declaração de tipo, e os tipos podem ser convertidos automaticamente conforme necessário durante a execução do código. Essa flexibilidade permite um desenvolvimento rápido e menos verboso, mas também pode levar a bugs difíceis de rastrear, já que erros de tipo só seriam descobertos em runtime.
+
+## Desafios com código JavaScript puro
+
+Sem checagem de tipos em compile time, os erros só são descobertos quando o código é executado. Isso pode levar a mais testes manuais e debugging para encontrar problemas de tipo. O código JavaScript pode se tornar difícil de manter e escalar, especialmente em projetos grandes, onde a falta de tipos explícitos torna o código mais difícil de entender e modificar. Refatorar código pode ser mais arriscado sem a garantia de que as mudanças não introduziram novos erros de tipo em outras partes do programa.
+
+## Type Checking com TypeScript
+
+O TypeScript foi introduzido pela Microsoft em 2012 como uma solução para muitos dos desafios associados à tipagem fraca do JavaScript. Ele é um superset do JavaScript que adiciona tipos estáticos opcionais. O TypeScript é transcompilado para JavaScript puro, o que significa que qualquer código JavaScript também é um código TypeScript válido.
+
+## Como o TypeScript pode ser útil
+
+Com TypeScript, os desenvolvedores podem detectar muitos erros de tipo durante a fase de compilação, antes mesmo de o código ser executado, melhorando a qualidade do código e reduzindo o tempo de debugging. Tipos explícitos tornam o código mais legível e fácil de entender, o que é especialmente benéfico em projetos grandes e colaborativos. A checagem de tipos do TypeScript oferece mais segurança ao refatorar, ajudando a garantir que mudanças não quebrem partes existentes do código. Com suporte a tipos, IDEs podem oferecer melhor autocomplete, navegação no código e funcionalidades de refatoração, melhorando a produtividade do desenvolvedor.
+
+## Boas práticas com TypeScript
+
+Embora o TypeScript permita inferência de tipos, declarar tipos explicitamente quando possível pode tornar o código mais claro e menos propenso a erros. Usar o tipo `any` desativa a checagem de tipos do TypeScript, perdendo muitos dos seus benefícios. Use tipos específicos sempre que possível. Utilizar Enums e Union Types pode ajudar a tornar o código mais expressivo e menos propenso a erros. Além disso, o TypeScript oferece recursos avançados como generics, namespaces e decorators, que podem ajudar a escrever código mais reutilizável e modular. Integrar a checagem de tipos do TypeScript ao processo de build pode ajudar a capturar erros antes do deploy.
+
+## Conclusão
+
+O TypeScript revolucionou a forma como os desenvolvedores abordam o desenvolvimento JavaScript, atacando de frente os desafios inerentes ao sistema de tipos dinâmico do JavaScript.
+
+Ao integrar checagem estática de tipos, o TypeScript não apenas mitiga os riscos associados à flexibilidade do JavaScript, mas também eleva a qualidade do código e a produtividade do desenvolvedor.
+
+Sua ampla adoção pela comunidade de desenvolvedores é um testemunho da sua eficácia em tornar aplicações JavaScript mais confiáveis, manuteníveis e escaláveis.
+
+À medida que os desenvolvedores continuam navegando pelas complexidades do desenvolvimento web moderno, o TypeScript se destaca como uma ferramenta crítica em seu arsenal, fechando o gap entre a necessidade de desenvolvimento rápido e a demanda por código robusto e resistente a erros.

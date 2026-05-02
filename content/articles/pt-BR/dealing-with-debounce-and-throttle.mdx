@@ -1,6 +1,170 @@
 ---
 title: "Lidando com Debounce e Throttle"
-excerpt: "Uma guia completa para dominar os eventos."
+excerpt: "Um guia completo para dominar os eventos."
 ---
 
-🚧 A tradução deste artigo está em andamento.
+Ao desenvolver aplicações web e lidar com interações na tela, nem sempre queremos que uma ação ocorra imediatamente após disparar um evento. Isso é particularmente verdade quando a ação envolve uma requisição HTTP para um serviço externo.
+
+As técnicas de debounce e throttle entram em cena como soluções eficazes para atrasar eventos específicos por um período definido, oferecendo controle mais preciso sobre o fluxo de execução.
+
+## Um caso de uso comum
+
+Imagine uma fintech que busca aprimorar a experiência do usuário em sua aplicação web, tornando-a mais eficiente e responsiva. Ao lidar com eventos de interação na interface, o time de desenvolvimento enfrenta o desafio de gerenciar chamadas excessivas à API, especialmente durante operações que envolvem queries em tempo real e atualizações frequentes.
+
+Para enfrentar esse desafio, a fintech decide implementar técnicas de debounce e throttle em pontos estratégicos da aplicação.
+
+No caso das consultas de saldo, em que os usuários tendem a checar o saldo repetidamente, o time opta por aplicar a técnica de debounce. Dessa forma, a consulta de saldo é atrasada e só é executada após um curto período de inatividade do usuário. Isso evita múltiplas chamadas desnecessárias, otimizando a eficiência do sistema.
+
+Já para as atualizações em tempo real, cruciais para exibir transações recentes, a fintech decide implementar throttle. Assim, a frequência das atualizações é controlada, garantindo que apenas uma request seja enviada a cada X segundos. Isso não só fornece informações relevantes aos usuários, como também evita sobrecarregar o servidor com chamadas excessivas.
+
+## A técnica de Debounce
+
+Debounce é uma estratégia para controlar a frequência de execução de uma função, atrasando-a até que nenhuma nova chamada ocorra por um período especificado. Isso é especialmente útil ao lidar com eventos de input, como digitação em campos de busca ou redimensionamento de janelas.
+
+Imagine um filtro de café como um campo de busca. ☕️ 🤓
+
+Cada vez que alguém despeja água sobre o pó de café, leva tempo para que a água passe pelo filtro antes de chegar ao bule. O debounce funciona de forma semelhante, evitando que uma função seja chamada imediatamente a cada evento, dando tempo para que as coisas "se acomodem" antes de serem processadas.
+
+#### Um exemplo prático
+
+Em uma aplicação React, queremos realizar uma busca conforme o usuário digita em um campo de busca. Sem debounce, a função de busca seria disparada a cada tecla pressionada, levando a múltiplas chamadas desnecessárias.
+
+```js
+import { FC, ChangeEvent, useState } from "react";
+import { debounce } from "lodash";
+
+const SearchComponent: FC = () => {
+  const [query, setQuery] = useState("");
+
+  // Função de busca com debounce
+  const performSearch = debounce((searchQuery: string) => {
+    // Lógica de busca aqui
+    console.log(`Performing search for: ${searchQuery}`);
+  }, 500); // 500 milissegundos de debounce
+
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setQuery(value);
+    // A cada input, dispara a função com debounce
+    performSearch(value);
+  };
+
+  return (
+    <input
+      type="text"
+      value={query}
+      onChange={handleInputChange}
+      placeholder="Type to search"
+    />
+  );
+};
+
+export default SearchComponent;
+```
+
+Neste exemplo, a função `performSearch` recebe debounce usando a biblioteca Lodash. A cada tecla pressionada no campo de busca, a função é chamada, mas a busca real só é executada após um intervalo de 500 milissegundos desde o último evento de digitação.
+
+## A técnica de Throttle
+
+Throttle é uma estratégia que limita a frequência de execução de uma função, garantindo que ela seja chamada apenas em intervalos de tempo específicos, mesmo que eventos mais frequentes ocorram. Isso é particularmente útil em casos como redimensionamento de janela ou scroll contínuo, em que chamadas excessivas podem impactar negativamente a performance.
+
+Imagine uma torneira de água como um evento contínuo, como rolar uma página web. Sem essa técnica, a água flui livremente, podendo causar desperdício. Com a técnica de throttle, podemos controlar o fluxo de água para garantir um uso mais eficiente, liberando apenas a quantidade necessária em intervalos regulares.
+
+### Um exemplo prático
+
+Em uma aplicação React, queremos realizar uma atualização de componente em resposta a eventos de redimensionamento da janela. Vamos usar a técnica de throttle para garantir que a atualização ocorra em intervalos espaçados, mesmo que o evento de resize seja disparado frequentemente.
+
+```js
+import { FC, useState, useEffect } from "react";
+import { throttle } from "lodash";
+const ResizeComponent: FC = () => {
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
+  // Função de resize a receber throttle
+  const handleResize = throttle(() => {
+    setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+  }, 500);
+
+  // Throttle de 500 milissegundos
+  useEffect(() => {
+    // Adiciona o event listener de resize
+    window.addEventListener("resize", handleResize);
+    // Remove o listener quando o componente é desmontado
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [handleResize]);
+
+  const { width, height } = windowSize;
+  return (
+    <div>
+      <p>Width: {width}</p>
+      <p>Height: {height}</p>
+    </div>
+  );
+};
+export default ResizeComponent;
+```
+
+Neste exemplo, a função `handleResize` recebe throttle usando a biblioteca Lodash. Atualizações de state ocorrem apenas a cada 500 milissegundos, mesmo que o evento de resize seja disparado com mais frequência. Isso garante uma resposta suave às mudanças no tamanho da janela sem sobrecarregar o componente com atualizações excessivas.
+
+## Bônus: criando suas próprias funções
+
+Bom, vamos supor que você não queira usar a biblioteca Lodash e prefira criar suas próprias funções para implementar as técnicas de debounce e throttle.
+
+Aqui está um exemplo simples de como criar uma função debounce do zero:
+
+```js
+function debounce(func, delay) {
+  let timeoutId;
+  return function (...args) {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => {
+      func.apply(this, args);
+    }, delay);
+  };
+}
+
+// Exemplo de uso
+const executeWithDebounce = debounce(() => {
+  console.log("Debounced function executed!");
+}, 1000);
+
+// Invoca a função com debounce após 500 milissegundos
+executeWithDebounce();
+```
+
+E aqui está um exemplo básico de como criar uma função throttle do zero:
+
+```js
+function throttle(func, delay) {
+  let isThrottled = false;
+  return function (...args) {
+    if (!isThrottled) {
+      func.apply(this, args);
+      isThrottled = true;
+      setTimeout(() => {
+        isThrottled = false;
+      }, delay);
+    }
+  };
+}
+
+// Exemplo de uso
+const throttledFunction = throttle(() => {
+  console.log("Throttled function executed!");
+}, 1000);
+
+// Invoca a função com throttle
+throttledFunction();
+
+// Se throttledFunction for chamada novamente nos próximos
+// 1000 milissegundos, a chamada será ignorada.
+```
+
+## Conclusão
+
+Como você pode ver, essas funções de debounce e throttle podem ser úteis em situações em que a frequência de eventos — como digitação em inputs, redimensionamento de janela ou scroll — precisa ser controlada para otimizar a performance da aplicação.

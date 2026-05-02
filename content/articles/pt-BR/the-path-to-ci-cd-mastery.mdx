@@ -1,14 +1,124 @@
 ---
-title: "The path to CI/CD Mastery"
-excerpt: "How to achieve the DevOps success"
-coverImage: ""
-date: Jun 18, 2024
-author:
-  name: "Vitor Britto"
-  picture: "/authors/vitor.jpg"
-categories: []
-tags: []
-tracks: []
-readTime: 5
-featured: false
+title: "O caminho para a maestria em CI/CD"
+excerpt: "Como alcançar o sucesso em DevOps."
 ---
+
+Este é o primeiro de uma série em várias partes dedicada a explicar o "o quê", o "porquê" e o "como" de usar CI/CD.
+
+## Série
+
+- Parte 01: O caminho para a maestria em CI/CD (este aqui)
+- Parte 02: A automação de CI/CD no GitHub
+- Parte 03: Construindo um Github Workflow avançado
+
+CI/CD simplifica os processos de build, teste e deploy do seu código, possibilitando a entrega mais rápida e confiável de mudanças no código.
+
+A automação tem um papel-chave no sucesso de DevOps, com CI/CD sendo um elemento essencial. CI/CD engloba continuous integration e continuous delivery ou deployment, formando coletivamente um "pipeline de CI/CD". Esse pipeline é uma sequência de workflows automatizados que ajudam os times de DevOps a reduzir o trabalho manual.
+
+## Pipeline de CI/CD
+
+### Antes da adoção de CI/CD
+
+Antes da adoção de Continuous Integration (CI) e Continuous Deployment/Delivery (CD), os processos de desenvolvimento de software eram frequentemente lentos, manuais e propensos a erros.
+
+Aqui vai um vislumbre do workflow típico e dos desafios enfrentados.
+
+### Integração manual
+
+Os desenvolvedores trabalhavam isolados em branches separadas ou cópias da codebase. A integração acontecia com pouca frequência, muitas vezes apenas no final do ciclo de desenvolvimento. Isso levava ao "integration hell", em que mesclar mudanças de múltiplos desenvolvedores era demorado e propenso a erros.
+
+### Testes atrasados
+
+Os testes geralmente eram feitos manualmente e somente após o código estar totalmente desenvolvido. Isso atrasava a detecção de bugs e problemas, frequentemente levando a retrabalho significativo e atrasos no cronograma do projeto.
+
+### Releases pouco frequentes
+
+Releases de software eram pouco frequentes e envolviam muito esforço manual. O processo de deploy era frequentemente complexo, arriscado e exigia ampla coordenação entre os times de desenvolvimento e operações. Isso resultava em ciclos de release mais longos e entrega mais lenta de novas features para os clientes.
+
+### Falta de feedback
+
+Os desenvolvedores frequentemente não recebiam feedback até o final do ciclo de desenvolvimento, dificultando lidar com problemas de forma oportuna.
+
+### Alto risco de falha
+
+A falta de testes e deploys automatizados aumentava o risco de falhas durante a integração e o deploy. Reverter mudanças ou corrigir problemas em produção era desafiador e demorado.
+
+### Apresentando o CI/CD
+
+O CI/CD transformou o processo de desenvolvimento de software, introduzindo automação, eficiência e confiabilidade.
+
+Os desenvolvedores devem ser capazes de fazer deploy de código no primeiro dia.
+Aqui está como o CI/CD melhorou o workflow.
+
+### Integração frequente
+
+Pipelines de CI/CD integram automaticamente mudanças de código de múltiplos desenvolvedores com frequência, muitas vezes várias vezes ao dia. Esse merge contínuo ajuda a detectar problemas de integração cedo, reduzindo a complexidade de mesclar código.
+
+### Testes automatizados
+
+Testes automatizados são parte integrante de pipelines de CI/CD. Cada mudança no código dispara uma série de testes que rodam automaticamente, garantindo que novas mudanças não quebrem funcionalidades existentes. Isso leva a uma detecção e resolução mais rápida de bugs.
+
+### Continuous Deployment/Delivery
+
+Com CD, mudanças de código são automaticamente deployadas para ambientes de produção ou staging após passar pelos testes automatizados. Isso possibilita releases frequentes e confiáveis, permitindo que novas features e correções de bugs cheguem aos clientes rapidamente.
+
+### Feedback antecipado
+
+CI/CD fornece feedback imediato sobre qualidade, performance e funcionalidade do código. Os desenvolvedores podem identificar e lidar com problemas rapidamente, levando a iterações e melhorias mais rápidas.
+
+### Risco reduzido
+
+A automação em testes e deploys reduz o risco de erro humano e falhas de deploy. Rollbacks e hotfixes podem ser implementados rapidamente, minimizando downtime e garantindo um ambiente de produção estável.
+
+### Colaboração aprimorada
+
+CI/CD promove uma colaboração melhor entre os times de desenvolvimento, testes e operações. O workflow automatizado e a responsabilidade compartilhada pela qualidade do código criam uma cultura de colaboração e accountability.
+
+### Maior agilidade
+
+As organizações podem responder rapidamente às mudanças nas demandas do mercado e ao feedback dos clientes. A capacidade de entregar atualizações de forma rápida e confiável permite que as empresas se mantenham competitivas e atendam às expectativas dos clientes.
+
+### Continuous integration (CI)
+
+Continuous integration (CI) envolve mesclar mudanças de código de múltiplos desenvolvedores em um repositório compartilhado de forma frequente e automática.
+
+As principais features dos pipelines de continuous integration incluem:
+
+- Builds e testes automáticos: ferramentas de CI buildam e testam novo código automaticamente para identificar conflitos ou erros. Quando problemas são detectados, os desenvolvedores são notificados cedo, permitindo que resolvam problemas antes que se tornem desafios mais complexos e custosos no final do ciclo de desenvolvimento.
+- Feedback antecipado: continuous integration fornece feedback imediato sobre a saúde e a qualidade da aplicação após cada mudança. Isso permite que os times tomem decisões informadas, iterem rapidamente em seu código e lidem proativamente com problemas, levando a produtos de software mais confiáveis, resilientes e centrados no cliente.
+
+Continuous integration promove uma cultura de agilidade, ajudando as organizações a otimizar seus processos de desenvolvimento, reduzir desperdícios e se adaptar rapidamente às condições de mercado em mudança.
+
+### Continuous delivery (CD)
+
+Continuous delivery (CD) estende o processo de CI ao garantir que o código esteja sempre em um estado deployable, permitindo que os times façam release de software a qualquer momento com confiança. Continuous delivery é frequentemente confundida com continuous deployment, mas há uma distinção crucial. Um pipeline de continuous delivery apresenta:
+
+- Deploys manuais: após testes bem-sucedidos, o release é empacotado e preparado, aguardando aprovação manual para deploy. Um processo de deploy roteirizado pode estar em vigor, mas só vai começar quando o deploy for disparado por um aprovador designado.
+- Código pronto para deploy: em continuous delivery, o código é sempre mantido em um estado em que está pronto para deploy em produção, mas o deploy real é disparado manualmente, fornecendo um checkpoint final para supervisão e controle humano antes que as mudanças sejam liberadas para o ambiente live.
+
+Pipeline de Continuous Delivery
+Continuous delivery aprimora a colaboração entre os times de desenvolvimento e operações e reforça a confiança no processo de entrega através de maior visibilidade e controle.
+
+### Continuous deployment (CD)
+
+Continuous deployment (CD) automatiza todo o processo de release de software, da integração e teste do código ao deploy das mudanças no ambiente de produção. Diferente da continuous delivery, a continuous deployment não exige intervenção humana. Um pipeline de continuous deployment apresenta:
+
+- Deploys automáticos: assim que o código passa em todos os testes, ele é automaticamente e imediatamente deployado para o ambiente de produção, sem aprovação manual.
+- Releases sem fricção: continuous deployment permite que as organizações liberem atualizações de software para os clientes assim que elas são validadas, reduzindo o time-to-market.
+
+Pipeline de Continuous Deployment
+Continuous deployment remove tarefas manuais ineficientes do ciclo de vida de entrega, acelerando o time-to-market e criando um fluxo contínuo de valor para os usuários finais.
+
+## Conclusão
+
+Implementar CI/CD da forma certa melhorou drasticamente nossa capacidade de fazer deploy de código de forma segura e fácil.
+
+No caminho, há várias razões para adotar CI/CD:
+
+- Buscar minimizar esforços de coordenação manual.
+- Permitir que os desenvolvedores experimentem livremente sem o medo de atrapalhar o trabalho de outros.
+- Escolher um formato robusto de artefato de build que se adeque aos seus requisitos.
+- Implementar testes automatizados para aumentar a confiança em cada release e reduzir tarefas manuais.
+- Identificar problemas cedo.
+- Automatizar processos de deploy.
+- Centralizar o monitoramento e, se possível, evitar gerenciar a infraestrutura/ferramentas de monitoramento por conta própria.

@@ -1,6 +1,436 @@
 ---
-title: "Dominando datas em JavaScript"
-excerpt: "Dicas e truques para o desenvolvedor moderno."
+title: "Dominando Date e Time em JavaScript"
+excerpt: "Dicas e truques para lidar com datas, timezones e formatação de forma confiável no JavaScript moderno."
 ---
 
-🚧 A tradução deste artigo está em andamento.
+Datas e timezones são aspectos frequentemente encontrados em aplicações web, mas sua complexidade pode expor desafios na hora de lidar com elas.
+
+### Introdução a Datas em JavaScript
+
+JavaScript lida com datas usando o objeto `Date`, que é nativo da linguagem. O objeto `Date` representa um momento específico no tempo e oferece métodos para trabalhar com datas, horários e timezones.
+
+O gerenciamento eficaz de datas é de suma importância em aplicações web e no desenvolvimento por várias razões.
+
+Aqui está uma exploração de por que tratar datas adequadamente é importante.
+
+A Experiência do Usuário
+Datas são parte integrante de várias interações do usuário em aplicações web. De exibir timestamps de posts a agendar eventos, garantir representações de data precisas e amigáveis aprimora a experiência geral do usuário.
+
+A Integridade dos Dados
+O gerenciamento adequado de datas é vital para manter a integridade dos dados. Tratamento impreciso de datas pode levar a inconsistências e erros, afetando a confiabilidade e a credibilidade das informações apresentadas ou armazenadas na aplicação.
+
+As Funcionalidades
+Muitas aplicações web dependem de funcionalidades sensíveis ao tempo, como agendamento, lembretes ou contagens regressivas. O gerenciamento preciso de datas é essencial para o funcionamento adequado dessas features, garantindo que entreguem valor aos usuários.
+
+Alcance Global
+Aplicações web frequentemente atendem a um público global, levando a diversos timezones e formatos de data. O gerenciamento eficaz de datas permite às aplicações atenderem usuários no mundo todo, oferecendo uma experiência fluida independentemente da localização geográfica.
+
+Conformidade Regulatória
+Algumas aplicações, especialmente as que lidam com transações financeiras ou dados sensíveis, devem aderir a padrões regulatórios em relação à precisão de data e hora. O gerenciamento adequado de datas é crítico para a conformidade com requisitos legais e específicos da indústria.
+
+Análise de Dados e Reporting
+Em aplicações de negócio e analytics, o gerenciamento adequado de datas é essencial para análise e reporting precisos. Reporting oportuno e preciso depende da interpretação correta das datas, garantindo que os insights sejam confiáveis e acionáveis.
+
+Integração de Sistemas
+Aplicações web frequentemente interagem com sistemas externos e APIs, alguns dos quais podem ter requisitos específicos relacionados a datas. O gerenciamento eficaz de datas facilita a integração suave com serviços externos, evitando issues relacionadas a inconsistências de dados.
+
+Manutenção e Debugging
+A manutenção e o debugging de código se tornam mais gerenciáveis com práticas de gerenciamento de datas claras e consistentes. Datas bem tratadas contribuem para a legibilidade do código, reduzindo a probabilidade de erros e facilitando para os desenvolvedores manter e aprimorar a aplicação.
+
+Compatibilidade entre Plataformas
+Aplicações web rodam em vários dispositivos e plataformas com diferentes configurações. O gerenciamento consistente de datas garante compatibilidade entre plataformas, evitando issues relacionadas à renderização, parsing ou manipulação de datas em diferentes browsers ou sistemas operacionais.
+
+### História e Evolução
+
+Antes do lançamento do ECMAScript 2015 (ES6), os desenvolvedores JavaScript tinham que lidar com certas limitações e inconsistências na linguagem, especialmente quando se tratava de operações com datas. Vamos dar uma breve olhada retrospectiva em como as operações de data eram tratadas no JavaScript antes do ES6.
+
+Criação do objeto Date
+Antes do ES6, criar um objeto `Date` exigia passar um timestamp como argumento. Esse timestamp era o número de milissegundos passados desde 1º de janeiro de 1970, UTC (comumente conhecido como Unix Epoch).
+
+```js
+var oldDate = new Date(1706130131003); // Timestamp para 24 de janeiro de 2024
+```
+
+Essa abordagem não era muito intuitiva, e os desenvolvedores frequentemente tinham que fazer cálculos manuais para obter a data desejada.
+
+Indexação dos Meses
+Os meses no objeto `Date` eram zero-indexed, significando que janeiro era 0, fevereiro era 1, e assim por diante. Esse sistema de indexação levava a confusão e erros off-by-one ao trabalhar com meses.
+
+```js
+var oldDate = new Date(2023, 5, 15); // Representa 15 de junho de 2023
+```
+
+Os desenvolvedores tinham que se lembrar de subtrair 1 do mês desejado.
+
+Métodos Getter e Setter
+Objetos `Date` tinham métodos limitados para acessar e modificar componentes individuais como ano, mês, dia, etc.
+
+```js
+var year = oldDate.getYear() + 1900; // Pega o ano completovar month = oldDate.getMonth();      // Pega o mêsoldDate.setMonth(month + 1);         // Incrementa o mês
+```
+
+Esses métodos não eram muito expressivos ou encadeáveis, tornando o código menos legível e mais propenso a erros.
+
+Sem sintaxe Literal de Date
+Diferentemente de outras linguagens de programação, o JavaScript não tinha uma sintaxe literal para criar datas. Os desenvolvedores precisavam contar com o constructor `Date` ou bibliotecas externas para manipulação de datas.
+
+Opções de Formatação Limitadas
+Antes do ES6, formatar datas para exibição exigia construção manual de strings de data usando métodos como `getMonth()`, `getDate()` e concatenação de strings.
+
+```js
+var formattedDate =
+  oldDate.getMonth() +
+  1 +
+  "/" +
+  oldDate.getDate() +
+  "/" +
+  oldDate.getFullYear();
+```
+
+Essa abordagem era trabalhosa e propensa a erros.
+
+Tratamento de Timezone
+Objetos `Date` do JavaScript não estavam bem equipados para lidar com timezones de forma eficaz. Operações relacionadas a timezone frequentemente eram desafiadoras, e os desenvolvedores tinham que recorrer a bibliotecas externas ou soluções customizadas.
+
+### Features Nativas do ES6
+
+ECMAScript 2015 (ES6) trouxe melhorias significativas na manipulação de datas no JavaScript, introduzindo novas features e aprimorando as capacidades do objeto `Date`.
+
+A classe `Date`
+ES6 introduziu uma nova classe `Date` que oferecia uma abordagem mais moderna e orientada a objetos para trabalhar com datas. A classe `Date` tratou muitas das limitações do antigo objeto `Date`, oferecendo uma API mais expressiva e consistente para manipulação de datas.
+
+Template Literals para Formatação de Data
+Os desenvolvedores agora podem criar strings de data formatadas diretamente usando template literals, reduzindo a necessidade de concatenação manual e melhorando a legibilidade do código.
+
+```js
+const currentDate = new Date();
+const formattedDate = `${
+  currentDate.getMonth() + 1
+}/${currentDate.getDate()}/${currentDate.getFullYear()}`;
+```
+
+Métodos Getter e Setter aprimorados
+Os desenvolvedores podem acessar e modificar diretamente ano, mês, dia e outros componentes de uma forma mais legível e encadeável.
+
+```js
+const currentDate = new Date();
+const year = currentDate.getFullYear();
+currentDate.setMonth(currentDate.getMonth() + 1);
+```
+
+Sintaxe Literal de Date
+Os desenvolvedores agora podem criar instâncias de date usando uma sintaxe simplificada, melhorando a legibilidade do código.
+
+```js
+const newDate = new Date(2024, 0, 24); // Sintaxe antigaconst es6Date = new Date('2024–01–24'); // Sintaxe ES6
+```
+
+Suporte a Timezone com o objeto Intl
+O objeto `Intl` introduzido no ES6 incluiu features para lidar com internacionalização, incluindo suporte aprimorado a timezone. Os desenvolvedores ganharam ferramentas mais confiáveis para lidar com timezones, tratando as limitações do antigo objeto `Date`.
+
+```js
+const date = new Date("2024–01–24T12:00:00Z");
+const formattedDate = new Intl.DateTimeFormat("en-US", {
+  timeZone: "America/New_York",
+}).format(date);
+```
+
+Métodos Adicionais
+ES6 adicionou vários novos métodos à classe `Date`, expandindo sua funcionalidade. Os desenvolvedores ganharam acesso a métodos como `toLocaleDateString()`, `toLocaleTimeString()` e `toLocaleString()`, que simplificaram o processo de formatar datas para locales específicos.
+
+```js
+const currentDate = new Date();
+const formattedDate = currentDate.toLocaleDateString("en-US", {
+  weekday: "long",
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+}); // output: 'Wednesday, January 24, 2024'
+```
+
+### Issues e Armadilhas Comuns
+
+O objeto `Date` do JavaScript, embora poderoso, tem algumas issues e armadilhas comuns das quais os desenvolvedores precisam estar cientes.
+
+Lidando com Timezones
+Navegar timezones no contexto de operações internacionais apresenta uma série de desafios que exigem consideração cuidadosa. Um problema comum é a complexidade introduzida pelas mudanças de Daylight Saving Time (DST), que variam globalmente e podem levar a discrepâncias em atividades agendadas. A falta de identificadores e abreviações de timezone padronizados entre plataformas traz outra issue, exigindo que os desenvolvedores tratem e interpretem dados relacionados ao tempo meticulosamente.
+
+Lidando com valores `null`, `undefined` ou inválidos
+Lidar com valores `null`, `undefined` ou inválidos ao trabalhar com o objeto `Date` do JavaScript também é importante para garantir manipulação de datas robusta e livre de erros nas aplicações.
+
+Possíveis armadilhas ao calcular diferenças de data
+Calcular diferenças de data no JavaScript pode levar a resultados imprecisos. Issues incluem diferenças de timezone, ambiguidade de daylight saving time e perda de precisão.
+
+Usar bibliotecas que gerenciam transições de timezone e oferecem maior precisão pode aprimorar a precisão em cálculos de diferença de data. Vigilância em tratar essas considerações é crucial para operações relacionadas a data robustas e livres de erros.
+
+### Boas Práticas no Tratamento de Datas
+
+Existem algumas estratégias e considerações para lidar com tais cenários.
+
+Checando por `null` ou `undefined`
+Antes de realizar quaisquer operações relacionadas a data, cheque se a variável de date é `null` ou `undefined`. Você também pode checar se um objeto `Date` é válido usando `isNaN()`.
+
+```js
+const isValidDate = (inputDate) =>
+  inputDate instanceof Date && !isNaN(inputDate);
+```
+
+Forneça valores `default`
+Forneça valores default para variáveis de date quando elas forem `null` ou `undefined`.
+
+```js
+const formatDate = inputDate => {  const dateToFormat = inputDate || new Date(); // Usa a data atual se inputDate for null ou undefined   // Realiza formatação ou outras operações  return formattedDate;}
+```
+
+Parsing e Validação
+Use mecanismos robustos de parsing e valide o resultado antes de usá-lo na aplicação.
+
+```js
+const parseAndValidateDate = (dateString) => {
+  const parsedDate = new Date(dateString);
+  return isValidDate(parsedDate) ? parsedDate : null;
+};
+```
+
+Tratamento de Erros
+Implemente mecanismos de tratamento de erros para gerenciar cenários inesperados com elegância.
+
+```js
+try {  const parsedDate = new Date(dateString);  if (!isValidDate(parsedDate)) {    throw new Error('Invalid date format');  }  // Continua com operações relacionadas a data} catch (error) {  console.error('Error:', error.message);}
+```
+
+Documentação
+Documente claramente as práticas e expectativas de tratamento de datas na codebase, especialmente ao lidar com potenciais edge cases.
+
+```js
+/** * Função para realizar operações relacionadas a data. * @param {Date|null} inputDate - A data sobre a qual operar. Se null, a data atual é usada. * @returns {string} - A string de data formatada. */const formatDate = inputDate => {  // Detalhes da implementação}
+```
+
+### Considerações de Performance
+
+Tratar datas inadequadamente em uma aplicação pode impactar significativamente a performance, levando a várias issues que podem degradar a experiência do usuário e a eficiência do sistema.
+
+Para mitigar esses impactos de performance, os desenvolvedores devem adotar boas práticas no gerenciamento de datas, aproveitar APIs nativas do browser, otimizar operações relacionadas a data e considerar estratégias de caching para tarefas repetitivas.
+
+Profiling e teste regulares de funcionalidades relacionadas a data podem ajudar a identificar e tratar potenciais gargalos, garantindo uma performance da aplicação mais suave e eficiente.
+
+### Usando uma biblioteca externa
+
+O uso de bibliotecas externas, como Day.js, pode aprimorar enormemente a eficiência e a flexibilidade do tratamento de datas e horários em aplicações JavaScript.
+
+Day.js é uma biblioteca JavaScript moderna e leve para parsing, validação, manipulação e formatação de datas. É projetada como alternativa ao Moment.js, com foco em simplicidade, performance e um footprint menor. Também oferece um conjunto abrangente de features para trabalhar com datas e horários, tornando-a uma escolha popular para os desenvolvedores que buscam uma biblioteca de manipulação de datas rápida e eficiente.
+
+Algumas features-chave do DayJS são:
+
+- Footprint Leve
+- API Imutável
+- Design de API Moderno
+- Operações em Chaining
+- Suporte a Locale
+- Tree-Shakable
+- Extensibilidade
+- Objetos Duration e Interval Imutáveis
+- Otimização de Performance
+- Facilidade de Adoção
+- Comunidade Ativa e Manutenção
+
+### Instalação e uso básico do Day.js
+
+Para instalar o Day.js em um projeto, você pode seguir estes passos:
+
+1. Abra seu terminal no diretório raiz do seu projeto.
+
+2. Rode o seguinte comando para instalar o Day.js usando yarn:
+
+```js
+yarn add dayjs
+```
+
+3. Depois que a instalação for concluída, você pode importar o Day.js onde for necessário:
+
+```js
+import dayjs from "dayjs"; // Agora você pode usar dayjs para manipulação de datas
+```
+
+Uma vez que o Day.js esteja instalado, você pode usá-lo para várias operações de data e hora no seu projeto.
+
+Day.js é agnóstico, e você pode usá-lo com qualquer biblioteca ou framework.
+
+Vamos ver alguns exemplos.
+
+Criação de Date
+
+```js
+import dayjs from "dayjs"; // Criando uma Data Atualconst currentDate = dayjs();console.log(currentDate.format('YYYY-MM-DD HH:mm:ss')); // Output: data e hora atuais// Criando uma Data Específicaconst specificDate = dayjs('2024–01–24');console.log(specificDate.format('YYYY-MM-DD')); // Output: 2024–01–24
+```
+
+Manipulação de Date
+
+```js
+import dayjs from "dayjs"; // Adicionando Diasconst currentDate = dayjs();const futureDate = currentDate.add(7, 'days');console.log(futureDate.format('YYYY-MM-DD')); // Output: Data depois de adicionar 7 dias// Subtraindo Mesesconst currentDate = dayjs();const pastDate = currentDate.subtract(3, 'months');console.log(pastDate.format('YYYY-MM-DD')); // Output: Data depois de subtrair 3 meses// Formatando Datasconst currentDate = dayjs();console.log(currentDate.format('dddd, MMMM D, YYYY')); // Output: Data atual em um formato customizado// Diferença Entre Datasconst date1 = dayjs('2024–01–01');const date2 = dayjs('2024–02–15');const daysDifference = date2.diff(date1, 'days');console.log(`Difference in days: ${daysDifference}`); // Output: Diferença em dias entre duas datas
+```
+
+### Features Avançadas do Day.js
+
+Day.js oferece features avançadas que podem simplificar tarefas complexas relacionadas a data e hora em aplicações JavaScript.
+
+Relative Time
+Day.js oferece um método `to` para representar tempo em um formato relativo legível por humanos.
+
+Exemplo:
+
+```js
+const futureDate = dayjs().add(2, "days");
+console.log(dayjs().to(futureDate)); // Output: in 2 days
+```
+
+Custom Parse Format
+Day.js permite formatos de parsing customizados, oferecendo flexibilidade ao lidar com diversos formatos de data.
+
+Exemplo:
+
+```js
+const customFormat = "YYYY-MM-DD";
+const parsedDate = dayjs("2024–01–24T12:34:56.789Z", { customFormat });
+```
+
+Objetos Duration e Interval
+Day.js introduz objetos Duration e Interval para tratamento preciso de intervalos de tempo.
+
+Exemplo:
+
+```js
+const duration = dayjs.duration(3, "days");
+const futureDate = dayjs().add(duration);
+```
+
+Formatação Localizada
+Day.js suporta localização para formatação de data, permitindo exibir datas com base em diferentes locales.
+
+Exemplo:
+
+```js
+const date = dayjs();
+console.log(date.format("MMMM D, YYYY", { locale: "en-US" })); // Output: january 24, 2024
+```
+
+Tokens Avançados de Formatação
+Day.js suporta tokens avançados de formatação, dando controle granular sobre a representação da data.
+
+Exemplo:
+
+```js
+const date = dayjs();
+console.log(date.format("MMMM D [at] h:mm A")); // Output: January 24 at 1:23 PM
+```
+
+Isolamento de Componentes de Tempo
+Day.js permite isolar e extrair componentes de tempo específicos, como ano, mês, dia, hora, minuto e segundo.
+
+Exemplo:
+
+```js
+const date = dayjs();
+const year = date.year();
+const month = date.month();
+```
+
+Chains de Query e Manipulação
+Day.js suporta encadeamento de métodos de query e manipulação, oferecendo uma forma concisa de realizar múltiplas operações.
+
+Exemplo:
+
+```js
+const futureDate = dayjs()
+  .add(1, "week")
+  .subtract(3, "days")
+  .hour(15)
+  .minute(30);
+```
+
+Cálculos Avançados de Diferença
+Day.js permite cálculos avançados de diferença, incluindo precisão até milissegundos e a especificação da unidade de medida.
+
+Exemplo:
+
+```js
+const date1 = dayjs("2024–01–20T12:00:00.000Z");
+const date2 = dayjs("2024–01–24T12:00:00.000Z");
+const difference = date2.diff(date1, "milliseconds");
+```
+
+Modo UTC
+Day.js pode operar em modo UTC, facilitando lidar com datas sem considerar timezones locais.
+
+Exemplo:
+
+```js
+const date = dayjs.utc("2024–01–24T12:34:56.789Z");
+```
+
+Strict Mode no Parsing
+Day.js suporta parsing em strict mode, ajudando a garantir que apenas strings de data válidas sejam aceitas.
+
+Exemplo:
+
+```js
+const strictDate = dayjs("2024–13–32", { strict: true }); // Erro.
+```
+
+### Bônus: plugins e extensões do Day.js
+
+Trabalhar com plugins e extensões do Day.js permite estender a funcionalidade do Day.js para atender a necessidades específicas.
+
+Aqui está um guia de como usar plugins do Day.js.
+
+Instalando um Plugin Day.js
+Selecione um plugin Day.js que atenda aos seus requisitos. Muitos plugins estão disponíveis no Day.js Plugin Directory.
+
+Use um package manager como npm ou yarn para instalar o plugin Day.js. Substitua `plugin-name` pelo nome real do plugin.
+
+```js
+npm i dayjs-plugin-name# ouyarn add dayjs-plugin-name
+```
+
+Usando um Plugin Day.js
+Importe tanto o Day.js quanto o plugin instalado no seu arquivo JavaScript ou TypeScript.
+
+```js
+import dayjs from "dayjs";
+import pluginName from "dayjs-plugin-name";
+```
+
+Estenda o Day.js aplicando o plugin usando o método `extend`.
+
+```js
+dayjs.extend(pluginName);
+```
+
+Uma vez que o plugin esteja estendido, você pode usar suas features como parte da API do Day.js.
+
+```js
+const result = dayjs().pluginFunction(); // Substitua `pluginFunction` pela função real fornecida pelo plugin
+```
+
+### Conclusão
+
+Escolher a estratégia certa para lidar com datas é uma decisão indispensável com ramificações abrangentes para o sucesso de um projeto de software.
+
+Afeta diretamente a satisfação do usuário, a integridade dos dados, as capacidades funcionais, a facilidade de manutenção e muitos outros pontos-chave. É significativamente importante selecionar um método (seja usando `Date`, `Intl` ou uma biblioteca como Day.js) que se harmonize efetivamente com as necessidades únicas do projeto, garantindo operações de data precisas e confiáveis em toda a aplicação.
+
+### Referências
+
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date
+- https://day.js.org/
+
+Se tiver alguma observação ou sugestão, fique à vontade para deixar um comentário. Obrigado pela leitura.
+
+Você pode me seguir no X, Github ou LinkedIn.
+
+Até mais! 👋
+
+Por Vitor Britto, em 25 de janeiro de 2024.
+
+Link canônico
+
+Exportado do Medium em 3 de fevereiro de 2025.

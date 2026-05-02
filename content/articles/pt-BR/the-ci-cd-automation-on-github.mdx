@@ -1,6 +1,95 @@
 ---
-title: "A automação CI/CD no GitHub"
-excerpt: "Uma introdução ao Github Actions."
+title: "A automação de CI/CD no GitHub"
+excerpt: "Uma introdução ao GitHub Actions."
 ---
 
-🚧 A tradução deste artigo está em andamento.
+Continuous Integration e Continuous Deployment (CI/CD) são práticas que aprimoram eficiência e confiabilidade. Entre as muitas ferramentas disponíveis, o GitHub Actions se destaca pela integração fluida com repositórios do GitHub, recursos poderosos e facilidade de uso.
+
+Seja você um desenvolvedor experiente ou um iniciante, este guia vai te ajudar a começar com o GitHub Actions e aproveitar seu potencial para automatizar seus workflows.
+
+## O que é o GitHub Actions?
+
+O GitHub Actions é uma ferramenta de CI/CD que permite automatizar seus workflows de desenvolvimento de software diretamente no seu repositório do GitHub. Com o GitHub Actions, você pode buildar, testar e fazer deploy do seu código automaticamente sempre que houver uma mudança no seu repositório. Isso não só economiza tempo, como também garante que seu código esteja sempre em um estado deployable.
+
+## Conceitos-chave do GitHub Actions
+
+Antes de mergulhar na configuração, é importante entender alguns conceitos-chave:
+
+- **Workflow**: um processo automatizado configurável composto por um ou mais jobs.
+- **Job**: um conjunto de steps executados no mesmo runner.
+- **Step**: uma tarefa individual dentro de um job. Steps podem executar comandos, configurar ambientes e mais.
+- **Runner**: um servidor que executa seus workflows. O GitHub fornece runners hospedados, ou você pode usar self-hosted runners.
+- **Action**: uma aplicação customizada para a plataforma do GitHub Actions que executa uma tarefa complexa, mas frequentemente repetida.
+
+## Primeiros passos: seu primeiro workflow no GitHub Actions
+
+Vamos criar um workflow simples para entender como o GitHub Actions funciona. Vamos configurar um workflow que roda os testes em todo push no repositório.
+
+### Step 1: Crie um diretório `.github/workflows`
+
+No seu repositório, crie um diretório chamado `.github/workflows`. É onde você vai armazenar os arquivos de workflow.
+
+### Step 2: Crie um arquivo de workflow
+
+Dentro do diretório `.github/workflows`, crie um arquivo chamado `ci.yml`. Esse arquivo vai definir seu workflow.
+
+### Step 3: Defina seu workflow
+
+Abra o `ci.yml` e adicione a seguinte configuração YAML:
+
+```yml
+name: CI
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+```
+
+**Onde:**
+
+- `name`: o nome do workflow.
+- `on`: especifica os eventos que disparam o workflow. Aqui, é disparado em `push` e `pull_request`.
+- `jobs`: define os jobs no workflow. Nosso job se chama `build`.
+- `runs-on`: especifica o tipo de runner a ser usado. Estamos usando `ubuntu-latest`.
+- `steps`: lista os steps a serem executados no job:
+
+**E:**
+
+- `Checkout code`: usa a action `actions/checkout` para clonar o repositório.
+- `Set up Node.js`: usa a action `actions/setup-node` para configurar o Node.js.
+- `Install dependencies`: roda `npm install` para instalar as dependências do projeto.
+- `Run tests`: roda `npm test` para executar os testes.
+
+### Step 4: Commit e push
+
+Faça commit e push do arquivo `ci.yml` para o seu repositório. O GitHub Actions vai disparar automaticamente o workflow no próximo push ou pull request.
+
+## Recursos avançados do GitHub Actions
+
+Quando você estiver confortável com o básico, pode explorar recursos mais avançados do GitHub Actions, como:
+
+- Matrix Builds: rode seus jobs em múltiplas configurações, como diferentes versões do Node.js ou sistemas operacionais.
+- Secrets: gerencie de forma segura dados sensíveis como API keys e senhas.
+- Reusable Workflows: crie workflows reutilizáveis para evitar duplicação e manter consistência entre múltiplos repositórios.
+
+## Boas práticas no uso do GitHub Actions
+
+1. Modularize seus workflows: quebre workflows complexos em actions menores e reutilizáveis.
+2. Use caching: acelere seus workflows fazendo cache de dependências e artefatos de build.
+3. Monitore e debugue: use os logs e annotations nativos do GitHub para monitorar e debugar seus workflows.
+
+## Conclusão
+
+O GitHub Actions é uma ferramenta poderosa que pode aprimorar significativamente seus processos de CI/CD. Ao automatizar tarefas repetitivas, você pode focar mais em escrever código de qualidade e menos em deploys e testes manuais. Seja você está começando ou buscando otimizar workflows existentes, o GitHub Actions oferece a flexibilidade e o poder que você precisa para simplificar seu pipeline de desenvolvimento.
+
+Mergulhe no GitHub Actions hoje e comece a construir aplicações mais rápidas e confiáveis com facilidade.
+
+Happy coding! 🤓
+
+## Referências
+
+- https://docs.github.com/en/actions/quickstart
+- https://resources.github.com/devops/ci-cd/

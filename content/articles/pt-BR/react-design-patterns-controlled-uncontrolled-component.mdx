@@ -1,6 +1,94 @@
 ---
 title: "React Design Patterns: Controlled & Uncontrolled Component Pattern"
-excerpt: "As formas de lidar com dados de formulários em seus componentes."
+excerpt: "As formas de lidar com dados de formulário nos seus componentes."
 ---
 
-🚧 A tradução deste artigo está em andamento.
+No React, o pattern Controlled Component envolve gerenciar o state do componente através do sistema de state do React. O state do componente é controlado e atualizado pelo React, e as mudanças são refletidas via props.
+
+Esse pattern permite um fluxo de dados mais previsível e controlado na aplicação.
+
+Por outro lado, o pattern Uncontrolled Component envolve deixar o DOM lidar com o state do componente. O componente armazena seu state internamente, e o React não o gerencia. Em vez de controlar o state através do React, o componente confia no DOM, e as interações geralmente são tratadas via refs.
+
+## Mão na massa
+
+Vamos mergulhar em dois cenários. Primeiro, vamos ver um exemplo de como funcionam os Uncontrolled components. Depois, vamos conferir como devem ser os Controlled components.
+
+### Uncontrolled components
+
+Uncontrolled components são úteis em situações em que você quer integrar React com código não-React ou aproveitar comportamentos existentes do DOM.
+
+**Veja o código abaixo:**
+
+```js
+const Form = () => {
+  const nameRef = useRef();
+  const emailRef = useRef();
+
+  const onSubmit = () => {
+    console.log("Name: " + nameRef.current.value);
+    console.log("Email: " + emailRef.current.value);
+  };
+  return (
+    <form onSubmit={onSubmit}>
+      <input type="text" name="name" ref={nameRef} required />
+      <input type="email" name="email" ref={emailRef} required />
+      <input type="submit" value="Submit" />
+    </form>
+  );
+};
+
+export default Form;
+```
+
+Aqui, usamos uma ref para acessar o input. Essa abordagem funciona de tal forma que você precisa puxar o valor do campo quando precisar dele.
+
+### Controlled Components
+
+Controlled Components são úteis em situações em que você precisa lidar com formulários, atualizações dinâmicas de UI ou lógicas com state — também são melhores para testes e debugging.
+
+Vamos ver agora como ficaria a versão controlled desse formulário:
+
+```js
+const Form = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const onSubmit = () => {
+    console.log("Name: " + name);
+    console.log("Email: " + email);
+  };
+
+  return (
+    <form onSubmit={onSubmit}>
+      <input
+        type="text"
+        name="name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        required
+      />
+      <input
+        type="email"
+        name="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        required
+      />
+      <input type="submit" value="Submit" />
+    </form>
+  );
+};
+
+export default Form;
+```
+
+Nesse contexto, o valor do campo do input é consistentemente controlado pelo state gerenciado pelo React. Esse mecanismo garante que qualquer mudança no valor seja automaticamente refletida no componente do formulário correspondente. Como resultado, o componente Form sempre tem o valor mais atualizado do input, eliminando a necessidade de solicitá-lo explicitamente.
+
+Apesar de exigir um pouco mais de código, essa abordagem permite maior flexibilidade.
+
+O valor pode agora ser facilmente passado para outros elementos da interface de usuário, facilitando integração fluida com diferentes partes da aplicação.
+
+Além disso, fica conveniente resetar o valor do input a partir de vários event handlers, potencialmente utilizando props e callbacks de eventos para essas operações.
+
+## Conclusão
+
+Controlled Components têm seu state gerenciado pelo React, oferecendo um fluxo de dados controlado, enquanto Uncontrolled Components gerenciam seu state internamente e dependem do DOM para lidar com as interações. A escolha entre os dois patterns depende dos requisitos específicos e dos casos de uso da aplicação.

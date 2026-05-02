@@ -1,6 +1,451 @@
 ---
-title: "Introdução ao GraphQL"
-excerpt: "Um guia para desenvolvedores iniciantes."
+title: "Apresentando o GraphQL"
+excerpt: "Um guia inicial sobre GraphQL — o que é, como difere de REST e por que os desenvolvedores estão adotando."
 ---
 
-🚧 A tradução deste artigo está em andamento.
+GraphQL é uma linguagem de consulta, muito parecida com SQL, com uma única diferença — é voltada para grafos. Quando menciono grafos, estou me referindo à estrutura de dados. O propósito do GraphQL é realizar operações de leitura e escrita através da comunicação entre Front-end e Back-end, semelhante ao pattern Restful.
+
+GraphQL é agnóstico, tanto no Front-end quanto no Back-end. Por isso, podemos usar qualquer linguagem de programação. Ele permite que clients requisitem apenas os dados necessários, facilitando obter dados precisos e reduzindo a quantidade de dados desnecessários que podem ser retornados. GraphQL também é altamente escalável, flexível e fácil de usar, possibilitando que os desenvolvedores criem APIs confiáveis e eficientes para suas aplicações.
+
+### Quais problemas o GraphQL resolve?
+
+GraphQL trata de várias issues em aplicações web modernas, como:
+
+1. Overfetching: quando os clients recebem mais dados do que precisam, consumindo mais bandwidth e aumentando os tempos de carregamento de página.
+2. Underfetching: quando os clients não recebem dados suficientes em uma única request, forçando-os a fazer múltiplas requests para obter a informação necessária.
+3. Versionamento de API: quando atualizações são feitas na API, pode ser desafiador controlar e gerenciar diferentes versões de API.
+4. Inflexibilidade: quando os clients ficam restritos a um modelo rígido de query e não podem customizar consultas de acordo com suas necessidades específicas.
+5. Performance: quando múltiplas requests precisam ser feitas a diferentes endpoints para buscar vários conjuntos de dados, impactando a performance da aplicação.
+6. Documentação: quando os clients têm dificuldade para entender como usar e navegar pela API devido à falta de documentação clara e precisa.
+
+GraphQL aborda essas issues permitindo que os clients requisitem apenas os dados de que precisam em uma única request, customizando a query de acordo com suas necessidades específicas. Além disso, GraphQL facilita atualizar e gerenciar diferentes versões de API, é mais flexível e é eficiente em termos de performance. Documentação clara e precisa também é fácil de criar e manter em uma API GraphQL.
+
+### Quais custos o GraphQL traz?
+
+1. Curva de aprendizado: como GraphQL é uma tecnologia relativamente nova, pode levar tempo para os desenvolvedores aprenderem a usá-la com eficiência.
+2. Complexidade: o processo de definir e modelar queries GraphQL pode ser mais complexo do que com outras tecnologias de API (ex.: REST).
+3. Caching: browsers já estão familiarizados com caching, usando um Cache-control de 5 segundos no Request Header. No entanto, com uma única rota no GraphQL, determinar caching pode ser desafiador.
+4. Erros: todas as chamadas retornam um Status Code 200, o que significa que sempre parecem bem-sucedidas. Por isso, é necessário modelar respostas no Schema usando uma Union para tratar erros.
+
+Agora vamos entender alguns conceitos centrais da linguagem.
+
+### Schema Definition Language
+
+GraphQL tem seu próprio sistema de tipos, usado para definir o schema de uma API. A sintaxe para escrever schemas é chamada de Schema Definition Language (SDL). É semelhante à própria linguagem de query do GraphQL, mas define o schema dos seus dados e capacidades em vez de consultar dados.
+
+Schema GraphQL é uma coleção de tipos que define o formato dos seus dados. É um contrato entre o client e o server que define como o client pode acessar os dados.
+
+### Scalar Types
+
+GraphQL vem com um conjunto de scalar types padrão prontos para uso:
+
+- Int: um inteiro signed de 32 bits
+- Float: um valor de ponto flutuante de precisão dupla signed
+- String: uma sequência de caracteres UTF-8
+- Boolean: true ou false
+- ID (serializado como String): um identificador único frequentemente usado para refazer fetch de um objeto ou como chave de cache.
+
+### Object Types
+
+Os componentes mais básicos de um schema GraphQL são object types, que apenas representam um tipo de objeto que você pode buscar do seu serviço, e quais campos ele tem. Na linguagem de schema GraphQL, podemos representá-lo assim:
+
+```graphql
+type Person {
+  name: String!
+  age: Int!
+}
+```
+
+### Inputs, Enums, Unions e Interfaces
+
+Tipos Input, Enum, Union e Interface são tipos especiais usados para definir vários aspectos do schema GraphQL, oferecendo uma forma de expressar diferentes tipos de dados e relacionamentos entre eles.
+
+#### Input Types
+
+- Input types são usados para representar parâmetros de input complexos para mutations ou variáveis de query do GraphQL.
+- São semelhantes a object types regulares, mas são usados para aceitar dados, não para retornar dados.
+
+```graphql
+input CreateUserInput {
+  username: String!
+  password: String!
+  email: String!
+}
+```
+
+Aqui, `CreateUserInput` é um input type que poderia ser usado como argumento em uma mutation para criar um novo user.
+
+#### Enum Types
+
+- Enum types definem um conjunto de valores nomeados para um campo, oferecendo uma lista predefinida de valores possíveis.
+
+```graphql
+enum UserRole {
+  ADMIN
+  USER
+  MODERATOR
+}
+```
+
+O enum type `UserRole` define três valores possíveis: `ADMIN`, `USER` e `MODERATOR`. Campos podem então usar esse enum type para restringir valores de input.
+
+#### Union Types
+
+- Union types representam um tipo que pode ser um de vários tipos. É uma forma de expressar que um campo pode retornar diferentes tipos de objetos.
+
+```graphql
+union SearchResult = User | Post | Comment
+```
+
+Aqui, `SearchResult` é um union type que pode representar objetos do tipo `User`, `Post` ou `Comment`. Isso é útil quando um campo pode retornar diferentes tipos de objetos.
+
+#### Interface Types
+
+- Interface types definem um conjunto de campos que devem ser implementados por qualquer object type que implemente a interface.
+- Interfaces são uma forma de definir campos comuns para diferentes tipos.
+
+```graphql
+interface Entity {
+  id: ID!
+  name: String!
+}
+type User implements Entity {
+  id: ID!
+  name: String!
+  email: String!
+}
+type Product implements Entity {
+  id: ID!
+  name: String!
+  price: Float!
+}
+```
+
+Aqui, `Entity` é uma interface com campos comuns `id` e `name`. Os tipos `User` e `Product` implementam essa interface, garantindo que tenham os campos exigidos.
+
+Esses tipos especiais no GraphQL oferecem uma forma de modelar dados de maneira mais precisa e expressiva. Quando usados juntos, esses tipos contribuem para a clareza e a flexibilidade de um schema GraphQL.
+
+### Definições de fields
+
+Definições básicas
+
+- Um field pode retornar uma lista contendo itens de um tipo específico. Você indica list fields com colchetes `[]`.
+- Por padrão, qualquer field no seu schema retorna `null`. Você pode exigir que um determinado field não retorne `null` com um ponto de exclamação `!`.
+- Se `!` aparece dentro dos colchetes (ex.: `[User!]`), a lista retornada não pode incluir itens que sejam null.
+- Se `!` aparece fora dos colchetes (ex.: `[User]!`), a lista em si não pode ser null.
+- Em qualquer caso (ex.: `[User!]!`), é válido para um list field retornar uma lista vazia.
+
+O field `__typename`
+No GraphQL, o field `__typename` é um meta-field reservado que oferece informações sobre o tipo do objeto que está sendo consultado no momento. É frequentemente usado para fins de introspecção, permitindo que os clients entendam dinamicamente o tipo dos dados que estão recebendo. Isso pode ser especialmente útil ao lidar com tipos polimórficos ou quando o client precisa tomar decisões com base no tipo de um objeto.
+
+Considere a seguinte query GraphQL:
+
+```graphql
+{
+  user(id: 1) {
+    __typename
+    id
+    name
+  }
+}
+```
+
+Nessa query, o field `user` retorna um objeto que pode representar diferentes tipos de users (ex.: `AdminUser`, `CommonUser`). O field `__typename` é usado para recuperar o nome do tipo do objeto retornado. A response pode ser algo assim:
+
+```graphql
+{
+  "data": {
+    "user": {
+      "__typename": "CommonUser",
+      "id": 1,
+      "name": "John Doe"
+    }
+  }}
+```
+
+Nesse exemplo, o field `__typename` indica que o objeto user é do tipo `CommonUser`. Os clients podem usar essa informação para renderização condicional, logging ou para fazer queries adicionais com base no tipo do objeto retornado.
+
+É importante notar que `__typename` não é necessário em toda query, e seu uso depende das necessidades específicas da aplicação client. É uma ferramenta para introspecção e pode ser particularmente útil ao lidar com interfaces e unions do GraphQL, em que o tipo exato do objeto retornado pode variar.
+
+Argumentos
+No GraphQL, todo field e nested object pode ter seu próprio conjunto de argumentos, tornando o GraphQL um substituto completo para fazer múltiplos API fetches. Você pode até passar argumentos para scalar fields, para implementar transformações de dados uma vez no server, em vez de em cada client separadamente.
+
+```graphql
+type Query {
+  person(id: ID!): Person
+}
+```
+
+#### Fragments
+
+Fragments permitem aos clients reutilizar conjuntos de fields em vários lugares dentro de uma query.
+
+```graphql
+fragment UserInfo on User {
+  id
+  name
+}
+{
+  user(id: 1) {
+    ...UserInfo
+  }
+  anotherUser: user(id: 2) {
+    ...UserInfo
+  }
+}
+```
+
+O fragment `UserInfo` é reutilizado para ambos os fields `user`.
+
+#### Directives
+
+Directives são usadas para incluir ou excluir condicionalmente fields ou fragments com base em determinadas condições.
+
+```graphql
+{
+  user(id: 1) {
+    id
+    name
+    posts @include(if: $includePosts) {
+      title
+      content
+    }
+  }
+}
+```
+
+Aqui, a directive `@include` é usada para incluir condicionalmente o field `posts` com base no valor da variável `$includePosts`.
+
+### Operações GraphQL
+
+Uma operação GraphQL é uma query, mutation ou subscription que retorna dados do server GraphQL. Pode ser uma query para um único objeto, uma query para uma lista de objetos ou qualquer outro tipo de query.
+
+Todo schema GraphQL tem um root type para queries, mutations e subscriptions. Você pode pensar neles como o ponto de partida de toda operação GraphQL.
+
+```graphql
+type Query {
+  listUsers(): [User!]!
+}
+
+type Mutation {
+  createUser(name: String!, age: Int!): User!
+}
+
+type Subscription {  userCreated: User }
+```
+
+#### Query
+
+GraphQL query é uma query que retorna dados do server GraphQL. Pode ser uma query para um único objeto, uma query para uma lista de objetos ou qualquer outro tipo de query.
+
+```graphql
+query {
+  user(id: "1") {
+    id
+    name
+    email
+    posts {
+      id
+      title
+      content
+      attachments {
+        id
+        filename
+        url
+      }
+    }
+    role
+  }
+}
+```
+
+#### Mutation
+
+GraphQL mutation é uma mutation que modifica dados no server GraphQL. Pode ser uma mutation que cria um objeto, uma mutation que atualiza um objeto ou qualquer outro tipo de mutation.
+
+```graphql
+mutation {
+  createUser(input: { name: "John Doe", email: "john@doe.com" }) {
+    id
+    name
+    email
+  }
+}
+```
+
+#### Subscription
+
+GraphQL subscription é uma subscription que retorna dados do server GraphQL. Pode ser uma subscription para um único objeto, uma subscription para uma lista de objetos ou qualquer outro tipo de subscription.
+
+```graphql
+subscription {
+  userCreated {
+    id
+    name
+    email
+  }
+}
+```
+
+#### Resolvers
+
+GraphQL resolver é uma função que resolve uma operação GraphQL. Pode ser uma função que resolve uma query, uma função que resolve uma mutation ou qualquer outro tipo de função.
+
+```js
+const resolvers = {
+  Query: {
+    user: (parent, args, context, info) => {
+      return db.user.findUnique({ where: { id: args.id } });
+    },
+  },
+  Mutation: {
+    createUser: (parent, args, context, info) => {
+      return db.user.create({
+        data: { name: args.input.name, email: args.input.email },
+      });
+    },
+  },
+  Subscription: {
+    userCreated: {
+      subscribe: (parent, args, context, info) => {
+        return pubsub.asyncIterator("USER_CREATED");
+      },
+    },
+  },
+};
+```
+
+#### Context
+
+No contexto do GraphQL, o termo "context" geralmente se refere ao objeto de contexto que pode ser passado pela execução de uma query GraphQL. O objeto de contexto é uma forma de compartilhar e gerenciar state ou dados entre as funções resolver durante a execução de uma query.
+
+O parâmetro context é tipicamente um objeto que pode conter quaisquer dados ou funcionalidades que precisem ser compartilhados entre os resolvers.
+
+```graphql
+const resolvers = {
+  Query: {
+    user: (parent, args, context, info) => {
+      # Acessa dados do context
+      const { userId } = context;
+      # Busca e retorna dados do user com base no userId
+      return fetchUserData(userId);
+    }
+  }};
+```
+
+Nesse exemplo, a função resolver `user` recebe o parâmetro `context`, permitindo acessar o `userId` armazenado no objeto context.
+
+#### Casos de uso para Context
+
+- Authentication: armazenar informações sobre o usuário autenticado (ex.: user ID, roles) no context para serem acessadas por vários resolvers.
+- Authorization: passar informações sobre as permissões ou roles do usuário para tomar decisões de autorização dentro das funções resolver.
+- Data Fetching: compartilhar instâncias de data loaders, conexões de banco de dados ou outros recursos para serem usados por múltiplos resolvers.
+- Informações Específicas da Request: incluir informações específicas da request (ex.: request headers, IP address) no context para fins de logging ou outros.
+
+#### Tratamento de erros
+
+O tratamento de erros no GraphQL envolve gerenciar e comunicar erros que possam ocorrer durante a execução de uma operação GraphQL, como uma query ou mutation. GraphQL oferece uma forma estruturada e padronizada de tratar erros e retornar respostas de erro significativas aos clients.
+
+#### Formato dos erros
+
+No GraphQL, erros são representados como objetos com fields específicos. A estrutura padrão de um objeto de erro do GraphQL inclui pelo menos os seguintes fields:
+
+- message: uma descrição legível por humanos do erro.
+- locations: um array de localizações na query GraphQL de origem onde o erro ocorreu.
+- path: um array que descreve o caminho do field na response onde o erro ocorreu.
+
+```js
+{  "errors": [    {      "message": "User not found",      "locations": [{ "line": 4, "column": 7 }],      "path": ["user", "profile", "name"]    }  ],  "data": null}
+```
+
+#### Erros de execução
+
+Erros de execução ocorrem ao resolver um field, validar argumentos ou processar directives. Esses erros são incluídos no array `errors` na response.
+
+```js
+# Os fields de user existentes são: id, name e email.query {  user(id: "123") {    name    age # Esse field pode causar um erro de execução  }}
+```
+
+#### Tratando múltiplos erros
+
+Se múltiplos erros ocorrerem durante a execução de uma query, cada erro é incluído no array `errors`.
+
+```js
+{  "errors": [    {       "message": "Field 'age' must not have a selection since type 'String' has no subfields.",      "locations": […]    },    {      "message": "User not found",      "locations": […],      "path": ["user", "profile", "name"]    }  ],  "data": null}
+```
+
+#### Erros customizados e Extensions
+
+Os desenvolvedores podem incluir informações adicionais nas respostas de erro usando o field `extensions`. Isso é útil para fornecer códigos de erro customizados, informações de logging ou quaisquer outros metadados.
+
+```js
+{  "errors": [    {      "message": "Invalid input",      "locations": […],      "path": ["createUser"],      "extensions": {        "code": "INVALID_INPUT",        "timestamp": "2022–01–01T12:34:56Z"      }    }  ],  "data": null}
+```
+
+#### Tratando erros de validação
+
+Erros de validação ocorrem quando a query ou mutation GraphQL não está em conformidade com o schema. Esses erros são tipicamente retornados antes da fase de execução.
+
+```js
+{  "errors": [    {      "message": "Cannot query field 'usernmae' on type 'User'. Did you mean 'username'?",      "locations": […]    }  ],  "data": null}
+```
+
+#### Status Codes
+
+Respostas GraphQL tipicamente têm um status code 200 OK mesmo se houver erros. Para distinguir entre respostas bem-sucedidas e erradas, os clients podem checar a presença do field `errors`.
+
+Se usando HTTP, status codes HTTP adicionais (ex.: 400 Bad Request, 500 Internal Server Error) podem ser usados para uma categorização de erros mais granular.
+
+#### Tratando erros de Authentication e Authorization
+
+Erros de autenticação e autorização podem ser comunicados através do array `errors` com mensagens de erro específicas.
+
+```js
+{  "errors": [    {       "message": "Authentication failed. Please log in.",      "locations": […]    }  ],  "data": null}
+```
+
+#### Tratamento de erros customizado em resolvers
+
+Em funções resolver, os desenvolvedores podem disparar erros para sinalizar issues durante o data fetching. Esses erros são então capturados e incluídos na response GraphQL.
+
+```js
+const resolvers = {
+  Query: {
+    user: (_, { id }) => {
+      const user = fetchUserById(id);
+      if (!user) {
+        throw new Error("User not found");
+      }
+      return user;
+    },
+  },
+};
+```
+
+O tratamento de erros do GraphQL oferece uma forma padronizada de comunicar issues durante a execução de uma query. Incluindo informações detalhadas de erro na response, os clients podem entender e responder aos erros com eficácia. Além disso, o GraphQL permite flexibilidade em estender objetos de erro com metadados customizados, tornando as respostas de erro mais informativas tanto para clients quanto para desenvolvedores.
+
+## Boas práticas
+
+- https://graphql.org/learn/best-practices/
+- https://www.apollographql.com/docs/react/data/operation-best-practices
+
+## Conclusão
+
+Usar GraphQL oferece várias vantagens que o tornam uma escolha atraente para certos casos de uso.
+
+Algumas razões pelas quais você pode considerar usar GraphQL são:
+
+- Recuperação Eficiente de Dados
+- Single Request, Multiple Resources
+- Schema Flexível e Tipagem Forte
+- Versionamento e Evolução
+- Overhead Reduzido com Menos Endpoints
+- Dados em Tempo Real com Subscriptions
+- Otimizado para Aplicações Mobile
+
+É importante notar que, embora o GraphQL ofereça muitos benefícios, sua adequação depende dos requisitos específicos do seu projeto. Em alguns casos, APIs REST tradicionais ou outras tecnologias podem ser mais apropriadas. Considere fatores como seu modelo de dados, requisitos do client e a natureza da sua aplicação ao decidir se deve usar GraphQL.
+
+## Referências
+
+- https://graphql.org/learn/
+- https://www.apollographql.com/docs/

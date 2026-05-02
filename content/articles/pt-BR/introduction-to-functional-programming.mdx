@@ -1,6 +1,214 @@
 ---
-title: "Introdução à Programação Funcional em JavaScript"
-excerpt: "Um guia amigável para este paradigma incrível."
+title: "Introdução à Functional Programming em JavaScript"
+excerpt: "Um guia amigável sobre funções puras, imutabilidade e higher-order functions em JavaScript."
 ---
 
-🚧 A tradução deste artigo está em andamento.
+Functional programming é uma forma de programar que considera a computação como a avaliação de funções matemáticas e evita dados mutáveis e mudança de state. É um estilo declarativo de programação, em que expressões e declarações são usadas em vez de statements. Ao programar em um estilo funcional, o resultado de uma função depende apenas dos argumentos passados a ela, o que significa que, se uma função `f` for chamada duas vezes com exatamente o mesmo valor de um argumento `x`, ela vai produzir exatamente o mesmo resultado `f(x)` em ambas as vezes. Limitar side effects, ou seja, alterações de state que não dependem dos inputs da função, pode simplificar enormemente a compreensão e a previsão de um programa, o que é uma das principais razões pelas quais a functional programming foi inventada.
+
+Lambda calculus, um sistema formal criado nos anos 1930 para estudar definição de funções, aplicação de funções e recursão, serve como a base para functional programming. Várias linguagens de programação funcional podem ser vistas como expansões do lambda calculus. Outro tipo proeminente de programação declarativa, logic programming, depende de relações.
+
+## Functional Programming em JavaScript
+
+JavaScript é uma linguagem multi-paradigma, suportando programação imperativa/procedural junto com OOP (Object-Oriented Programming) e functional programming.
+
+A functional programming traz muitos benefícios, como:
+
+- Legibilidade
+- Reusabilidade
+- Testabilidade
+- Menos bugs
+- Concorrência
+
+## Os conceitos por trás da Functional Programming
+
+#### Pure Functions
+
+Pure functions são importantes porque são referencialmente transparentes. Isso significa que a chamada da função pode ser substituída pelo seu valor resultante sem mudar o significado do programa. Essa propriedade, chamada de transparência referencial, permite raciocínio equacional sobre programas.
+
+Veja a demonstração abaixo:
+
+```js
+// Impure
+const minimum = 21;
+const checkAge = (age) => age >= minimum;
+// Pure
+const checkAge = (age) => {
+  const minimum = 21;
+  return age >= minimum;
+};
+```
+
+#### Imutabilidade
+
+Em programação orientada a objetos e funcional, um objeto imutável é um objeto cujo state não pode ser modificado depois de criado. Isso contrasta com um objeto mutável, que pode ser modificado depois de criado.
+
+Objetos imutáveis frequentemente são úteis porque são inerentemente thread-safe. Outros benefícios são que eles são mais simples de entender e raciocinar e que são menos propensos a bugs. Objetos imutáveis também são úteis como hash keys.
+
+Veja a demonstração abaixo:
+
+```js
+// Mutable
+const person = { name: "Vitor", age: 28 };
+person.age = 30; // OK
+
+// Immutable
+const person = Object.freeze({ name: "Vitor", age: 28 });
+person.age = 30; // TypeError: Cannot assign to read only property 'age' of object '#<Object>'
+```
+
+#### First-class Functions
+
+Diz-se que uma linguagem de programação tem first-class functions se trata funções como cidadãs de primeira classe. Especificamente, isso significa que a linguagem suporta passar funções como argumentos para outras funções, retorná-las como valores de outras funções e atribuí-las a variáveis ou armazená-las em estruturas de dados.
+
+Veja a demonstração abaixo:
+
+```js
+// Atribuindo funções a variáveis
+const add = (a, b) => a + b;
+
+// Passando funções como argumentos para outras funções
+const subtract = (a, b) => a - b;
+const fcFn = (func) => func(2, 3);
+fcFn(add); // 5
+fcFn(subtract); // -1
+```
+
+#### Higher-order Functions
+
+Uma higher-order function é uma função que faz pelo menos uma das seguintes coisas:
+
+- recebe uma ou mais funções como argumentos (ou seja, parâmetros procedurais);
+- retorna uma função como seu resultado.
+
+Todas as outras funções são first-order functions. Em matemática, higher-order functions também são chamadas de operadores ou funcionais. O operador diferencial em cálculo é um exemplo comum, já que mapeia uma função para sua derivada, que também é uma função.
+
+Higher-order functions são frequentemente usadas para:
+
+- Abstrair ou isolar ações, efeitos ou operações.
+- Criar novas funções a partir de funções existentes através de partial application (fixando seus argumentos antecipadamente) ou encadeando (compondo) funções.
+- Passar uma função como argumento para outra função.
+
+Veja a demonstração abaixo:
+
+```js
+// Abstrair ou isolar ações, efeitos ou operações
+const withCount = (fn) => {
+  let count = 0;
+  return (...args) => {
+    console.log(`Call count: ${++count}`);
+    return fn(...args);
+  };
+};
+const add = (x, y) => x + y;
+const countedAdd = withCount(add);
+countedAdd(1, 2); // Call count: 1
+countedAdd(2, 2); // Call count: 2
+```
+
+#### Recursão
+
+Recursão é um método de resolver um problema em que a solução depende de soluções para instâncias menores do mesmo problema. Tais problemas geralmente podem ser resolvidos por iteração, mas isso exige identificar e indexar as instâncias menores em tempo de programação. A recursão resolve esses problemas recursivos usando funções que se chamam de dentro do próprio código. A abordagem pode ser aplicada a muitos tipos de problemas, e a recursão é uma das ideias centrais da ciência da computação.
+
+Veja a demonstração abaixo:
+
+```js
+const countDownFrom = (num) => {
+  if (num === 0) return;
+  console.log(num);
+  countDownFrom(num - 1);
+};
+countDownFrom(10); // 10 9 8 7 6 5 4 3 2 1
+```
+
+#### Function Composition
+
+Function composition é um ato ou mecanismo para combinar funções simples e construir outras mais complicadas. Como na composição usual de funções em matemática, o resultado de cada função é passado como argumento da próxima, e o resultado da última é o resultado do todo.
+
+Veja a demonstração abaixo:
+
+```js
+const compose = (f, g) => (data) => f(g(data));
+const multiplyBy3 = (num) => num * 3;
+const makePositive = (num) => Math.abs(num);
+const multiplyBy3AndAbsolute = compose(multiplyBy3, makePositive);
+multiplyBy3AndAbsolute(-50); // 150
+```
+
+#### Currying
+
+Currying é a técnica de traduzir a avaliação de uma função que recebe múltiplos argumentos (ou uma tupla de argumentos) na avaliação de uma sequência de funções, cada uma com um único argumento (partial application).
+
+Veja a demonstração abaixo:
+
+```js
+const multiply = (a, b) => a * b;
+const curriedMultiply = (a) => (b) => a * b;
+curriedMultiply(3)(4); // 12
+const multiplyBy5 = curriedMultiply(5);
+multiplyBy5(4); // 20
+```
+
+#### Partial Application
+
+Partial application (ou aplicação parcial de função) refere-se ao processo de fixar um número de argumentos de uma função, produzindo outra função de aridade menor.
+
+Veja a demonstração abaixo:
+
+```js
+const multiply = (a, b, c) => a * b * c;
+const partialMultiplyBy5 = multiply.bind(null, 5);
+partialMultiplyBy5(4, 10); // 200
+```
+
+#### Memoization
+
+Memoization é uma técnica de otimização usada principalmente para acelerar programas armazenando os resultados de chamadas custosas de funções e retornando o resultado em cache quando os mesmos inputs ocorrem novamente.
+
+Memoization também tem sido usada em outros contextos (e para outros propósitos além do ganho de velocidade), como em parsing recursivo descendente mutuamente simples, em que é comumente chamado de tabling.
+
+Veja a demonstração abaixo:
+
+```js
+const memoize = (fn) => {
+  let cache = {};
+  return (...args) => {
+    let n = args[0];
+    if (n in cache) {
+      console.log("Fetching from cache", n);
+      return cache[n];
+    } else {
+      console.log("Calculating result", n);
+      let result = fn(n);
+      cache[n] = result;
+      return result;
+    }
+  };
+};
+const factorial = memoize((x) => (x === 0 ? 1 : x * factorial(x - 1)));
+factorial(5); // Calculating result 5// 120
+```
+
+#### Point-free Style
+
+Point-free style (também points-free ou pointless style) é um paradigma de programação em que as definições de função não identificam os argumentos (ou "points") sobre os quais operam. Em vez disso, as definições apenas compõem outras funções, entre as quais estão combinators que manipulam os argumentos. Point-free style às vezes é descrito como "pointless programming", em analogia à pointless topology.
+
+Veja a demonstração abaixo:
+
+```js
+const getUserDisplayName = (user) => `${user.firstName} ${user.lastName}`;
+const users = [
+  { firstName: "Jane", lastName: "Doe" },
+  { firstName: "John", lastName: "Doe" },
+];
+users.map(getUserDisplayName); // ["Jane Doe", "John Doe"]
+```
+
+## Conclusão
+
+Functional programming é muito diferente da programação imperativa.
+
+As diferenças mais significativas vêm do fato de que functional programming evita side effects, que são usados em programação imperativa para implementar state e I/O.
+
+A pure functional programming previne completamente side effects e fornece transparência referencial.
+
+Além disso, functional programming te ajuda a escrever um código mais limpo e reutilizável.

@@ -1,6 +1,64 @@
 ---
 title: "React Design Patterns: The Container/Presentational Pattern"
-excerpt: "Como separar a lógica da apresentação na sua aplicação React."
+excerpt: "Como dominar a separação de responsabilidades separando a view da lógica da aplicação."
 ---
 
-🚧 A tradução deste artigo está em andamento.
+O pattern Container/Presentational, também conhecido como Container/View pattern ou Smart/Dumb pattern, é um design pattern comumente usado em aplicações React. Seu objetivo é separar as responsabilidades de gerenciar state e dados da lógica de renderização da UI.
+
+## Os atores
+
+Neste pattern, dividimos nossos componentes em duas categorias: containers e componentes presentational.
+
+- Container components são responsáveis por gerenciar o state e a lógica de dados da aplicação. Eles interagem com o store do Redux ou outras fontes de dados, fazem fetch dos dados, lidam com interações do usuário e gerenciam o state da aplicação. Não contêm nenhum markup de UI, já que seu foco principal é o gerenciamento de dados. Esses componentes tipicamente são class components, mas também podem ser implementados como componentes funcionais usando hooks.
+- Presentational components são focados puramente na lógica de renderização da UI. Recebem dados e callbacks como props dos container components e os usam para renderizar a UI propriamente dita. Presentational components são stateless e não têm conhecimento de onde os dados vêm ou de quais ações estão sendo realizadas sobre eles. Podem ser implementados como componentes funcionais, já que dependem apenas das props que lhes são passadas.
+
+## Velhos tempos e Class Components
+
+Antes do lançamento dos Hooks, era comum os desenvolvedores React usarem esse pattern para separar a lógica de um componente da sua view.
+
+Basicamente, criávamos dois arquivos para um único componente: um para a lógica e outro para a view.
+
+### Mostre-me o código
+
+Por exemplo, se tivéssemos um componente chamado Counter, teríamos o seguinte:
+
+```js
+// CounterView.js// Um arquivo View para o componente representacional.import React from 'react'const CounterView = ({ count, increment }) => (  <div>    <p>Count: {count}</p>    <button onClick={increment}>Increment</button>  </div>)export default CounterView
+```
+
+```js
+// CounterContainer.js
+// Um arquivo Container para o componente lógico.
+import React, { Component } from 'react'
+import CounterView from './CounterView'
+
+class CounterContainer extends Component {  state = {    count: 0  }  increment = () => {    this.setState(prevState => ({      count: prevState.count + 1    }))  }  render() {    return (      <CounterView count={this.state.count} increment={() => increment()}>    )  }}
+
+export default CounterContainer
+```
+
+Eu sei, é JavaScript puro com um Counter de novo no exemplo. Mas é para representar de verdade os velhos tempos. :)
+
+## Statefulness e Custom Hooks
+
+Em muitos casos, o pattern Container/Presentational pode ser substituído por React Hooks.
+
+### Mostre-me o código
+
+OK. Suponha que você esteja tentando fazer fetch de dados de uma Rest API.
+
+Com Hooks, podemos criar um custom hook que faz fetch dos dados e os retorna.
+
+```js
+// useStarWarsPeople.ts// Custom Hook para buscar dados de people de Star Warsimport { useState, useEffect } from "react";export default function useStarWarsPeople() {  const [people, setPeople] = useState([]);  useEffect(() => {    async function fetchStwarWarsPeople() {      const res = await fetch(        "https://swapi.dev/api/people"      );      const { results } = await res.json();      setPeople(results);    }    fetchStwarWarsPeople();  }, []);  return people;}
+```
+
+```js
+import React from 'react';import useStarWarsPeople from './useStarWarsPeople';interface IPerson {  name: string;  height: string;  homeworld: string;}const StarWarsPeople = () => {  const people = useStarWarsPeople();  return people.map((person: IPerson, i: number) => (    <div key={i}>      <h1>{person.name}</h1>      <p>Height: {person.height}</p>      <p>Homeworld: {person.homeworld}</p>    </div>  ));}export default StarWarsPeople;
+```
+
+## Conclusão
+
+Implementar esse pattern também pode tornar sua codebase mais manutenível e escalável. Com uma separação clara entre as responsabilidades, fica mais fácil raciocinar sobre a funcionalidade da aplicação e fazer mudanças ou atualizações sem afetar outras partes da codebase.
+
+No entanto, os Hooks tornam possível alcançar o mesmo resultado sem precisar usar o pattern Container/Presentational, e sem precisar reescrever um componente funcional stateless como class component. Note que, hoje em dia, não precisamos mais criar class components para usar state.

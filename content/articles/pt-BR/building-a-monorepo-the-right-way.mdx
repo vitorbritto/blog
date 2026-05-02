@@ -1,6 +1,69 @@
 ---
 title: "Construindo um Monorepo: A maneira certa"
-excerpt: "Os benefícios e desafios do desenvolvimento de monorepos."
+excerpt: "Os benefícios e desafios do desenvolvimento com Monorepo."
 ---
 
-🚧 A tradução deste artigo está em andamento.
+1. Capítulo 01: Os benefícios e desafios do desenvolvimento com Monorepo (você está aqui! 😃)
+2. Capítulo 02: Integrando o PNPM Workspace em um Monorepo
+3. Capítulo 03: Acelerando o gerenciamento de Monorepo com NX Workspace
+4. Capítulo 04: Como integrar e potencializar o processo de build usando NX e CI/CD
+
+Um monorepo é um único repositório que contém o código de múltiplos projetos relacionados. Isso facilita o gerenciamento da codebase e das dependências desses projetos, já que mudanças podem ser feitas em um lugar centralizado.
+
+Em vez de ter vários repositórios com suas próprias configurações, teremos apenas uma única fonte da verdade — o monorepo: um runner de suíte de testes, um arquivo de configuração do Docker e uma configuração para o WebPack. E você ainda tem escalabilidade, oportunidade de separar responsabilidades, compartilhamento de código com pacotes comuns e muitos outros prós. Mas existem alguns contras também.
+
+## Benefícios dos monorepos
+
+A abordagem com monorepo tem várias vantagens:
+
+- Visibilidade fácil: se você está trabalhando em uma aplicação que chama outra aplicação, pode olhar o código, entender como funciona e descobrir se os bugs vêm do seu próprio código ou da aplicação de outro time.
+- Compartilhamento de código: quando os times produzem cópias de código para construir aplicações, criam mais trabalho de engenharia. No entanto, se modelos gerais, bibliotecas coletivas e códigos auxiliares forem mantidos juntos em um único repositório, esses times podem colaborar e usá-los em diferentes aplicações.
+- Colaboração aprimorada: um monorepo remove barreiras e silos entre times, facilitando o design e a manutenção de conjuntos de aplicações que funcionam bem juntas.
+- Padronização: com monorepos, fica mais fácil padronizar código e tooling entre os times. Você pode criar políticas que mantêm sua main branch organizada, limitar o acesso a branches específicas, impor diretrizes de nomenclatura, incluir code reviewers e impor boas práticas. Branch policies mantêm o trabalho em andamento isolado do trabalho concluído.
+- Descobribilidade: um monorepo oferece uma visão única de todo o código. Você pode revisar o status do repositório inteiro, examinar todas as branches e acompanhar modificações com muito mais facilidade em monorepos do que em polyrepos.
+- Gerenciamento de release: um monorepo preserva informações completas de deploy para todo o sistema. Um pipeline automatizado de build e deploy esconde o conhecimento de deploy dentro de cada time, ao contrário de um polyrepo.
+- Refatoração mais fácil: ter acesso irrestrito a todas as aplicações simplifica o processo de reestruturar código em um monorepo. Além disso, alterar o layout do código se torna trivial. Realocar código-fonte entre folders e subfolders é notavelmente mais direto em comparação com transferir entre múltiplos repositórios.
+
+## Desafios dos monorepos
+
+Embora os monorepos ofereçam vantagens, eles também criam muitos desafios.
+
+Modificar código compartilhado pode ter um efeito amplo nos elementos da aplicação, e resolver conflitos de fonte pode ser árduo. Seu processo de deploy pode ser mais desafiador, e você precisa ser capaz de escalar seu sistema de gerenciamento de controle de versão.
+
+Mas, dependendo da sua situação, os benefícios dos monorepos podem superar esses desafios.
+
+## Considerações sobre monorepos
+
+À medida que os monorepos crescem, atingimos limites de design em ferramentas de controle de versão, sistemas de build e pipelines de continuous integration.
+
+- Performance ruim: monorepos são difíceis de escalar. Comandos como `git blame` podem demorar tempos absurdos, IDEs começam a travar e a produtividade sofre, e testar o repo inteiro a cada commit se torna inviável.
+- Main/master quebrada: uma master quebrada afeta todos que estão trabalhando no monorepo. Isso pode ser visto como desastroso ou como uma boa motivação para manter os testes limpos e atualizados.
+- Curva de aprendizado: a curva de aprendizado para novos desenvolvedores é mais íngreme se o repositório abrange muitos projetos fortemente acoplados.
+- Grandes volumes de dados: monorepos podem alcançar volumes de dados e commits por dia difíceis de gerenciar.
+- Ownership: manter o ownership dos arquivos é mais desafiador, já que o Git não tem permissões de diretório nativas.
+- Code reviews: notificações podem ficar muito barulhentas. Por exemplo, o GitHub tem configurações limitadas de notificações que não são ideais para uma avalanche de pull requests e code reviews.
+
+## Equívocos sobre monorepos
+
+- Serviços conteinerizados: você pode mitigar e usar múltiplas linguagens de programação e ferramentas usando containers, com cada microservice construído na imagem do container e então deployado como uma unidade individual.
+- Código fortemente acoplado: ao desenvolver microservices, você os torna independentes, então eles não dependem de outros microservices. Você pode fazer o mesmo em um monorepo quando seu time segue boas práticas e diretrizes para o desenvolvimento de microservices. A ideia é dividir um sistema grande em unidades fracamente acopladas e independentemente deployáveis que, ao contrário de componentes, se comunicam umas com as outras através das fronteiras de processo.
+- Atualização independente: você pode pensar que atualizar microservices de forma independente é impossível com um monorepo. Não é. Você pode enfrentar esse desafio substituindo rolling updates por estratégias de deploy mais avançadas, como blue-green ou canary. Você pode deployar a nova versão lado a lado com a versão anterior enquanto garante que a nova versão da aplicação/serviço funciona como esperado. Se detectar um bug, pode redirecionar rapidamente o tráfego para a versão anterior.
+
+## Resumindo os pontos acima
+
+Pipelines automatizados de continuous integration e continuous deployment (CI/CD) ajudam a mitigar todos esses desafios do monorepo. Cada time de desenvolvimento pode trabalhar de forma independente na aplicação/serviço, construir sua imagem de container e fazer deploy sem afetar outros times. Eles podem validar o microservice em um ambiente de teste antes de enviá-lo para produção e manter as versões antiga e nova disponíveis. Conteinerização permite que você deploye e teste microservices de forma independente sem se preocupar com as diferentes ferramentas e linguagens de programação deles.
+
+Ferramentas de CI/CD podem escalar automaticamente e ajudam a gerenciar deploys complexos, para que você possa buildar, testar e até fazer deploy de microservices individuais a partir de um monorepo maior.
+
+## Decidindo uma estratégia que funcione para o seu time
+
+Como você decide se deve usar um monorepo ou polyrepo para o desenvolvimento do seu time?
+
+- Cultura do time: é uma boa combinação para o desenvolvimento colaborativo?
+- Disciplina do time: eles vão conseguir se conter para não criar código fortemente acoplado?
+
+Você pode colocar todas essas práticas em prática com um pipeline de CI/CD unificado e automatizado, em que seu time builda, testa e faz deploy de serviços individuais a partir de um monorepo maior. Automatizar seu pipeline facilita o gerenciamento do seu monorepo, mantendo um ritmo rápido de deploy.
+
+Então, você decidiu trabalhar com monorepo, e agora?
+
+Vamos falar sobre isso no próximo capítulo! 🥳

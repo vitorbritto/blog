@@ -1,6 +1,391 @@
 ---
-title: "Criando fundamentos de código"
-excerpt: "Padrões de design estruturais em JavaScript."
+title: "Forjando fundamentos de código"
+excerpt: "Structural Design Patterns em JavaScript."
 ---
 
-🚧 A tradução deste artigo está em andamento.
+Structural patterns focam em como organizar diferentes classes e objetos para formar estruturas maiores e mais eficientes.
+
+Eles ajudam a garantir que mesmo sistemas complexos sejam organizados de uma forma mais fácil de gerenciar e entender.
+
+## Adapter
+
+O pattern Adapter permite que interfaces incompatíveis trabalhem juntas. Ele atua como um intermediário que traduz a interface de uma classe em uma interface esperada por um client.
+
+### Caso de uso
+
+Imagine que seu sistema precisa se integrar a diferentes serviços de pagamento que têm APIs distintas. O pattern Adapter pode ser usado para criar uma interface unificada que seu sistema pode utilizar, independentemente da API específica do serviço de pagamento.
+
+### Como implementar
+
+```js
+// Legacy payment service
+class LegacyPaymentService {
+  constructor() {
+    this.api = "https://oldpaymentservice.com/api";
+  }
+  sendPayment(amount) {
+    console.log(`Payment of $${amount} sent using ${this.api}`);
+  }
+}
+
+// Modern payment service
+class ModernPaymentService {
+  constructor() {
+    this.api = "https://modernpaymentservice.com/api";
+  }
+  makePayment(amount) {
+    console.log(`Payment of $${amount} sent using ${this.api}`);
+  }
+}
+
+// Adapter
+class PaymentAdapter {
+  constructor(service) {
+    this.service = service;
+  }
+  pay(amount) {
+    if (this.service instanceof ModernPaymentService) {
+      return this.service.makePayment(amount);
+    }
+    return this.service.sendPayment(amount);
+  }
+}
+
+// Usando o Adapter
+const legacyPayment = new PaymentAdapter(new LegacyPaymentService());
+const modernPayment = new PaymentAdapter(new ModernPaymentService());
+
+// Payment of $100 sent using https://oldpaymentservice.com/api
+legacyPayment.pay(100);
+
+// Payment of $200 sent using https://modernpaymentservice.com/api
+modernPayment.pay(200);
+```
+
+## Facade
+
+O pattern Facade oferece uma interface simplificada para um subsistema complexo. Ele esconde a complexidade do sistema e oferece uma interface mais amigável.
+
+### Caso de uso
+
+O pattern Facade pode ser usado para simplificar a interação com um sistema complexo de processamento de transações, expondo métodos simples para operações comuns.
+
+### Como implementar
+
+```js
+class AccountService {
+  getAccountDetails(accountId) {
+    console.log(`Obtaining account details for ${accountId}`);
+    return { balance: 1000 };
+  }
+}
+class TransactionService {
+  createTransaction(accountId, amount) {
+    console.log(`Creating transaction of $${amount} for account ${accountId}`);
+  }
+}
+class NotificationService {
+  sendNotification(accountId, message) {
+    console.log(`Sending notification to account ${accountId}: ${message}`);
+  }
+}
+
+// Facade
+class BankingFacade {
+  constructor() {
+    this.accountService = new AccountService();
+    this.transactionService = new TransactionService();
+    this.notificationService = new NotificationService();
+  }
+  performTransaction(accountId, amount) {
+    const accountDetails = this.accountService.getAccountDetails(accountId);
+    if (accountDetails.balance >= amount) {
+      this.transactionService.createTransaction(accountId, amount);
+      this.notificationService.sendNotification(
+        accountId,
+        "Transaction completed successfully"
+      );
+    } else {
+      this.notificationService.sendNotification(
+        accountId,
+        "Insufficient balance"
+      );
+    }
+  }
+}
+
+// Usando o Facade
+
+const banking = new BankingFacade();
+banking.performTransaction("123456", 200); // Obtaining account details, Creating transaction, Sending notification
+```
+
+## Composite
+
+O pattern Composite permite que objetos sejam compostos em estruturas em árvore para representar hierarquias parte-todo. Ele permite que clients tratem objetos individuais e composições de objetos de forma uniforme.
+
+### Caso de uso
+
+O pattern Composite pode ser usado para modelar um sistema de gestão de portfólio, em que cada portfólio pode conter uma combinação de ativos individuais e outros portfólios.
+
+### Como implementar
+
+```js
+class PortfolioComponent {
+  getValue() {
+    throw new Error("Method not implemented");
+  }
+}
+
+class Asset extends PortfolioComponent {
+  constructor(name, value) {
+    super();
+    this.name = name;
+    this.value = value;
+  }
+  getValue() {
+    return this.value;
+  }
+}
+
+class Portfolio extends PortfolioComponent {
+  constructor(name) {
+    super();
+    this.name = name;
+    this.components = [];
+  }
+  add(component) {
+    this.components.push(component);
+  }
+  getValue() {
+    return this.components.reduce(
+      (total, component) => total + component.getValue(),
+      0
+    );
+  }
+}
+
+// Usando o Composite
+const stock1 = new Asset("Stock 1", 100);
+const stock2 = new Asset("Stock 2", 200);
+const mainPortfolio = new Portfolio("Main Portfolio");
+mainPortfolio.add(stock1);
+mainPortfolio.add(stock2);
+const subPortfolio = new Portfolio("Subportfolio");
+subPortfolio.add(new Asset("Stock 3", 50));
+subPortfolio.add(new Asset("Stock 4", 150));
+mainPortfolio.add(subPortfolio);
+console.log(`Total portfolio value: $${mainPortfolio.getValue()}`); // Total portfolio value: $500
+```
+
+## Decorator
+
+O pattern Decorator permite que comportamentos sejam adicionados a objetos individuais de forma dinâmica e transparente, sem afetar o comportamento de outros objetos da mesma classe.
+
+### Caso de uso
+
+Vamos imaginar que um sistema de contas precise aplicar diferentes tipos de taxas e descontos dinamicamente. O Decorator pode ser usado para aplicar essas modificações sem alterar a estrutura da classe principal de conta.
+
+### Como implementar
+
+```js
+class Account {
+  getBalance() {
+    return 1000;
+  }
+}
+
+class FeeDecorator {
+  constructor(account) {
+    this.account = account;
+  }
+
+  getBalance() {
+    return this.account.getBalance() - 50; // Deduz uma taxa
+  }
+}
+
+class BonusDecorator {
+  constructor(account) {
+    this.account = account;
+  }
+
+  getBalance() {
+    return this.account.getBalance() + 100; // Adiciona um bônus
+  }
+}
+
+// Usando o Decorator
+let account = new Account();
+console.log(`Initial balance: $${account.getBalance()}`);
+
+// Initial balance: $1000
+account = new FeeDecorator(account);
+console.log(`Balance after fee: $${account.getBalance()}`);
+// Balance after fee: $950
+account = new BonusDecorator(account);
+console.log(`Balance after bonus: $${account.getBalance()}`);
+// Balance after bonus: $1050
+```
+
+## Proxy
+
+O pattern Proxy oferece um substituto ou placeholder através do qual um objeto pode controlar o acesso a outro. Pode ser usado para adicionar uma camada de controle ou funcionalidade adicional ao objeto real.
+
+### Caso de uso
+
+O pattern Proxy pode ser usado para controlar o acesso a recursos críticos, como dados financeiros sensíveis, aplicando verificações de segurança antes de permitir o acesso ao objeto real.
+
+### Como implementar
+
+```js
+class Account {
+  constructor(balance) {
+    this.balance = balance;
+  }
+  getBalance() {
+    return this.balance;
+  }
+}
+class AccountProxy {
+  constructor(account) {
+    this.account = account;
+  }
+  getBalance(userRole) {
+    if (userRole === "employment") {
+      return this.account.getBalance();
+    } else {
+      throw new Error("Access denied");
+    }
+  }
+}
+
+// Usando o Proxy
+const account = new Account(1000);
+const proxy = new AccountProxy(account);
+
+try {
+  console.log(`Balance for customer: ${proxy.getBalance("customer")}`);
+  // Access denied
+} catch (e) {
+  console.error(e.message);
+}
+console.log(`Balance for employment: ${proxy.getBalance("employment")}`); // Balance for employment: $1000
+```
+
+## Bridge
+
+O pattern Bridge desacopla uma abstração da sua implementação para que as duas possam variar de forma independente. Ele usa composição em vez de herança para permitir que implementações sejam desenvolvidas separadamente das abstrações.
+
+### Caso de uso
+
+O pattern Bridge pode ser usado, por exemplo, para separar a lógica de negócio de diferentes tipos de contas (corrente, poupança) das suas implementações específicas, como diferentes bancos ou serviços financeiros.
+
+### Como implementar
+
+```js
+// Implementação
+class Bank {
+  deposit(amount) {
+    throw new Error("Method not implemented");
+  }
+  withdraw(amount) {
+    throw new Error("Method not implemented");
+  }
+}
+
+class BankA extends Bank {
+  deposit(amount) {
+    console.log(`Depositing $${amount} in Bank A`);
+  }
+
+  withdraw(amount) {
+    console.log(`Withdrawing $${amount} from Bank A`);
+  }
+}
+
+class BankB extends Bank {
+  deposit(amount) {
+    console.log(`Depositing $${amount} in Bank B`);
+  }
+  withdraw(amount) {
+    console.log(`Withdrawing $${amount} from Bank B`);
+  }
+}
+
+// Abstração
+class Account {
+  constructor(bank) {
+    this.bank = bank;
+  }
+  deposit(amount) {
+    this.bank.deposit(amount);
+  }
+  withdraw(amount) {
+    this.bank.withdraw(amount);
+  }
+}
+
+// Usando o Bridge
+const bankA = new BankA();
+const bankB = new BankB();
+
+const accountA = new Account(bankA);
+const accountB = new Account(bankB);
+
+accountA.deposit(100); // Depositing $100 in Bank A
+accountB.deposit(100); // Depositing $100 in Bank B
+```
+
+## Flyweight
+
+O pattern Flyweight reduz o número de objetos criados e diminui o uso de memória e o consumo de recursos. Ele compartilha objetos para que possam ser usados em múltiplos contextos simultaneamente.
+
+### Caso de uso
+
+Por exemplo, o pattern Flyweight pode ser usado para gerenciar instâncias de transações que ocorrem com frequência e têm propriedades repetitivas, economizando memória ao compartilhar dados comuns entre essas instâncias.
+
+### Como implementar
+
+```js
+class Transaction {
+  constructor(type) {
+    this.type = type;
+  }
+  execute(accountId, amount) {
+    console.log(
+      `Executing ${this.type} of $${amount} for account ${accountId}`
+    );
+  }
+}
+class TransactionFactory {
+  constructor() {
+    this.transactions = {};
+  }
+  getTransaction(type) {
+    if (!this.transactions[type]) {
+      this.transactions[type] = new Transaction(type);
+    }
+    return this.transactions[type];
+  }
+}
+
+// Usando o Flyweight
+const factory = new TransactionFactory();
+const deposit = factory.getTransaction("Deposit");
+const withdrawal = factory.getTransaction("Withdrawal");
+deposit.execute("123456", 100); // Executing Deposit of $100 for account 123456
+withdrawal.execute("123456", 50); // Executing Withdrawal of $50 for account 123456
+deposit.execute("654321", 200); // Executing Deposit of $200 for account 654321
+```
+
+## Conclusão
+
+Structural design patterns oferecem soluções elegantes para organizar classes e objetos, facilitando a manutenção e a evolução do código. Cada structural pattern discutido oferece um conjunto específico de benefícios e pode ser aplicado para resolver problemas comuns no desenvolvimento de software.
+
+Implementar esses patterns não só melhora a organização do código, como também aprimora sua eficiência e reusabilidade. Adotando esses patterns, os desenvolvedores podem criar aplicações mais robustas, preparadas para enfrentar os desafios de sistemas complexos, garantindo um desenvolvimento sustentável e eficiente.
+
+## Referências
+
+- https://en.wikipedia.org/wiki/Software_design_pattern
+- https://www.amazon.com/Design-Patterns-Elements-Reusable-Object-Oriented/dp/0201633612

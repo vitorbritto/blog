@@ -1,6 +1,129 @@
 ---
 title: "React Design Patterns: Conditional Rendering Pattern"
-excerpt: "Controle dinâmico do que é exibido para o usuário."
+excerpt: "Controle dinamicamente o que é exibido para o usuário."
 ---
 
-🚧 A tradução deste artigo está em andamento.
+Conditional rendering no React se refere à prática de renderizar conteúdos ou componentes diferentes com base em determinadas condições. Isso permite controlar dinamicamente o que é exibido para o usuário em resposta a várias situações ou mudanças no state da sua aplicação. Existem várias formas de implementar conditional rendering no React, e um pattern comum é usar instruções condicionais do JavaScript dentro do JSX.
+
+Este é, sem dúvida, um dos patterns mais básicos e amplamente usados com componentes React. Tipicamente, conditional rendering é alcançado usando ou o operador `&&` ou o operador ternário.
+
+```js
+{
+  condition && <span>Renderizado quando truthy</span>;
+}
+{
+  condition ? (
+    <span>Renderizado quando truthy</span>
+  ) : (
+    <span>Renderizado quando falsy</span>
+  );
+}
+```
+
+Em alguns casos, podemos também considerar usar `if`, `switch` ou object literals.
+
+Nos meus projetos React, se eu tenho mais de duas opções, como múltiplas variações, prefiro usar object literals.
+
+**Por quê?**
+
+É mais elegante e fácil de manter.
+
+**Veja este exemplo:**
+
+```js
+import React from "react";
+const variations = {
+  variation1: <p>Esta é a variação 1.</p>,
+  variation2: <p>Esta é a variação 2.</p>,
+  default: <p>Esta é a variação default.</p>,
+};
+
+const MyComponent = ({ variation }) => {
+  // Use a prop variation para selecionar dinamicamente o conteúdo
+  const content = variations[variation] ?? variations["default"];
+  return (
+    <div>
+      <h2>Exemplo de Conditional Rendering</h2>
+      {content}
+    </div>
+  );
+};
+
+// Exemplo de uso
+const App = () => {
+  return (
+    <>
+      <MyComponent variation="variation1" />
+      <MyComponent variation="variation2" />
+      <MyComponent variation="unknownVariation" />
+    </>
+  );
+};
+```
+
+Ou você pode lidar com o componente inteiro assim:
+
+```js
+import React from "react";
+const authSteps = {
+  email: <AuthEmailStep />,
+  otp: <AuthOTPStep />,
+  pin: <AuthPINStep />,
+  biometrics: <AuthBiometricsStep />,
+  default: <AuthEmailStep />,
+};
+
+// AuthEmailStep.tsx
+const AuthEmailStep = () => {
+  return (
+    // código aqui...
+  );
+};
+
+// AuthOTPStep.tsx
+const AuthOTPStep = () => {
+  return (
+    // código aqui...
+  );
+};
+
+// AuthPINStep.tsx
+const AuthPINStep = () => {
+  return (
+    // código aqui...
+  );
+};
+
+// AuthBiometricsStep.tsx
+const AuthBiometricsStep = () => {
+  return (
+    // código aqui...
+  );
+};
+
+// AuthContainer.tsx
+const AuthContainer = () => {
+  // Vamos supor que estamos usando um Custom Hook para buscar dados
+  // de algum serviço no Back-end e que esse serviço retorna o step OTP.
+  const { step } = useAuthStep();
+  // authComponent vai ser o componente AuthOTPStep.
+  const authComponent = authSteps[step] ?? authSteps["default"];
+  return <>{authComponent}</>;
+};
+```
+
+### Conclusão
+
+Este pattern é especialmente útil quando você tem múltiplas variações e quer manter seu código limpo e fácil de manter. Ele permite adicionar ou modificar variações facilmente sem encher seu componente de muitas instruções condicionais.
+
+Obrigado pela leitura. Se tiver alguma observação ou sugestão, fique à vontade para deixar um comentário abaixo.
+
+Você pode me seguir no Twitter, Github e LinkedIn.
+
+Até mais! 👋
+
+Por Vitor Britto, em 25 de novembro de 2023.
+
+Link canônico
+
+Exportado do Medium em 3 de fevereiro de 2025.

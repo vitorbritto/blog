@@ -1,6 +1,183 @@
 ---
-title: "Início rápido na manipulação do DOM"
-excerpt: "Um guia para desenvolvedores iniciantes."
+title: "Pontapé inicial à manipulação do DOM"
+excerpt: "Um mergulho profundo no coração do desenvolvimento web."
 ---
 
-🚧 A tradução deste artigo está em andamento.
+Neste pontapé inicial, vamos explorar os detalhes da manipulação do DOM, oferecendo exemplos de código e ilustrações para aprimorar seu entendimento.
+
+## Entendendo o DOM
+
+O que é o DOM?
+O Document Object Model (DOM) é uma interface de programação que representa a estrutura de um documento como uma árvore de objetos. Ele oferece uma forma de scripts acessarem e manipularem o conteúdo, a estrutura e o estilo de uma página web dinamicamente.
+
+A estrutura em árvore do DOM
+A árvore do DOM consiste em nodes, em que cada node representa um elemento, atributo ou trecho de texto no documento HTML. Entender essa estrutura em árvore é essencial para uma manipulação eficaz do DOM.
+
+## Selecionando elementos do DOM
+
+### Por Tag Name
+
+Usando o método `getElementsByTagName` no JavaScript, os desenvolvedores podem focar e recuperar uma coleção de elementos do DOM que compartilham uma tag HTML comum. Esse método retorna uma `HTMLCollection` viva, que é um objeto semelhante a um array contendo todos os elementos com a tag especificada.
+
+```js
+// Seleciona todos os elementos <p>
+const paragraphs = document.getElementsByTagName("p");
+```
+
+### Por ID
+
+Cada elemento HTML pode ter um atributo `id`, que deve ser único dentro do documento. O método `getElementById` no JavaScript facilita a recuperação de um único elemento do DOM com base no seu ID único.
+
+É importante notar que o método retorna `null` se não houver elemento com o ID especificado no documento. Por isso, é boa prática checar por `null` antes de tentar realizar qualquer operação no elemento retornado.
+
+```js
+const myUniqueElement = document.getElementById("uniqueId");
+if (myUniqueElement !== null) {
+  // Realiza operações em myUniqueElement
+} else {
+  console.log("Element not found");
+}
+```
+
+### Por Class Name
+
+O método `getElementsByClassName` no JavaScript retorna uma `HTMLCollection` viva contendo todos os elementos no documento com um nome de classe especificado.
+
+```js
+// Seleciona todos os elementos com a classe 'myClass'
+const elementsByClass = document.getElementsByClassName("myClass");
+```
+
+### Query Selector
+
+Mesmo tendo as opções acima para identificar seletores CSS, seja por tipo, ID, classe e outros, sempre prefira usar `querySelector` para identificá-los.
+
+```js
+// Seleciona um elemento com a classe '.intro'
+const introParagraph = document.querySelector(".intro");
+// Seleciona todos os elementos usando o seletor de classe '.selected'
+const introParagraph = document.querySelectorAll(".selected");
+```
+
+## Manipulando elementos do DOM
+
+Manipular elementos do DOM (Document Object Model) é um aspecto fundamental do desenvolvimento web, permitindo aos desenvolvedores alterar dinamicamente o conteúdo, a estrutura e a aparência de uma página web usando JavaScript. O DOM representa a estrutura do documento como uma árvore de objetos, em que cada elemento HTML é um node.
+
+### Mudando o conteúdo de um elemento
+
+Mudar o conteúdo de um elemento é uma tarefa comum no desenvolvimento web e envolve atualizar o conteúdo textual ou HTML dentro de um elemento HTML dinamicamente. O JavaScript oferece vários métodos para alcançar isso, dependendo do resultado desejado.
+
+```js
+// Muda o textContent de um elemento
+const elementById = document.querySelector("#disclaimer");
+elementById.textContent = "New Text Content";
+```
+
+### Modificando atributos
+
+Modificar atributos de elementos HTML permite aos desenvolvedores manipular várias propriedades e comportamentos dos elementos em uma página web. O JavaScript oferece métodos para modificar atributos de forma eficiente, aprimorando a interatividade e a responsividade das aplicações web.
+
+```js
+// Muda o valor do atributo 'src' de uma imagem
+const image = document.querySelector("img");
+image.setAttribute("src", "new-image.jpg");
+```
+
+### Adicionando e removendo elementos
+
+As Web APIs oferecem métodos para criar novos elementos, anexá-los e remover elementos existentes, oferecendo flexibilidade para construir aplicações web dinâmicas e interativas.
+
+```js
+// Cria um novo elemento de parágrafo
+const newParagraph = document.createElement("p");
+// Anexa o novo parágrafo ao body
+document.body.appendChild(newParagraph);
+// Remove um elemento
+const elementToRemove = document.getElementById("elementToRemove");
+elementToRemove.parentNode.removeChild(elementToRemove);
+```
+
+## Estilizando elementos
+
+Mesmo sendo possível usar CSS através de manipulação do DOM, isso não é considerado uma boa prática. É sempre preferível adicionar ou remover classes em CSS para refletir comportamentos visuais na sua aplicação web.
+
+```js
+// Muda a cor de fundo de um elemento
+elementById.style.backgroundColor = "lightblue";
+// Adiciona uma classe CSS a um elemento
+elementById.classList.add("highlight");
+```
+
+## Tratamento de eventos com manipulação do DOM
+
+O tratamento de eventos permite aos desenvolvedores definir como a aplicação responde a esses eventos, e a manipulação do DOM oferece uma forma de atualizar dinamicamente a estrutura e o conteúdo da página web em resposta a esses eventos.
+
+### O básico de eventos
+
+Eventos são interações do usuário com a página web, como cliques, pressionamentos de tecla ou movimentos do mouse. A manipulação do DOM frequentemente envolve responder a esses eventos.
+
+### Adicionando event listeners
+
+Adicionar event listeners é um aspecto fundamental do desenvolvimento web, permitindo aos desenvolvedores tornar páginas web interativas ao responder a ações do usuário, como cliques, pressionamentos de tecla, movimentos do mouse e mais.
+
+```js
+// Adiciona um event listener de click a um botão
+const button = document.getElementById("myButton");
+button.addEventListener("click", () => {
+  alert("Button clicked!");
+});
+```
+
+### Propagação de eventos
+
+Eventos podem se propagar pela fase de capture, pela fase de target e pela fase de bubbling.
+
+1. Event Capturing Phase: durante essa fase, o evento viaja da raiz da árvore do DOM até o elemento alvo. Event handlers registrados na fase de capture são executados na ordem em que os elementos estão aninhados, começando da raiz e indo em direção ao elemento alvo. Essa fase permite capturar eventos antes que eles cheguem ao elemento alvo.
+2. Event Target Phase: assim que o evento chega ao elemento alvo, a fase target começa. Event handlers registrados para o elemento alvo são executados durante essa fase.
+3. Event Bubbling Phase: depois da fase target, o evento começa a fazer bubble do elemento alvo de volta à raiz da árvore do DOM. Event handlers registrados na fase de bubbling são executados na ordem inversa da fase de capture, começando do elemento alvo e indo em direção à raiz.
+
+Event listeners podem ser anexados a elementos para escutar eventos durante a fase de capture, configurando o terceiro parâmetro do método `addEventListener` como `true`. Por padrão, event listeners são anexados na fase de bubbling se o terceiro parâmetro não for especificado ou for definido como `false`.
+
+### Técnicas avançadas de manipulação do DOM
+
+Essas técnicas envolvem estratégias mais nuançadas e poderosas para interagir com o DOM, permitindo aos desenvolvedores construir interfaces de usuário responsivas, interativas e altamente customizadas.
+
+### Percorrendo o DOM
+
+Percorrer o DOM (Document Object Model) envolve navegar pela estrutura de documentos HTML usando JavaScript. Permite aos desenvolvedores se mover entre elementos, acessar nodes pais, filhos e irmãos e manipular o conteúdo e os atributos de diferentes elementos.
+
+```js
+// Percorre o DOM para cima para encontrar o ancestral mais próximo com uma classe específica
+const closestParent = elementById.closest(".parentClass");
+```
+
+### Criação dinâmica de elementos
+
+Essa abordagem é mais eficiente do que adicionar elementos diretamente ao DOM, pois minimiza o número de reflows e repaints, resultando em performance aprimorada.
+
+```js
+// Cria um document fragment para manipulação eficiente do DOM
+const fragment = document.createDocumentFragment();
+// Anexa elementos ao Fragment
+const divElement = document.createElement("div");
+const buttonElement = document.createElement("button");
+fragment.appendChild(divElement);
+fragment.appendChild(buttonElement);
+// Anexa o Fragment ao DOM
+const container = document.getElementById("containerId");
+container.appendChild(fragment);
+```
+
+## Armadilhas comuns e boas práticas
+
+- **Memory Leaks:** seja cauteloso com event listeners e referências de elementos para evitar memory leaks. Remova event listeners e referências quando não forem mais necessários.
+- **Compatibilidade entre browsers:** teste seu código em múltiplos browsers para garantir compatibilidade. Use feature detection e fallbacks quando necessário.
+- **Otimização de performance:** minimize manipulações do DOM para uma performance melhor. Faça batch de atualizações do DOM, use seletores eficientes e considere usar bibliotecas como jQuery para aplicações complexas.
+
+## Conclusão
+
+A manipulação do DOM é uma ferramenta poderosa no arsenal do web developer, permitindo a criação de páginas web dinâmicas e interativas. Ao dominar as técnicas descritas neste guia completo, você pode aprimorar sua capacidade de criar aplicações web robustas e amigáveis.
+
+## Referências
+
+- https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model

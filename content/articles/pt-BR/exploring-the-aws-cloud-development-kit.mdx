@@ -1,6 +1,249 @@
 ---
 title: "Explorando o AWS Cloud Development Kit (CDK)"
-excerpt: "Como criar e gerenciar recursos da AWS com código."
+excerpt: "Um guia completo sobre o AWS CDK."
 ---
 
-🚧 A tradução deste artigo está em andamento.
+O CDK abstrai a complexidade de configurar manualmente recursos na AWS, oferecendo uma forma mais eficiente e escalável de gerenciar sua infraestrutura.
+
+## O que é o AWS CDK?
+
+O AWS CDK é um framework open-source que permite criar, provisionar e gerenciar recursos da AWS programaticamente. Usando o CDK, os desenvolvedores podem definir sua infraestrutura usando linguagens de programação em vez de arquivos YAML ou JSON, como é comum com o AWS CloudFormation.
+
+## Vantagens do AWS CDK
+
+Linguagens de Programação Familiares
+Uma das principais vantagens do CDK é a capacidade de usar linguagens que os desenvolvedores já conhecem. Isso facilita a integração da definição de infraestrutura ao workflow de desenvolvimento existente.
+
+Abstrações de Alto Nível
+O CDK oferece constructs de alto nível chamados "L2 Constructs" que abstraem a complexidade dos recursos da AWS, permitindo configurar serviços complexos com apenas algumas linhas de código.
+
+Reusabilidade e Modularização
+O CDK permite criar e reutilizar módulos de infraestrutura, promovendo modularização e reuso de código. Isso facilita manter e evoluir a infraestrutura ao longo do tempo.
+
+Integração com AWS CloudFormation
+O CDK gera templates do AWS CloudFormation, permitindo aproveitar o poder e a robustez do CloudFormation para deployar e gerenciar sua infraestrutura.
+
+## Conceitos básicos do AWS CDK
+
+### Projects
+
+Projects no AWS CDK são a estrutura organizacional básica para definir infraestrutura.
+
+Quando você inicializa um novo projeto CDK, ele cria a estrutura de diretório e arquivos necessária para começar a definir e deployar recursos da AWS.
+
+Cada projeto pode conter uma ou mais aplicações (Apps).
+
+### Apps
+
+Um App é a unidade de deploy do CDK. Encapsula um conjunto de Stacks que serão deployadas na AWS.
+
+### Stacks
+
+Stacks são os blocos fundamentais de construção no CDK.
+
+Cada Stack representa uma coleção de recursos da AWS que serão deployados juntos. Stacks são definidas usando classes nas linguagens de programação suportadas.
+
+Deixa eu mostrar um exemplo de como podemos definir uma stack para um S3 Bucket.
+
+```js
+import * as cdk from "aws-cdk-lib";
+import { Construct } from "constructs";
+import * as s3 from "aws-cdk-lib/aws-s3";
+
+export class MyCdkAppStack extends cdk.Stack {
+  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+    super(scope, id, props);
+
+    // Definindo um bucket S3
+    new s3.Bucket(this, "MyFirstBucket", {
+      versioned: true, // Habilita versionamento
+      removalPolicy: cdk.RemovalPolicy.DESTROY, // Define o que acontece com o bucket quando a stack é deletada
+      autoDeleteObjects: true, // Deleta automaticamente os objetos do bucket quando a stack é deletada
+    });
+  }
+}
+```
+
+Isso vai criar um bucket S3 com versionamento habilitado, e ele será automaticamente deletado junto com seus objetos quando a stack for destruída.
+
+Tranquilo, né? 😄
+
+## Constructs
+
+Constructs são os principais componentes do CDK. Podem ser considerados como "recursos" ou "serviços" e vêm em três níveis:
+
+- L1 (Low-Level Constructs): representam diretamente recursos do CloudFormation.
+- L2 (High-Level Constructs): abstraem a complexidade dos L1 Constructs e oferecem interfaces mais simples.
+- L3 (Patterns): combinações de L2 Constructs para implementar patterns arquiteturais completos.
+
+## Environments
+
+Environments no AWS CDK representam diferentes configurações, como desenvolvimento, testes e produção. Permitem definir e deployar recursos da AWS em diferentes contas e regiões.
+
+Exemplo:
+
+```js
+#!/usr/bin/env nodeimport * as cdk from 'aws-cdk-lib';import { MyCdkEnvironmentsAppStack } from '../lib/my-cdk-environments-app-stack';// Define environmentsconst devEnv = { account: '111111111111', region: 'us-west-2' };const prodEnv = { account: '222222222222', region: 'us-east-1' };const app = new cdk.App();// Deploy stack para o environment de desenvolvimentonew MyCdkEnvironmentsAppStack(app, 'MyCdkEnvironmentsAppStackDev', { env: devEnv });// Deploy stack para o environment de produçãonew MyCdkEnvironmentsAppStack(app, 'MyCdkEnvironmentsAppStackProd', { env: prodEnv });// ------------------------------------------------------------// Executa o CDK CLI para deployar as stacks nos respectivos environments// Environment de desenvolvimentocdk deploy MyCdkEnvironmentsAppStackDev// Environment de produçãocdk deploy MyCdkEnvironmentsAppStackProd
+```
+
+## Bootstrapping
+
+Bootstrapping é o processo de preparar uma conta AWS para uso com CDK. Isso envolve criar recursos iniciais como buckets S3 para armazenar assets e roles IAM necessários para o deploy. O comando `cdk bootstrap` é usado para realizar essa configuração.
+
+## Resources
+
+Resources são os recursos individuais da AWS que você define e gerencia usando o CDK, como buckets S3, tabelas DynamoDB e instâncias EC2. São representados por Constructs dentro de Stacks.
+
+Exemplo:
+
+```js
+import * as cdk from 'aws-cdk-lib';import { Construct } from 'constructs';import * as s3 from 'aws-cdk-lib/aws-s3';import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';import * as lambda from 'aws-cdk-lib/aws-lambda';import * as path from 'path';export class MyResourcesStack extends cdk.Stack {  constructor(scope: Construct, id: string, props?: cdk.StackProps) {    super(scope, id, props);    // Define um bucket S3    const bucket = new s3.Bucket(this, 'MyBucket', {      versioned: true,      removalPolicy: cdk.RemovalPolicy.DESTROY,      autoDeleteObjects: true,    });    // Define uma tabela DynamoDB    const table = new dynamodb.Table(this, 'MyTable', {      partitionKey: { name: 'id', type: dynamodb.AttributeType.STRING },      removalPolicy: cdk.RemovalPolicy.DESTROY,    });    // Define uma função Lambda    const func = new lambda.Function(this, 'MyFunction', {      runtime: lambda.Runtime.NODEJS_14_X,      handler: 'index.handler',      code: lambda.Code.fromAsset(path.join(__dirname, 'lambda')),      environment: {        BUCKET_NAME: bucket.bucketName,        TABLE_NAME: table.tableName,      },    });    // Concede à função Lambda permissões de leitura/escrita no bucket S3 e na tabela DynamoDB    bucket.grantReadWrite(func);    table.grantReadWriteData(func);  }}
+```
+
+## Identifiers
+
+Identifiers no CDK são usados para nomear e referenciar recursos. O CDK permite definir identificadores lógicos para recursos, que são mapeados para identificadores físicos no CloudFormation.
+
+Exemplo:
+
+```js
+import * as cdk from 'aws-cdk-lib';import { Construct } from 'constructs';import * as s3 from 'aws-cdk-lib/aws-s3';import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';import * as lambda from 'aws-cdk-lib/aws-lambda';import * as path from 'path';export class MyIdentifiersStack extends cdk.Stack {  constructor(scope: Construct, id: string, props?: cdk.StackProps) {    super(scope, id, props);    // Identificador lógico para bucket S3    const bucket = new s3.Bucket(this, 'MyBucket', {      versioned: true,      removalPolicy: cdk.RemovalPolicy.DESTROY,      autoDeleteObjects: true,    });    // Identificador lógico para tabela DynamoDB    const table = new dynamodb.Table(this, 'MyTable', {      partitionKey: { name: 'id', type: dynamodb.AttributeType.STRING },      removalPolicy: cdk.RemovalPolicy.DESTROY,    });    // Identificador lógico para função Lambda    const func = new lambda.Function(this, 'MyFunction', {      runtime: lambda.Runtime.NODEJS_14_X,      handler: 'index.handler',      code: lambda.Code.fromAsset(path.join(__dirname, 'lambda')),      environment: {        BUCKET_NAME: bucket.bucketName,        TABLE_NAME: table.tableName,      },    });    // Concede à função Lambda permissões de leitura/escrita no bucket S3 e na tabela DynamoDB    bucket.grantReadWrite(func);    table.grantReadWriteData(func);    // Faz output dos nomes físicos dos recursos👇    new cdk.CfnOutput(this, 'BucketName', { value: bucket.bucketName });    new cdk.CfnOutput(this, 'TableName', { value: table.tableName });    new cdk.CfnOutput(this, 'FunctionName', { value: func.functionName });  }}
+```
+
+## Tokens
+
+Tokens são placeholders usados pelo CDK para representar valores que só são conhecidos no momento do deploy, como o nome de um bucket gerado ou o output de outro recurso.
+
+Eles permitem a composição dinâmica de valores.
+
+Exemplo:
+
+```js
+import * as cdk from 'aws-cdk-lib';import { Construct } from 'constructs';import * as s3 from 'aws-cdk-lib/aws-s3';import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';import * as lambda from 'aws-cdk-lib/aws-lambda';import * as path from 'path';export class MyTokensStack extends cdk.Stack {  constructor(scope: Construct, id: string, props?: cdk.StackProps) {    super(scope, id, props);    // Define um bucket S3    const bucket = new s3.Bucket(this, 'MyBucket', {      versioned: true,      removalPolicy: cdk.RemovalPolicy.DESTROY,      autoDeleteObjects: true,    });    // Define uma tabela DynamoDB    const table = new dynamodb.Table(this, 'MyTable', {      partitionKey: { name: 'id', type: dynamodb.AttributeType.STRING },      removalPolicy: cdk.RemovalPolicy.DESTROY,    });    // Define uma função Lambda    const func = new lambda.Function(this, 'MyFunction', {      runtime: lambda.Runtime.NODEJS_14_X,      handler: 'index.handler',      code: lambda.Code.fromAsset(path.join(__dirname, 'lambda')),      environment: {        BUCKET_NAME: bucket.bucketName,  // Token para o nome do bucket        TABLE_NAME: table.tableName,     // Token para o nome da tabela      },    });    // Concede à função Lambda permissões de leitura/escrita no bucket S3 e na tabela DynamoDB    bucket.grantReadWrite(func);    table.grantReadWriteData(func);    // Exemplo de uso de Tokens em outras propriedades    const bucketArnToken = bucket.bucketArn;    const tableArnToken = table.tableArn;    // Output dos Tokens    new cdk.CfnOutput(this, 'BucketArn', { value: bucketArnToken });    new cdk.CfnOutput(this, 'TableArn', { value: tableArnToken });  }}
+```
+
+## Parameters
+
+Parameters são inputs fornecidos pelo usuário que podem ser usados para customizar o comportamento da infraestrutura durante o deploy. São definidos em Stacks e podem ser referenciados em recursos.
+
+Exemplo:
+
+```js
+import * as cdk from 'aws-cdk-lib';import { Construct } from 'constructs';import * as s3 from 'aws-cdk-lib/aws-s3';import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';import * as lambda from 'aws-cdk-lib/aws-lambda';import * as path from 'path';export class MyParametersStack extends cdk.Stack {  constructor(scope: Construct, id: string, props?: cdk.StackProps) {    super(scope, id, props);    // Define um parameter do CloudFormation para o nome do bucket    const bucketNameParam = new cdk.CfnParameter(this, 'BucketName', {      type: 'String',      description: 'O nome do bucket S3',    });    // Define um parameter do CloudFormation para o nome da tabela    const tableNameParam = new cdk.CfnParameter(this, 'TableName', {      type: 'String',      description: 'O nome da tabela DynamoDB',    });    // Define um bucket S3 usando o valor do parameter    const bucket = new s3.Bucket(this, 'MyBucket', {      bucketName: bucketNameParam.valueAsString,      versioned: true,      removalPolicy: cdk.RemovalPolicy.DESTROY,      autoDeleteObjects: true,    });    // Define uma tabela DynamoDB usando o valor do parameter    const table = new dynamodb.Table(this, 'MyTable', {      tableName: tableNameParam.valueAsString,      partitionKey: { name: 'id', type: dynamodb.AttributeType.STRING },      removalPolicy: cdk.RemovalPolicy.DESTROY,    });    // Define uma função Lambda    const func = new lambda.Function(this, 'MyFunction', {      runtime: lambda.Runtime.NODEJS_14_X,      handler: 'index.handler',      code: lambda.Code.fromAsset(path.join(__dirname, 'lambda')),      environment: {        BUCKET_NAME: bucket.bucketName,        TABLE_NAME: table.tableName,      },    });    // Concede à função Lambda permissões de leitura/escrita no bucket S3 e na tabela DynamoDB    bucket.grantReadWrite(func);    table.grantReadWriteData(func);  }}
+```
+
+## Tagging
+
+Tagging é o processo de adicionar tags aos recursos da AWS para facilitar organização, gerenciamento e automação. O CDK permite definir tags em recursos individualmente ou no nível de Stack/App.
+
+## Assets
+
+Assets são arquivos externos ou dados que precisam ser incluídos no deploy, como arquivos de configuração, binários de aplicação ou scripts. O CDK gerencia o upload desses assets para um bucket S3 e garante que estejam disponíveis para os recursos que precisam deles.
+
+## Permissions
+
+Permissions no CDK referem-se às permissões IAM exigidas para que os recursos interajam com segurança. O CDK simplifica a definição de policies e permissões IAM para recursos.
+
+Exemplo:
+
+```js
+import * as cdk from 'aws-cdk-lib';import { Construct } from 'constructs';import * as s3 from 'aws-cdk-lib/aws-s3';import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';import * as lambda from 'aws-cdk-lib/aws-lambda';import * as iam from 'aws-cdk-lib/aws-iam';import * as path from 'path';export class MyPermissionsStack extends cdk.Stack {  constructor(scope: Construct, id: string, props?: cdk.StackProps) {    super(scope, id, props);    // Define um bucket S3    const bucket = new s3.Bucket(this, 'MyBucket', {      versioned: true,      removalPolicy: cdk.RemovalPolicy.DESTROY,      autoDeleteObjects: true,    });    // Define uma tabela DynamoDB    const table = new dynamodb.Table(this, 'MyTable', {      partitionKey: { name: 'id', type: dynamodb.AttributeType.STRING },      removalPolicy: cdk.RemovalPolicy.DESTROY,    });    // Define um IAM role para a função Lambda    const lambdaRole = new iam.Role(this, 'LambdaExecutionRole', {      assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),    });    // Anexa policies ao role para conceder permissões    lambdaRole.addToPolicy(new iam.PolicyStatement({      actions: ['s3:*'],      resources: [bucket.bucketArn, `${bucket.bucketArn}/*`],    }));    lambdaRole.addToPolicy(new iam.PolicyStatement({      actions: ['dynamodb:*'],      resources: [table.tableArn],    }));    // Define uma função Lambda com o role especificado    const func = new lambda.Function(this, 'MyFunction', {      runtime: lambda.Runtime.NODEJS_14_X,      handler: 'index.handler',      code: lambda.Code.fromAsset(path.join(__dirname, 'lambda')),      role: lambdaRole,      environment: {        BUCKET_NAME: bucket.bucketName,        TABLE_NAME: table.tableName,      },    });    // Concede à função Lambda permissões de leitura/escrita no bucket S3 e na tabela DynamoDB    bucket.grantReadWrite(func);    table.grantReadWriteData(func);  }}
+```
+
+## Context
+
+Context é uma forma de armazenar e acessar valores globais ou específicos de environment que podem afetar a configuração da infraestrutura. Esses valores podem ser definidos manualmente ou inferidos automaticamente pelo CDK durante a execução.
+
+## Feature flags
+
+Feature flags no CDK permitem habilitar ou desabilitar features específicas, controlando o comportamento da infraestrutura de forma flexível. Isso pode ser usado para testar novas features ou mudar configurações sem modificar o código principal.
+
+## Aspects
+
+Aspects no CDK são uma forma de aplicar comportamentos ou policies comuns a todos os recursos dentro de uma Stack ou App. Permitem, por exemplo, adicionar tags a todos os recursos ou aplicar policies de segurança de forma consistente.
+
+Exemplo:
+
+```js
+import * as cdk from "aws-cdk-lib";
+import { IConstruct, Aspects, Tag } from "constructs";
+import * as s3 from "aws-cdk-lib/aws-s3";
+import * as dynamodb from "aws-cdk-lib/aws-dynamodb";
+import * as lambda from "aws-cdk-lib/aws-lambda";
+import * as path from "path"; // Aspect customizado para adicionar tags a todos os recursosclass AddTagsAspect implements cdk.IAspect {  constructor(private key: string, private value: string) {}  visit(node: IConstruct): void {    if (node instanceof cdk.Resource) {      Tag.add(node, this.key, this.value);    }  }}export class MyAspectsStack extends cdk.Stack {  constructor(scope: Construct, id: string, props?: cdk.StackProps) {    super(scope, id, props);    // Define um bucket S3    const bucket = new s3.Bucket(this, 'MyBucket', {      versioned: true,      removalPolicy: cdk.RemovalPolicy.DESTROY,      autoDeleteObjects: true,    });    // Define uma tabela DynamoDB    const table = new dynamodb.Table(this, 'MyTable', {      partitionKey: { name: 'id', type: dynamodb.AttributeType.STRING },      removalPolicy: cdk.RemovalPolicy.DESTROY,    });    // Define uma função Lambda    const func = new lambda.Function(this, 'MyFunction', {      runtime: lambda.Runtime.NODEJS_14_X,      handler: 'index.handler',      code: lambda.Code.fromAsset(path.join(__dirname, 'lambda')),      environment: {        BUCKET_NAME: bucket.bucketName,        TABLE_NAME: table.tableName,      },    });    // Aplica o AddTagsAspect à stack    Aspects.of(this).add(new AddTagsAspect('Environment', 'Production'));  }}
+```
+
+## Como funciona
+
+- O desenvolvedor escreve o código da infraestrutura em um arquivo TypeScript, por exemplo, usando uma IDE ou editor de código
+- O desenvolvedor roda `cdk synth` para gerar um template CloudFormation a partir do código CDK.
+- O CDK CLI processa o código e gera o template CloudFormation.
+- O desenvolvedor roda `cdk deploy` para deployar a stack.
+- Depois disso, o CDK CLI envia o template CloudFormation gerado ao AWS CloudFormation.
+- Em seguida, o AWS CloudFormation cria ou atualiza a stack conforme definido no template, provisionando os recursos AWS especificados.
+- Os serviços AWS retornam o status da criação/atualização da stack ao AWS CloudFormation.
+- O AWS CloudFormation retorna o status do deploy ao CDK CLI.
+- O CDK CLI fornece o status final do deploy ao desenvolvedor.
+
+Deixa eu te mostrar um diagrama do que foi escrito acima para você também checar como isso funciona em uma compreensão visual.
+
+## Mão na massa
+
+Vamos olhar um exemplo simples de como criar uma infraestrutura básica usando AWS CDK com TypeScript.
+
+### Project Setup
+
+Primeiro, instale o AWS CDK e inicialize um novo projeto:
+
+```js
+npm i -g aws-cdkmkdir my-cdk-appcd my-cdk-appcdk init app --language typescript
+```
+
+Estou assumindo que você já tem o AWS CLI instalado e configurado. Além disso, com o `cdk bootstrap` feito.
+
+Definindo Recursos
+Abra o arquivo `lib/my-cdk-app-stack.ts` e adicione a definição de um bucket S3:
+
+```js
+import * as cdk from "aws-cdk-lib";
+import { Construct } from "constructs";
+import * as s3 from "aws-cdk-lib/aws-s3";
+export class MyCdkAppStack extends cdk.Stack {
+  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+    super(scope, id, props);
+
+    // Definindo um bucket S3
+    new s3.Bucket(this, "MyFirstBucket", {
+      versioned: true,
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+      autoDeleteObjects: true,
+    });
+  }
+}
+```
+
+### Deploy
+
+Para deployar a infraestrutura, rode os seguintes comandos:
+
+```js
+cdk synthcdk deploy
+```
+
+O comando `cdk synth` gera o template CloudFormation, e `cdk deploy` deploya os recursos na AWS.
+
+É isso! ✨
+
+Vá ao seu AWS Console e cheque seu novo bucket no serviço S3.
+
+### Conclusão
+
+O AWS CDK é uma ótima ferramenta que simplifica a definição e o deploy de infraestrutura na AWS usando linguagens de programação.
+
+Com suas abstrações de alto nível, capacidades de modularização e integração com o AWS CloudFormation, o CDK permite aos desenvolvedores gerenciar a infraestrutura de forma eficiente e escalável.
+
+Se você ainda não experimentou o AWS CDK, vale explorar essa ferramenta para simplificar o gerenciamento da sua infraestrutura cloud.
+
+### Referências
+
+- https://docs.aws.amazon.com/cdk/v2/guide/home.html

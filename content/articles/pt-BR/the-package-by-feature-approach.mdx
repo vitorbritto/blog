@@ -1,14 +1,119 @@
 ---
-title: "The Package by Feature approach"
-excerpt: "How it can help you build scalable and manageable projects."
-coverImage: ""
-date: Nov 7, 2023
-author:
-  name: "Vitor Britto"
-  picture: "/authors/vitor.jpg"
-categories: []
-tags: []
-tracks: []
-readTime: 4
-featured: false
+title: "A abordagem Package by Feature"
+excerpt: "Como ela pode te ajudar a construir projetos escaláveis e fáceis de gerenciar."
 ---
+
+### Introdução
+
+Modularização é o processo, no desenvolvimento de software, de quebrar um sistema em componentes ou módulos menores, gerenciáveis e independentes para melhorar a manutenibilidade e a reusabilidade.
+
+Vamos mergulhar em algumas técnicas. 🚀
+
+## Package by Layer
+
+A estrutura Package by Layer é um pattern de design arquitetural usado no desenvolvimento de software que organiza os arquivos de código em camadas separadas, com cada camada representando uma funcionalidade ou responsabilidade específica dentro da aplicação. Tipicamente, essas camadas incluem a presentation layer (interface do usuário), application layer (lógica de negócio), domain layer (lógica específica do domínio) e infrastructure layer (banco de dados e serviços externos).
+
+Veja o exemplo abaixo.
+
+```bash
+.├── src
+ ├── controllers
+ ├──  ├── CompanyController
+ ├──  ├── CustomerController
+ ├──  └── ProductController
+ ├── entities
+ ├──  ├── CompanyEntity
+ ├──  ├── CustomerEntity
+ ├──  └── ProductEntity
+ ├── repositories
+ ├──  ├── CompanyRepository
+ ├──  ├── CustomerRepository
+ ├──  └── ProductRepository
+ ├── services
+ ├──  ├── CompanyService
+ ├──  ├── CustomerService
+ ├──  └── ProductService
+ ├── dtos
+ ├──  ├── CompanyDTO
+ ├──  ├── CustomerDTO
+ ├──  └── ProductDTO
+ ├── daos
+ ├──  ├── CompanyDAO
+ ├──  ├── CustomerDAO
+ ├──  └── ProductDAO
+ └── utils
+```
+
+## Os problemas por trás dessa abordagem
+
+Essa abordagem traz alguns problemas, incluindo o alto acoplamento e a baixa coesão.
+
+- Coesão: refere-se ao grau de relacionamento lógico dos membros do package entre si. Um alto relacionamento entre os membros garante a independência do package. Baixa coesão não só reduz a independência, como também reduz significativamente a reusabilidade e a compreensão.
+- Acoplamento: refere-se ao grau de interdependência entre packages/classes. Baixo acoplamento aumenta significativamente a manutenibilidade. Como? Já que mudanças feitas dentro de uma classe por causa dos requisitos não vão afetar outras classes, side effects não ocorrem e a manutenção fica mais fácil.
+
+Além disso, temos uma visão ruim de todas as classes que pertencem a uma feature e tendência a um código genérico, reusado e complexo, que é difícil de entender, e mudanças podem facilmente quebrar outros casos de uso, já que o impacto de uma mudança é difícil de prever.
+
+## Package by Feature
+
+Nessa estrutura de projeto, os packages contêm todas as classes necessárias para uma feature. A independência do package é garantida ao colocar classes intimamente relacionadas no mesmo package. Um exemplo dessa estrutura está abaixo:
+
+```bash
+.├── src
+ ├── company
+ ├──  ├── CompanyController
+ ├──  ├── CompanyEntity
+ ├──  ├── CompanyRepository
+ ├──  ├── CompanyService
+ ├──  ├── CompanyDTO
+ ├──  └── CompanyDAO
+ ├── customer
+ ├──  ├── CustomerController
+ ├──  ├── CustomerEntity
+ ├──  ├── CustomerRepository
+ ├──  ├── CustomerService
+ ├──  ├── CustomerDTO
+ ├──  └── CustomerDAO
+ ├── product
+ ├──  ├── ProductController
+ ├──  ├── ProductEntity
+ ├──  ├── ProductRepository
+ ├──  ├── ProductService
+ ├──  ├── ProductDTO
+ ├──  └── ProductDAO
+ └──  └── utils
+```
+
+Essa estrutura remove a necessidade de a classe de um package depender da classe de outro package. Também garante que as classes nos packages tenham associações fortes entre si. Assim, há alta coesão dentro dos packages e baixo acoplamento entre packages.
+
+Além disso, essa estrutura oferece maior modularidade. Mas como?
+
+Vamos supor que existam mais 10 domínios, não só Company, Product e Customer. No Package by Layer, Controllers, Services e Repositories são colocados em packages únicos diferentes, então a aplicação inteira consiste em três packages — exceto utils — e os packages têm um grande número de membros. No entanto, no estilo Package by Feature, a mesma aplicação consiste em 13 packages e, assim, a modularidade aumenta.
+
+Se uma feature pode ser deletada com uma única ação, a aplicação tem máxima modularidade.
+
+Vantagens
+
+- Package by Feature tem packages com alta coesão, baixo acoplamento e alta modularidade.
+- Package by Feature permite que algumas classes definam seu access modifier como package-private em vez de public, então aumenta o encapsulamento. Por outro lado, Package by Layer força você a definir quase todas as classes como public.
+- Package by Feature reduz a necessidade de navegar entre packages, já que todas as classes necessárias para uma feature estão no mesmo package.
+- Package by Feature é como uma arquitetura de microservices. Cada package fica limitado às classes relacionadas a uma feature em particular. Por outro lado, Package by Layer é monolítico. Conforme a aplicação cresce em tamanho, o número de classes em cada package vai aumentar sem limite.
+- Package by Feature oferece melhor descobribilidade e visão geral do ponto de vista do domínio. A maior parte do código que pertence a uma feature de negócio fica localizada junto. Isso é crucial porque geralmente nos aproximamos de uma codebase com um requisito de negócio em mente.
+- A maior parte do código que uma feature precisa fica localizada no package. Então estamos evitando dependências para outros packages de feature.
+- Como estamos evitando código genérico e abstraído, o código fica mais simples, pois só precisa lidar com um único caso de uso. Por isso, fica mais fácil de entender e evoluir.
+- Geralmente, uma classe em um package de feature tem menos dependências em comparação com uma "god-class" em um package técnico que tenta atender a todos os casos de uso. Então, testar fica mais fácil, já que precisamos criar menos test fixture.
+
+## Os pontos comuns
+
+Um ponto de atenção são os recursos compartilhados, como o diretório utils, que contém arquivos compartilhados pela aplicação. É onde teremos componentes, utilitários, constantes e outros recursos que podem fazer parte de uma ou mais features.
+
+## Conclusão
+
+O Package by Feature torna o processo de desenvolvimento mais organizado e escalável, já que cada módulo pode ser desenvolvido, testado e mantido de forma independente. Além disso, a modularização promove o reuso de código, simplifica o debugging e facilita a colaboração entre os membros do time, levando a um aumento de produtividade e eficiência geral.
+
+## Referências
+
+- MonolithFirst (Martin Fowler): https://www.martinfowler.com/bliki/MonolithFirst.html
+- Presentation Domain Data Layering (Martin Fowler): https://martinfowler.com/bliki/PresentationDomainDataLayering.html
+- Vertical Slice Architecture (Jimmy Bogard): https://www.jimmybogard.com/vertical-slice-architecture/
+- Modular monoliths (Simon Brown): https://youtu.be/5OjqD-ow8GE
+- Modular monoliths (Simon Brown): https://youtu.be/5OjqD-ow8GE
