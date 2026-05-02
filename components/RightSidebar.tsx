@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { ChevronDown } from 'lucide-react'
 import { Category, Track } from '@/lib/types/content'
 import { useTranslation } from '@/lib/hooks/useTranslation'
 
@@ -33,6 +34,17 @@ export function RightSidebar({
 }: RightSidebarProps) {
   const { t, translateCategory } = useTranslation()
   const [localQuery, setLocalQuery] = useState(searchQuery)
+  const [openSections, setOpenSections] = useState({
+    topics: true,
+    tags: true
+  })
+
+  function toggleSection(section: keyof typeof openSections) {
+    setOpenSections(prev => ({
+      ...prev,
+      [section]: !prev[section]
+    }))
+  }
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -120,89 +132,143 @@ export function RightSidebar({
 
       {categories.length > 0 && (
         <div className="rounded-lg border border-zinc-800/60 bg-zinc-900 p-4">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-sm font-semibold text-zinc-300 uppercase tracking-wide">
-              {t('filters.topics')}
-            </h3>
+          <div
+            className={`flex items-center justify-between ${
+              openSections.topics ? 'mb-3' : ''
+            }`}
+          >
+            <button
+              type="button"
+              onClick={() => toggleSection('topics')}
+              aria-expanded={openSections.topics}
+              aria-controls="topics-filter-panel"
+              className="flex min-w-0 flex-1 items-center justify-between gap-3 text-left"
+            >
+              <span className="flex min-w-0 items-center gap-2">
+                <span className="text-sm font-semibold text-zinc-300 uppercase tracking-wide">
+                  {t('filters.topics')}
+                </span>
+                {selectedCategories.length > 0 && (
+                  <span className="rounded-full bg-zinc-800 px-1.5 py-0.5 text-[10px] font-medium text-zinc-400">
+                    {selectedCategories.length}
+                  </span>
+                )}
+              </span>
+              <ChevronDown
+                aria-hidden
+                className={`h-4 w-4 shrink-0 text-zinc-500 transition-transform ${
+                  openSections.topics ? 'rotate-0' : '-rotate-90'
+                }`}
+              />
+            </button>
             {selectedCategories.length > 0 && (
               <button
                 onClick={onClearAllCategories}
-                className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors"
+                className="ml-3 text-xs text-zinc-500 hover:text-zinc-300 transition-colors"
               >
                 {t('filters.clearAll')}
               </button>
             )}
           </div>
-          <div className="flex flex-col gap-2">
-            {categories.map(category => (
-              <button
-                key={category.slug}
-                onClick={() => onToggleCategory(category.slug)}
-                className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors text-left capitalize flex items-center gap-2 ${
-                  selectedCategories.includes(category.slug)
-                    ? 'bg-zinc-100 text-zinc-900'
-                    : 'bg-zinc-800/50 text-zinc-300 hover:bg-zinc-800'
-                }`}
-              >
-                <span
-                  className={`w-4 h-4 rounded border-2 flex items-center justify-center ${
+          {openSections.topics && (
+            <div id="topics-filter-panel" className="flex flex-col gap-2">
+              {categories.map(category => (
+                <button
+                  key={category.slug}
+                  onClick={() => onToggleCategory(category.slug)}
+                  className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors text-left capitalize flex items-center gap-2 ${
                     selectedCategories.includes(category.slug)
-                      ? 'bg-zinc-900 border-zinc-900'
-                      : 'border-zinc-600'
+                      ? 'bg-zinc-100 text-zinc-900'
+                      : 'bg-zinc-800/50 text-zinc-300 hover:bg-zinc-800'
                   }`}
                 >
-                  {selectedCategories.includes(category.slug) && (
-                    <span className="text-zinc-100 text-xs">✓</span>
-                  )}
-                </span>
-                {translateCategory(category.slug)}
-              </button>
-            ))}
-          </div>
+                  <span
+                    className={`w-4 h-4 rounded border-2 flex items-center justify-center ${
+                      selectedCategories.includes(category.slug)
+                        ? 'bg-zinc-900 border-zinc-900'
+                        : 'border-zinc-600'
+                    }`}
+                  >
+                    {selectedCategories.includes(category.slug) && (
+                      <span className="text-zinc-100 text-xs">✓</span>
+                    )}
+                  </span>
+                  {translateCategory(category.slug)}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       )}
 
       {tags.length > 0 && (
         <div className="rounded-lg border border-zinc-800/60 bg-zinc-900 p-4">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-sm font-semibold text-zinc-300 uppercase tracking-wide">
-              {t('filters.tags')}
-            </h3>
+          <div
+            className={`flex items-center justify-between ${
+              openSections.tags ? 'mb-3' : ''
+            }`}
+          >
+            <button
+              type="button"
+              onClick={() => toggleSection('tags')}
+              aria-expanded={openSections.tags}
+              aria-controls="tags-filter-panel"
+              className="flex min-w-0 flex-1 items-center justify-between gap-3 text-left"
+            >
+              <span className="flex min-w-0 items-center gap-2">
+                <span className="text-sm font-semibold text-zinc-300 uppercase tracking-wide">
+                  {t('filters.tags')}
+                </span>
+                {selectedTags.length > 0 && (
+                  <span className="rounded-full bg-zinc-800 px-1.5 py-0.5 text-[10px] font-medium text-zinc-400">
+                    {selectedTags.length}
+                  </span>
+                )}
+              </span>
+              <ChevronDown
+                aria-hidden
+                className={`h-4 w-4 shrink-0 text-zinc-500 transition-transform ${
+                  openSections.tags ? 'rotate-0' : '-rotate-90'
+                }`}
+              />
+            </button>
             {selectedTags.length > 0 && (
               <button
                 onClick={onClearAllTags}
-                className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors"
+                className="ml-3 text-xs text-zinc-500 hover:text-zinc-300 transition-colors"
               >
                 {t('filters.clearAll')}
               </button>
             )}
           </div>
-          <div className="flex flex-col gap-2">
-            {tags.slice(0, 30).map(tag => (
-              <button
-                key={tag}
-                onClick={() => onToggleTag(tag)}
-                className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors text-left flex items-center gap-2 ${
-                  selectedTags.includes(tag)
-                    ? 'bg-zinc-100 text-zinc-900'
-                    : 'bg-zinc-800/50 text-zinc-300 hover:bg-zinc-800'
-                }`}
-              >
-                <span
-                  className={`w-4 h-4 rounded border-2 flex items-center justify-center ${
+          {openSections.tags && (
+            <div id="tags-filter-panel" className="flex flex-col gap-2">
+              {tags.slice(0, 30).map(tag => (
+                <button
+                  key={tag}
+                  onClick={() => onToggleTag(tag)}
+                  className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors text-left flex items-center gap-2 ${
                     selectedTags.includes(tag)
-                      ? 'bg-zinc-900 border-zinc-900'
-                      : 'border-zinc-600'
+                      ? 'bg-zinc-100 text-zinc-900'
+                      : 'bg-zinc-800/50 text-zinc-300 hover:bg-zinc-800'
                   }`}
                 >
-                  {selectedTags.includes(tag) && (
-                    <span className="text-zinc-100 text-xs">✓</span>
-                  )}
-                </span>
-                {tag}
-              </button>
-            ))}
-          </div>
+                  <span
+                    className={`w-4 h-4 rounded border-2 flex items-center justify-center ${
+                      selectedTags.includes(tag)
+                        ? 'bg-zinc-900 border-zinc-900'
+                        : 'border-zinc-600'
+                    }`}
+                  >
+                    {selectedTags.includes(tag) && (
+                      <span className="text-zinc-100 text-xs">✓</span>
+                    )}
+                  </span>
+                  {tag}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       )}
     </aside>

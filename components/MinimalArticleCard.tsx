@@ -58,8 +58,8 @@ export function MinimalArticleCard({ article }: MinimalArticleCardProps) {
 
   const formattedDate = formatDate(article.date)
   const contentPreview = getContentPreview(translatedArticle.content)
-  const trackSlug = article.tracks?.[0]
-  const trackName = trackSlug ? t(`tracks.${trackSlug}.title`) : null
+  const topicSlug = article.categories[0]
+  const topicName = topicSlug ? translateCategory(topicSlug) : null
 
   return (
     <article className="border-b border-zinc-800/50 last:border-b-0">
@@ -69,11 +69,11 @@ export function MinimalArticleCard({ article }: MinimalArticleCardProps) {
       >
         <div className="flex gap-4">
           <div className="flex-1 min-w-0 space-y-3">
-            {trackName && (
+            {topicName && (
               <div>
                 <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs bg-zinc-700/60 text-zinc-400">
                   <span aria-hidden>◈</span>
-                  <span>{trackName}</span>
+                  <span className="capitalize">{topicName}</span>
                 </span>
               </div>
             )}
@@ -87,14 +87,6 @@ export function MinimalArticleCard({ article }: MinimalArticleCardProps) {
               <span>
                 {article.readTime} {t('article.readTime')}
               </span>
-              {article.categories.length > 0 && (
-                <>
-                  <span>·</span>
-                  <span className="capitalize">
-                    {translateCategory(article.categories[0])}
-                  </span>
-                </>
-              )}
               {article.featured && (
                 <>
                   <span>·</span>
