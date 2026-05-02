@@ -43,6 +43,10 @@
     "react-design-patterns": {
       "title": "React - Design Patterns",
       "description": "Componentes, hooks e renderização"
+    },
+    "artificial-intelligence": {
+      "title": "Inteligência Artificial",
+      "description": "LLMs, agentes e engenharia de contexto"
     }
   },
   "categories": {
@@ -79,6 +83,10 @@
     "algorithms": {
       "name": "Algoritmos",
       "description": "Estruturas de dados e lógica"
+    },
+    "ai": {
+      "name": "Inteligência Artificial",
+      "description": "LLMs, agentes e engenharia de contexto"
     }
   },
 

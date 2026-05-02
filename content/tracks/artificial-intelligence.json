@@ -1,0 +1,16 @@
+{
+  "slug": "artificial-intelligence",
+  "name": "Inteligencia Artificial",
+  "description": "Aprenda a trabalhar melhor com LLMs, agentes e contexto aplicado a produtos e engenharia.",
+  "icon": "BrainCircuit",
+  "topics": [
+    "LLMs",
+    "Agents",
+    "Prompt Engineering",
+    "Context Engineering"
+  ],
+  "articles": [
+    "evaluating-context-files"
+  ],
+  "featured": true
+}

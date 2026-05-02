@@ -1,0 +1,9 @@
+{
+  "slug": "ai",
+  "name": "Inteligencia Artificial",
+  "description": "LLMs, agentes, engenharia de contexto e automacao inteligente",
+  "icon": "BrainCircuit",
+  "articles": [
+    "evaluating-context-files"
+  ]
+}

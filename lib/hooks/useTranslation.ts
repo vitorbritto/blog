@@ -15,7 +15,8 @@ const categorySlugToTranslationKey: Record<string, string> = {
   databases: 'databases',
   security: 'security',
   performance: 'performance',
-  algorithms: 'algorithms'
+  algorithms: 'algorithms',
+  ai: 'ai'
 }
 
 export function useTranslation() {

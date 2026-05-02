@@ -1,0 +1,104 @@
+---
+title: Avaliando arquivos de contexto
+excerpt: Arquivos de contexto em nível de repositório são úteis para agentes de programação?
+
+---
+
+Uma prática bastante comum no desenvolvimento de software é adaptar agentes de programação a repositórios específicos usando arquivos de contexto, como `AGENTS.md`, criados manualmente ou gerados automaticamente.
+
+Embora essa prática seja fortemente recomendada por desenvolvedores de agentes, ainda não havia uma investigação rigorosa sobre se esses arquivos realmente ajudam em tarefas reais.
+
+Para tentar entender este cenário, fiz a leitura do paper "Evaluating AGENTS.md: Are Repository-Level Context Files Helpful for Coding Agents?" escrito pelos autores Thibaud Gloaguen, Niels Mündler, Mark Müller, Veselin Raychev e Martin Vechev, e publicado em 12 de fevereiro de 2026.
+
+O paper conta com 18 páginas e, neste trabalho, os autores estudam essa questão e avaliam o desempenho de agentes de programação em dois cenários complementares:
+
+1. tarefas já estabelecidas do SWE-bench*, vindas de repositórios populares, usando arquivos de contexto gerados por LLMs seguindo recomendações dos próprios desenvolvedores de agentes;
+2. uma nova coleção de _issues_ vindas de repositórios que já possuem arquivos de contexto criados pelos próprios desenvolvedores.
+
+> * SWE-bench é um benchmark para avaliar o desempenho de agentes de programação em tarefas de resolução de problemas. Ele inclui uma variedade de tarefas, como correção de bugs, implementação de funcionalidades e refatoração de código, todas extraídas de repositórios reais do GitHub.
+
+Em vários agentes e modelos de linguagem, os autores descobriram que arquivos de contexto tendem a reduzir a taxa de sucesso das tarefas em comparação com não fornecer contexto nenhum do repositório, além de aumentar o custo de inferência em mais de 20%.
+
+Do ponto de vista comportamental, tanto arquivos gerados por LLM quanto arquivos escritos por desenvolvedores incentivam uma exploração mais ampla do repositório, como mais testes e mais navegação por arquivos. Os agentes também tendem a respeitar as instruções desses arquivos.
+
+A conclusão principal é que requisitos desnecessários colocados nesses arquivos tornam as tarefas mais difíceis. Por isso, arquivos escritos por humanos deveriam conter apenas requisitos mínimos e realmente necessários.
+
+## Ideia central do artigo
+
+O artigo questiona uma prática que virou quase padrão no uso de agentes de código: criar arquivos como `AGENTS.md`, `CLAUDE.md` ou similares para orientar ferramentas como Codex, Claude Code, Qwen Code e outros agentes.
+
+A hipótese "popular" que existe é: "Se eu der mais contexto sobre o repositório, o agente vai performar melhor."
+
+Contudo, o artigo mostra que isso nem sempre é verdade.
+
+Na prática, mais contexto pode fazer o agente:
+
+* explorar mais arquivos;
+* rodar mais testes;
+* seguir mais instruções;
+* gastar mais tokens;
+* demorar mais;
+* e, em alguns casos, resolver menos tarefas.
+
+Ou seja: contexto demais pode virar ruído operacional.
+
+## Principais descobertas
+
+### 1. Arquivos gerados por LLM tendem a piorar um pouco a performance
+
+Os arquivos de contexto gerados automaticamente por LLMs tiveram um pequeno efeito negativo na taxa de sucesso dos agentes.
+
+No [SWE-bench Lite](https://www.swebench.com/lite.html), a queda média foi pequena. No [AGENTBENCH](https://github.com/THUDM/AgentBench), benchmark criado pelos autores, a queda média também foi pequena, mas consistente o suficiente para questionar a utilidade desses arquivos gerados automaticamente.
+
+### 2. Arquivos escritos por humanos ajudam um pouco, mas aumentam custo
+
+Arquivos criados por desenvolvedores tiveram desempenho melhor que os gerados por LLM. Mesmo assim, o ganho foi discreto.
+
+Eles melhoraram a performance média em cerca de 4%, mas também aumentaram o número de passos e o custo de execução.
+
+### 3. Os agentes seguem as instruções dos arquivos
+
+> **Um ponto importante:** o problema não é que os agentes ignoram o [AGENTS|CLAUDE].md. 
+> Pelo contrário. Eles seguem.
+
+Quando o arquivo menciona ferramentas como `uv`, `pytest` ou ferramentas específicas do repositório, os agentes passam a usá-las mais.
+
+O problema é justamente esse: se o arquivo tiver instruções demais, o agente pode gastar energia obedecendo a coisas que não ajudam diretamente a resolver a tarefa.
+
+### 4. Arquivos de contexto não funcionam tão bem como "mapa do repositório"
+
+Uma recomendação comum é usar o `AGENTS.md` para dar uma visão geral do repositório.
+
+Mas o estudo mostra que isso não ajudou os agentes a encontrar mais rapidamente os arquivos relevantes para corrigir uma issue.
+
+Em alguns casos, os agentes até gastaram mais passos lendo, relendo e procurando esses arquivos de contexto, mesmo quando eles já estavam no contexto inicial.
+
+### 5. O contexto pode ser útil quando o repositório tem pouca documentação
+
+Um achado interessante: quando os autores removeram arquivos de documentação do repositório, como `.md`, exemplos e pasta `docs/`, os arquivos de contexto passaram a ajudar mais.
+
+Isso sugere que `AGENTS.md` pode ser útil em repositórios mal documentados. Entretanto, em repositórios que já têm boa documentação, ele pode acabar sendo redundante.
+
+## Conclusão
+
+O estudo mostra que arquivos de contexto em nível de repositório não são uma solução mágica para melhorar o desempenho de agentes de programação. Eles mudam o comportamento dos agentes, mas essa mudança nem sempre se traduz em melhores resultados.
+
+Na prática, os agentes leem e seguem essas instruções. O problema é que seguir mais instruções também significa dar mais passos, explorar mais arquivos, rodar mais testes, gastar mais tokens e, em alguns casos, se afastar do caminho mais direto para resolver a tarefa.
+
+Arquivos gerados por LLM parecem especialmente frágeis, porque tendem a transformar uma visão superficial do repositório em regras que o agente passa a obedecer. Já arquivos escritos por desenvolvedores podem ajudar, mas o ganho observado é pequeno e vem com custo operacional maior.
+
+A principal lição do paper é que contexto precisa ser tratado como uma ferramenta de precisão, não como um despejo de informação. Um bom `AGENTS.md`, `CLAUDE.md` ou arquivo equivalente não deveria tentar explicar o repositório inteiro. Ele deveria registrar apenas o que realmente muda a execução da tarefa:
+
+- comandos de teste importantes;
+- convenções que não podem ser quebradas;
+- decisões arquiteturais ainda válidas;
+- armadilhas conhecidas do projeto;
+- restrições que o agente dificilmente descobriria sozinho.
+
+Portanto, a pergunta certa não é "como dar mais contexto ao agente?", mas "qual contexto vale o custo de estar no caminho do agente?".
+
+## Referências
+
+- https://arxiv.org/pdf/2602.11988
+- https://www.swebench.com/lite.html
+- https://github.com/THUDM/AgentBench
