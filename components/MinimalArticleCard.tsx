@@ -62,8 +62,11 @@ export function MinimalArticleCard({ article }: MinimalArticleCardProps) {
   const trackName = trackSlug ? t(`tracks.${trackSlug}.title`) : null
 
   return (
-    <article className="py-10 border-b border-zinc-800/50 last:border-b-0">
-      <Link href={`/articles/${article.slug}`} className="group block">
+    <article className="border-b border-zinc-800/50 last:border-b-0">
+      <Link
+        href={`/articles/${article.slug}`}
+        className="group block py-10 px-4 -mx-4 rounded-lg transition-colors hover:bg-zinc-800/20"
+      >
         <div className="flex gap-4">
           <div className="flex-1 min-w-0 space-y-3">
             {trackName && (

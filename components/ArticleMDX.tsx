@@ -73,7 +73,7 @@ export function ArticleMDX() {
 
   return (
     <div
-      className="prose prose-invert prose-emerald max-w-none mb-4 
+      className="prose prose-invert prose-emerald min-w-0 max-w-full mb-4 
       prose-p:text-lg prose-p:leading-relaxed prose-p:text-zinc-200
       prose-headings:text-zinc-50 prose-headings:font-bold
       prose-a:text-emerald-400 prose-a:no-underline hover:prose-a:underline

@@ -35,9 +35,10 @@ export function ArticlePageLayout({
   return (
     <main className="min-h-screen">
       <div className="mx-auto px-10 py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr_300px] gap-32">
+        <div className="grid grid-cols-1 lg:grid-cols-[280px_minmax(0,1fr)_300px] gap-32">
           <div className="lg:sticky lg:top-24 lg:self-start">
             <LeftSidebar
+              articles={articles}
               categories={categories}
               tags={tags}
               selectedCategories={[]}
@@ -49,7 +50,7 @@ export function ArticlePageLayout({
             />
           </div>
 
-          <div>
+          <div className="min-w-0">
             <Link
               href="/"
               className="inline-flex items-center gap-2 text-sm text-zinc-400 hover:text-emerald-400 transition-colors mb-6"
@@ -63,11 +64,18 @@ export function ArticlePageLayout({
           <div className="hidden lg:block lg:sticky lg:top-24 lg:self-start">
             <RightSidebar
               tracks={tracks}
-              articles={articles}
+              categories={categories}
+              tags={tags}
+              selectedCategories={[]}
+              selectedTags={[]}
               searchQuery=""
               onSearchChange={query => {
                 if (query.trim()) goHomeWith({ q: query })
               }}
+              onToggleCategory={slug => goHomeWith({ cat: slug })}
+              onToggleTag={tag => goHomeWith({ tag })}
+              onClearAllCategories={() => router.push('/')}
+              onClearAllTags={() => router.push('/')}
             />
           </div>
         </div>

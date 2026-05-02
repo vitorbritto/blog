@@ -1,4 +1,4 @@
-import { Github, Linkedin, Youtube, BookOpen, Code, FileStack } from 'lucide-react'
+import { Github, Linkedin, Twitter } from 'lucide-react'
 
 export const socialLinks = [
   {
@@ -10,5 +10,10 @@ export const socialLinks = [
     href: 'https://linkedin.com/in/vitorbritto',
     icon: Linkedin,
     label: 'LinkedIn'
+  },
+  {
+    href: 'https://twitter.com/vitorbritto',
+    icon: Twitter,
+    label: 'Twitter'
   }
 ] as const

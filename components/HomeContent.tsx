@@ -72,9 +72,10 @@ export function HomeContent({ articles, categories, tags, tracks }: HomeContentP
   return (
     <main className="min-h-screen">
       <div className="mx-auto px-10 py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr_300px] gap-32">
+        <div className="grid grid-cols-1 lg:grid-cols-[280px_minmax(0,1fr)_300px] gap-32">
           <div className="lg:sticky lg:top-24 lg:self-start">
             <LeftSidebar
+              articles={filteredArticles}
               categories={categories}
               tags={tags}
               selectedCategories={selectedCategories}
@@ -91,9 +92,16 @@ export function HomeContent({ articles, categories, tags, tracks }: HomeContentP
           <div className="hidden lg:block lg:sticky lg:top-24 lg:self-start">
             <RightSidebar
               tracks={tracks}
-              articles={filteredArticles}
+              categories={categories}
+              tags={tags}
+              selectedCategories={selectedCategories}
+              selectedTags={selectedTags}
               searchQuery={searchQuery}
               onSearchChange={handleSearchChange}
+              onToggleCategory={toggleCategory}
+              onToggleTag={toggleTag}
+              onClearAllCategories={clearAllCategories}
+              onClearAllTags={clearAllTags}
             />
           </div>
         </div>

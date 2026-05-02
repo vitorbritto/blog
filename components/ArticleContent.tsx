@@ -7,7 +7,7 @@ import { ArticleLanguageProvider } from './ArticleLanguageProvider'
 
 export function ArticleContent({ article }: { article: Article }) {
   return (
-    <article>
+    <article className="min-w-0">
       <ArticleLanguageProvider article={article}>
         <ArticleHeader />
         <ArticleMDX />

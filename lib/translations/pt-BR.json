@@ -115,7 +115,8 @@
     "description": "Explore artigos sobre desenvolvimento, arquitetura e boas práticas. Conhecimento compartilhado para ajudar você a se tornar um desenvolvedor melhor.",
     "allArticles": "Todos os Artigos",
     "browseDescription": "Navegue por todos os artigos por tópico ou tag.",
-    "noArticlesFound": "Nenhum artigo encontrado."
+    "noArticlesFound": "Nenhum artigo encontrado",
+    "noArticlesFoundDescription": "Tente ajustar a busca ou limpar os filtros."
   },
   "filters": {
     "topics": "Tópicos",
@@ -127,7 +128,8 @@
   },
   "search": {
     "placeholder": "Buscar artigos...",
-    "resultCount": "{count} artigos"
+    "resultCount": "{count} artigos",
+    "clear": "Limpar busca"
   },
   "archive": {
     "title": "Arquivo"
