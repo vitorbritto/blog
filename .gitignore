@@ -21,6 +21,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 /scripts
-/drafts
+/content/drafts
 CLAUDE.md
 .worktrees
