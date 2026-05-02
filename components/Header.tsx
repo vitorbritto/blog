@@ -10,17 +10,17 @@ export function Header() {
   const { t } = useTranslation()
   return (
     <header className="border-b border-zinc-800/50 bg-[#161718] sticky top-0 z-10">
-      <nav className="mx-auto px-10 py-6">
+      <nav className="mx-auto px-10 py-4">
         <div className="flex items-center justify-between">
           <Link
             href="/"
-            className="font-mono tracking-tight transition-colors group flex items-baseline gap-2"
+            className="font-mono tracking-tight transition-colors group flex flex-col items-start gap-0.5"
             style={{ fontFamily: 'var(--font-mono)' }}
           >
             <span className="text-xl font-semibold text-zinc-100 group-hover:text-emerald-400 transition-colors">
               vitorbritto
             </span>
-            <span className="text-xs text-zinc-500">— {t('nav.tagline')}</span>
+            <span className="text-xs text-zinc-500">{t('nav.tagline')}</span>
           </Link>
           <div className="flex items-center gap-12">
             <Tooltip.Provider delayDuration={150}>

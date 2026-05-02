@@ -1,4 +1,4 @@
-import { CodeXml, Github, Linkedin, Twitter } from 'lucide-react'
+import { CodeXml, Github, Linkedin, Newspaper, Twitter } from 'lucide-react'
 
 export const socialLinks = [
   {
@@ -15,6 +15,11 @@ export const socialLinks = [
     href: 'https://linkedin.com/in/vitorbritto',
     icon: Linkedin,
     label: 'LinkedIn'
+  },
+  {
+    href: 'https://substack.com/@vitorbritto',
+    icon: Newspaper,
+    label: 'Substack'
   },
   {
     href: 'https://twitter.com/vitorbritto',

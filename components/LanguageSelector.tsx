@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import * as Tooltip from "@radix-ui/react-tooltip";
-import { Check, Globe2 } from "lucide-react";
+import { Check, Languages } from "lucide-react";
 import { useLanguage } from "@/lib/hooks/useLanguage";
 
 export function LanguageSelector() {
@@ -28,7 +28,7 @@ export function LanguageSelector() {
               aria-haspopup="menu"
               className="flex h-9 w-9 items-center justify-center cursor-pointer bg-zinc-900 border border-zinc-800 rounded text-zinc-300 hover:text-emerald-400 hover:border-emerald-400 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent"
             >
-              <Globe2 className="w-4 h-4" />
+              <Languages className="w-4 h-4" />
             </button>
           </Tooltip.Trigger>
           <Tooltip.Portal>
