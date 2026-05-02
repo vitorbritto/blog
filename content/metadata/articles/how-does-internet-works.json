@@ -5,7 +5,11 @@
     "front-end"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "Web",
+    "Internet",
+    "Networking"
+  ],
   "readTime": 5,
   "featured": false
 }

@@ -5,7 +5,11 @@
     "front-end"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "Package Managers",
+    "Dependencies",
+    "Tooling"
+  ],
   "readTime": 5,
   "featured": false
 }

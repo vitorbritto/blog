@@ -6,7 +6,11 @@
     "front-end"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "React",
+    "Code Splitting",
+    "Performance"
+  ],
   "readTime": 5,
   "featured": false
 }

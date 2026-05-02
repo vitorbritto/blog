@@ -10,7 +10,11 @@
     "architecture"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "Package by Feature",
+    "Architecture",
+    "Modularity"
+  ],
   "readTime": 4,
   "featured": false
 }

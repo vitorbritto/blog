@@ -5,7 +5,11 @@
     "performance"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "SSR",
+    "Rendering",
+    "Performance"
+  ],
   "readTime": 5,
   "featured": false
 }

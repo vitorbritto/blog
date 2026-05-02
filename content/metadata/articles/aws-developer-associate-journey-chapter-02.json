@@ -5,7 +5,11 @@
     "devops"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "AWS",
+    "Cloud",
+    "Developer Associate"
+  ],
   "readTime": 5,
   "featured": false
 }

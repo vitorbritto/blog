@@ -5,7 +5,11 @@
     "front-end"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "CSS",
+    "Stylesheets",
+    "Front-end"
+  ],
   "readTime": 5,
   "featured": false
 }

@@ -5,7 +5,11 @@
     "devops"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "Monorepo",
+    "Architecture",
+    "Tooling"
+  ],
   "readTime": 5,
   "featured": false
 }

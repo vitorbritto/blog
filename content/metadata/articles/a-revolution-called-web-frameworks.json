@@ -5,7 +5,11 @@
     "front-end"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "Web Frameworks",
+    "Front-end",
+    "Architecture"
+  ],
   "readTime": 5,
   "featured": false
 }

@@ -5,7 +5,11 @@
     "architecture"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "System Design",
+    "Scalability",
+    "Architecture"
+  ],
   "readTime": 5,
   "featured": false
 }

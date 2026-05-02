@@ -5,7 +5,11 @@
     "front-end"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "PWA",
+    "Web Apps",
+    "Front-end"
+  ],
   "readTime": 5,
   "featured": false
 }

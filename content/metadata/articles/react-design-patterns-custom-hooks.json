@@ -6,7 +6,11 @@
     "front-end"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "React",
+    "Custom Hooks",
+    "Design Patterns"
+  ],
   "readTime": 5,
   "featured": false
 }

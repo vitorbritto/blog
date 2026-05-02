@@ -3,5 +3,28 @@
   "name": "Arquitetura",
   "description": "Design patterns e boas práticas",
   "icon": "Network",
-  "articles": []
+  "articles": [
+    "understanding-css-architecture",
+    "the-package-by-feature-approach",
+    "solid-principles-for-software-wizards",
+    "react-design-patterns",
+    "react-design-patterns-render-props",
+    "react-design-patterns-provider",
+    "react-design-patterns-layout-components",
+    "react-design-patterns-higher-order-components",
+    "react-design-patterns-foundational",
+    "react-design-patterns-custom-hooks",
+    "react-design-patterns-controlled-uncontrolled-component",
+    "react-design-patterns-container-presentational",
+    "react-design-patterns-conditional-rendering",
+    "react-design-patterns-compound-component",
+    "introduction-to-design-patterns",
+    "getting-started-with-system-design",
+    "elevating-creational-craftsmanship",
+    "design-patterns-with-vanilla-js",
+    "deep-dive-into-system-design",
+    "crafting-code-foundations",
+    "architectural-patterns-monolithic",
+    "architectural-patterns-microservices"
+  ]
 }

@@ -5,7 +5,11 @@
     "front-end"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "Testing",
+    "Quality",
+    "Automation"
+  ],
   "readTime": 5,
   "featured": false
 }

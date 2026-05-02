@@ -5,7 +5,11 @@
     "front-end"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "Static Sites",
+    "SSG",
+    "Front-end"
+  ],
   "readTime": 5,
   "featured": false
 }

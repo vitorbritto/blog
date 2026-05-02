@@ -5,7 +5,11 @@
     "devops"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "AWS CDK",
+    "Infrastructure as Code",
+    "Cloud"
+  ],
   "readTime": 5,
   "featured": false
 }

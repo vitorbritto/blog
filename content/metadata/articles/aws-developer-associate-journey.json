@@ -5,7 +5,11 @@
     "devops"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "AWS",
+    "Cloud",
+    "Certification"
+  ],
   "readTime": 5,
   "featured": false
 }

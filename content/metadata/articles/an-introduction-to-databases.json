@@ -5,7 +5,11 @@
     "databases"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "Databases",
+    "Data Modeling",
+    "Storage"
+  ],
   "readTime": 5,
   "featured": false
 }

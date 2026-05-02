@@ -5,7 +5,11 @@
     "front-end"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "HTML",
+    "Web Standards",
+    "Front-end"
+  ],
   "readTime": 5,
   "featured": false
 }

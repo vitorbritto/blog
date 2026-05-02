@@ -5,7 +5,11 @@
     "architecture"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "Clean Code",
+    "Architecture",
+    "Foundations"
+  ],
   "readTime": 5,
   "featured": false
 }

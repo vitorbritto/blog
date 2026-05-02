@@ -10,7 +10,11 @@
     "architecture"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "SOLID",
+    "Clean Code",
+    "Design Principles"
+  ],
   "readTime": 7,
   "featured": false
 }

@@ -5,7 +5,11 @@
     "front-end"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "React",
+    "Error Boundaries",
+    "Resilience"
+  ],
   "readTime": 5,
   "featured": false
 }

@@ -5,7 +5,11 @@
     "architecture"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "Design Patterns",
+    "Architecture",
+    "Fundamentals"
+  ],
   "readTime": 5,
   "featured": false
 }

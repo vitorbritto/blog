@@ -5,7 +5,11 @@
     "architecture"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "Creational Patterns",
+    "Design Patterns",
+    "JavaScript"
+  ],
   "readTime": 5,
   "featured": false
 }

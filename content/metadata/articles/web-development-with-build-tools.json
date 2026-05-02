@@ -5,7 +5,11 @@
     "performance"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "Build Tools",
+    "Tooling",
+    "Automation"
+  ],
   "readTime": 5,
   "featured": false
 }

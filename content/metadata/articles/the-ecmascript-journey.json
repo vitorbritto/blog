@@ -10,7 +10,11 @@
     "front-end"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "JavaScript",
+    "ECMAScript",
+    "Language Evolution"
+  ],
   "readTime": 6,
   "featured": false
 }

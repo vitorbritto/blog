@@ -1,9 +1,15 @@
 {
   "slug": "introduction-to-functional-programming",
   "date": "2024-02-07",
-  "categories": [],
+  "categories": [
+    "front-end"
+  ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "JavaScript",
+    "Functional Programming",
+    "Pure Functions"
+  ],
   "readTime": 5,
   "featured": false
 }

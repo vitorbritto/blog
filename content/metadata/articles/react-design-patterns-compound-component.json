@@ -6,7 +6,11 @@
     "front-end"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "React",
+    "Compound Components",
+    "Design Patterns"
+  ],
   "readTime": 5,
   "featured": false
 }

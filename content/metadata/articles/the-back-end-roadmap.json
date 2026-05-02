@@ -5,7 +5,11 @@
     "back-end"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "Back-end",
+    "Roadmap",
+    "Learning Path"
+  ],
   "readTime": 5,
   "featured": false
 }

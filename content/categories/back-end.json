@@ -3,5 +3,8 @@
   "name": "Back-end",
   "description": "APIs, bancos de dados e servidores",
   "icon": "Terminal",
-  "articles": []
+  "articles": [
+    "the-back-end-roadmap",
+    "introduction-graphql"
+  ]
 }

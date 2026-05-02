@@ -5,7 +5,11 @@
     "devops"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "Deployment",
+    "DevOps",
+    "Release Strategy"
+  ],
   "readTime": 5,
   "featured": false
 }

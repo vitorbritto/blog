@@ -10,7 +10,11 @@
     "front-end"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "Front-end",
+    "Roadmap",
+    "Learning Path"
+  ],
   "readTime": 2,
   "featured": false
 }

@@ -10,7 +10,11 @@
     "front-end"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "Mobile",
+    "React Native",
+    "Apps"
+  ],
   "readTime": 3,
   "featured": false
 }

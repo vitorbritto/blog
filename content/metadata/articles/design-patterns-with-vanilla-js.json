@@ -5,7 +5,11 @@
     "architecture"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "Design Patterns",
+    "JavaScript",
+    "Vanilla JS"
+  ],
   "readTime": 5,
   "featured": false
 }

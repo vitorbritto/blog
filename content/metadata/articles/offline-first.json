@@ -5,7 +5,11 @@
     "front-end"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "Offline First",
+    "PWA",
+    "Resilience"
+  ],
   "readTime": 5,
   "featured": false
 }

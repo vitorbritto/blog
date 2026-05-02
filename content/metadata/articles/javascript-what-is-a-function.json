@@ -5,7 +5,11 @@
     "front-end"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "JavaScript",
+    "Functions",
+    "Fundamentals"
+  ],
   "readTime": 5,
   "featured": false
 }

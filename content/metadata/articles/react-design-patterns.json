@@ -6,7 +6,11 @@
     "front-end"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "React",
+    "Design Patterns",
+    "Architecture"
+  ],
   "readTime": 5,
   "featured": false
 }

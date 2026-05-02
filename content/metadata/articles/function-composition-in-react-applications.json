@@ -5,7 +5,11 @@
     "front-end"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "JavaScript",
+    "Function Composition",
+    "Functional Programming"
+  ],
   "readTime": 5,
   "featured": false
 }

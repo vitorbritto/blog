@@ -5,7 +5,11 @@
     "front-end"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "DNS",
+    "Networking",
+    "Web"
+  ],
   "readTime": 5,
   "featured": false
 }

@@ -5,7 +5,11 @@
     "front-end"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "React",
+    "Pure Components",
+    "Performance"
+  ],
   "readTime": 5,
   "featured": false
 }

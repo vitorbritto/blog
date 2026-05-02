@@ -5,7 +5,11 @@
     "front-end"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "Feature Flags",
+    "Release Strategy",
+    "Product Engineering"
+  ],
   "readTime": 5,
   "featured": false
 }

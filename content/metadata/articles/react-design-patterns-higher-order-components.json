@@ -6,7 +6,11 @@
     "front-end"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "React",
+    "HOC",
+    "Design Patterns"
+  ],
   "readTime": 5,
   "featured": false
 }

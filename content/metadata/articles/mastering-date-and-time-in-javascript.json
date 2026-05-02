@@ -5,7 +5,11 @@
     "front-end"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "JavaScript",
+    "Date",
+    "Time"
+  ],
   "readTime": 5,
   "featured": false
 }

@@ -6,7 +6,11 @@
     "front-end"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "React",
+    "Container Components",
+    "Design Patterns"
+  ],
   "readTime": 5,
   "featured": false
 }

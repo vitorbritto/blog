@@ -3,5 +3,16 @@
   "name": "DevOps",
   "description": "CI/CD, containers e cloud",
   "icon": "Cloud",
-  "articles": []
+  "articles": [
+    "the-path-to-ci-cd-mastery",
+    "the-ci-cd-automation-on-github",
+    "exploring-version-control-systems",
+    "exploring-the-aws-cloud-development-kit",
+    "building-a-monorepo",
+    "building-a-monorepo-the-right-way",
+    "aws-developer-associate-journey",
+    "aws-developer-associate-journey-chapter-02",
+    "aws-developer-associate-journey-chapter-01",
+    "application-strategy-deployment"
+  ]
 }

@@ -5,7 +5,11 @@
     "front-end"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "React",
+    "Synthetic Events",
+    "JavaScript"
+  ],
   "readTime": 5,
   "featured": false
 }

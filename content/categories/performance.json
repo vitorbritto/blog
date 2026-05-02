@@ -3,5 +3,10 @@
   "name": "Performance",
   "description": "Otimização de desempenho e escalabilidade",
   "icon": "Cpu",
-  "articles": []
+  "articles": [
+    "web-development-with-build-tools",
+    "unveiling-server-side-rendering",
+    "dealing-with-debounce-and-throttle",
+    "code-splitting-in-react"
+  ]
 }

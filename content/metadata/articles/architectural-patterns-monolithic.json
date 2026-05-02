@@ -5,7 +5,11 @@
     "architecture"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "Monolith",
+    "Architecture",
+    "System Design"
+  ],
   "readTime": 5,
   "featured": false
 }

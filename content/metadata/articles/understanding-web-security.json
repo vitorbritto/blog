@@ -5,7 +5,11 @@
     "security"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "Web Security",
+    "Security",
+    "OWASP"
+  ],
   "readTime": 5,
   "featured": false
 }

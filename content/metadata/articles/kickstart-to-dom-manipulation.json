@@ -5,7 +5,11 @@
     "front-end"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "DOM",
+    "JavaScript",
+    "Browser APIs"
+  ],
   "readTime": 5,
   "featured": false
 }

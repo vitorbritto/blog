@@ -5,7 +5,11 @@
     "architecture"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "Microservices",
+    "Architecture",
+    "Distributed Systems"
+  ],
   "readTime": 5,
   "featured": false
 }

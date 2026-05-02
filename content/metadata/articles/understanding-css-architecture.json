@@ -6,7 +6,11 @@
     "front-end"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "CSS",
+    "Architecture",
+    "Maintainability"
+  ],
   "readTime": 5,
   "featured": false
 }

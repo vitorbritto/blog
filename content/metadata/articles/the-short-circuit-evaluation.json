@@ -5,7 +5,11 @@
     "front-end"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "JavaScript",
+    "Short Circuit",
+    "Expressions"
+  ],
   "readTime": 5,
   "featured": false
 }

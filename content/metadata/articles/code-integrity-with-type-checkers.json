@@ -5,7 +5,11 @@
     "front-end"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "Type Checking",
+    "Code Quality",
+    "Static Analysis"
+  ],
   "readTime": 5,
   "featured": false
 }

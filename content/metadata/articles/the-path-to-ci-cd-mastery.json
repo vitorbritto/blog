@@ -10,7 +10,11 @@
     "devops"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "CI/CD",
+    "GitHub Actions",
+    "Automation"
+  ],
   "readTime": 5,
   "featured": false
 }

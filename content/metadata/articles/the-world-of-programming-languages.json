@@ -5,7 +5,11 @@
     "front-end"
   ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "Programming Languages",
+    "Fundamentals",
+    "Software Development"
+  ],
   "readTime": 5,
   "featured": false
 }
