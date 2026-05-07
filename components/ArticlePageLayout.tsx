@@ -34,19 +34,15 @@ export function ArticlePageLayout({
 
   return (
     <main className="min-h-screen">
-      <div className="mx-auto px-10 py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-[280px_minmax(0,1fr)_300px] gap-32">
+      <div className="mx-auto px-4 py-10 sm:px-6 lg:px-10 lg:py-16">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[280px_minmax(0,1fr)_300px] lg:gap-32">
           <div className="lg:sticky lg:top-24 lg:self-start">
             <LeftSidebar
               articles={articles}
-              categories={categories}
-              tags={tags}
               selectedCategories={[]}
               selectedTags={[]}
               onToggleCategory={slug => goHomeWith({ cat: slug })}
               onToggleTag={tag => goHomeWith({ tag })}
-              onClearAllCategories={() => router.push('/')}
-              onClearAllTags={() => router.push('/')}
             />
           </div>
 

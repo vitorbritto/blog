@@ -1,25 +1,20 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import Link from 'next/link'
-import { Article, Category } from '@/lib/types/content'
+import { Article } from '@/lib/types/content'
 import { useLanguage } from '@/lib/hooks/useLanguage'
 import { useTranslation } from '@/lib/hooks/useTranslation'
 import { getTranslatedArticle } from '@/lib/i18n'
 
 interface LeftSidebarProps {
   articles: Article[]
-  categories: Category[]
-  tags: string[]
   selectedCategories: string[]
   selectedTags: string[]
   onToggleCategory: (slug: string) => void
   onToggleTag: (tag: string) => void
-  onClearAllCategories: () => void
-  onClearAllTags: () => void
 }
 
-type FilterType = 'topic' | 'tag' | null
 type ArchiveGroup = { key: string; label: string; articles: Article[] }
 
 function groupArticlesByMonth(articles: Article[], locale: string): ArchiveGroup[] {
@@ -53,18 +48,13 @@ function groupArticlesByMonth(articles: Article[], locale: string): ArchiveGroup
 
 export function LeftSidebar({
   articles,
-  categories,
-  tags,
   selectedCategories,
   selectedTags,
   onToggleCategory,
-  onToggleTag,
-  onClearAllCategories,
-  onClearAllTags
+  onToggleTag
 }: LeftSidebarProps) {
   const { t, translateCategory } = useTranslation()
   const { language } = useLanguage()
-  const [openFilter, setOpenFilter] = useState<FilterType>(null)
   const archiveLocale = language === 'en' ? 'en-US' : 'pt-BR'
   const archive = useMemo(
     () => groupArticlesByMonth(articles, archiveLocale),
@@ -75,147 +65,39 @@ export function LeftSidebar({
     <aside>
       {/* Mobile View */}
       <div className="lg:hidden space-y-4">
-        <div className="flex flex-wrap gap-2">
-          {selectedCategories.map(categorySlug => (
-            <div
-              key={categorySlug}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-zinc-800/70 text-zinc-300 text-xs"
-            >
-              <span className="capitalize">{translateCategory(categorySlug)}</span>
-              <button
-                onClick={() => onToggleCategory(categorySlug)}
-                className="ml-1 hover:text-zinc-100 transition-colors"
-                aria-label="Remove filter"
+        {(selectedCategories.length > 0 || selectedTags.length > 0) && (
+          <div className="flex flex-wrap gap-2">
+            {selectedCategories.map(categorySlug => (
+              <div
+                key={categorySlug}
+                className="inline-flex items-center gap-1.5 rounded-full bg-zinc-800/70 px-2.5 py-1 text-xs text-zinc-300"
               >
-                &times;
-              </button>
-            </div>
-          ))}
-          {selectedTags.map(tag => (
-            <div
-              key={tag}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-zinc-800/70 text-zinc-300 text-xs"
-            >
-              <span>{tag}</span>
-              <button
-                onClick={() => onToggleTag(tag)}
-                className="ml-1 hover:text-zinc-100 transition-colors"
-                aria-label="Remove filter"
-              >
-                &times;
-              </button>
-            </div>
-          ))}
-        </div>
-
-        <div className="flex flex-wrap gap-2">
-          {categories.length > 0 && (
-            <div className="flex items-center gap-1">
-              <button
-                onClick={() => setOpenFilter(openFilter === 'topic' ? null : 'topic')}
-                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors flex items-center gap-1.5 ${
-                  selectedCategories.length > 0
-                    ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
-                    : openFilter === 'topic'
-                    ? 'bg-zinc-700 text-zinc-200 border border-zinc-600'
-                    : 'bg-zinc-800/50 text-zinc-400 hover:bg-zinc-800 border border-zinc-700/50'
-                }`}
-              >
-                <span>
-                  {t('filters.topics')}
-                  {selectedCategories.length > 0 && (
-                    <span className="ml-1.5">({selectedCategories.length})</span>
-                  )}
-                </span>
-                <span className="text-[12px]">+</span>
-              </button>
-            </div>
-          )}
-
-          {tags.length > 0 && (
-            <div className="flex items-center gap-1">
-              <button
-                onClick={() => setOpenFilter(openFilter === 'tag' ? null : 'tag')}
-                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors flex items-center gap-1.5 ${
-                  selectedTags.length > 0
-                    ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
-                    : openFilter === 'tag'
-                    ? 'bg-zinc-700 text-zinc-200 border border-zinc-600'
-                    : 'bg-zinc-800/50 text-zinc-400 hover:bg-zinc-800 border border-zinc-700/50'
-                }`}
-              >
-                <span>
-                  {t('filters.tags')}
-                  {selectedTags.length > 0 && (
-                    <span className="ml-1.5">({selectedTags.length})</span>
-                  )}
-                </span>
-                <span className="text-[12px]">+</span>
-              </button>
-            </div>
-          )}
-        </div>
-
-        {openFilter === 'topic' && categories.length > 0 && (
-          <div className="space-y-2 max-h-[300px] overflow-y-auto bg-zinc-900/50 rounded-lg p-3 border border-zinc-800">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-xs text-zinc-400 font-medium">
-                {t('filters.topics')}
-              </span>
-              {selectedCategories.length > 0 && (
+                <span className="capitalize">{translateCategory(categorySlug)}</span>
                 <button
-                  onClick={onClearAllCategories}
-                  className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors"
+                  type="button"
+                  onClick={() => onToggleCategory(categorySlug)}
+                  className="ml-1 transition-colors hover:text-zinc-100"
+                  aria-label={t('filters.remove')}
                 >
-                  {t('filters.clearAll')}
+                  x
                 </button>
-              )}
-            </div>
-            {categories.map(category => (
-              <label
-                key={category.slug}
-                className="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-zinc-800/50 cursor-pointer"
-              >
-                <input
-                  type="checkbox"
-                  checked={selectedCategories.includes(category.slug)}
-                  onChange={() => onToggleCategory(category.slug)}
-                  className="w-4 h-4 rounded border-zinc-600 bg-zinc-800 text-emerald-500 focus:ring-2 focus:ring-emerald-400 focus:ring-offset-0 focus:ring-offset-zinc-900"
-                />
-                <span className="text-sm text-zinc-300 capitalize">
-                  {translateCategory(category.slug)}
-                </span>
-              </label>
+              </div>
             ))}
-          </div>
-        )}
-
-        {openFilter === 'tag' && tags.length > 0 && (
-          <div className="space-y-2 max-h-[300px] overflow-y-auto bg-zinc-900/50 rounded-lg p-3 border border-zinc-800">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-xs text-zinc-400">{t('filters.tags')}</span>
-              {selectedTags.length > 0 && (
-                <button
-                  onClick={onClearAllTags}
-                  className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors"
-                >
-                  {t('filters.clearAll')}
-                </button>
-              )}
-            </div>
-            {tags.slice(0, 50).map(tag => (
-              <label
+            {selectedTags.map(tag => (
+              <div
                 key={tag}
-                className="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-zinc-800/50 cursor-pointer"
+                className="inline-flex items-center gap-1.5 rounded-full bg-zinc-800/70 px-2.5 py-1 text-xs text-zinc-300"
               >
-                <input
-                  type="checkbox"
-                  checked={selectedTags.includes(tag)}
-                  onChange={() => onToggleTag(tag)}
-                  className="w-4 h-4 rounded border-zinc-600 bg-zinc-800 text-emerald-500 focus:ring-2 focus:ring-emerald-400 focus:ring-offset-0 focus:ring-offset-zinc-900"
-                />
-                <span className="text-sm text-zinc-300">{tag}</span>
-              </label>
+                <span>{tag}</span>
+                <button
+                  type="button"
+                  onClick={() => onToggleTag(tag)}
+                  className="ml-1 transition-colors hover:text-zinc-100"
+                  aria-label={t('filters.remove')}
+                >
+                  x
+                </button>
+              </div>
             ))}
           </div>
         )}

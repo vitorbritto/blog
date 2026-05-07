@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { ArticleFeed } from './ArticleFeed'
 import { LeftSidebar } from './LeftSidebar'
+import { MobileFilterDrawer } from './MobileFilterDrawer'
 import { RightSidebar } from './RightSidebar'
 import { Article, Category, Track } from '@/lib/types/content'
 
@@ -71,19 +72,29 @@ export function HomeContent({ articles, categories, tags, tracks }: HomeContentP
 
   return (
     <main className="min-h-screen">
-      <div className="mx-auto px-10 py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-[280px_minmax(0,1fr)_300px] gap-32">
+      <MobileFilterDrawer
+        articles={filteredArticles}
+        categories={categories}
+        tags={tags}
+        selectedCategories={selectedCategories}
+        selectedTags={selectedTags}
+        searchQuery={searchQuery}
+        onSearchChange={handleSearchChange}
+        onToggleCategory={toggleCategory}
+        onToggleTag={toggleTag}
+        onClearAllCategories={clearAllCategories}
+        onClearAllTags={clearAllTags}
+      />
+
+      <div className="mx-auto px-4 py-8 sm:px-6 lg:px-10 lg:py-12">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[280px_minmax(0,1fr)_300px] lg:gap-32">
           <div className="lg:sticky lg:top-24 lg:self-start">
             <LeftSidebar
               articles={filteredArticles}
-              categories={categories}
-              tags={tags}
               selectedCategories={selectedCategories}
               selectedTags={selectedTags}
               onToggleCategory={toggleCategory}
               onToggleTag={toggleTag}
-              onClearAllCategories={clearAllCategories}
-              onClearAllTags={clearAllTags}
             />
           </div>
 

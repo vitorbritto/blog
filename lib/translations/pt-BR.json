@@ -5,7 +5,10 @@
     "categories": "Categorias",
     "about": "Sobre",
     "contact": "Contato",
-    "tagline": "pensar(); codar(); evoluir();"
+    "tagline": "pensar(); codar(); evoluir();",
+    "openMenu": "Abrir menu",
+    "closeMenu": "Fechar menu",
+    "language": "Idioma"
   },
   "hero": {
     "title1": "Um blog sobre",
@@ -127,6 +130,11 @@
     "noArticlesFoundDescription": "Tente ajustar a busca ou limpar os filtros."
   },
   "filters": {
+    "title": "Filtros",
+    "open": "Abrir filtros",
+    "close": "Fechar filtros",
+    "active": "{count} filtros ativos",
+    "remove": "Remover filtro",
     "topics": "Tópicos",
     "tags": "Tags",
     "tracks": "Trilhas",
@@ -140,7 +148,7 @@
     "clear": "Limpar busca"
   },
   "archive": {
-    "title": "Arquivo"
+    "title": "Arquivos"
   },
   "home": {
     "subtitle": "Pensamentos sobre tecnologia, desenvolvimento e engenharia de software."

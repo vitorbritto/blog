@@ -5,7 +5,10 @@
     "categories": "Categories",
     "about": "About",
     "contact": "Contact",
-    "tagline": "think(); code(); evolve();"
+    "tagline": "think(); code(); evolve();",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "language": "Language"
   },
   "hero": {
     "title1": "A blog about",
@@ -126,6 +129,11 @@
     "noArticlesFoundDescription": "Try adjusting your search or clearing the filters."
   },
   "filters": {
+    "title": "Filters",
+    "open": "Open filters",
+    "close": "Close filters",
+    "active": "{count} active filters",
+    "remove": "Remove filter",
     "topics": "Topics",
     "tags": "Tags",
     "tracks": "Tracks",
