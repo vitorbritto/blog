@@ -1,4 +1,5 @@
 ---
+coverImage: /blog/images/react-an-overview-about-syntheticevent.jpg
 title: "React: Um overview sobre SyntheticEvent"
 excerpt: "Uma forma eficiente de lidar com todos os eventos entre os navegadores."
 ---
@@ -19,7 +20,7 @@ Cada evento do JavaScript tem um event handler que trabalha em conjunto com um e
 
 Os Synthetic Events do React são muito parecidos com os Native Events; no entanto, com Synthetic Events, a mesma interface de API é implementada em múltiplos browsers.
 
-![Synthetic Events](/blog/articles/img_68_2.jpg)
+![Synthetic Events](/blog/images/react-an-overview-about-syntheticevent-1.jpg)
 
 Todo objeto de Synthetic Events possui os seguintes atributos:
 
@@ -29,7 +30,7 @@ boolean bubblesboolean cancelableDOMEventTarget currentTarget // o elemento em q
 
 Aqui está um log do Console do Chrome Dev Tools onde você pode vê-lo em ação.
 
-![Synthetic Events](/blog/articles/img_68_3.png)
+![Synthetic Events](/blog/images/react-an-overview-about-syntheticevent-2.png)
 
 Tanto Synthetic Events quanto Native Events podem implementar os métodos `preventDefault` e `stopPropagation`. No entanto, synthetic events e native events não são exatamente a mesma coisa. Por exemplo, o SyntheticEvent vai apontar para `mouseout` no caso do evento `onMouseLeave`.
 

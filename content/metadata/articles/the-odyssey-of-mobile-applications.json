@@ -1,11 +1,7 @@
 {
   "slug": "the-odyssey-of-mobile-applications",
-  "coverImage": "",
+  "coverImage": "/blog/images/the-odyssey-of-mobile-applications.jpg",
   "date": "2025-02-09",
-  "author": {
-    "name": "Vitor Britto",
-    "picture": "/authors/vitor.jpg"
-  },
   "categories": [
     "front-end"
   ],

@@ -1,11 +1,7 @@
 {
   "slug": "react-the-virtual-dom",
-  "coverImage": "/blog/react-virtual-dom.png",
+  "coverImage": "/blog/images/react-the-virtual-dom.jpg",
   "date": "2024-11-03",
-  "author": {
-    "name": "Vitor Britto",
-    "picture": "/authors/vitor.png"
-  },
   "categories": [
     "front-end"
   ],

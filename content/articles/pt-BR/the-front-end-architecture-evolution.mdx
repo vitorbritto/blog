@@ -1,0 +1,276 @@
+---
+coverImage: /blog/images/front-end-architecture-evolution.jpg
+title: "A evolução da arquitetura no Front-end"
+excerpt: "De páginas estáticas a aplicações modernas."
+---
+
+A arquitetura das aplicações web passou por uma transformação profunda nas últimas décadas. 
+
+O que começou como páginas simples, compostas por HTML, CSS e pequenos trechos de JavaScript, evoluiu pra sistemas altamente interativos, distribuídos e organizados em múltiplas camadas.
+
+Essa evolução não aconteceu por acaso. Cada novo modelo surgiu como resposta a uma limitação do modelo anterior. Ao mesmo tempo, cada avanço trouxe seus próprios custos técnicos, operacionais e organizacionais.
+
+Entender essa trajetória é importante porque ajuda a tomar decisões melhores. Nem sempre a arquitetura mais moderna é a mais adequada. Muitas vezes, a melhor escolha é aquela que resolve o problema atual com o menor nível possível de complexidade.
+
+# O início da web com as páginas estáticas
+
+No começo, a web era essencialmente estática. As páginas eram criadas com HTML, estilizadas com CSS e, em alguns casos, recebiam pequenos scripts em JavaScript.
+
+A experiência era parecida com a leitura de uma revista ou jornal digital. O usuário acessava uma página, lia o conteúdo, via imagens e navegava por links. Havia pouca ou nenhuma interação dinâmica.
+
+Esse modelo tinha vantagens claras: era simples, rápido, barato e fácil de hospedar. Uma página estática podia ser servida diretamente por um servidor web ou por uma CDN, com excelente performance.
+
+Por outro lado, ele tinha uma limitação evidente: era difícil criar experiências personalizadas, fluxos interativos ou aplicações com regras de negócio mais elaboradas.
+
+Foi essa necessidade que abriu espaço pra próxima etapa.
+
+# MVC: a web dinâmica no servidor
+
+Com o crescimento da web, surgiu a necessidade de gerar páginas dinamicamente. Nesse contexto, o padrão MVC — Model, View, Controller ganhou força.
+
+Frameworks como Ruby on Rails, Django, ASP.NET, PHP e Java popularizaram esse modelo. A ideia era separar responsabilidades dentro da aplicação:
+
+- **Model**: representa os dados e regras principais do domínio.
+- **View**: representa a camada de apresentação.
+- **Controller**: coordena as ações entre entrada do usuário, modelo e resposta.
+
+Na prática, o servidor recebia uma requisição, buscava dados, aplicava regras e montava o HTML final antes de enviar a página ao navegador.
+
+Esse modelo foi uma grande evolução. Ele permitiu construir páginas dinâmicas, sistemas administrativos, autenticação, formulários, regras de negócio e experiências mais personalizadas.
+
+No entanto, ainda havia limitações importantes. A cada navegação ou ação mais relevante, normalmente era necessário recarregar a página inteira. Além disso, front-end e back-end ficavam fortemente acoplados, já que a interface era gerada diretamente pelo servidor.
+
+O MVC resolveu o problema da web estática, mas ainda não entregava a fluidez que as aplicações modernas exigiriam.
+
+# SPAs: quando o JavaScript assume protagonismo
+
+A próxima grande virada veio com o amadurecimento do JavaScript no navegador. Frameworks e bibliotecas como Angular, React e Vue permitiram a criação das Single Page Applications, conhecidas como SPAs.
+
+Nesse modelo, o servidor deixa de entregar páginas completas e passa a fornecer dados, geralmente por meio de APIs. A interface, o roteamento e boa parte da lógica de interação passam a viver no navegador.
+
+Essa mudança transformou o papel do front-end.
+
+Antes, o front-end era visto principalmente como uma camada visual. Com as SPAs, ele passou a lidar com estado, autenticação, validação, cache, data fetching, roteamento, permissões, fluxos complexos e experiência do usuário em tempo real.
+
+Essa evolução permitiu a criação de produtos web muito mais ricos: dashboards, plataformas SaaS, editores online, sistemas internos complexos e aplicações com alto nível de interatividade.
+
+Porém, esse avanço também trouxe novos problemas.
+
+Como boa parte da aplicação passou a ser entregue em JavaScript, o carregamento inicial ficou mais pesado. O navegador precisava baixar, interpretar e executar _bundles_ maiores antes de exibir ou tornar a aplicação interativa.
+
+Além disso, aplicações renderizadas apenas no cliente passaram a enfrentar desafios maiores com SEO, performance percebida e tempo até a primeira interação.
+
+As SPAs resolveram o problema da fluidez, mas criaram uma nova questão: como equilibrar interatividade e performance?
+
+# Thin client e thick client
+
+Pra entender melhor essa mudança, vale olhar pra dois conceitos: thin client e thick client.
+
+Um _thin client_ é uma aplicação cliente com pouca lógica local. Ele depende mais do servidor pra processar regras, montar respostas e controlar o fluxo da aplicação.
+
+Já um _thick client_, ou _fat client_, concentra mais lógica no próprio cliente. Ele gerencia estado, validações, regras de interface, cache e parte relevante da experiência do usuário.
+
+A web começou com clientes mais leves. Com as SPAs, caminhou fortemente em direção aos clientes mais robustos.
+
+Isso não é necessariamente bom ou ruim. É uma troca.
+
+Colocar mais lógica no cliente pode melhorar a experiência e reduzir algumas idas ao servidor. Em contrapartida, também aumenta a complexidade do front-end, exige mais cuidado com performance e torna o navegador responsável por executar uma parte maior da aplicação.
+
+A arquitetura moderna de front-end vive justamente nesse equilíbrio.
+
+# BFF: um backend pra cada experiência
+
+Com o crescimento das aplicações, surgiram múltiplos tipos de clientes consumindo os mesmos sistemas: web, mobile, desktop, parceiros externos, dispositivos embarcados e outros canais.
+
+Cada cliente pode precisar dos mesmos dados, mas em formatos diferentes.
+
+Um aplicativo mobile, por exemplo, pode precisar de uma resposta mais enxuta. Uma aplicação desktop pode precisar de mais detalhes. Uma interface administrativa pode precisar de dados agregados de vários serviços.
+
+Tentar atender todas essas necessidades com uma única API genérica tende a criar uma interface difícil de evoluir. Foi nesse contexto que o padrão BFF — Backend for Frontend ganhou espaço.
+
+A ideia do BFF é criar uma camada de backend específica pra cada experiência de front-end.
+
+Essa camada pode agregar dados de múltiplos serviços, adaptar o formato da resposta, centralizar autenticação, reduzir chamadas do cliente e entregar uma API mais próxima das necessidades da interface.
+
+O ganho é claro: mais autonomia pro time de front-end e maior alinhamento entre API e experiência do usuário.
+
+Por outro lado, o BFF adiciona mais uma camada ao sistema. Isso aumenta a complexidade operacional, cria mais pontos de manutenção e pode se tornar gargalo se não for bem projetado.
+
+Em muitos contextos, principalmente com GraphQL, o BFF passou a ser responsabilidade do próprio time de front-end ou de times orientados à experiência do cliente.
+
+# GraphQL e a busca por APIs mais flexíveis
+
+O GraphQL surgiu como uma resposta a problemas comuns em APIs REST, especialmente quando falamos sobre _overfetching_ e _underfetching_.
+
+O _overfetching_ acontece quando a API retorna mais dados do que o cliente precisa. Já o _underfetching_ acontece quando o cliente precisa fazer várias chamadas pra montar uma única tela.
+
+Com GraphQL, o cliente declara exatamente quais campos precisa. Isso dá mais flexibilidade ao front-end e permite uma composição mais eficiente dos dados.
+
+Em arquiteturas com muitos serviços, GraphQL pode funcionar como uma camada de agregação. Atrás dele podem existir microserviços, bancos de dados, APIs legadas e integrações externas.
+
+Entretanto, essa flexibilidade também tem custo. É necessário lidar com problemas como N+1, autorização em nível de campo, controle de complexidade das queries, cache, observabilidade e governança do schema.
+
+GraphQL não elimina complexidade. Ele desloca parte dela pra uma camada mais flexível e expressiva.
+
+# O retorno ao servidor: SSG, ISR e SSR
+
+Mesmo com todos os benefícios das SPAs, o excesso de JavaScript no navegador continuou sendo um problema relevante.
+
+A resposta veio com abordagens que, de certa forma, resgatam ideias da web inicial, mas com ferramentas modernas.
+
+## SSG — Static Site Generation
+
+No Static Site Generation, as páginas são geradas em tempo de build. O resultado final é HTML estático, que pode ser servido por uma CDN.
+
+Essa abordagem é extremamente rápida, barata e escalável. Funciona muito bem pra blogs, documentações, páginas institucionais, landing pages e conteúdos que mudam com pouca frequência.
+
+A limitação é que, quando o conteúdo muda, normalmente é necessário reconstruir e republicar a página.
+
+## ISR — Incremental Static Regeneration
+
+O Incremental Static Regeneration evolui essa ideia permitindo que páginas estáticas sejam atualizadas de tempos em tempos ou sob demanda.
+
+Isso permite combinar a velocidade do conteúdo estático com uma certa capacidade de atualização dinâmica.
+
+É uma boa solução pra conteúdos que precisam de performance alta, mas que não precisam ser atualizados a cada requisição.
+
+## SSR — Server-Side Rendering
+
+No Server-Side Rendering, a página é renderizada no servidor e enviada ao navegador como HTML pronto.
+
+Isso melhora a primeira percepção de carregamento e pode trazer benefícios importantes pra SEO. O usuário vê conteúdo mais rapidamente, em vez de esperar uma tela vazia enquanto o JavaScript carrega.
+
+**Mas aqui vfica um ponto de atenção:** o SSR não elimina o JavaScript do cliente. Depois que o HTML chega ao navegador, ainda é necessário percorrer mais uma etapa, chamada de hidratação.
+
+### Hidratação: quando o HTML ganha vida
+
+A hidratação é o processo em que o JavaScript do framework é carregado no navegador e conectado ao HTML já renderizado pelo servidor.
+
+**Em outras palavras:** o usuário vê a página, mas ela só se torna plenamente interativa depois que o JavaScript é baixado, executado e associado à estrutura de componentes.
+
+Isso resolve o problema da tela em branco, mas pode criar outro: a interface aparece antes de estar pronta pra interação.
+
+O usuário pode clicar em um botão e nada acontecer por alguns instantes. A página parece carregada, mas ainda não está completamente viva.
+
+Esse detalhe é importante porque mostra que performance não é apenas "mostrar algo rápido". Também é permitir que o usuário interaja rapidamente.
+
+# React Server Components e Islands Architecture
+
+Mais recentemente, surgiram abordagens que tentam reduzir ainda mais o JavaScript enviado ao navegador.
+
+**O princípio é simples:** nem todo componente precisa ser interativo.
+
+Se uma parte da página apenas exibe conteúdo, ela pode ser renderizada no servidor e nunca precisar chegar ao navegador como JavaScript. É aqui que entram ideias como React Server Components e Islands Architecture.
+
+Com React Server Components, parte da árvore de componentes pode ser executada apenas no servidor. O cliente recebe menos JavaScript e fica responsável apenas pelas partes realmente interativas.
+
+A Islands Architecture segue uma ideia parecida: a página é composta majoritariamente por HTML estático, com pequenas "ilhas" de interatividade espalhadas onde necessário.
+
+Essas abordagens tentam entregar o melhor dos dois mundos: performance próxima de páginas estáticas com interatividade localizada onde faz sentido.
+
+**Mas, mais uma vez, há troca.**
+
+O modelo mental fica mais complexo. O desenvolvedor precisa entender o que roda no servidor, o que roda no cliente, como dados são buscados, onde o estado vive e quais partes da árvore precisam de hidratação.
+
+# O monólito modular no front-end
+
+Além da performance, outro desafio aparece quando aplicações front-end crescem: organização interna.
+
+Uma SPA pequena pode começar simples. Mas, com o tempo, ela acumula telas, regras de negócio, fluxos, estados globais, componentes compartilhados, integrações e dependências entre domínios.
+
+Quando isso acontece, o problema deixa de ser apenas técnico e passa a ser também organizacional.
+
+O monólito modular de front-end surge como uma tentativa de organizar uma aplicação grande sem necessariamente quebrá-la em várias aplicações independentes.
+
+A ideia é manter um único deploy e uma única base de código, mas dividir internamente por domínios ou módulos bem definidos.
+
+Exemplos:
+
+- usuários;
+- pagamentos;
+- produtos;
+- pedidos;
+- relatórios;
+- configurações.
+
+Além disso, elementos compartilhados como design system, autenticação, logging, analytics, hooks reutilizáveis e camada de data fetching podem ser mantidos por uma área comum, muitas vezes chamada de plataforma front-end.
+
+Esse modelo ajuda a criar limites internos e reduzir o acoplamento. Porém, esses limites precisam ser reais.
+
+Criar pastas por domínio não basta. É necessário controlar dependências, definir contratos, evitar imports indevidos e manter disciplina técnica ao longo do tempo.
+
+# Clean Architecture e Hexagonal no front-end
+
+Quando se fala em modularização, é comum trazer referências como Clean Architecture, Hexagonal Architecture e Domain-Driven Design.
+
+Essas abordagens têm uma ideia central em comum: proteger o domínio da aplicação contra detalhes externos.
+
+No backend, isso costuma fazer muito sentido. O domínio pode ser isolado de frameworks, bancos de dados, filas, APIs externas e mecanismos de entrega.
+
+No front-end, a aplicação é diferente.
+
+Bibliotecas e Frameworks como React, Vue, Angular e Next.js já impõem uma forma de estruturar componentes, rotas, estado e renderização. Além disso, muitas aplicações front-end são mais orientadas à experiência do usuário do que a regras de negócio profundas.
+
+Por isso, aplicar Clean Architecture de forma literal no front-end pode virar _overengineering_.
+
+Ainda assim, os conceitos são úteis. Eles ajudam a pensar em separação de responsabilidades, inversão de dependência, isolamento de regras importantes e estabilidade do domínio.
+
+A pergunta não deve ser "como aplicar Clean Architecture pura no React?", mas sim: quais partes da aplicação precisam ser protegidas contra acoplamento excessivo?
+
+- Em aplicações pequenas, talvez a resposta seja: poucas.
+- Em aplicações grandes e longevas, talvez a resposta seja: várias.
+
+# Micro frontends: escala técnica e organizacional
+
+Em empresas muito grandes, com dezenas ou centenas de desenvolvedores trabalhando na mesma experiência digital, o monólito front-end pode deixar de ser suficiente.
+
+Nesse cenário, surgem os micro frontends.
+
+A ideia é dividir a interface em aplicações menores, independentes, que podem ser desenvolvidas, versionadas e implantadas por times diferentes.
+
+Uma equipe pode cuidar do checkout. Outra, do catálogo. Outra, da área do usuário. Outra, dos pagamentos.
+
+Essas partes são integradas por uma aplicação shell, responsável por compor a experiência final.
+
+O grande benefício dos micro frontends é a escala organizacional. Times podem trabalhar em paralelo, com mais autonomia e deploys independentes.
+
+**Mas o custo é alto.**
+
+Micro frontends trazem desafios de performance, consistência visual, versionamento, comunicação entre aplicações, observabilidade, autenticação, compartilhamento de estado, governança e infraestrutura. Por isso, não são uma solução universal.
+
+Em empresas pequenas ou produtos ainda em validação, micro frontends tendem a adicionar mais problemas do que resolver. Já em empresas grandes, com times maduros e necessidade real de independência, podem ser uma escolha adequada.
+
+# Conclusão
+
+A evolução da web pode passar a impressão de que cada modelo novo substituiu o anterior por ser simplesmente melhor, mas essa leitura é superficial.
+
+Cada arquitetura surgiu pra resolver um conjunto específico de problemas e cada uma trouxe novas limitações.
+
+- Páginas estáticas são simples, rápidas e baratas, mas pouco interativas.
+- MVC trouxe dinamismo, mas manteve forte acoplamento entre servidor e interface.
+- SPAs trouxeram fluidez e experiência rica, mas aumentaram o peso do JavaScript no cliente.
+- BFFs adaptaram APIs às necessidades dos clientes, mas adicionaram mais uma camada operacional.
+- GraphQL reduziu problemas de consumo de dados, mas trouxe novos desafios de performance e governança.
+- SSG, ISR e SSR melhoraram performance e SEO, mas aumentaram o custo arquitetural.
+- React Server Components e Islands Architecture reduzem JavaScript no cliente, mas exigem outro modelo mental.
+- Monólitos modulares ajudam a organizar aplicações grandes, mas dependem de disciplina técnica.
+- Micro frontends escalam times, mas aumentam bastante a complexidade do sistema.
+
+Arquitetura é a capacidade de escolher conscientemente quais problemas aceitar pra resolver outros mais importantes.
+
+Ferramentas mostram com o que construir. Arquitetura explica por que construir daquela forma.
+
+## Referências
+
+- https://en.wikipedia.org/wiki/Static_web_page
+- https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller
+- https://developer.mozilla.org/en-US/docs/Glossary/SPA
+- https://samnewman.io/patterns/architectural/bff/
+- https://graphql.org/
+- https://nextjs.org/docs/basic-features/pages
+- https://react.dev/blog/2023/03/22/react-labs-what-we-have-been-working-on-march-2023#react-server-components
+- https://www.patterns.dev/vanilla/islands-architecture/
+- https://en.wikipedia.org/wiki/Hexagonal_architecture_(software)
+- https://en.wikipedia.org/wiki/Domain-driven_design
+- https://martinfowler.com/articles/micro-frontends.html    
+- https://www.patterns.dev/

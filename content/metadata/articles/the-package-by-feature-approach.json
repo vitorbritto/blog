@@ -1,11 +1,7 @@
 {
   "slug": "the-package-by-feature-approach",
-  "coverImage": "",
+  "coverImage": "/blog/images/the-package-by-feature-approach.jpg",
   "date": "2025-02-22",
-  "author": {
-    "name": "Vitor Britto",
-    "picture": "/authors/vitor.jpg"
-  },
   "categories": [
     "architecture"
   ],

@@ -1,11 +1,7 @@
 {
   "slug": "the-path-to-ci-cd-mastery",
-  "coverImage": "",
+  "coverImage": "/blog/images/the-path-to-ci-cd-mastery.jpg",
   "date": "2025-03-06",
-  "author": {
-    "name": "Vitor Britto",
-    "picture": "/authors/vitor.jpg"
-  },
   "categories": [
     "devops"
   ],
