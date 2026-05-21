@@ -12,7 +12,7 @@ This evolution did not happen by accident. Each new model emerged as a response 
 
 Understanding this journey is important because it helps us make better decisions. The most modern architecture is not always the most appropriate one. Often, the best choice is the one that solves the current problem with the lowest possible level of complexity.
 
-The beginning of the web with static pages
+# The beginning of the web with static pages
 
 In the beginning, the web was essentially static. Pages were created with HTML, styled with CSS, and, in some cases, enhanced with small JavaScript scripts.
 
@@ -24,7 +24,7 @@ On the other hand, it had an obvious limitation: it was difficult to create pers
 
 That need opened the door to the next stage.
 
-MVC: the dynamic web on the server
+# MVC: the dynamic web on the server
 
 As the web grew, the need to generate pages dynamically became stronger. In this context, the MVC pattern — Model, View, Controller — gained traction.
 
@@ -42,7 +42,7 @@ However, there were still important limitations. With each navigation or more re
 
 MVC solved the problem of the static web, but it still did not deliver the fluid experience that modern applications would later require.
 
-SPAs: when JavaScript takes the lead
+# SPAs: when JavaScript takes the lead
 
 The next major shift came with the maturation of JavaScript in the browser. Frameworks and libraries such as Angular, React, and Vue enabled the creation of Single Page Applications, known as SPAs.
 
@@ -62,7 +62,7 @@ In addition, applications rendered only on the client started facing greater cha
 
 SPAs solved the problem of fluidity, but created a new question: how do we balance interactivity and performance?
 
-Thin client and thick client
+# Thin client and thick client
 
 To better understand this shift, it is worth looking at two concepts: thin client and thick client.
 
@@ -78,7 +78,7 @@ Putting more logic on the client can improve the experience and reduce some roun
 
 Modern front-end architecture lives precisely in this balance.
 
-BFF: one backend for each experience
+# BFF: one backend for each experience
 
 As applications grew, multiple types of clients started consuming the same systems: web, mobile, desktop, external partners, embedded devices, and other channels.
 
@@ -98,7 +98,7 @@ On the other hand, the BFF adds another layer to the system. This increases oper
 
 In many contexts, especially with GraphQL, the BFF became the responsibility of the front-end team itself or of teams focused on the client experience.
 
-GraphQL and the search for more flexible APIs
+# GraphQL and the search for more flexible APIs
 
 GraphQL emerged as a response to common problems in REST APIs, especially when we talk about overfetching and underfetching.
 
@@ -112,13 +112,13 @@ However, this flexibility also comes with a cost. It is necessary to deal with p
 
 GraphQL does not eliminate complexity. It moves part of it into a more flexible and expressive layer.
 
-The return to the server: SSG, ISR, and SSR
+# The return to the server: SSG, ISR, and SSR
 
 Even with all the benefits of SPAs, the excess of JavaScript in the browser remained a relevant problem.
 
 The answer came through approaches that, in a way, bring back ideas from the early web, but with modern tooling.
 
-SSG — Static Site Generation
+## SSG — Static Site Generation
 
 In Static Site Generation, pages are generated at build time. The final result is static HTML, which can be served by a CDN.
 
@@ -126,7 +126,7 @@ This approach is extremely fast, cheap, and scalable. It works very well for blo
 
 The limitation is that, when the content changes, it is usually necessary to rebuild and republish the page.
 
-ISR — Incremental Static Regeneration
+## ISR — Incremental Static Regeneration
 
 Incremental Static Regeneration evolves this idea by allowing static pages to be updated from time to time or on demand.
 
@@ -134,7 +134,7 @@ This makes it possible to combine the speed of static content with a certain abi
 
 It is a good solution for content that needs high performance but does not need to be updated on every request.
 
-SSR — Server-Side Rendering
+## SSR — Server-Side Rendering
 
 In Server-Side Rendering, the page is rendered on the server and sent to the browser as ready-to-display HTML.
 
@@ -142,7 +142,7 @@ This improves the initial loading perception and can bring important SEO benefit
 
 But here is an important point: SSR does not eliminate client-side JavaScript. After the HTML reaches the browser, it is still necessary to go through another step, called hydration.
 
-Hydration: when HTML comes to life
+### Hydration: when HTML comes to life
 
 Hydration is the process in which the framework’s JavaScript is loaded in the browser and connected to the HTML that was already rendered by the server.
 
@@ -154,7 +154,7 @@ The user may click a button and nothing happens for a few moments. The page look
 
 This detail matters because performance is not just about “showing something fast.” It is also about allowing the user to interact quickly.
 
-React Server Components and Islands Architecture
+# React Server Components and Islands Architecture
 
 More recently, new approaches have emerged to reduce even further the amount of JavaScript sent to the browser.
 
@@ -172,7 +172,7 @@ But, once again, there is a trade-off.
 
 The mental model becomes more complex. The developer needs to understand what runs on the server, what runs on the client, how data is fetched, where state lives, and which parts of the tree require hydration.
 
-The modular monolith in front-end
+# The modular monolith in front-end
 
 Beyond performance, another challenge appears when front-end applications grow: internal organization.
 
@@ -199,7 +199,7 @@ This model helps create internal boundaries and reduce coupling. However, these 
 
 Creating folders by domain is not enough. It is necessary to control dependencies, define contracts, avoid improper imports, and maintain technical discipline over time.
 
-Clean Architecture and Hexagonal Architecture in front-end
+# Clean Architecture and Hexagonal Architecture in front-end
 
 When discussing modularization, references such as Clean Architecture, Hexagonal Architecture, and Domain-Driven Design are common.
 
@@ -220,7 +220,7 @@ The question should not be “how do we apply pure Clean Architecture in React?�
 * In small applications, the answer may be: very few.
 * In large and long-lived applications, the answer may be: many.
 
-Micro frontends: technical and organizational scale
+# Micro frontends: technical and organizational scale
 
 In very large companies, with dozens or hundreds of developers working on the same digital experience, the front-end monolith may no longer be enough.
 
@@ -240,7 +240,7 @@ Micro frontends bring challenges around performance, visual consistency, version
 
 In small companies or products still under validation, micro frontends tend to add more problems than they solve. In large companies, with mature teams and a real need for independence, they can be an appropriate choice.
 
-Conclusion
+# Conclusion
 
 The evolution of the web may give the impression that each new model replaced the previous one simply because it was better, but that reading is superficial.
 
