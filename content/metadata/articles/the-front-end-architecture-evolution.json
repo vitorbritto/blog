@@ -1,9 +1,16 @@
 {
   "slug": "the-front-end-architecture-evolution",
   "date": "2026-05-21",
-  "categories": [],
+  "categories": [
+    "architecture",
+    "front-end"
+  ],
   "tracks": [],
-  "tags": [],
+  "tags": [
+    "Front-end Architecture",
+    "Web Development",
+    "Software Evolution"
+  ],
   "readTime": 5,
   "featured": false
 }
