@@ -1,0 +1,241 @@
+---
+title: "Harness Engineering"
+excerpt: "A disciplina que decide se seu agente é lançado."
+---
+
+Em 5 de fevereiro de 2026, Mitchell Hashimoto — co-fundador da HashiCorp, co-criador do Terraform e criador do Vagrant — publicou um artigo sobre como havia modificado seu *workflow* com IA. No texto, cunhou uma expressão: *engineer the harness*. Segundo ele: toda vez que um agente erra, você não corrige o prompt. Ao invés disso, você direciona o ambiente para que aquele erro específico se torne estruturalmente impossível de se repetir.
+
+Seis dias depois, Ryan Lopopolo, da OpenAI, publicou "*Harness engineering: leveraging Codex in an agent-first world"* e formalizou o conceito como disciplina. Em semanas, Birgitta Bockeler escreveu sobre isso no site do Martin Fowler. Red Hat, LangChain, Salesforce e Anthropic acabaram publicando suas versões também.
+
+**Em abril de 2026**, a expressão já era vocabulário corrente em todos os times sérios de IA (e por quem estuda ou implementa sistemas com IA também).
+
+Daí, nasce um termo como consequência direta da dor de quem estava tentando colocar agentes em produção e descobriu que o problema não era o modelo.
+
+## A metáfora do cavalo
+
+A palavra "harness" vem do arreio que se coloca em cavalos. Um conjunto de peças que canaliza um animal poderoso e imprevisível numa direção útil.
+
+A equação que a comunidade adotou é direta: **Agent = Model + Harness**.
+
+E isso se resume de forma bem simplificada em: o modelo raciocina. O harness faz tudo o que sobra.
+
+O harness é quem decide quais ferramentas o agente pode chamar. Valida o que ele produz, persiste estado entre falhas, impõe aprovação humana antes de ação irreversível, mata o *loop* quando o custo dispara.
+
+Nesse sentido, a distinção técnica tem um peso relevante.
+
+- ***Prompt engineering***: opera com **soft constraints** e traz consigo as instruções em linguagem natural que o modelo pode ignorar.
+- ***Harness engineering***: opera com **hard constraints** e se responsabiliza pelos mecanismos determinísticos que impõem limite independentemente do que o modelo decide fazer.
+
+## Anatomia de um agente em produção
+
+Vamos entender um pouco melhor como um agente em produção funcionaria com três camadas concêntricas em torno do modelo.
+
+![Anatomia de um agente em produção](/blog/images/harness-engineering-pt.png)
+
+De antemão, vale ressaltar que pular uma dessas camadas gera sintomas previsíveis.
+
+- Agente apenas com prompt: soa confiante e não sabe de nada.
+- Agente rico em contexto sem harness: sabe bastante e não controla o que faz.
+- Harness sem contexto: executa com precisão a tarefa errada.
+
+### Prompt engineering
+
+Esta é a camada mais visível e a de menor alcance. Está colada ao modelo, esculpindo como você pergunta. O prompt não inventa fato que nunca foi recuperado, não desfaz ferramenta que retorna JSON velho e não impede o agente de executar uma ação destrutiva no seu banco de dados em produção.
+
+### Context engineering
+
+O responsável por envelopar o prompt e tratar a janela de tokens como o recurso escasso que ela possui.
+
+Antes do modelo raciocinar, a engenharia de contexto decide deliberadamente o que merece estar diante dele: documentos relevantes, metadata do serviço, histórico comprimido da conversa, saída filtrada de ferramentas anteriores. É a disciplina de montar o briefing certo, no tamanho certo, no momento certo.
+
+Consequentemente, resolve alucinação por falta de aterramento e custo que explode em conversa longa. Quando o problema é o que ele faz, e não o que ele sabe, essa camada já passou.
+
+### Harness engineering
+
+Está envolta de tudo.
+
+É o runtime: loop de orquestração, timeouts, retries, sandbox, logging estruturado, eval hooks, dry-run, idempotência, gates de aprovação humana, circuit breakers, RBAC herdado do usuário, auditoria. É a camada que transforma um chat completion em software confiável.
+
+## Diagnóstico por sintoma
+
+Quando o agente falha, o instinto é reescrever o prompt. Na maioria das vezes, é a camada errada.
+
+Cada camada falha de um jeito específico, e cada falha tem seu conserto. Confundir as camadas é o que faz times gastarem semanas tratando o sintoma errado. O diagnóstico cabe em três perguntas. Tome elas como base para o seu processo de entendimento de falhas e escolha de solução.
+
+### A saída é inconsistente?
+
+Se o formato muda entre runs idênticos, o JSON volta com chaves trocadas e quebra o parser downstream. Tem texto formal, ao invés de coloquial. É prompt. Reescreva, dê exemplos concisos do output exato que você quer, ofereça instruções mais enxutas e diretas. Não dê muito "tempero" para o modelo. Seja óbvio, não criativo.
+
+### A resposta é correta mas genérica?
+
+Quando o agente responde de maneira vaga, custa dez vezes mais em conversa longa do que em curta, esquece o que você disse na sessão anterior e a alucinação some no instante em que você cola a documentação à mão — o problema não é como ele raciocina, é o que ele tem diante dele. É contexto.
+
+Para isso, resolva com [retrieval](https://www.anthropic.com/news/contextual-retrieval), [compaction](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents) e [progressive disclosure/discovery](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills). Nenhum prompt inventa um fato que nunca foi recuperado.
+
+### O agente fez algo que ninguém autorizou?
+
+Ação executada duas vezes — commit duplo, email enviado em duplicidade. Orçamento mensal queimado numa manhã. `DROP TABLE` executado [sem aprovação](https://anthropic.com/engineering/claude-code-auto-mode). [Log que mostra o quê mas não reconstitui por quê](https://arxiv.org/abs/2604.25850). Serviço reiniciado às 2h da manhã sem rastro. É problema com harness.
+
+Ajustar _prompt_ não vai resolver seu problema, a causa raiz é aplicar/consertar a [camada que existe para dizer "não"](https://openai.com/index/harness-engineering/).
+
+## Nove peças, um runtime
+
+Um harness moderno é uma máquina de nove peças. Conhecê-las pelo nome é o que separa quem usa o vocabulário de quem só ouviu falar dele.
+
+![As nove peças do harness](/blog/images/harness-pieces.png)
+
+- **While-loop**: o motor externo de iteração. O modelo propõe, uma ferramenta executa, o resultado volta para o contexto, o ciclo recomeça — até o objetivo ser atingido ou uma condição de término disparar. Sem condição de término explícita, o agente entra em loop infinito e queima orçamento.
+- **Context management**: o que manter, compactar ou descartar a cada turno. Sem isso, a janela de tokens satura e o agente perde o fio. Pesquisa da Anthropic chegou a um achado contraintuitivo: às vezes resetar o contexto inteiro com um agente novo lendo um *handoff artifact* funciona melhor do que comprimir o histórico.
+- **Skills e tools**: as primitivas que o agente pode invocar, com seus schemas, escopos de permissão e lógica de dispatch. É aqui que harnesses divergem mais — a forma como o Cursor expõe edição de arquivos não é a mesma do Codex, e isso explica boa parte dos 25 pontos de gap entre eles no mesmo modelo.
+- **Sub-agent management**: quando uma tarefa não cabe numa janela de contexto, o harness orquestra workers paralelos. Cada um pega um pedaço, os resultados convergem. A Anthropic chama esse padrão de *initializer + coding agent* e usa para sessões que duram horas além do limite nativo do modelo.
+- **Built-in skills**: o que vem de fábrica versus o que você traz. Claude Code já embute edição de arquivo, bash, busca na web. Codex traz outro pacote padrão. Trocar a base muda o teto do que o agente consegue fazer, mesmo sem novas integrações.
+- **Session persistence**: estado gravado em disco antes de qualquer crash. Se o agente morre no meio de uma tarefa de seis horas, você não perde seis horas — retoma do último checkpoint. É o que permite os "runs longos" que a OpenAI relata observando à noite, com o agente trabalhando enquanto ninguém olha.
+- **System prompt assembly**: o system prompt não é um blob estático. É montado dinamicamente a cada turno a partir de arquivos como `CLAUDE.md` ou `AGENTS.md`, regras do projeto, contexto do usuário. É aqui que mora a contribuição original do Hashimoto: cada vez que o agente erra, você adiciona uma linha. Na próxima sessão, ele já sabe.
+- **Lifecycle hooks**: pontos de injeção pré e pós tool-call. É onde você pluga validação custom, logging estruturado, alerta de custo, bloqueio condicional. É o que permite ter trilha de auditoria que sobrevive a uma revisão de SOC.
+- **Permissions and safety**: checagem de RBAC antes de qualquer ferramenta rodar — herdando o contexto de permissão do usuário que invocou o agente. É a linha que separa *sugestão* de *execução*. E a única coisa que decide se a ação irreversível precisa passar por aprovação humana ou pode rodar direto.
+
+Quando o *source map* do Claude Code vazou acidentalmente no *npm* em março de 2026, foram justamente essas peças que apareceram nas mais de 500.000 linhas expostas. O vocabulário não é teórico — está em produção, agora.
+
+## Feedforward e feedback: como o harness opera?
+
+> "Construir um harness" soa grande e arquitetural. No dia a dia, é menos arquitetura e mais duas operações simples, repetidas com obsessão.
+
+![Harness feedforward e feedback](/blog/images/harness-feedforward-feedback-pt.png)
+
+- **Guides (controles feedforward)**: antecipam o comportamento do agente *antes* dele agir. `AGENTS.md`, skills, rules files, language servers, linters acoplados ao IDE, MCP servers que expõem a base de conhecimento do time. A função de um *guide* é aumentar a probabilidade de o agente acertar na primeira tentativa. Se ele já sabe que a convenção do projeto utiliza a biblioteca *zod* para validação, ele não improvisa com *class-validator*.
+- **Sensors (controles feedback)**: observam *depois* da ação e permitem auto-correção. Testes que rodam após cada commit, type-checkers, AI code reviewers, mutation testing, hooks pré-push. A função de um sensor é capturar o erro antes do humano. Se o agente quebrou uma *boundary* arquitetural, o processo trava e o engenheiro é alertado antes de o código chegar na branch principal.
+
+A simetria é o que sustenta o sistema. Birgitta Bockeler, Distinguished Engineer da Thoughtworks [que escreveu o artigo de referência sobre o tema no site do Martin Fowler](https://martinfowler.com/articles/harness-engineering.html), captura a tensão em uma frase: *sem sensors, você tem um agente que repete o mesmo erro indefinidamente. Sem guides, você tem um agente que segue regras mas nunca descobre se elas funcionaram.*
+
+E há um segundo eixo de classificação que muda como o engenheiro investe seu tempo:
+
+- **Computational**: determinístico, rápido, rodado em CPU. Linters, type checkers, testes estruturais, scripts de bootstrap. Milissegundos por execução. Resultados confiáveis. Pode rodar em todo commit sem onerar nada.
+
+- **Inferential**: análise semântica, LLM-as-judge, AI code review. Roda em GPU. Lento, caro, não-determinístico — mas com julgamento contextual rico. Não dá para rodar em cada salvamento de arquivo, mas pega coisas que linter nenhum vê.
+
+O harness maduro mistura os dois. *Computational* onde dá, *inferential* onde precisa de julgamento semântico. Linters pegam violação estrutural; um AI reviewer pega *"esse código tecnicamente funciona, mas a abstração está errada para o domínio."*
+
+O que une tudo é o que Birgitta intitula de **steering loop**, que é o trabalho contínuo do humano de iterar o harness. Toda vez que o mesmo problema acontece duas vezes, o engenheiro responsável pergunta: o que poderia ter prevenido isso? Um guide novo? Um sensor novo? E adiciona. Na próxima sessão, aquele erro específico se torna estruturalmente improvável.
+
+Essa, no fim, é a contribuição original do Hashimoto, agora com nome próprio: o harness não é um artefato. É um *músculo* — algo que cresce conforme o engenheiro o exercita.
+
+## As três dimensões do harness
+
+Saber que o harness é a camada externa não diz qual problema ele resolve. Na prática, ele regula três dimensões distintas — e a maturidade de cada uma é desigual. Vale conhecê-las separadamente para não tratar tudo como "um harness só" e sub-investir justamente onde mais dói.
+
+![As três dimensões do harness](/blog/images/harness-dimensions-pt.png)
+
+### Maintainability harness
+
+Esta camada cuida da qualidade interna do código. E aí estamos falando de duplicação, complexidade ciclomática, cobertura de teste, drift arquitetural, violações de estilo. A indústria já tem ferramental sobrando para isso. Quando você embarca um agente, esses controles ficam disponíveis quase de graça. É a dimensão em que mais times sentem confiança rápido.
+
+### Architecture fitness harness
+
+Aqui podemos definir e checar características arquiteturais da aplicação. *Fitness functions*, no vocabulário consolidado de Neal Ford. Performance dentro de envelope, padrões de logging para observability, latência sob SLO, taxas de erro aceitáveis. Skills que descrevem requisitos de performance *feedforward* para o agente; performance tests que medem o impacto feedback. Ainda exige investimento explícito, mas a tecnologia para construir está disponível.
+
+### Behavior harness
+
+*A aplicação faz funcionalmente o que ela deveria?*
+
+É a categoria menos madura. Hoje, a maioria dos times resolve isso assim: *feedforward* via *spec* funcional, *feedback* via test suite gerado pelo próprio agente, com supervisão humana intensiva como complemento. Funciona até o ponto em que a suíte de testes vira o gargalo — porque um agente que escreve seus próprios testes só captura o que ele mesmo conseguiu pensar em testar.
+
+*Quem te disser que esse problema está resolvido está querendo te vender algo.*
+
+No fim, a taxonomia importa porque cada dimensão tem custo, ferramental e nível de risco diferente. *Confiabilidade técnica* é diferente de *aderência arquitetural*, que é diferente de *correção funcional*. Tratar tudo como "um harness" é o que faz engenheiros sub-investirem na dimensão mais difícil — a comportamental — por parecer igual às outras de fora.
+
+## Os números que mataram a discussão
+
+Se existia alguma dúvida acadêmica sobre o fato do harness engineering ser "real", essa dúvida terminou quando os dados vieram à tona.
+
+Não estou falando de um estudo ou artigo qualquer. Estou falando de dezenas de benchmarks, estudos de caso liderados por grandes empresas, universidades e papers que, juntos, formaram um consenso de opinião muito forte: o harness é o fator decisivo para a confiabilidade e performance de agentes em produção.
+
+Te trago alguns deles para ilustrar.
+
+### OpenAI
+
+Em cinco meses, com um time de cerca de cinco engenheiros e aproximadamente 1.000.000 de linhas de código de produção.
+
+Realizando cerca de 1.500 pull requests, sendo **zero** linhas escritas manualmente por humanos.
+
+Codex gerou tudo: lógica de aplicação, testes, CI, documentação, observabilidade. Produto entregue em beta interno com usuários diários. O throughput aumentou quando o time cresceu, em vez de saturar.
+
+A frase do retrospecto: *"o progresso inicial foi mais lento que esperávamos, não porque o Codex era incapaz, mas porque o ambiente estava sub-especificado."*
+
+### Endor Labs
+
+Mesmo modelo. Mesma semana. Dois harnesses. GPT-5.5 no Codex (harness nativo da OpenAI) marcou 61,5% no teste de funcionalidade. O mesmo GPT-5.5, no harness do Cursor, marcou 87,2%. Diferença de **25,7 pontos percentuais** trocando só a roupagem em volta do modelo. Claude Opus 4.7 também subiu no mesmo experimento — 87,2% no Claude Code, 91,1% no Cursor.
+
+### METR (Time Horizon 1.1, janeiro de 2026)
+
+Claude Opus 4.7 tem horizonte de **14h30 com 50% de confiabilidade — mas só 1h03 com 80%**. O gap brutal entre 50% e 80% é exatamente o que harness existe para fechar.
+
+E talvez o dado mais desconfortável de todos. Sam Altman, em entrevista a Ben Thompson, foi perguntado se um resultado impressionante do Codex tinha vindo do modelo ou do harness. Respondeu: *"hard to overstate how critical it is. I no longer think of the harness and the model as these entirely separable things."* Pressionado sobre qual dos dois explicava o salto, completou: *"Yeah, exactly."* O CEO da empresa que treinou o modelo não consegue mais distinguir.
+
+> Entrevista: https://stratechery.com/2026/an-interview-with-openai-ceo-sam-altman-and-aws-ceo-matt-garman-about-bedrock-managed-agents/
+
+## Harnessability: nem todo codebase é igual
+
+Existe uma assimetria desconfortável em harness engineering — e mais cedo ou mais tarde, ela vai bater na sua mesa: o harness é mais necessário onde é mais difícil de construir.
+
+Um codebase em linguagem fortemente tipada ganha type-checking como sensor de graça. Module boundaries claros já viram regras arquiteturais. Frameworks maduros abstraem detalhes que o agente nem precisa enxergar. Convenções consistentes — naming, layout, padrões de erro — viram guides quase sem esforço.
+
+Ned Letcher (Thoughtworks) batizou isso de *ambient affordances*: propriedades estruturais do ambiente que tornam o código legível, navegável e tratável — não só para humanos.
+
+A consequência prática divide o mundo em dois, e você já sabe de que lado está.
+
+### Começando do zero
+
+Neste cenário, o ambiente é tão maleável que cada decisão de arquitetura, linguagem, framework, ferramenta é uma oportunidade de escolher o quanto do harness vem de graça. O código novo é um terreno fértil para moldar o ambiente de forma a facilitar a vida do agente.
+
+A escolha de linguagem, por exemplo, pode determinar o quão fácil é para o agente entender e manipular o código. Frameworks que impõem convenções claras podem servir como guias naturais para o agente. Ferramentas de análise estática integradas podem fornecer sensores poderosos sem esforço adicional.
+
+Aqui, estamos falando de governança de código em um nível estratégico. O time tem a chance de criar um ambiente que não só suporta o agente, mas o potencializa — transformando o harness em algo quase invisível, porque o ambiente já é tão amigável que o agente raramente erra.
+
+### O eterno código legado
+
+Aqui mora a parte desconfortável. Linguagem dinâmica, mas sem tipagem, com tipos implícitos e inferidos. Os módulos não têm fronteiras claras, e as que existem nunca foram codificadas. Convenções inconsistentes acumuladas em anos de "depois a gente refatora". Cada um desses aumenta o custo de cada *guide*, de cada *sensor*, de cada controle. E é justamente nesse codebase que o agente mais erra — porque o ambiente em que ele opera é menos legível para qualquer leitor, humano ou máquina.
+
+## O futuro com harness engineering
+
+Há alguns meses, um time de cerca de cinco engenheiros da OpenAI entregou um milhão de linhas de código de produção sem que um único humano digitasse uma linha. O retrospecto não creditou o modelo. Creditou o que estava ao redor dele.
+
+Esse é o ponto de partida que reorganiza a discussão.
+
+Por muito tempo, a engenharia de IA foi entendida como engenharia do modelo, onde se faz escolha, fine-tuning e prompt.
+
+O experimento da OpenAI, junto com os benchmarks do Endor Labs mostrando 25 pontos percentuais de variação entre harnesses do mesmo GPT-5.5, encerrou essa moldura. O modelo virou variável; o runtime virou constante.
+
+A consequência operacional é desconfortável para a maioria das organizações.
+
+**Significa que:**
+- decisões arquiteturais que pareciam infraestrutura — idempotência em escritas, observabilidade ponta a ponta, sandboxes com permissão graduada, audit trails que sobrevivem revisão — saem do backlog técnico e entram no caminho crítico do produto;
+- o engenheiro que sabe construir esses mecanismos vale mais do que o que sabe orquestrar APIs de LLM;
+- o ROI do próximo modelo de fronteira é limitado por uma camada que a maioria dos times ainda não tem.
+
+**Os três deslocamentos que isso desencadeia já estão visíveis:**
+- harness está se tornando produto vendável — Anthropic, Microsoft, Cursor disputam o mesmo espaço que AWS e Vercel disputaram dez anos atrás.
+- codebases novos começam a ser projetados em torno de harnessability, da mesma forma que viraram mobile-first em 2010.
+- reguladores europeus e auditores SOC já estão fazendo as perguntas que só harness com traceability decente responde.
+
+> Como você prova que um sistema probabilístico está certo?
+
+Essa pergunta não tem resposta consolidada até então. Não em produção. Não em escala. Não com garantias que sobrevivam a uma auditoria. **Behavior harness** é o nome que essa lacuna ganhou, e é onde tudo indica que nos próximos anos a maior parte do investimento em engenharia de IA vai acontecer.
+
+## Onde isso te coloca nessa jornada?
+
+A pergunta não é se seu projeto vai precisar dessa disciplina. É qual incidente vai te forçar a construí-la.
+
+Escolha um dos três sintomas da seção de diagnóstico, identifique em qual deles seu agente cai com mais frequência, e comece pela camada correspondente. Se você não consegue responder a essa pergunta sobre o seu próprio sistema, esse é o primeiro item do backlog.
+
+## Referências
+
+- https://openai.com/index/harness-engineering/
+- https://www.anthropic.com/engineering
+- https://code.claude.com/docs/en/how-claude-code-works
+- https://martinfowler.com/articles/harness-engineering.html
+- https://www.langchain.com/blog/the-anatomy-of-an-agent-harness
+- https://metr.org/time-horizons/
+- https://metr.org/blog/2026-1-29-time-horizon-1-1/
+- https://metr.org/blog/2025-03-19-measuring-ai-ability-to-complete-long-tasks/
+- https://www.mindstudio.ai/blog/agent-harnesses-beat-model-upgrades-5-benchmarks
+- https://llm-stats.com/benchmarks/tau-bench

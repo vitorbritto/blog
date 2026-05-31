@@ -20,7 +20,9 @@
     "previous": "Previous",
     "next": "Next",
     "loading": "Loading...",
-    "back": "Back"
+    "back": "Back",
+    "expandReadingWidth": "Expand reading width",
+    "restoreReadingWidth": "Restore reading width"
   },
   "tracks": {
     "title": "Available tracks",

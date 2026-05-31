@@ -20,7 +20,9 @@
     "previous": "Anterior",
     "next": "Próximo",
     "loading": "Carregando...",
-    "back": "Voltar"
+    "back": "Voltar",
+    "expandReadingWidth": "Expandir largura de leitura",
+    "restoreReadingWidth": "Restaurar largura de leitura"
   },
   "tracks": {
     "title": "Trilhas disponíveis",

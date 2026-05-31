@@ -1,0 +1,241 @@
+---
+title: "Harness Engineering"
+excerpt: "The discipline that decides if your agent ships."
+---
+
+On February 5, 2026, Mitchell Hashimoto — co-founder of HashiCorp, co-creator of Terraform, and creator of Vagrant — published an article about how he had reshaped his AI *workflow*. In it, he coined a phrase: *engineer the harness*. According to him: every time an agent makes a mistake, you don't fix the prompt. Instead, you reshape the environment so that specific mistake becomes structurally impossible to repeat.
+
+Six days later, Ryan Lopopolo, from OpenAI, published "*Harness engineering: leveraging Codex in an agent-first world*" and formalized the concept as a discipline. Within weeks, Birgitta Bockeler wrote about it on Martin Fowler's site. Red Hat, LangChain, Salesforce, and Anthropic ended up publishing their own takes too.
+
+**By April 2026**, the expression was already part of the working vocabulary of every serious AI team (and of anyone studying or implementing AI systems as well).
+
+So the term emerged as a direct consequence of the pain felt by those trying to put agents into production, only to discover that the problem wasn't the model.
+
+## The horse metaphor
+
+The word "harness" comes from the gear used on horses. A set of pieces that channels a powerful, unpredictable animal in a useful direction.
+
+The equation the community adopted is direct: **Agent = Model + Harness**.
+
+And this boils down, in fairly simple terms, to: the model reasons. The harness handles everything else.
+
+The harness is what decides which tools the agent can call. It validates what the agent produces, persists state across failures, enforces human approval before any irreversible action, and kills the *loop* when costs spike.
+
+In that sense, the technical distinction carries real weight.
+
+- ***Prompt engineering***: operates with **soft constraints** and carries natural-language instructions the model can ignore.
+- ***Harness engineering***: operates with **hard constraints** and owns the deterministic mechanisms that enforce limits regardless of what the model decides to do.
+
+## Anatomy of an agent in production
+
+Let's take a closer look at how an agent in production works, with three concentric layers around the model.
+
+![Anatomy of an agent in production](/blog/images/harness-engineering-en.png)
+
+Up front, it's worth noting that skipping any one of these layers produces predictable symptoms.
+
+- Agent with only a prompt: sounds confident and knows nothing.
+- Context-rich agent with no harness: knows a lot and doesn't control what it does.
+- Harness without context: executes the wrong task with precision.
+
+### Prompt engineering
+
+This is the most visible layer and the one with the shortest reach. It sits glued to the model, shaping how you ask. The prompt doesn't invent a fact that was never retrieved, doesn't undo a tool returning stale JSON, and doesn't stop the agent from running a destructive action against your production database.
+
+### Context engineering
+
+The layer responsible for wrapping the prompt and treating the token window as the scarce resource it actually is.
+
+Before the model reasons, context engineering deliberately decides what deserves to be in front of it: relevant documents, service metadata, compressed conversation history, filtered output from earlier tools. It's the discipline of assembling the right briefing, at the right size, at the right moment.
+
+As a result, it solves hallucination caused by lack of grounding, and cost that explodes over long conversations. When the problem is what it *does*, not what it *knows*, this layer has already done its job.
+
+### Harness engineering
+
+It wraps everything.
+
+It's the runtime: orchestration loop, timeouts, retries, sandbox, structured logging, eval hooks, dry-run, idempotency, human approval gates, circuit breakers, RBAC inherited from the user, audit trail. It's the layer that turns a chat completion into reliable software.
+
+## Symptom-based diagnosis
+
+When an agent fails, the instinct is to rewrite the prompt. Most of the time, that's the wrong layer.
+
+Each layer fails in a specific way, and each failure has its own fix. Confusing the layers is what makes teams spend weeks treating the wrong symptom. The diagnosis fits in three questions. Use them as the basis for your process of understanding failures and choosing a fix.
+
+### Is the output inconsistent?
+
+If the format changes between identical runs, JSON comes back with swapped keys and breaks the downstream parser, or the text reads formal when it should be casual — it's prompt. Rewrite it, give concise examples of the exact output you want, offer leaner and more direct instructions. Don't give the model too much "seasoning." Be obvious, not creative.
+
+### Is the answer correct but generic?
+
+When the agent responds vaguely, costs ten times more in a long conversation than in a short one, forgets what you said in the previous session, and the hallucination disappears the instant you paste the documentation by hand — the problem isn't how it reasons, it's what it has in front of it. It's context.
+
+For that, solve it with [retrieval](https://www.anthropic.com/news/contextual-retrieval), [compaction](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents), and [progressive disclosure/discovery](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills). No prompt invents a fact that was never retrieved.
+
+### Did the agent do something nobody authorized?
+
+An action executed twice — duplicate commit, email sent twice. The monthly budget burned in one morning. `DROP TABLE` executed [without approval](https://anthropic.com/engineering/claude-code-auto-mode). [A log that shows the *what* but doesn't reconstruct the *why*](https://arxiv.org/abs/2604.25850). A service restarted at 2 a.m. with no trace. That's a harness problem.
+
+Tuning the _prompt_ won't fix this; the root cause is to apply or repair the [layer whose job is to say "no"](https://openai.com/index/harness-engineering/).
+
+## Nine pieces, one runtime
+
+A modern harness is a nine-piece machine. Knowing them by name is what separates people who use the vocabulary from people who've only heard it.
+
+![The nine pieces of the harness](/blog/images/harness-pieces.png)
+
+- **While-loop**: the outer iteration engine. The model proposes, a tool executes, the result flows back into the context, the cycle resumes — until the goal is met or a termination condition fires. Without an explicit termination condition, the agent loops forever and burns budget.
+- **Context management**: what to keep, compact, or discard each turn. Without it, the token window saturates and the agent loses the thread. Anthropic research landed on a counterintuitive finding: sometimes resetting the entire context with a fresh agent reading a *handoff artifact* works better than compressing the history.
+- **Skills and tools**: the primitives the agent can invoke, with their schemas, permission scopes, and dispatch logic. This is where harnesses diverge most — the way Cursor exposes file editing isn't the same as Codex, and that explains much of the 25-point gap between them on the same model.
+- **Sub-agent management**: when a task doesn't fit in a single context window, the harness orchestrates parallel workers. Each takes a piece, the results converge. Anthropic calls this pattern *initializer + coding agent* and uses it for sessions that run hours beyond the model's native limit.
+- **Built-in skills**: what comes out of the box versus what you bring yourself. Claude Code already ships file editing, bash, and web search. Codex ships a different default bundle. Switching the base changes the ceiling of what the agent can do, even without new integrations.
+- **Session persistence**: state written to disk before any crash. If the agent dies mid-task on a six-hour job, you don't lose six hours — you resume from the last checkpoint. This is what enables the "long runs" OpenAI reports observing overnight, with the agent working while no one is watching.
+- **System prompt assembly**: the system prompt isn't a static blob. It's assembled dynamically each turn from files like `CLAUDE.md` or `AGENTS.md`, project rules, and user context. This is where Hashimoto's original contribution lives: every time the agent makes a mistake, you add a line. Next session, it already knows.
+- **Lifecycle hooks**: pre- and post-tool-call injection points. This is where you plug in custom validation, structured logging, cost alerts, conditional blocking. It's what lets you have an audit trail that survives a SOC review.
+- **Permissions and safety**: RBAC checks before any tool runs — inheriting the permission context of the user who invoked the agent. It's the line that separates *suggestion* from *execution*. And the only thing that decides whether an irreversible action has to pass through human approval or can run straight away.
+
+When the Claude Code *source map* was accidentally leaked on *npm* in March 2026, these were exactly the pieces that showed up in the 500,000+ exposed lines. The vocabulary isn't theoretical — it's in production, right now.
+
+## Feedforward and feedback: how the harness operates
+
+> "Building a harness" sounds big and architectural. Day to day, it's less architecture and more two simple operations, repeated obsessively.
+
+![Harness feedforward and feedback](/blog/images/harness-feedforward-feedback-en.png)
+
+- **Guides (feedforward controls)**: shape the agent's behavior *before* it acts. `AGENTS.md`, skills, rules files, language servers, IDE-coupled linters, MCP servers that expose the team's knowledge base. The job of a *guide* is to raise the probability the agent gets it right on the first try. If it already knows the project convention is to use the *zod* library for validation, it won't improvise with *class-validator*.
+- **Sensors (feedback controls)**: observe *after* the action and enable self-correction. Tests that run after each commit, type-checkers, AI code reviewers, mutation testing, pre-push hooks. The job of a sensor is to catch the error before the human does. If the agent broke an architectural *boundary*, the process halts and the engineer is alerted before the code lands on the main branch.
+
+The symmetry is what holds the system together. Birgitta Bockeler, Distinguished Engineer at Thoughtworks [who wrote the reference article on the topic on Martin Fowler's site](https://martinfowler.com/articles/harness-engineering.html), captures the tension in one sentence: *without sensors, you have an agent that repeats the same mistake indefinitely. Without guides, you have an agent that follows rules but never finds out whether they worked.*
+
+And there's a second classification axis that changes how the engineer spends their time:
+
+- **Computational**: deterministic, fast, runs on CPU. Linters, type checkers, structural tests, bootstrap scripts. Milliseconds per run. Reliable results. Can run on every commit without weighing anything down.
+
+- **Inferential**: semantic analysis, LLM-as-judge, AI code review. Runs on GPU. Slow, expensive, non-deterministic — but with rich contextual judgment. You can't run it on every file save, but it catches things no linter ever sees.
+
+A mature harness mixes both. *Computational* where it can, *inferential* where semantic judgment is required. Linters catch structural violations; an AI reviewer catches *"this code technically works, but the abstraction is wrong for the domain."*
+
+What ties it all together is what Birgitta calls the **steering loop**: the continuous human work of iterating on the harness. Every time the same problem happens twice, the responsible engineer asks: what could have prevented this? A new guide? A new sensor? And adds it. Next session, that specific mistake becomes structurally unlikely.
+
+That, in the end, is Hashimoto's original contribution, now with a proper name: the harness isn't an artifact. It's a *muscle* — something that grows as the engineer exercises it.
+
+## The three dimensions of the harness
+
+Knowing that the harness is the outer layer doesn't tell you which problem it solves. In practice, it regulates three distinct dimensions — and the maturity of each is uneven. It's worth knowing them separately, so you don't treat everything as "one harness" and under-invest exactly where it hurts most.
+
+![The three dimensions of the harness](/blog/images/harness-dimensions-en.png)
+
+### Maintainability harness
+
+This layer takes care of the internal quality of the code. We're talking about duplication, cyclomatic complexity, test coverage, architectural drift, style violations. The industry already has plenty of tooling for this. When you bring an agent on board, those controls come almost for free. It's the dimension where most teams build confidence quickly.
+
+### Architecture fitness harness
+
+Here we can define and check architectural characteristics of the application. *Fitness functions*, in Neal Ford's now-established vocabulary. Performance within envelope, logging patterns for observability, latency under SLO, acceptable error rates. Skills that describe performance requirements as *feedforward* for the agent; performance tests that measure the impact as feedback. It still requires explicit investment, but the technology to build it is available.
+
+### Behavior harness
+
+*Does the application functionally do what it's supposed to?*
+
+It's the least mature category. Today, most teams solve this as follows: *feedforward* via a functional *spec*, *feedback* via a test suite generated by the agent itself, with intensive human supervision as a complement. It works up to the point where the test suite becomes the bottleneck — because an agent writing its own tests only captures what it itself was able to think of testing.
+
+*Anyone who tells you this problem is solved is trying to sell you something.*
+
+In the end, the taxonomy matters because each dimension has different cost, tooling, and risk levels. *Technical reliability* is different from *architectural adherence*, which is different from *functional correctness*. Treating everything as "one harness" is what causes engineers to under-invest in the hardest dimension — behavioral — because from the outside it looks just like the others.
+
+## The numbers that ended the debate
+
+If there was any academic doubt about whether harness engineering was "real," that doubt ended when the data came in.
+
+I'm not talking about a single study or paper. I'm talking about dozens of benchmarks, case studies led by large companies, universities, and papers that, together, formed a very strong consensus: the harness is the decisive factor for the reliability and performance of agents in production.
+
+Here are a few to illustrate.
+
+### OpenAI
+
+Five months, a team of roughly five engineers, and around 1,000,000 lines of production code.
+
+Approximately 1,500 pull requests, with **zero** lines written manually by humans.
+
+Codex generated everything: application logic, tests, CI, documentation, observability. The product shipped in internal beta with daily users. Throughput went up as the team grew, instead of saturating.
+
+The retrospective quote: *"the initial progress was slower than we expected, not because Codex was incapable, but because the environment was under-specified."*
+
+### Endor Labs
+
+Same model. Same week. Two harnesses. GPT-5.5 on Codex (OpenAI's native harness) scored 61.5% on the functionality test. The same GPT-5.5, on Cursor's harness, scored 87.2%. A difference of **25.7 percentage points** by changing only the wrapping around the model. Claude Opus 4.7 also moved up in the same experiment — 87.2% on Claude Code, 91.1% on Cursor.
+
+### METR (Time Horizon 1.1, January 2026)
+
+Claude Opus 4.7 has a horizon of **14h30 at 50% reliability — but only 1h03 at 80%**. The brutal gap between 50% and 80% is exactly what the harness exists to close.
+
+And maybe the most uncomfortable data point of all. Sam Altman, in an interview with Ben Thompson, was asked whether an impressive Codex result came from the model or the harness. He replied: *"hard to overstate how critical it is. I no longer think of the harness and the model as these entirely separable things."* Pressed on which of the two explained the leap, he added: *"Yeah, exactly."* The CEO of the company that trained the model can no longer tell them apart.
+
+> Interview: https://stratechery.com/2026/an-interview-with-openai-ceo-sam-altman-and-aws-ceo-matt-garman-about-bedrock-managed-agents/
+
+## Harnessability: not every codebase is equal
+
+There's an uncomfortable asymmetry in harness engineering — and sooner or later, it'll land on your desk: the harness is most needed where it's hardest to build.
+
+A codebase in a strongly typed language gets type-checking as a sensor for free. Clear module boundaries already become architectural rules. Mature frameworks abstract away details the agent doesn't even need to see. Consistent conventions — naming, layout, error patterns — become guides with almost no effort.
+
+Ned Letcher (Thoughtworks) named this *ambient affordances*: structural properties of the environment that make the code legible, navigable, and tractable — not just for humans.
+
+The practical consequence splits the world in two, and you already know which side you're on.
+
+### Starting from scratch
+
+In this scenario, the environment is so malleable that every decision about architecture, language, framework, and tooling is an opportunity to choose how much of the harness comes for free. New code is fertile ground for shaping the environment to make the agent's life easier.
+
+The choice of language, for example, can determine how easy it is for the agent to understand and manipulate the code. Frameworks that enforce clear conventions can serve as natural guides for the agent. Built-in static analysis tools can provide powerful sensors with no additional effort.
+
+Here, we're talking about code governance at a strategic level. The team has the chance to create an environment that not only supports the agent but amplifies it — turning the harness into something almost invisible, because the environment is already so friendly that the agent rarely fails.
+
+### Eternal legacy code
+
+This is the uncomfortable part. A dynamic language with no typing, with types implicit and inferred. Modules without clear boundaries, and the boundaries that do exist were never codified. Inconsistent conventions accumulated over years of "we'll refactor later." Each of these raises the cost of every *guide*, every *sensor*, every control. And it's precisely in this codebase that the agent fails most — because the environment it operates in is less legible to any reader, human or machine.
+
+## The future with harness engineering
+
+A few months ago, a team of about five OpenAI engineers shipped a million lines of production code without a single human typing a line. The retrospective didn't credit the model. It credited what surrounded it.
+
+That's the starting point that reorganizes the discussion.
+
+For a long time, AI engineering was understood as model engineering — where you pick, fine-tune, and prompt.
+
+OpenAI's experiment, alongside the Endor Labs benchmarks showing a 25-point spread between harnesses on the same GPT-5.5, closed that frame. The model became the variable; the runtime became the constant.
+
+The operational consequence is uncomfortable for most organizations.
+
+**It means that:**
+- architectural decisions that used to look like infrastructure — write idempotency, end-to-end observability, sandboxes with graduated permissions, audit trails that survive review — leave the technical backlog and enter the product's critical path;
+- the engineer who knows how to build those mechanisms is worth more than the one who knows how to orchestrate LLM APIs;
+- the ROI of the next frontier model is capped by a layer most teams still don't have.
+
+The three shifts this triggers are already visible:
+- Harness is becoming a sellable product — Anthropic, Microsoft, and Cursor are fighting for the same space AWS and Vercel fought for ten years ago.
+- New codebases are starting to be designed around harnessability, the same way they became mobile-first in 2010.
+- European regulators and SOC auditors are already asking the questions only a harness with decent traceability can answer.
+
+> How do you prove a probabilistic system is right?
+
+That question doesn't have a settled answer yet. Not in production. Not at scale. Not with guarantees that survive an audit. *Behavior harness* is the name this gap was given, and it's where most of the AI engineering investment is heading over the next few years.
+
+## Where does this leave you on the journey?
+
+The question isn't whether your project will need this discipline. It's which incident will force you to build it.
+
+Pick one of the three symptoms from the diagnosis section, identify which one your agent falls into most often, and start with the corresponding layer. If you can't answer that question about your own system, that's the first item on the backlog.
+
+## References
+
+- https://openai.com/index/harness-engineering/
+- https://www.anthropic.com/engineering
+- https://code.claude.com/docs/en/how-claude-code-works
+- https://martinfowler.com/articles/harness-engineering.html
+- https://www.langchain.com/blog/the-anatomy-of-an-agent-harness
+- https://metr.org/time-horizons/
+- https://metr.org/blog/2026-1-29-time-horizon-1-1/
+- https://metr.org/blog/2025-03-19-measuring-ai-ability-to-complete-long-tasks/
+- https://www.mindstudio.ai/blog/agent-harnesses-beat-model-upgrades-5-benchmarks
+- https://llm-stats.com/benchmarks/tau-bench
