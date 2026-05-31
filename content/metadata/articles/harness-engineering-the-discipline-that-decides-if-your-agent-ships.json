@@ -1,9 +1,17 @@
 {
   "slug": "harness-engineering-the-discipline-that-decides-if-your-agent-ships",
   "date": "2026-05-31",
-  "categories": [],
-  "tracks": [],
-  "tags": [],
+  "categories": [
+    "ai"
+  ],
+  "tracks": [
+    "artificial-intelligence"
+  ],
+  "tags": [
+    "Generative AI",
+    "LLM",
+    "Harness"
+  ],
   "readTime": 5,
   "featured": false
 }
