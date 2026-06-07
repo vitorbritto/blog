@@ -4,11 +4,11 @@
   "categories": ["programming"],
   "tracks": ["Software Design"],
   "tags": [
-    "oop",
-    "software-architecture",
-    "object-oriented-design",
-    "design-principles",
-    "programming-fundamentals"
+    "OOP",
+    "Software Architecture",
+    "Object Oriented Design",
+    "Design Principles",
+    "Programming Fundamentals"
   ],
   "readTime": 10,
   "featured": false
