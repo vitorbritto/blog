@@ -1,0 +1,9 @@
+{
+  "slug": "programming",
+  "name": "Programming",
+  "description": "Programação e Desenvolvimento",
+  "icon": "Code",
+  "articles": [
+    "the-lie-of-the-4-pillars"
+  ]
+}

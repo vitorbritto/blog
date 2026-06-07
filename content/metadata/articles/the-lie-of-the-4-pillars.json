@@ -1,0 +1,15 @@
+{
+  "slug": "the-lie-of-the-4-pillars",
+  "date": "2026-06-07",
+  "categories": ["Programming"],
+  "tracks": ["Software Design"],
+  "tags": [
+    "oop",
+    "software-architecture",
+    "object-oriented-design",
+    "design-principles",
+    "programming-fundamentals"
+  ],
+  "readTime": 10,
+  "featured": false
+}

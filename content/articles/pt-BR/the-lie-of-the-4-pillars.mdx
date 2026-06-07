@@ -1,0 +1,262 @@
+---
+title: "A mentira dos quatro pilares na POO"
+excerpt: "O que a orientação a objetos perdeu ao esquecer mensagens, contexto e interação"
+---
+
+Se você é desenvolvedor, provavelmente já repetiu os "quatro pilares" da Orientação a Objetos como se eles fossem a fundação definitiva do paradigma: abstração, encapsulamento, herança e polimorfismo.
+
+Eles são úteis como introdução didática. O problema começa quando essa lista vira dogma. Muitos sistemas escritos "seguindo os pilares" ainda acabam rígidos, difíceis de depurar e sensíveis a mudanças pequenas demais para causar tanto estrago.
+
+Então a pergunta real não é se abstração, encapsulamento, herança e polimorfismo existem. Eles existem. A pergunta é outra: eles capturam mesmo o coração da orientação a objetos?
+
+No sentido defendido por Alan Kay, a resposta é: não completamente.
+
+## A troca de mensagens
+
+Alan Kay, que cunhou o termo object-oriented programming e liderou a criação das primeiras versões de Smalltalk, descreveu OO de uma forma bem diferente da lista popular dos quatro pilares. Para ele, OO envolve mensagens, retenção local, proteção do estado-processo e late binding extremo.
+
+**Ou seja**, o centro da ideia não é "classe", nem "herança", nem "objeto como estrutura de dados com funções acopladas". O centro é um conjunto de entidades autônomas que preservam seu próprio estado e interagem por mensagens.
+
+> A essência não são apenas as "caixas". São também as "setas".
+
+Uma forma útil de visualizar isso aparece em apresentações sobre Alan Kay por meio do conceito japonês de Ma: o espaço entre as coisas. A metáfora ajuda porque desloca a atenção do interior do objeto para o protocolo de interação entre objetos. O ponto não é endeusar uma palavra japonesa, mas lembrar que OO nasceu muito mais próxima de redes de "agentes comunicantes" do que de árvores de classes.
+
+Isso também exige uma distinção técnica importante. Ao falar em "chamar um método", normalmente descrevemos uma operação direta sobre uma implementação conhecida. Já "enviar uma mensagem", no sentido de Smalltalk e Objective-C, implica um modelo em que a mensagem é despachada para um receptor, e a resolução do comportamento pode acontecer tardiamente.
+
+Em Smalltalk, quando um objeto recebe uma mensagem que não entende, o fluxo passa por mecanismos como `doesNotUnderstand:`. Em Objective-C, há mecanismos como _dynamic method resolution_ e _message forwarding_. Isso permite que o receptor participe da decisão sobre como lidar com a mensagem em tempo de execução.
+
+Sem esse grau de flexibilidade, uma linguagem ainda pode ser chamada de orientada a objetos no uso comum da indústria de Software. Porém, ela se afasta do sentido original enfatizado por Kay e se aproxima mais do ramo class-based/ADT: tipos, operações e hierarquias, com menos autonomia dinâmica entre objetos.
+
+## A abstração sem contexto empobrece o domínio
+
+Fomos ensinados que abstrair é sempre uma virtude. Richard Gabriel e James Coplien são bem mais cuidadosos que isso. A crítica deles não é contra toda abstração, mas contra a abstração excessiva, genérica demais ou desconectada do contexto humano e do domínio.
+
+Gabriel, em ["Abstraction Descant"](https://www.dreamsongs.com/Files/PatternsOfSoftware.pdf), argumenta que abstrações podem tornar o software menos habitável quando escondem detalhes que o programador precisa entender para manter o sistema. Coplien, no prefácio de *Clean Code*, resume essa crítica de forma provocativa ao dizer que Gabriel nos aconselha que abstração é "má". A frase é forte, mas não deve ser lida como rejeição total à abstração. O alvo é a abstração que joga fora informação relevante.
+
+Uma abstração saudável reduz carga cognitiva sem apagar o significado. Uma abstração ruim troca linguagem de domínio por nomes genéricos como `Manager`, `Processor`, `Handler`, `Validator` e `Engine`, que parecem flexíveis, mas frequentemente escondem o que o sistema realmente faz.
+
+Uma alternativa é pensar em compressão semântica. Aqui, uso "compressão" como uma aplicação prática inspirada por Gabriel: não no sentido de criar uma camada genérica, mas de condensar detalhes operacionais em um conceito que preserve significado.
+
+Em vez de criar um `RuleEngine`, `Validator`, `Processor` ou `AbstractCreditPolicy`, podemos criar um conceito de domínio: `CreditProfile`.
+
+Veja este exemplo simples de um processo de decisão de crédito escrito em Go:
+
+```go
+package main
+
+import "fmt"
+
+type Money int64 // cents
+
+type CreditApplication struct {
+	CustomerID           string
+	MonthlyIncome        Money
+	CurrentMonthlyDebt   Money
+	RequestedInstallment Money
+	EmploymentMonths     int
+	HasRecentDefault     bool
+}
+
+type CreditProfile struct {
+	DebtBurdenPercent int
+	IncomeIsStable    bool
+	HasRecentDefault  bool
+}
+
+type CreditDecision struct {
+	Approved bool
+	Reason   string
+}
+
+func BuildCreditProfile(app CreditApplication) CreditProfile {
+	totalDebtAfterLoan := app.CurrentMonthlyDebt + app.RequestedInstallment
+
+	return CreditProfile{
+		DebtBurdenPercent: percentage(totalDebtAfterLoan, app.MonthlyIncome),
+		IncomeIsStable:    app.EmploymentMonths >= 12,
+		HasRecentDefault:  app.HasRecentDefault,
+	}
+}
+
+func DecideCredit(profile CreditProfile) CreditDecision {
+	if profile.HasRecentDefault {
+		return CreditDecision{
+			Approved: false,
+			Reason:   "customer has a recent default",
+		}
+	}
+
+	if !profile.IncomeIsStable {
+		return CreditDecision{
+			Approved: false,
+			Reason:   "income is not stable enough",
+		}
+	}
+
+	if profile.DebtBurdenPercent > 35 {
+		return CreditDecision{
+			Approved: false,
+			Reason:   "debt burden would exceed 35% of monthly income",
+		}
+	}
+
+	return CreditDecision{
+		Approved: true,
+		Reason:   "credit profile is within policy",
+	}
+}
+
+func percentage(value Money, total Money) int {
+	if total == 0 {
+		return 100
+	}
+
+	return int(value * 100 / total)
+}
+
+func main() {
+	app := CreditApplication{
+		CustomerID:           "customer_id",
+		MonthlyIncome:        500_000,
+		CurrentMonthlyDebt:   90_000,
+		RequestedInstallment: 80_000,
+		EmploymentMonths:     18,
+		HasRecentDefault:     false,
+	}
+
+	creditProfile := BuildCreditProfile(app)
+	creditDecision := DecideCredit(creditProfile)
+
+	fmt.Printf("Debt burden: %d%%\n", creditProfile.DebtBurdenPercent)
+	fmt.Printf("Approved: %t\n", creditDecision.Approved)
+	fmt.Printf("Reason: %s\n", creditDecision.Reason)
+}
+```
+
+O ponto aqui não é dizer que `CreditProfile` deixa de ser uma abstração. Muito pelo contrário, ele é uma abstração. O ponto central é que ele é uma abstração ancorada no domínio.
+
+Antes, alguém precisaria reconstruir mentalmente o significado de:
+
+```go
+app.CurrentMonthlyDebt + app.RequestedInstallment
+app.MonthlyIncome
+app.EmploymentMonths >= 12
+app.HasRecentDefault
+```
+
+Depois, o sistema passa a se comunicar por meio de um conceito de domínio que já carrega significado:
+
+```go
+creditProfile.DebtBurdenPercent
+creditProfile.IncomeIsStable
+creditProfile.HasRecentDefault
+```
+
+Isso reduz a carga cognitiva sem apagar a realidade. O código continua próximo do domínio, mas passa a comunicar intenção de forma mais direta.
+
+## Sistemas vivem nas interações
+
+Russell Ackoff não escreveu sobre *microservices*, *packages* ou *code coupling*. A contribuição dele vem de outro lugar: pensamento sistêmico.
+
+> Se você não assistiu a [palestra de Ackoff sobre pensamento sistêmico](https://www.youtube.com/watch?v=O9TE9HWFo6U), pare tudo e assista agora mesmo. O vídeo é antigo, mas a mensagem é atemporal. Ele explica de forma clara e acessível que um sistema é definido por suas interações, não por suas partes isoladas.
+
+Para Ackoff, as propriedades essenciais de um sistema não surgem das partes isoladas, mas das interações entre elas. Um carro desmontado pode conter todas as peças, mas já não tem a propriedade de transportar alguém. A propriedade aparece no todo organizado.
+
+Aplicando essa ideia ao software, o problema não é simplesmente "ter acoplamento". O problema é ter dependências que não correspondem ao domínio, ou dependências reais escondidas atrás de uma arquitetura que finge independência.
+
+Desacoplamento cego pode destruir visibilidade. Em sistemas distribuídos mal desenhados, as dependências continuam existindo, mas passam a morar em filas, payloads, contratos implícitos, convenções de banco, *retries*, *dashboards* e *tribal knowledge*. O sistema parece modular no diagrama, mas se comporta como uma rede opaca em produção.
+
+Isso não é uma defesa de acoplamento alto. É uma defesa de acoplamento explícito, intencional e alinhado ao domínio.
+
+O objetivo não deve ser reduzir dependências a zero. Isso é fantasia. O objetivo deve ser refletir as conexões reais do sistema de forma que as pessoas consigam entender impacto, mudança e responsabilidade.
+
+## Hierarquia não é sinônimo de reutilização por superclasse
+
+Herança é o pilar mais perigoso dessa "lista popular" quando vira mecanismo padrão de reutilização.
+
+O problema da "classe-base frágil" é conhecido: uma mudança aparentemente segura em uma superclasse pode quebrar subclasses que dependiam, direta ou indiretamente, de detalhes da implementação herdada.
+
+Isso não significa que herança nunca deve ser usada. Significa que herança de implementação cria uma forma forte de dependência, e essa dependência pode te custar muito caro naquele momento "its fine!" da manutenção.
+
+Grady Booch formulou que, um dos elementos centrais do *object model* é hierarquia, não simplesmente herança de classe. Hierarquia é uma forma de organizar abstrações, incluindo relações como "é um tipo de" e "é parte de". Herança é apenas uma implementação possível, e nem sempre a melhor.
+
+A recomendação "favor object composition over class inheritance", popularizada pelo livro *Design Patterns*, não nasceu como moda. Ela reconhece que composição tende a preservar melhor o encapsulamento e reduzir dependências de implementação. Ainda assim, composição também tem custo: sistemas baseados em muita delegação dinâmica podem ficar difíceis de seguir. A maturidade não é trocar um dogma por outro, mas escolher a relação que torna o modelo mais claro. 
+
+## Quando o código encontra o modelo mental
+
+Se os pilares clássicos não bastam para trazer clareza, para onde devemos olhar?
+
+Uma resposta forte vem do DCI: Data, Context and Interaction. O DCI foi originado por Trygve Reenskaug, criador do MVC, e desenvolvido com contribuição central de James Coplien.
+
+A ideia do DCI é separar três perspectivas:
+
+- Data: os objetos que representam o que o sistema é.
+- Context: o cenário ou caso de uso em que os objetos participam.
+- Interaction: a colaboração entre papéis dentro daquele contexto.
+
+Em OO tradicional, muita lógica de caso de uso acaba espalhada por várias classes porque tentamos encaixar comportamento dinâmico dentro da estrutura estática dos dados. O resultado é que o fluxo do negócio fica fragmentado.
+
+No DCI, objetos de dados continuam existindo, mas eles assumem papéis dentro de um contexto. O contexto explicita quais objetos participam do caso de uso e quais responsabilidades eles assumem naquele momento.
+
+Isso resolve parte do paradoxo da coesão. Em vez de criar classes gigantescas que tentam fazer tudo, ou classes anêmicas cercadas por serviços genéricos, o DCI busca expressar a narrativa do caso de uso em um lugar mais legível. O desenvolvedor consegue enxergar a interação completa com menos saltos mentais.
+
+O ponto não é que DCI seja a única resposta correta. O ponto é que ele recupera algo que a lista dos quatro pilares não enfatiza: software é comportamento em contexto, não apenas estrutura em classes.
+
+## Pensamento final
+
+A orientação a objetos que Alan Kay defendia não era uma obsessão por classes, hierarquias ou getters e setters. Era uma visão de objetos autônomos, protegendo seu estado e colaborando por mensagens.
+
+Abstrações precisam ser habitáveis e ligadas ao domínio e sistemas são definidos por interações, não por partes isoladas. 
+
+O meu conselho mais honesto para você seria: "evite a lista dos quatro pilares como um mantra e busque entender o que realmente torna um sistema orientado a objetos".
+
+Então, da próxima vez que você desenhar um sistema, não pergunte apenas se aplicou encapsulamento, herança, abstração e polimorfismo.
+
+**Pergunte também:**
+
+- Quais mensagens existem entre as partes?
+- O domínio está explícito ou escondido atrás de nomes genéricos?
+- As dependências reais estão visíveis?
+- A hierarquia ajuda ou prende?
+- O caso de uso pode ser lido como uma interação compreensível?
+
+No fim, Software é um meio de comunicação entre pessoas sobre um domínio em movimento.
+
+## Referências
+
+- [Vaughn Vernon - "Are you using Object-Oriented Programming?"](https://particular.net/webinars/are-you-using-object-oriented-programming)
+- [Richard P. Gabriel - *Patterns of Software*](https://www.dreamsongs.com/Files/PatternsOfSoftware.pdf)
+- [James O. Coplien - prefácio de *Clean Code*](https://www.informit.com/content/images/9780132350884/samplepages/0132350882_Sample.pdf)
+- [Russell Ackoff on Systems Thinking and Management](https://www.youtube.com/watch?v=O9TE9HWFo6U)
+- [Grady Booch et al. - *Object-Oriented Analysis and Design with Applications*, O'Reilly preview](https://www.oreilly.com/library/view/object-oriented-analysis-and/9780201895513/ch02.html)
+- [Gamma, Helm, Johnson e Vlissides - *Design Patterns*, capítulo introdutório](https://www.cs.miu.edu/courses/cs525/References/designpatterns_ch01.pdf)
+- [Mikhajlov e Sekerinski - "A Study of The Fragile Base Class Problem"](https://doi.org/10.1007/BFb0054099)
+- [DCI - Data Context Interaction](https://dci.github.io/)
+- [Trygve Reenskaug e James O. Coplien - "The DCI Architecture: A New Vision of Object-Oriented Programming"](https://fulloo.info/Documents/ArtimaDCI.html)
+- [InfoQ - "The DCI Architecture: Lean and Agile at the Code Level"](https://www.infoq.com/presentations/The-DCI-Architecture/)
+- [Dr. Alan Kay on the Meaning of “Object-Oriented Programming”, Alan Kay & Stefan Ram, 2003](https://userpage.fu-berlin.de/~ram/pub/pub_jf47ht81Ht/doc_kay_oop_en)
+- [Concepts and paradigms of object-oriented programming, Peter Wegner, 1990](https://dl.acm.org/doi/pdf/10.1145/382192.383004)
+- [Object-Oriented Programming: Themes and Variations, Mark Stefik & Daniel G. Bobrow, 1985](https://ojs.aaai.org/aimagazine/index.php/aimagazine/article/view/508)
+- [Object Oriented Programming, Tim Rentsch, 1982](https://dl.acm.org/doi/pdf/10.1145/947955.947961)
+- [Using Classes, Mozilla Web Docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_Classes)
+- [ECMAScript 6 and the evolution of JavaScript, Marc-André Leprohon, 2017](https://www.theseus.fi/bitstream/handle/10024/128511/Marc-Andre_Leprohon_Thesis_22052017_approved.pdf?sequence=1)
+- [Classes vs Prototypes In Object-Oriented Languages, A. H. Borning, 1986](https://dl.acm.org/doi/pdf/10.5555/324493.324538)
+- [FAQ on the Go website](https://go.dev/doc/faq#Is_Go_an_object-oriented_language)
+- [The Rust Programming Language: Object-Oriented Programming Features of Rust](https://doc.rust-lang.org/book/ch17-01-what-is-oo.html)
+- [Difference Between Structure and Class in C++, GeeksForGeeks](https://www.geeksforgeeks.org/structure-vs-class-in-cpp/)
+- [A behavioral notion of subtyping, Barbara Liskov & Jeannette Wing, 1994](https://dl.acm.org/doi/10.1145/197320.197383)
+- [Making the liskov substitution principle happy and sad, Elisa Baniassad, 2018](https://www.cs.ubc.ca/~ebani/papers/LiskofHappySad_ICSE-SEET_2018.pdf)
+- [It’s Duck (Typing) Season!, Nevena Milojković, et al., 2017](https://inria.hal.science/hal-01519634/document)
+- [Traits: Composable units of behaviour, Nathanael Schärli et al., 2002](https://web.cecs.pdx.edu/~black/publications/TR_CSE_02-012.pdf)
+- [Extension Methods, C# Programming Guide](https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/extension-methods)
+- [Extensions, Kotlin Documentation](https://kotlinlang.org/docs/extensions.html)
+- [Extension traits in Rust, Karol Kuczmarski](http://xion.io/post/code/rust-extension-traits.html)
+- [Type Classes and Overloading, A Gentle Introduction to Haskell](https://www.haskell.org/tutorial/classes.html)
+- [Encapsulation and Inheritance in Object-Oriented Programming Languages, Alan Snyder, 1986](https://dl.acm.org/doi/pdf/10.1145/28697.28702)
+- [Coupling and Cohesion in Object-Oriented Systems, Johann Eder et al., 1994](https://www.researchgate.net/profile/Johann-Eder/publication/2341329_Coupling_and_Cohesion_in_Object-Oriented_Systems/links/00b49526a89655aaf5000000/Coupling-and-Cohesion-in-Object-Oriented-Systems.pdf)
+- [New function return type deduction in C++14, all4coders](https://www.all4coders.com/2021/02/01/function-return-type-deduction/)
+- [std::function, cplusplusreference](https://en.cppreference.com/w/cpp/utility/functional/function)
+- [Evaluating Performance and Power of Object-Oriented Vs. Procedural Programming in Embedded Processors, Alexander Chatzigeorgiou & George Stephanides, 2002](https://www.researchgate.net/profile/George-Stephanides/publication/27382717_Evaluating_Performance_and_Power_of_Object-Oriented_Vs_Procedural_Programming_in_Embedded_Processors/links/00b7d51dc3f5c12fe8000000/Evaluating-Performance-and-Power-of-Object-Oriented-Vs-Procedural-Programming-in-Embedded-Processors.pdf)
+- [Understanding the Impact of Object Oriented Programming and Design Patterns on Energy Efficiency, Sepideh Maleki et al., 2017](https://ieeexplore.ieee.org/abstract/document/8323605)
+- [Project Lombok Website](https://projectlombok.org/)
+- [Bean Scopes, Spring Documentation](https://docs.spring.io/spring-framework/reference/core/beans/factory-scopes.html)
