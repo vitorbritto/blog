@@ -5,6 +5,7 @@ import { Toaster } from 'sonner'
 import { Header } from '@/components/Header'
 import { LanguageProvider } from '@/components/LanguageProvider'
 import GoogleAnalytics from '@/components/GoogleAnalytics'
+import 'prismjs/themes/prism-tomorrow.css'
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
