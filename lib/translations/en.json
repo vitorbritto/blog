@@ -92,6 +92,10 @@
     "ai": {
       "name": "Artificial Intelligence",
       "description": "LLMs, agents and context engineering"
+    },
+    "programming": {
+      "name": "Programming",
+      "description": "Software Development"
     }
   },
 
