@@ -1,0 +1,272 @@
+---
+title: "Code Design in Go"
+excerpt: "Balancing simplicity and organization with Clean Code and Deep Modules."
+coverImage: /blog/images/clean-code-deep-modules-go.png
+---
+
+There is a recurring tension in software development: we want to write simple, organized, and maintainable code, but we often confuse simplicity with extreme decomposition.
+
+In the name of good practices, we break functions apart, extract interfaces, create layers, distribute responsibilities, and try to eliminate any sign of duplication. At first glance, the code looks cleaner. Files become smaller. Functions become shorter. Each part appears to have a specific responsibility.
+
+But the system does not always become easier to understand.
+
+Sometimes, what we call organization is just complexity spread into smaller pieces.
+
+This reflection becomes even more interesting when we bring together two ideas that frequently appear in discussions about Software Design: **Clean Code**, a term coined by Robert C. Martin — Uncle Bob — and **Deep Modules**, a concept presented by John Ousterhout in *A Philosophy of Software Design*.
+
+Clean Code brought important contributions to the way we think about readability, naming, functions, responsibilities, and maintenance. It reinforces an essential idea: code is not written only for the machine to execute. Code is also written for people to read, understand, and modify.
+
+The problem starts when these principles stop being judgment tools and start being treated as absolute rules.
+
+On the other side, Ousterhout proposes a different lens. For him, good modules are not necessarily the ones with fewer lines, more files, or more internal divisions. Good modules are the ones that provide a simple interface while hiding a rich, cohesive, and well-encapsulated internal implementation.
+
+That is the core idea behind **Deep Modules**.
+
+A deep module allows the developer to learn little and use a lot. The public surface is small, but the value delivered behind it is large. Complexity does not disappear, but it is concentrated in a place with a clear purpose instead of leaking throughout the entire system.
+
+This idea fits very well with Go.
+
+Go is a language that encourages simplicity, clarity, and composition.
+
+But simplicity in Go does not mean turning every operation into dozens of tiny functions, artificial interfaces, and excessively granular packages. Simplicity can also mean preserving context, keeping a cohesive operation in the same place, and creating abstractions only when they actually reduce the cost of understanding and modifying the code.
+
+There is an important difference between separating responsibilities and fragmenting a solution.
+
+## Clean Code should not be treated as dogma
+
+Before talking about Go, it is worth making one premise clear: **Clean Code should be treated as a guide, not as a religion**.
+
+Its principles help us write more readable, organized, and sustainable code. But none of these practices exists outside of context.
+
+The problem is not the practice itself. The problem is the mechanical application of the practice.
+
+When Clean Code becomes a checklist, design starts losing contact with the reality of the system. Code begins to be evaluated by superficial signals: function size, number of files, presence of interfaces, absence of comments, apparent absence of duplication. But these signals do not guarantee that the software is simpler.
+
+Code can have small functions and still be hard to understand.
+
+Clean Code should not be used to produce code that only appears organized. On the contrary, it should be used to produce code that communicates intent, reduces maintenance effort, and makes the system easier to evolve.
+
+## Fragmentation as false simplicity
+
+One of the most common examples of this tension appears in excessive function extraction.
+
+In many cases, extracting a function is a good decision. It allows us to name an intent, reduce noise, isolate a business rule, or remove details that make the main flow harder to read.
+
+But there is a limit to this.
+
+When a logical operation is sliced too much, the developer loses the continuity of reasoning. To understand a single action, they need to follow a trail of small functions, move across files, open implementations, return to the starting point, and mentally reconstruct the flow.
+
+The code becomes smaller locally, **but larger cognitively**.
+
+And believe me, that is a big problem. Do you know why?
+
+Because complexity no longer lives only in the number of lines inside a function. It starts living in the number of directories and files the developer needs to visit to form a complete idea of what is happening.
+
+In Go, this often appears when we try to apply overly fragmented models without real need. We create one package for each detail, one interface for each struct, one layer for each operation, one file for each small variation.
+
+The result looks architecturally organized, but the reading experience only gets worse.
+
+Imagine a simple flow for creating an order, reservation, or authorization.
+
+![confused-flow](/blog/images/clean-code-confused-gopher.png)
+
+Instead of being able to follow the business rule from end to end, the developer needs to navigate through `handler`, `usecase`, `service`, `validator`, `factory`, `mapper`, `repository`, `gateway`, `adapter`, and a few more intermediate interfaces.
+
+That is genuinely exhausting. 😔
+
+Each layer may have an individual justification, but as a whole, maybe the design has stopped reducing complexity and started amplifying it.
+
+Ask yourself:
+
+> "Did this separation make the system easier to understand, test, modify, and evolve?"
+
+If the answer is no, maybe the organization is just distributing complexity.
+
+## Deep Modules and the idea of hiding complexity
+
+John Ousterhout proposes a different way of looking at modules.
+
+For him, a good module is one that provides a simple interface in relation to the amount of functionality it delivers. That is the essence of a deep module.
+
+The public interface is small. The behavior is clear. The contract is easy to understand. But internally, the module can concentrate a richer implementation, with validations, decisions, technical details, and auxiliary rules.
+
+I am not saying that you need to create huge and disorganized modules. I am also not saying that putting everything in the same place is the best path.
+
+The idea is different: hide complexity without hiding the problem model.
+
+A deep module protects the consumer from details they do not need to know. Whoever uses the module should not need to understand every internal validation, every intermediate transformation, or every technical decision required to execute that operation. The consumer should know the contract and trust that the module solves that problem consistently.
+
+This idea is especially useful in Go because the language favors small APIs. Interfaces in Go work better when they are simple, specific, and extracted from actual behavior needs — not created upfront because of an architectural convention.
+
+A well-designed module in Go does not need to expose many pieces. It can expose a function or a small interface while keeping the rest as an internal package detail.
+
+Simplicity appears to the consumer. Depth appears in the implementation. This balance is powerful.
+
+## Code is communication, but it is also context
+
+One of the most repeated phrases in software development is that code is read much more often than it is written. Although it sounds like a cliché, it remains relevant.
+
+> "Code is communication."
+
+It communicates to the compiler what should be executed, but it also communicates to other developers the intent behind that solution. The problem is that intent is not always present only in the instructions.
+
+Code shows what is happening, but it does not always show why it is happening.
+
+* Why does this rule exist?
+* Why does this validation need to happen before the external call?
+* Why was this duplication kept?
+* Why can this specific case not follow the default flow?
+* Why has this abstraction not been created yet?
+* Why does this package not depend on that other one?
+
+When we say that "good code documents itself," we are usually talking about the "what." Good names, good structures, and good abstractions really help a lot.
+
+On the other hand, the "why" often depends on historical context, business constraints, architectural decisions, or technical limitations. In these cases, comments and documentation are not enemies of Clean Code. The problem is not commenting. **The problem is commenting on the obvious**.
+
+In some cases, the best place for this explanation is not the code itself. It can be an ADR or ADL, recording the decision, the alternatives considered, and the accepted trade-offs. This prevents the code from carrying the entire history of the system by itself.
+
+Understand that this need for good communication also carries the intention of reducing the cognitive cost for those who will maintain the system later.
+
+## Complexity does not live only inside the function
+
+When we talk about complexity, it is common to remember cyclomatic complexity.
+
+It measures the number of possible paths inside a piece of code, including conditionals, loops, and branches that may increase this metric.
+
+The metric is useful for identifying functions that are hard to test or reason about.
+
+So far, so good. But it does not tell the whole story.
+
+Code can have low local cyclomatic complexity and still be difficult to understand because the logic is spread across many places.
+
+Ousterhout draws attention to other signs of complexity. Two of them are especially important: **change amplification** and **cognitive load**.
+
+Change amplification happens when a small change forces the developer to modify several parts of the system. A rule changed in one detail, but now it is necessary to adjust an interface, an implementation, a DTO, a mapper, a test in another layer, a factory, and maybe an adapter.
+
+Cognitive load appears when the developer needs to keep too much information in their head to make a change safely. They need to remember the order of the flow, the dependencies between packages, implicit contracts, side effects, and business exceptions.
+
+These two problems do not necessarily appear inside a single function. They appear in the design of the system.
+
+That is why reducing function size is not enough. We also need to observe the cost of navigation, the cost of change, and the cost of forming a correct mental model.
+
+A system with many small pieces may look simple at first, but highly complex on the overall map.
+
+## The wrong abstraction costs more than duplication
+
+We understand that avoiding duplication is a good practice. Right?
+
+After all, duplicated code can generate inconsistency, increase maintenance effort, and spread the same rules across different places.
+
+However, removing duplication too early can also be dangerous. Not every piece of similar code represents the same concept.
+
+Sometimes, two pieces of code look similar only because the system is still in an early stage. Today, they execute similar steps. Tomorrow, they may evolve in different directions. If they are joined by a premature abstraction, that abstraction starts forcing two different contexts to follow the same path.
+
+That is artificial coupling. The code becomes drier, but less flexible.
+
+In Go, this usually appears when we create abstractions before we understand the domain well. We extract interfaces too early, generalize functions too early, create generic services too early.
+
+The intention is to avoid repetition, but the result may be a structure that is hard to modify when the real rule appears.
+
+Keep this in mind: **visible duplication is uncomfortable, but bad abstraction is deceptive**.
+
+## Polymorphism, indirection, and reading cost
+
+Polymorphism is a powerful tool. It allows us to represent behavior variations, reduce conditionals in some scenarios, and create well-defined extension points.
+
+When used without need, it turns simple logic into a flow that is harder to follow. Instead of reading the behavior directly, the developer needs to discover which implementation will be used, where it was registered, how it was injected, and which contracts are implicit in that interface.
+
+In some contexts, this cost pays off. In others, it does not.
+
+An `if` or `switch` structure can be perfectly acceptable when the set of cases is small, explicit, and stable. Replacing it with multiple implementations, factories, and interfaces may make the code look more "object-oriented," but not necessarily simpler.
+
+This point is important because many design decisions are treated as automatic evolution. As if moving from conditionals to polymorphism were always an improvement.
+
+**It is not. Improvement depends on the problem.**
+
+If the behavior variation is real, if it tends to grow, if it needs to be isolated, and if the contract is stable, polymorphism can help. If the rule is simple, local, and easy to understand, perhaps a direct structure is better.
+
+## Tests help design, but they do not replace design
+
+Kent Beck defends TDD as a practice that helps the developer think first about how the code will be used. By writing the test first, you are forced to imagine the interface, the expected behavior, and the experience of whoever will consume that unit.
+
+![Go TDD](/blog/images/go-tdd.png)
+
+In that sense, TDD can be a design tool.
+
+However, there is a risk when the practice becomes a mechanical process. The developer writes the test, makes it pass, refactors superficially, and moves on to the next case. The attention is focused on the green light, not necessarily on the structural quality of the solution.
+
+Automated tests are fundamental. They protect behavior, provide confidence for refactoring, and help document system expectations.
+
+A system can have good coverage and still be hard to understand. It can pass all tests and still have shallow modules, artificial interfaces, and high cognitive load. It can be protected against regressions and still be hard to evolve.
+
+It is important to understand that tests and design are allies, not substitutes. While tests validate behavior, design organizes understanding. Both need to work together so that the system is not only correct, but also sustainable and evolvable.
+
+## Clean code is the result of refinement
+
+There is an unrealistic expectation around the idea of writing clean code from the start.
+
+The first version of a solution is born amid uncertainty. The problem is still being understood. The rules are still being discovered. The boundaries between responsibilities are still blurred. The abstractions have not yet matured.
+
+Trying to write the perfect version right at the beginning can be counterproductive.
+
+The developer spends more time trying to anticipate the ideal structure than understanding the real problem. This increases the chance of creating premature abstractions, artificial names, and separations that look good before being tested by the reality of the domain.
+
+In many cases, the healthiest path is to make it work first, observe the shape the solution starts to take, and then refine it.
+
+> As I always say: "done is better than perfect."
+
+Look at it this way:
+
+* First, the code needs to be correct.
+* Then, it needs to communicate better.
+* Then, real duplications start to appear.
+* Then, more mature abstractions can emerge.
+
+This order avoids trying to apply Clean Code before sufficiently understanding the problem.
+
+Applying Clean Code is not the starting point. It is a consequence of understanding, review, and refinement.
+
+## What does this mean for Go?
+
+Go has an interesting relationship with simplicity.
+
+The language avoids many sophisticated features, favors composition over complex hierarchies, and encourages explicit code. At the same time, precisely because it looks simple, Go can easily be taken to two extremes.
+
+The first extreme is writing code that is too procedural, without encapsulation, with details spread around and little protection between parts of the system.
+
+The second extreme is importing excessive architectural models from other languages, creating too many layers, interfaces, and packages for problems that do not require that level of separation.
+
+If you have made it this far, you probably already noticed that neither extreme is ideal. 😁
+
+In Go, good modules usually come from packages with a clear purpose, small APIs, and cohesive internal implementation. The package should hide details that do not matter to the consumer, but without hiding the problem model to the point of making the code mysterious.
+
+Think of it this way:
+
+* **An interface** in Go should represent a real consumption need, not just an architectural obligation.
+* **A function** should be extracted when it gives a name to a relevant intent, not just because it passed an arbitrary number of lines.
+* **A package** should exist when it represents a useful conceptual boundary, not just to keep the structure visually fragmented.
+* **A module** should be deep enough to deliver value without requiring the consumer to know its internal details.
+
+## Final thought
+
+Clean Code and Deep Modules deal with the same problem from different angles: how to organize code to reduce complexity.
+
+In Go, this combination needs to respect the simplicity of the language.
+
+Separating responsibilities remains important, as long as that separation preserves context and reduces the effort required to understand the system.
+
+The goal is not to create small functions, interfaces everywhere, or layers for every detail. The goal is to build cohesive modules, with clear boundaries and a public surface simple enough for the code to be easy to use, modify, and evolve.
+
+## References
+
+* [A Little Architecture](http://blog.cleancoder.com/uncle-bob/2016/01/04/ALittleArchitecture.html)
+* [The Cycles of TDD](http://blog.cleancoder.com/uncle-bob/2014/12/17/TheCyclesOfTDD.html)
+* [Types and Tests](http://blog.cleancoder.com/uncle-bob/2017/01/13/TypesAndTests.html)
+* [Beck Design Rules](https://martinfowler.com/bliki/BeckDesignRules.html)
+* [Design Stamina Hypothesis](https://martinfowler.com/bliki/DesignStaminaHypothesis.html)
+* [Test Driven Development](https://martinfowler.com/bliki/TestDrivenDevelopment.html)
+* [Full APoSD vs Clean Code discussion](https://github.com/johnousterhout/aposd-vs-clean-code)
+* [QA Casey Muratori vs Uncle Bob](https://github.com/unclebob/cmuratori-discussion/blob/main/cleancodeqa.md)
+* [Clean Code In Practice: Challenges and Opportunities](https://arxiv.org/abs/2507.19721)
+* [Talks at Google - John Ousterhout](https://www.youtube.com/watch?v=bmSAYlu0NcY)
+* [A Philosophy of Software Design](https://a.co/d/0glVMKqI)

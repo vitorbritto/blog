@@ -1,0 +1,16 @@
+{
+  "slug": "clean-code-and-deep-modules-in-go-code-design",
+  "coverImage": "/blog/images/clean-code-deep-modules-go.png",
+  "date": "2026-06-14",
+  "categories": ["programming"],
+  "tracks": ["Software Design"],
+  "tags": [
+    "Clean Code",
+    "Deep Modules",
+    "Software Architecture",
+    "Software Design"
+  ],
+  "readTime": 14,
+  "featured": false,
+  "draft": false
+}

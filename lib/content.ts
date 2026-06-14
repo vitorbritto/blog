@@ -8,7 +8,11 @@ const contentDirectory = path.join(process.cwd(), 'content')
 export async function getArticleBySlug(slug: string): Promise<Article | null> {
   try {
     const metadataPath = path.join(contentDirectory, 'metadata/articles', `${slug}.json`)
-    const metadata = JSON.parse(fs.readFileSync(metadataPath, 'utf8'))
+    const metadata = JSON.parse(fs.readFileSync(metadataPath, 'utf8')) as Omit<
+      Article,
+      'translations'
+    >
+    if (metadata.draft) return null
 
     const en = await getArticleTranslation(slug, 'en')
     const ptBR = await getArticleTranslation(slug, 'pt-BR')
@@ -121,9 +125,10 @@ export async function getAllCategories(): Promise<Category[]> {
       const filePath = path.join(metadataDirectory, fileName)
       return JSON.parse(fs.readFileSync(filePath, 'utf8')) as Pick<
         Article,
-        'slug' | 'date' | 'categories'
+        'slug' | 'date' | 'categories' | 'draft'
       >
     })
+    .filter(article => !article.draft)
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 
   for (const article of articleMetadata) {

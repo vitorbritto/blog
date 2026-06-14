@@ -1,0 +1,272 @@
+---
+title: "Design de código em Go"
+excerpt: "Equilibrando simplicidade e organização com Clean Code e Deep Modules."
+coverImage: /blog/images/clean-code-deep-modules-go.png
+---
+
+Existe uma tensão recorrente no desenvolvimento de software: queremos escrever código simples, organizado e fácil de manter, mas muitas vezes confundimos simplicidade com decomposição extrema.
+
+Em nome das boas práticas, quebramos funções, extraímos interfaces, criamos camadas, distribuímos responsabilidades e tentamos eliminar qualquer sinal de duplicação. À primeira vista, o código parece mais limpo. Os arquivos ficam menores. As funções ficam mais curtas. Cada parte parece ter uma responsabilidade específica.
+
+Mas nem sempre o sistema fica mais fácil de entender.
+
+Às vezes, o que chamamos de organização é apenas complexidade espalhada em pedaços menores.
+
+Essa reflexão fica ainda mais interessante quando aproximamos duas ideias que aparecem com frequência nas discussões sobre Design de Software: **Clean Code**, termo cunhado por Robert C. Martin (Uncle Bob), e **Deep Modules**, conceito apresentado por John Ousterhout em *A Philosophy of Software Design*.
+
+O Clean Code trouxe contribuições importantes para a forma como pensamos legibilidade, nomes, funções, responsabilidades e manutenção. Ele reforça uma ideia essencial: código não é escrito apenas para a máquina executar. Código também é escrito para pessoas lerem, entenderem e modificarem.
+
+O problema começa quando esses princípios deixam de ser ferramentas de julgamento e passam a ser tratados como regras absolutas.
+
+Do outro lado, Ousterhout propõe uma lente diferente. Para ele, bons módulos não são necessariamente aqueles que têm menos linhas, mais arquivos ou mais divisões internas. Bons módulos são aqueles que oferecem uma interface simples e escondem uma implementação interna rica, coesa e bem encapsulada.
+
+Esse é o ponto central dos **Deep Modules**.
+
+Um módulo profundo permite que o desenvolvedor aprenda pouco para usar muito. A superfície pública é pequena, mas o valor entregue por trás dela é grande. A complexidade não desaparece, mas fica concentrada em um lugar com propósito claro, em vez de vazar para todo o sistema.
+
+Essa ideia combina muito bem com Go.
+
+Go é uma linguagem que incentiva simplicidade, clareza e composição.
+
+Mas simplicidade em Go não significa transformar cada operação em dezenas de funções pequenas, interfaces artificiais e pacotes excessivamente granulares. Simplicidade também pode significar preservar contexto, manter uma operação coesa no mesmo lugar e criar abstrações apenas quando elas realmente reduzem o custo de entender e modificar o código.
+
+Existe uma diferença importante entre separar responsabilidades e fragmentar uma solução.
+
+## Clean Code não deve ser tratado como dogma
+
+Antes de falar sobre Go, vale deixar uma premissa clara: **Clean Code deve ser tratado como guia, não como religião**.
+
+Seus princípios ajudam a escrever código mais legível, organizado e sustentável mas, nenhuma dessas práticas existe fora de contexto.
+
+O problema não está na prática em si. Está na aplicação mecânica da prática.
+
+Quando Clean Code vira checklist, o design começa a perder contato com a realidade do sistema. O código passa a ser avaliado por sinais superficiais: tamanho da função, quantidade de arquivos, presença de interfaces, ausência de comentários, ausência de duplicação aparente. Só que esses sinais não garantem que o software esteja mais simples.
+
+Um código pode ter funções pequenas e ainda assim ser difícil de entender.
+
+Clean Code não deve ser usado para produzir código que apenas parece organizado. Pelo contrário, deve ser utilizado para produzir código que comunica intenção, reduz esforço de manutenção e torna o sistema mais fácil de evoluir.
+
+## A fragmentação como falsa simplicidade
+
+Um dos exemplos mais comuns dessa tensão aparece na extração excessiva de funções.
+
+Em muitos casos, extrair uma função é uma boa decisão. Ela permite dar nome a uma intenção, reduzir ruído, isolar uma regra de negócio ou remover detalhes que atrapalham a leitura do fluxo principal.
+
+Mas existe um limite nisso daí.
+
+Quando uma operação lógica é fatiada demais, o desenvolvedor perde a continuidade do raciocínio. Para entender uma única ação, ele precisa seguir uma trilha de pequenas funções, atravessar arquivos, abrir implementações, voltar para o ponto inicial e reconstruir mentalmente o fluxo.
+
+O código fica menor localmente, **mas maior cognitivamente**.
+
+E vai por mim, isso é um problema (dos grandes). E sabe por que? 
+
+Pelo simples fato de que a complexidade deixa de estar apenas no número de linhas de uma função, ela toma lugar no número de diretórios e arquivos que o desenvolvedor precisa visitar para formar uma ideia completa do que está acontecendo.
+
+Em Go, isso aparece com frequência quando tentamos aplicar modelos muito fragmentados sem necessidade. Criamos um pacote para cada detalhe, uma interface para cada struct, uma camada para cada operação, um arquivo para cada pequena variação. 
+
+O resultado parece arquiteturalmente organizado, mas a experiência de leitura só piora.
+
+Imagine um fluxo simples de criação de pedido, reserva ou autorização.
+
+![confused-flow](/blog/images/clean-code-confused-gopher.png)
+
+Em vez de conseguir acompanhar a regra de negócio de ponta a ponta, o desenvolvedor precisa navegar entre `handler`, `usecase`, `service`, `validator`, `factory`, `mapper`, `repository`, `gateway`, `adapter` e mais algumas interfaces intermediárias.
+
+Isso cansa, de verdade. 😔
+
+Cada camada pode ter uma justificativa individual mas, no conjunto, talvez o design tenha deixado de reduzir complexidade e passado a amplificá-la.
+
+Se pergunte:
+
+> "Essa separação tornou o sistema mais fácil de entender, testar, modificar e evoluir?"
+
+Se a resposta for não, talvez a organização esteja apenas distribuindo complexidade.
+
+## Deep Modules e a ideia de esconder complexidade
+
+John Ousterhout propõe uma forma diferente de olhar para módulos.
+
+Para ele, um bom módulo é aquele que oferece uma interface simples em relação à quantidade de funcionalidade que entrega. Essa é a essência de um módulo profundo.
+
+A interface pública é pequena. O comportamento é claro. O contrato é fácil de entender mas, internamente, o módulo pode concentrar uma implementação mais rica, com validações, decisões, detalhes técnicos e regras auxiliares.
+
+Não estou querendo te passar a informação de que você precisa criar módulos enormes e desorganizados e também não significa colocar tudo no mesmo lugar é o melhor caminho.
+
+A ideia é outra: esconder complexidade sem esconder o modelo do problema.
+
+Um módulo profundo protege o consumidor dos detalhes que ele não precisa conhecer. Quem usa o módulo não deveria precisar entender cada validação interna, cada transformação intermediária ou cada decisão técnica necessária para executar aquela operação. O consumidor deveria conhecer o contrato e confiar que o módulo resolve aquele problema de forma consistente.
+
+Essa ideia é especialmente útil em Go porque a linguagem favorece APIs pequenas. Interfaces em Go funcionam melhor quando são simples, específicas e extraídas a partir do comportamento necessário, não criadas antecipadamente por convenção arquitetural.
+
+Um módulo bem desenhado em Go não precisa expor muitas peças. Ele pode expor uma função ou uma pequena interface, enquanto mantém o restante como detalhe interno do pacote.
+
+A simplicidade aparece para quem usa. A profundidade aparece na implementação. Esse equilíbrio é poderoso.
+
+## Código é comunicação, mas também é contexto
+
+Uma das frases mais repetidas no desenvolvimento de software é que código é lido muito mais vezes do que escrito. Embora pareça clichê, ela continua relevante.
+
+> "Código é comunicação."
+
+Ele comunica para o compilador o que deve ser executado, mas também comunica para outros desenvolvedores qual era a intenção por trás daquela solução. O problema é que a intenção nem sempre está apenas nas instruções.
+
+O código mostra bem o que está acontecendo, mas nem sempre mostra por que aquilo está acontecendo.
+
+- Por que essa regra existe?
+- Por que essa validação precisa acontecer antes da chamada externa?
+- Por que essa duplicação foi mantida?
+- Por que esse caso específico não pode seguir o fluxo padrão?
+- Por que essa abstração ainda não foi criada?
+- Por que esse pacote não depende daquele outro?
+
+Quando dizemos que "código bom se documenta sozinho", geralmente estamos falando do "o quê". Bons nomes, boas estruturas e boas abstrações realmente ajudam muito. 
+
+Do outro lado, o "porquê" muitas vezes depende de contexto histórico, restrições de negócio, decisões arquiteturais ou limitações técnicas. Nesses casos, comentários e documentação não são inimigos do Clean Code. O problema não é comentar. **O problema é comentar o óbvio**.
+
+Em alguns casos, o melhor lugar para essa explicação nem é o próprio código. Pode ser um ADR ou ADL, registrando a decisão, as alternativas consideradas e os trade-offs aceitos. Isso evita que o código carregue sozinho toda a história do sistema.
+
+Entenda que toda essa necessidade por uma boa comunicação, carrega também a intenção em reduzir o custo cognitivo para quem vai manter o sistema depois.
+
+## Complexidade não mora apenas dentro da função
+
+Quando falamos de complexidade, é comum lembrar da complexidade ciclomática.
+
+Ela mede a quantidade de caminhos possíveis dentro de um trecho de código, sejam condicionais, loops e ramificações que podem vir a aumentar esta métrica. 
+
+O recurso é útil para indicar funções difíceis de testar ou raciocinar.
+
+Até aí, tudo bem. Só que ela não conta a história inteira.
+
+Um código pode ter baixa complexidade ciclomática local e ainda assim ser difícil de entender, porque a lógica está espalhada em muitos lugares.
+
+Ousterhout chama atenção para outros sinais de complexidade. Dois deles são especialmente importantes: **amplificação de mudanças** e **carga cognitiva**.
+
+Amplificação de mudanças acontece quando uma alteração pequena obriga o desenvolvedor a modificar vários pontos do sistema. A regra mudou em um detalhe, mas é necessário ajustar uma interface, uma implementação, um DTO, um _mapper_, um teste em outra camada, uma _factory_ e talvez um _adapter_.
+
+Já a carga cognitiva aparece quando o desenvolvedor precisa manter muitas informações na cabeça para realizar uma mudança com segurança. Ele precisa lembrar a ordem do fluxo, as dependências entre pacotes, os contratos implícitos, os efeitos colaterais e as exceções de negócio.
+
+Esses dois problemas não aparecem necessariamente dentro de uma única função. Eles aparecem no desenho do sistema.
+
+Por isso, reduzir o tamanho das funções não é suficiente. Também é preciso observar o custo de navegação, o custo de mudança e o custo de formar um modelo mental correto.
+
+Um sistema com muitas peças pequenas pode parecer simples num primeiro momento, mas altamente complexo no mapa geral.
+
+## A abstração errada custa mais que a duplicação
+
+Entendemos que evitar duplicação é uma boa prática. Certo? 
+
+Afinal, código duplicado pode gerar inconsistência, aumentar esforço de manutenção e espalhar regras iguais por lugares diferentes.
+
+Porém, remover duplicação cedo demais também pode ser perigoso. Até porque, nem todo código parecido representa o mesmo conceito.
+
+Às vezes, dois trechos são parecidos apenas porque o sistema ainda está em uma fase inicial. Hoje eles executam passos semelhantes. Amanhã podem evoluir em direções diferentes. Se forem unidos por uma abstração prematura, essa abstração passa a forçar dois contextos diferentes a seguirem o mesmo caminho.
+
+Esse é um acoplamento artificial. O código fica mais seco, mas menos flexível.
+
+Em Go, isso costuma aparecer quando criamos abstrações antes de conhecer bem o domínio. Extraímos interfaces cedo demais, generalizamos funções cedo demais, criamos serviços genéricos cedo demais. 
+
+A intenção é evitar repetição, mas o resultado pode ser uma estrutura difícil de modificar quando a regra real aparece.
+
+Tenha me mente que: **duplicação visível incomoda, mas abstração ruim engana**.
+
+## Polimorfismo, indireção e custo de leitura
+
+Polimorfismo é uma ferramenta poderosa. Ele permite representar variações de comportamento, reduzir condicionais em alguns cenários e criar pontos de extensão bem definidos.
+
+Quando usado sem necessidade, ele transforma uma lógica simples em um fluxo mais difícil de acompanhar. Em vez de ler o comportamento diretamente, o desenvolvedor precisa descobrir qual implementação será usada, onde ela foi registrada, como foi injetada e quais contratos estão implícitos naquela interface.
+
+Em alguns contextos, esse custo compensa. Em outros, não.
+
+Uma estrutura com `if` ou `switch` pode ser perfeitamente aceitável quando o conjunto de casos é pequeno, explícito e estável. Substituir isso por múltiplas implementações, factories e interfaces pode deixar o código mais "orientado a objetos", mas não necessariamente mais simples.
+
+Esse ponto é importante porque muitas decisões de design são tratadas como evolução automática. Como se sair de condicionais para polimorfismo fosse sempre uma melhoria.
+
+**Não é. Melhoria depende do problema.**
+
+Se a variação de comportamento é real, se tende a crescer, se precisa ser isolada e se o contrato é estável, polimorfismo pode ajudar. Se a regra é simples, local e fácil de entender, talvez uma estrutura direta seja melhor.
+
+## Testes ajudam o design, mas não substituem o design
+
+Kent Beck defende o TDD como uma prática que ajuda o desenvolvedor a pensar primeiro no uso do código. Ao escrever o teste antes, você é obrigado a imaginar a interface, o comportamento esperado e a experiência de quem vai consumir aquela unidade.
+
+![Go TDD](/blog/images/go-tdd.png)
+
+Nesse sentido, TDD pode ser uma ferramenta de design.
+
+Porém, existe um risco quando a prática vira um processo mecânico. O desenvolvedor escreve o teste, faz passar, refatora superficialmente e segue para o próximo caso. A atenção fica concentrada na luz verde, não necessariamente na qualidade estrutural da solução.
+
+Testes automatizados são fundamentais. Eles protegem comportamento, dão segurança para refatorar e ajudam a documentar expectativas do sistema.
+
+Um sistema pode ter boa cobertura e ainda assim ser difícil de entender. Pode passar em todos os testes e ainda assim ter módulos rasos, interfaces artificiais e alta carga cognitiva. Pode estar protegido contra regressões e ainda assim ser ruim de evoluir.
+
+É importante entender que os testes e o design são aliados, não substitutos. Enquanto os testes validam o comportamento, o design organiza a compreensão. As duas coisas precisam andar juntas para que o sistema seja não apenas correto, mas também sustentável e evolutivo.
+
+## Código limpo é resultado de refinamento
+
+Existe uma expectativa irreal em torno da ideia de escrever código limpo de primeira.
+
+A primeira versão de uma solução nasce em meio a incertezas. O problema ainda está sendo entendido. As regras ainda estão sendo descobertas. Os limites entre responsabilidades ainda estão "borrados". As abstrações ainda não amadureceram.
+
+Tentar escrever a versão perfeita logo no início pode ser contraproducente.
+
+O desenvolvedor passa mais tempo tentando antecipar a estrutura ideal do que compreendendo o problema real. Isso aumenta a chance de criar abstrações prematuras, nomes artificiais e separações que parecem boas antes de serem testadas pela realidade do domínio.
+
+Em muitos casos, o caminho mais saudável é fazer funcionar primeiro, observar o formato que a solução começa a assumir e então refinar.
+
+> Como sempre digo: "melhor feito do que perfeito".
+
+Veja pela seguinte ótica:
+
+- Primeiro, o código precisa estar correto.
+- Depois, precisa comunicar melhor.
+- Depois, duplicações reais começam a aparecer.
+- Depois, abstrações mais maduras podem surgir.
+
+Essa ordem evita tentar aplicar Clean Code antes de entender suficientemente o problema.
+
+Aplicat o Clean Code não é ponto de partida, é uma consequência de entendimento, revisão e refinamento.
+
+## O que isso significa para Go?
+
+Go tem uma relação interessante com simplicidade.
+
+A linguagem evita muitos recursos sofisticados, favorece composição em vez de hierarquias complexas e incentiva código explícito. Ao mesmo tempo, justamente por parecer simples, Go pode ser facilmente levado para dois extremos.
+
+O primeiro extremo é escrever código procedural demais, sem encapsulamento, com detalhes espalhados e pouca proteção entre as partes do sistema.
+
+O segundo extremo é importar modelos arquiteturais excessivos de outras linguagens, criando camadas, interfaces e pacotes demais para problemas que não exigem esse nível de separação.
+
+Se você chegou até aqui, já deve ter percebido que nenhum dos dois extremos é ideal. 😁
+
+Em Go, bons módulos geralmente nascem de pacotes com propósito claro, APIs pequenas e implementação interna coesa. O pacote deve esconder detalhes que não interessam ao consumidor, mas sem esconder o modelo do problema a ponto de tornar o código misterioso.
+
+Pense da seguinte forma:
+
+- **Uma interface** em Go deve representar uma necessidade real de consumo, não apenas uma obrigação arquitetural.
+- **Uma função** deve ser extraída quando dá nome a uma intenção relevante, não apenas porque passou de um número arbitrário de linhas.
+- **Um pacote** deve existir quando representa uma fronteira conceitual útil, não apenas para manter a estrutura visualmente fragmentada.
+- **Um módulo** deve ser profundo o suficiente para entregar valor sem exigir que o consumidor conheça seus detalhes internos.
+
+## Pensamento final
+
+Clean Code e Deep Modules tratam do mesmo problema por ângulos diferentes: como organizar código para reduzir complexidade.
+
+Em Go, essa combinação precisa respeitar a simplicidade da linguagem. 
+
+Veja que separar responsabilidades continua sendo importante, desde que essa separação preserve contexto e reduza esforço de entendimento.
+
+O objetivo não é criar funções pequenas, interfaces em todos os lugares ou camadas para cada detalhe. O objetivo é construir módulos coesos, com limites claros e uma superfície pública simples o suficiente para que o código seja fácil de usar, modificar e evoluir.
+
+## Referências
+
+- [A Little Architecture](http://blog.cleancoder.com/uncle-bob/2016/01/04/ALittleArchitecture.html)
+- [The Cycles of TDD](http://blog.cleancoder.com/uncle-bob/2014/12/17/TheCyclesOfTDD.html)
+- [Types and Tests](http://blog.cleancoder.com/uncle-bob/2017/01/13/TypesAndTests.html)
+- [Beck Design Rules](https://martinfowler.com/bliki/BeckDesignRules.html)
+- [Design Stamina Hypothesis](https://martinfowler.com/bliki/DesignStaminaHypothesis.html)
+- [Test Driven Development](https://martinfowler.com/bliki/TestDrivenDevelopment.html)
+- [Discussão completa APoSD vs Clean Code](https://github.com/johnousterhout/aposd-vs-clean-code)
+- [QA Casey Muratori vs Uncle Bob](https://github.com/unclebob/cmuratori-discussion/blob/main/cleancodeqa.md)
+- [Clean Code In Practice: Challenges and Opportunities](https://arxiv.org/abs/2507.19721)
+- [Talks at Google - John Ousterhout](https://www.youtube.com/watch?v=bmSAYlu0NcY)
+- [A Philosophy of Software Design](https://a.co/d/0glVMKqI)

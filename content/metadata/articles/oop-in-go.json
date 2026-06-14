@@ -1,7 +1,7 @@
 {
-  "slug": "the-lie-of-the-4-pillars",
-  "coverImage": "/blog/images/oop-pillars.png",
-  "date": "2026-06-07",
+  "slug": "oop-in-go",
+  "coverImage": "/blog/images/go-oop.png",
+  "date": "2026-06-08",
   "categories": ["programming"],
   "tracks": ["Software Design"],
   "tags": [
@@ -11,6 +11,7 @@
     "Design Principles",
     "Programming Fundamentals"
   ],
-  "readTime": 10,
-  "featured": false
+  "readTime": 9,
+  "featured": false,
+  "draft": true
 }

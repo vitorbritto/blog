@@ -1,0 +1,674 @@
+---
+title: "OOP em Go"
+excerpt: "Objetos, mensagens e limites de design sem a obrigação de pensar em classes"
+coverImage: /blog/images/go-oop.png
+---
+
+Programação Orientada a Objetos costuma ser apresentada como um conjunto de palavras familiares: classe, objeto, encapsulamento, herança, polimorfismo. 
+
+Essa apresentação é útil para uma primeira aproximação, mas também pode empobrecer o assunto. 
+
+Quando OOP é reduzida a uma técnica para criar classes, ela perde parte do seu valor como forma de pensar sistemas. O ponto mais interessante não está apenas em definir objetos, mas em observar como responsabilidades são distribuídas, como o estado é protegido, como uma parte do programa conversa com outra e como o sistema preserva alguma capacidade de mudança sem dissolver tudo em acoplamento.
+
+Go ocupa uma posição curiosa nessa conversa. A linguagem não possui classes, não possui herança clássica, não possui `implements` explícito e não tenta reproduzir diretamente o modelo de Java, C++ ou C#. Ainda assim, Go permite escrever código orientado a objetos em um sentido bastante prático: tipos possuem estado, métodos expressam comportamento, interfaces descrevem contratos e a composição permite montar estruturas maiores a partir de partes menores. Isso não significa que Go seja uma linguagem OOP no sentido tradicional. Significa apenas que certos princípios associados à OOP podem aparecer em Go quando eles ajudam a organizar o problema.
+
+> Certa feita, Rob Pike disse o seguinte: "O design de Go foca na composição em vez da herança. Interfaces em Go são ferramentas incrivelmente poderosas porque são satisfeitas implicitamente, permitindo que você escreva código mais limpo e desacoplado."
+
+Essa distinção é importante porque evita duas leituras igualmente vagas. A primeira é a leitura militante, segundo a qual todo bom software deveria ser orientado a objetos. A segunda é a leitura reativa, segundo a qual OOP seria apenas um legado de linguagens antigas e, portanto, irrelevante em Go. Nenhuma das duas ajuda muito. OOP pode ser uma lente útil para pensar em estado, comportamento, invariantes, fronteiras e colaboração. Também pode produzir abstrações desnecessárias, interfaces prematuras, camadas vazias e nomes genéricos que escondem mais do que revelam. O valor não está no rótulo, mas na qualidade dos limites que o código passa a ter.
+
+## O objeto como unidade de responsabilidade
+
+Um objeto, em sentido amplo, é uma unidade de software que combina algum estado com algum comportamento. Esse estado pode ser simples, como o saldo de uma cota bancária, ou mais rico, como os itens e o status de um pedido. O comportamento é o conjunto de operações que fazem sentido sobre esse estado. A ideia central é que determinados dados não deveriam ficar completamente expostos para qualquer parte do programa manipular de qualquer forma. Quando há regras a preservar, o objeto passa a ser um local possível para proteger essas regras.
+
+Em Go, essa unidade não nasce de uma classe, mas de um tipo. 
+
+Uma `struct` pode representar o estado, e métodos associados a esse tipo podem representar comportamento. A linguagem não exige que todo dado tenha métodos, nem que todo método esteja preso a uma hierarquia. Essa falta de cerimônia é relevante: ela força uma pergunta que às vezes fica escondida em linguagens mais orientadas a classes. O tipo precisa mesmo existir? Ele protege alguma regra? Ele melhora a leitura do domínio? Ou é apenas um recipiente de dados com nome bonito?
+
+Vamos tentar entender um pouco melhor este cenário. Considere uma conta bancária simplificada. 
+
+O saldo não deveria ser alterado diretamente por qualquer código, porque existem regras mínimas: não faz sentido depositar valor negativo, talvez não faça sentido sacar mais do que o saldo disponível e, em um sistema real, várias outras restrições apareceriam. 
+
+A modelagem abaixo não é um elogio à OOP; é apenas uma forma de concentrar uma pequena regra onde ela parece pertencer.
+
+```go
+package main
+
+import "fmt"
+
+type Account struct {
+	balance int64
+}
+
+func NewAccount() *Account {
+	return &Account{}
+}
+
+func (a *Account) Deposit(amount int64) error {
+	if amount <= 0 {
+		return fmt.Errorf("deposit amount must be positive")
+	}
+
+	a.balance += amount
+	return nil
+}
+
+func (a *Account) Withdraw(amount int64) error {
+	if amount <= 0 {
+		return fmt.Errorf("withdraw amount must be positive")
+	}
+
+	if amount > a.balance {
+		return fmt.Errorf("insufficient balance")
+	}
+
+	a.balance -= amount
+	return nil
+}
+
+func (a Account) Balance() int64 {
+	return a.balance
+}
+```
+
+O campo `balance` começa com letra minúscula, portanto não é exportado para fora do pacote. Esse detalhe é a base do encapsulamento em Go. Não há `private` como palavra-chave. Há uma regra de visibilidade simples: nomes iniciados com maiúscula são exportados; nomes iniciados com minúscula permanecem internos ao pacote. O resultado é que outro pacote não consegue fazer `account.balance = -100`. Ele precisa passar por `Deposit` ou `Withdraw`, e esses métodos podem recusar operações inválidas.
+
+O diagrama mental é este:
+
+```text
+Código externo
+     |
+     | chama Deposit ou Withdraw
+     v
++-----------------------------+
+| Account                     |
++-----------------------------+
+| - balance                   |
++-----------------------------+
+| + Deposit(amount)           |
+| + Withdraw(amount)          |
+| + Balance()                 |
++-----------------------------+
+     |
+     v
+ regras preservam o estado interno
+```
+
+Esse exemplo mostra uma forma simples de encapsulamento, mas também aponta uma tensão. Nem toda `struct` precisa esconder todos os seus campos. Em Go, é comum usar estruturas exportadas com campos exportados para transporte de dados, configuração ou respostas de API. Encapsulamento começa a importar quando existe comportamento associado ao estado, e especialmente quando há invariantes que o programa precisa manter verdadeiras. Se não há invariante, talvez uma `struct` simples seja suficiente. Se há invariante, expor tudo pode espalhar a regra por lugares demais.
+
+## Receivers e a decisão sobre mutabilidade
+
+Métodos em Go são funções com receiver. O receiver aparece entre a palavra `func` e o nome do método. Esse detalhe é pequeno na sintaxe, mas importante no modelo mental. Quando escrevemos `func (a *Account) Deposit(...)`, estamos dizendo que `Deposit` opera sobre uma `Account` específica. Quando escrevemos `func (a Account) Balance()`, estamos recebendo uma cópia do valor da `Account` para leitura.
+
+```go
+func (a *Account) Deposit(amount int64) error {
+	a.balance += amount
+	return nil
+}
+
+func (a Account) Balance() int64 {
+	return a.balance
+}
+```
+
+**Receiver por ponteiro:**
+
+- permite modificar o valor original;
+- utilizado quando o método altera estado.
+
+**Receiver por valor:**
+- recebe uma cópia a partir do valor original;
+- utilizado quando o método apenas lê dados de uma estrutura pequena. 
+
+Em entidades com ciclo de vida, como `Order`, `Account` ou `Contract`, é comum que boa parte dos métodos use ponteiro porque essas entidades mudam ao longo do tempo.
+
+```text
+---- Receiver por valor ----
+
+Account original ----cópia----> método lê a cópia
+      |
+      v
+permanece igual
+
+---- Receiver por ponteiro ----
+
+Account original <---------- método altera o mesmo valor
+```
+
+Esse mecanismo torna visível uma questão que OOP clássica às vezes encobre: objeto não é apenas uma "coisa" com métodos; é também uma **decisão sobre mutabilidade**. 
+
+Ao permitir que um método altere estado interno, o código cria um ponto controlado de mudança. Isso pode ser bom quando a mudança representa uma transição de domínio, como pagar um pedido. Também pode ser ruim quando objetos mutáveis passam a circular demais e qualquer fluxo pode afetar o estado de forma indireta. 
+
+OOP não elimina o problema da mutabilidade; ela apenas oferece uma forma de cercá-lo.
+
+## Encapsulamento como proteção de invariantes
+
+Encapsular não é criar `Get` e `Set` para todos os campos. Na verdade, getters e setters automáticos frequentemente anulam o próprio encapsulamento. Se um tipo possui `SetStatus`, e qualquer código pode chamar `order.SetStatus(OrderStatusPaid)`, então o objeto apenas trocou acesso direto por acesso indireto. A regra continua desprotegida.
+
+**Imagine o seguinte:** 
+
+- Um pedido aberto pode receber itens.
+- Um pedido pago talvez não possa mais receber itens. 
+- Um pedido sem itens não deveria ser pago. 
+
+Essas regras formam invariantes e transições válidas. A modelagem por métodos permite nomear ações do domínio, e não apenas mutações técnicas de campo.
+
+```go
+type OrderStatus string
+
+const (
+	OrderStatusOpen OrderStatus = "open"
+	OrderStatusPaid OrderStatus = "paid"
+)
+
+type Order struct {
+	id     string
+	items  []OrderItem
+	status OrderStatus
+}
+
+func NewOrder(id string) (*Order, error) {
+	if id == "" {
+		return nil, fmt.Errorf("order id is required")
+	}
+
+	return &Order{
+		id:     id,
+		status: OrderStatusOpen,
+		items:  make([]OrderItem, 0),
+	}, nil
+}
+
+func (o *Order) AddItem(item OrderItem) error {
+	if o.status != OrderStatusOpen {
+		return fmt.Errorf("cannot add item to a closed order")
+	}
+
+	o.items = append(o.items, item)
+	return nil
+}
+
+func (o Order) TotalAmount() int64 {
+	var total int64
+	for _, item := range o.items {
+		total += item.ItemAmount()
+	}
+	return total
+}
+```
+
+Nesse trecho, `AddItem` não é um detalhe acidental. Ele expressa uma regra: só se adiciona item quando o pedido está aberto. A ausência de `SetStatus` também é uma decisão. O status não é um dado qualquer; ele representa a situação do pedido no seu ciclo de vida. Alterá-lo deveria ser consequência de uma ação significativa, como pagar ou cancelar.
+
+```text
+Sem regra concentrada:
+
+qualquer código ---> order.status = "paid"
+               ---> order.items = nil
+               ---> order.total = -10
+
+Com regra concentrada:
+
+Order.AddItem(item)
+Order.Pay(payer)
+Order.Cancel()
+```
+
+Essa é uma das contribuições mais concretas da OOP para sistemas de negócio, onde é possível transformar algumas alterações de estado em operações nomeadas, verificáveis e localizadas. 
+
+> **Mas vale um ponto muito importante de atenção aqui**: Isso não garante bom design. Afinal, um tipo pode concentrar regra demais e virar um objeto excessivamente grande. Contudo, a alternativa de espalhar transições por todo o sistema também tem custo.
+
+## Contratos descobertos pelo uso
+
+Em Go, interfaces são satisfeitas implicitamente. Um tipo não declara que implementa uma interface. Se ele possui os métodos exigidos, ele satisfaz o contrato. Essa escolha muda a textura da orientação a objetos na linguagem. Em Java ou C++, é comum olhar para o tipo concreto e ver algo como `implements PaymentMethod`. Em Go, a interface costuma ser mais forte quando nasce do "lado consumidor", isto é, do código que precisa de uma capacidade específica.
+
+Imagine que `Order` recebe um meio de pagamento. O pedido não precisa conhecer PIX, cartão, boleto ou qualquer gateway de pagamento. Ele precisa apenas de algo capaz de pagar determinado valor.
+
+```go
+type Payer interface {
+	Pay(amount int64) error
+}
+```
+
+Agora qualquer tipo com esse método pode ser usado como `Payer`.
+
+```go
+type PIX struct {
+	key string
+}
+
+func (p PIX) Pay(amount int64) error {
+	if p.key == "" {
+		return fmt.Errorf("pix key is required")
+	}
+
+	fmt.Printf("PIX approved for %.2f\n", float64(amount)/100)
+	return nil
+}
+
+type CreditCard struct {
+	lastDigits string
+	limitCents int64
+}
+
+func (c CreditCard) Pay(amount int64) error {
+	if amount > c.limitCents {
+		return fmt.Errorf("insufficient limit")
+	}
+
+	fmt.Printf("credit card ending in %s approved\n", c.lastDigits)
+	return nil
+}
+```
+
+O polimorfismo aparece quando o pedido depende da interface, e não das implementações concretas.
+
+```go
+func (o *Order) Pay(payer Payer) error {
+	if o.status != OrderStatusOpen {
+		return fmt.Errorf("order is not open for payment")
+	}
+
+	if len(o.items) == 0 {
+		return fmt.Errorf("order without items cannot be paid")
+	}
+
+	if err := payer.Pay(o.TotalAmount()); err != nil {
+		return fmt.Errorf("failed to pay order: %w", err)
+	}
+
+	o.status = OrderStatusPaid
+	return nil
+}
+```
+
+O desenho pode ser representado assim:
+
+```text
+Order.Pay(payer Payer)
+             |
+             v
+        +----------+
+        | Payer    |
+        +----------+
+        | Pay()    |
+        +----------+
+             ^
+             |
+       +-----+------+
+       |            |
+       v            v
+     PIX        CreditCard
+```
+
+Esse tipo de abstração tem valor quando existe variação real ou fronteira relevante. Se o sistema só tem uma implementação, não há teste que precise substituí-la e não há dependência externa a isolar, a interface pode ser apenas uma camada a mais. 
+
+Interfaces pequenas ajudam porque carregam menos suposição. Uma interface como `Payer` comunica uma capacidade. Uma interface grande, como `PaymentSystem`, tende a obrigar implementações a conhecer operações que talvez não façam sentido para elas.
+
+```go
+type PaymentSystem interface {
+	Pay(amount int64) error
+	Refund(id string) error
+	Capture(id string) error
+	Cancel(id string) error
+	GenerateReport() ([]byte, error)
+	ConfigureWebhook(url string) error
+}
+```
+
+O problema aqui não é apenas tamanho. É direção de dependência. Uma interface assim parece ter sido desenhada a partir de uma solução imaginada, não de uma necessidade concreta de uso. 
+
+Em Go, a interface tende a ficar mais honesta quando o consumidor diz: "eu só preciso disso". Se o caso de uso só precisa pagar, o contrato deveria dizer apenas isso.
+
+## Composição no lugar de hierarquia
+
+Uma parte significativa da OOP popular foi construída em torno de herança. 
+
+A herança tenta organizar relações por "é um". Um cachorro é um animal, um gato é um animal, um pagamento por cartão é um pagamento, e assim por diante. Esse modelo pode funcionar quando a hierarquia é pequena, estável e realmente expressa o domínio. O problema é que sistemas mudam. A classificação que parecia natural no início passa a receber exceções, combinações e variações laterais.
+
+O exemplo clássico é o veículo (eu sei... tá tudo bem, hehehe).
+
+Um carro é um veículo. Um barco é um veículo. Um avião é um veículo. Até aparecer um carro anfíbio, ou um drone que transporta carga, ou qualquer outro caso que não se encaixe confortavelmente na árvore inicial. A pergunta "isso é um tipo de quê?" passa a ser menos útil do que "isso tem quais capacidades?".
+
+```text
+Hierarquia rígida:
+
+        Vehicle
+           |
+    +------+------+
+    |             |
+   Car          Boat
+
+Caso novo:
+
+  AmphibiousCar
+  "is" Car?
+  "is" Boat?
+  "is" both?
+
+Composição:
+
+  AmphibiousCar
+    "has" Engine
+    "has" Wheels
+    "has" NavigationAbility
+```
+
+Go evita a herança de classes e favorece composição. Um tipo pode conter outros tipos. Um caso de uso pode receber interfaces. Um domínio pode ser montado por relações de "tem" e "usa", em vez de depender de uma árvore de "é". Isso não resolve todos os problemas de modelagem, mas reduz uma fonte conhecida de acoplamento: a dependência de uma classe base que influencia toda a família abaixo dela.
+
+No exemplo do pedido, a composição é direta. Um pedido tem itens. Um item tem produto. Um pedido usa um `Payer`. Não há necessidade de criar `OrderPIX`, `OrderCreditCard`, `OrderOnline` ou `OrderPremium` como subtipos, a menos que exista uma razão muito concreta para isso.
+
+```text
++--------------------+
+| Order             |
++--------------------+
+| []OrderItem       |-----> OrderItem
+| OrderStatus       |
++--------------------+
+| Pay(Payer)     |-----> PIX / CreditCard / BankSlip
++--------------------+
+```
+
+Composição também conversa melhor com a ideia de sistemas. Um sistema não é apenas a soma das partes isoladas; ele se define pelas interações entre elas. Melhorar uma parte isoladamente pode não melhorar o todo. Às vezes, piora. Se a modelagem cria objetos muito autossuficientes, mas torna suas interações opacas, o sistema fica difícil de compreender. Por outro lado, se tudo depende de tudo, não há unidade real para raciocinar.
+
+O design está no equilíbrio: partes com responsabilidade suficiente para proteger suas regras, mas não tão fechadas que escondam o fluxo do sistema.
+
+## Mensagens, chamadas e a ideia original de OOP
+
+Alan Kay, ao falar sobre OOP, enfatizou ideias como mensageria, estado local protegido e *late binding*. Essa visão é mais ampla do que a imagem popular de OOP como classes com herança. O objeto não é interessante apenas pelo que contém, mas pelo modo como se comunica.
+
+Em Go, chamadas de método são síncronas e diretas na maior parte dos casos. Não se deve forçar uma leitura como se todo método fosse uma mensagem assíncrona no sentido do Modelo de Ator. Ainda assim, a ideia de contrato entre unidades permanece útil. Quando `Order` chama `payer.Pay`, ele não precisa saber qual objeto concreto recebeu a mensagem. Ele sabe apenas o que espera do contrato. Isso já cria um espaço entre as partes.
+
+```text
++----------+       mensagem/chamada       +----------+
+| Order   | ---------------------------> | Payer  |
++----------+                              +----------+
+| estado   |                              | Pay()  |
++----------+                              +----------+
+
+Order não precisa conhecer a implementação concreta.
+Payer precisa cumprir a expectativa do contrato.
+```
+
+O "espaço entre" (significado da palavra japonesa "Ma" mencionada por Alan Kay) é onde muita arquitetura acontece. Nomes, contratos, erros, efeitos colaterais e expectativas vivem ali. Uma interface pequena pode deixar esse espaço claro. Uma interface grande pode torná-lo confuso. Um método bem nomeado pode revelar uma intenção de domínio. Um método genérico como `Process` pode esconder uma decisão importante. Pensar em objetos sem pensar nas mensagens entre eles é como desenhar caixas sem desenhar setas.
+
+## Entidades, value objects e serviços: categorias úteis, não dogmas
+
+Em sistemas de negócio, algumas distinções ajudam a evitar que tudo vire apenas `struct`. Uma entidade possui identidade e ciclo de vida. Um pedido, uma conta ou um contrato continuam sendo a mesma entidade mesmo que alguns dados mudem. Um value object, por outro lado, é definido pelo valor. Dois emails com o mesmo texto representam o mesmo email. Dois valores monetários de `R$ 10,00` na mesma moeda são equivalentes enquanto valor, ainda que apareçam em contextos diferentes.
+
+Essa distinção afeta o design. Entidades tendem a ter métodos que controlam transições. Value objects tendem a ser pequenos, validados na criação e tratados como imutáveis. Um serviço de domínio aparece quando uma regra importante não pertence naturalmente a uma única entidade ou value object.
+
+```go
+type Money struct {
+	cents    int64
+	currency string
+}
+
+func NewMoney(cents int64, currency string) (Money, error) {
+	if currency == "" {
+		return Money{}, fmt.Errorf("currency is required")
+	}
+
+	return Money{cents: cents, currency: currency}, nil
+}
+
+func (m Money) Cents() int64 {
+	return m.cents
+}
+
+func (m Money) Currency() string {
+	return m.currency
+}
+```
+
+`Money` nesse exemplo não precisa de identidade. Ele não é "o `Money` número 123". Ele representa um valor. Já `Order` tem identidade e ciclo de vida. Esse tipo de separação impede que o domínio seja modelado apenas por conveniência técnica. Também reduz a tentação de criar serviços genéricos para tudo. Se a regra pertence a `Order`, talvez ela deva estar em `Order`. Se a regra calcula frete a partir de pedido, endereço, transportadora e prazo, talvez um serviço como `ShippingCalculator` seja mais honesto.
+
+```text
++-------------------+       +----------------------+
+| Order            | ----> | ShippingCalculator   |
++-------------------+       +----------------------+
+| items             |       | Calculate(order, zipCode) |
+| shippingAddress   |       +----------------------+
++-------------------+
+```
+
+O ponto não é criar uma taxonomia rígida. O ponto é melhorar a pergunta. Antes de criar um tipo, convém perguntar se ele representa uma entidade com identidade, um valor sem identidade, uma política, uma capacidade ou uma dependência técnica. Essa pergunta frequentemente vale mais do que aplicar mecanicamente os quatro pilares de OOP.
+
+## Acoplamento, coesão e a tentação da arquitetura teatral
+
+Dois termos continuam úteis para avaliar código orientado a objetos: acoplamento e coesão. 
+
+Acoplamento é o quanto uma parte depende de detalhes de outra. Coesão é o quanto as responsabilidades de uma unidade pertencem ao mesmo assunto. Um tipo `Order` que calcula total, controla status, conecta no banco, envia email, chama gateway HTTP e renderiza PDF tem baixa coesão e alto acoplamento. Ele sabe demais e muda por motivos demais.
+
+```text
+Order acoplado demais:
+
+Order
+  calcula total
+  altera status
+  conhece SQL
+  conhece SMTP
+  conhece gateway HTTP
+  conhece formato de PDF
+
+Order mais coeso:
+
+Order
+  calcula total
+  controla status
+  protege transições
+
+OrderRepository
+  salva e busca
+
+Notifier
+  envia mensagem
+
+Payer
+  autoriza cobrança
+```
+
+Mas há um risco no outro extremo. Ao tentar reduzir acoplamento, alguns projetos criam camadas sem conteúdo real. `OrderService` chama `OrderManager`, que chama `OrderProcessor`, que chama `OrderExecutor`, que finalmente chama `OrderRepository`. A intenção aparente é organização; o efeito real pode ser dispersão. O leitor precisa atravessar várias classes ou structs para encontrar uma regra simples.
+
+```text
+Arquitetura teatral:
+
+OrderService
+  -> OrderManager
+     -> OrderProcessor
+        -> OrderExecutor
+           -> OrderRepository
+
+Possível forma mais direta:
+
+PayOrder
+  -> OrderRepository
+  -> Payer
+```
+
+Esse é um dos pontos em que uma abordagem não incentivadora é necessária. OOP não deve ser usada para dar aparência arquitetural a um fluxo trivial. Também não deve ser descartada quando há estado importante e regras reais. A pergunta central não é "isso está orientado a objetos?", mas "as responsabilidades estão onde deveriam estar, com dependências compreensíveis e mudança localizada?".
+
+## Testabilidade sem culto a interfaces
+
+Um argumento frequente a favor de interfaces é a testabilidade. Ele é válido, mas incompleto.
+
+Interfaces permitem substituir dependências externas por implementações falsas, o que facilita testes de unidade. 
+
+No exemplo do pagamento, um teste de `Order.Pay` não precisa chamar um gateway. Ele pode passar um `Payer` fictício.
+
+```go
+type FakePayer struct {
+	Err error
+}
+
+func (p FakePayer) Pay(amount int64) error {
+	return p.Err
+}
+```
+
+O teste passa a observar a regra do pedido, não o funcionamento de uma API externa.
+
+```text
+Teste de unidade
+     |
+     v
+Order.Pay()
+     |
+     v
+FakePayer
+
+Sem rede, sem banco, sem gateway.
+```
+
+O cuidado é que testabilidade não justifica interface para tudo. Se cada *struct* concreta ganha uma interface correspondente antes de existir variação, o código pode ficar mais difícil de navegar. A interface deixa de ser um contrato de uso e vira um reflexo burocrático do tipo concreto. Em Go, isso costuma aparecer em nomes como `ProductServiceInterface`, com os mesmos métodos de `ProductService`. 
+
+> **A pergunta adequada é simples**: quem consome precisa de uma abstração menor do que a implementação concreta? 
+
+Se a resposta for sim, a interface pode ajudar. Do contrário, talvez ela esteja apenas antecipando uma necessidade que ainda não existe.
+
+## Um exemplo integrado
+
+O trecho abaixo junta os pontos discutidos em uma versão pequena do domínio de pedidos. 
+
+Ele não pretende ser uma arquitetura completa. A intenção é mostrar como `struct`, métodos, interfaces e composição podem representar uma parte do domínio sem herança e sem excesso de camadas.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+type OrderStatus string
+
+const (
+	OrderStatusOpen OrderStatus = "open"
+	OrderStatusPaid OrderStatus = "paid"
+)
+
+type Product struct {
+	Name       string
+	PriceCents int64
+}
+
+type OrderItem struct {
+	product  Product
+	quantity int
+}
+
+func NewOrderItem(product Product, quantity int) (OrderItem, error) {
+	if quantity <= 0 {
+		return OrderItem{}, fmt.Errorf("quantity must be greater than zero")
+	}
+
+	if product.PriceCents <= 0 {
+		return OrderItem{}, fmt.Errorf("product price must be greater than zero")
+	}
+
+	return OrderItem{product: product, quantity: quantity}, nil
+}
+
+func (i OrderItem) ItemAmount() int64 {
+	return i.product.PriceCents * int64(i.quantity)
+}
+
+type Payer interface {
+	Pay(amountCents int64) error
+}
+
+type Order struct {
+	id     string
+	items  []OrderItem
+	status OrderStatus
+}
+
+func NewOrder(id string) (*Order, error) {
+	if id == "" {
+		return nil, fmt.Errorf("order id is required")
+	}
+
+	return &Order{id: id, status: OrderStatusOpen}, nil
+}
+
+func (o *Order) AddItem(item OrderItem) error {
+	if o.status != OrderStatusOpen {
+		return fmt.Errorf("order does not accept new items with status %s", o.status)
+	}
+
+	o.items = append(o.items, item)
+	return nil
+}
+
+func (o Order) TotalAmount() int64 {
+	var total int64
+	for _, item := range o.items {
+		total += item.ItemAmount()
+	}
+	return total
+}
+
+func (o *Order) Pay(payer Payer) error {
+	if o.status != OrderStatusOpen {
+		return fmt.Errorf("order is not open")
+	}
+
+	if len(o.items) == 0 {
+		return fmt.Errorf("order without items cannot be paid")
+	}
+
+	if err := payer.Pay(o.TotalAmount()); err != nil {
+		return fmt.Errorf("payment declined: %w", err)
+	}
+
+	o.status = OrderStatusPaid
+	return nil
+}
+
+type PIX struct {
+	key string
+}
+
+func (p PIX) Pay(amountCents int64) error {
+	if p.key == "" {
+		return fmt.Errorf("pix key is required")
+	}
+
+	fmt.Printf("PIX approved: %.2f\n", float64(amountCents)/100)
+	return nil
+}
+
+func main() {
+	order, err := NewOrder("ORD-001")
+	if err != nil {
+		panic(err)
+	}
+
+	item, err := NewOrderItem(Product{Name: "Go Book", PriceCents: 8990}, 1)
+	if err != nil {
+		panic(err)
+	}
+
+	if err := order.AddItem(item); err != nil {
+		panic(err)
+	}
+
+	if err := order.Pay(PIX{key: "customer@example.com"}); err != nil {
+		panic(err)
+	}
+}
+```
+
+No exemplo acima, podemos observar que a orientação a objetos aparece como organização de responsabilidades, não como estética de linguagem. `Order` protege seu ciclo de vida, `OrderItem` sabe calcular seu subtotal, `Payer` expressa uma capacidade externa e `PIX` é apenas uma implementação possível dessa capacidade.
+
+## Pensamento final
+
+Em Go, OOP não deve ser vista como regra, mas como repertório de design. Seu valor aparece quando ajuda a proteger regras, organizar responsabilidades e tornar mudanças mais compreensíveis. 
+
+Interfaces, métodos e composição só importam quando esclarecem o domínio, não quando criam cerimônia.   
+
+A ausência de classes força uma pergunta mais madura: qual limite este código realmente precisa?  
+
+No fim, bons paradigmas não substituem pensamento; apenas oferecem formas melhores de praticá-lo.
+
+## Referências
+
+- https://go.dev/ref/spec
+- https://go.dev/doc/effective_go
