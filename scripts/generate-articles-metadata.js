@@ -44,6 +44,7 @@ async function generateArticlesMetadata() {
         tags: frontmatter.tags ?? existing.tags ?? [],
         readTime: frontmatter.readTime ?? existing.readTime ?? 5,
         featured: frontmatter.featured ?? existing.featured ?? false,
+        draft: frontmatter.draft ?? existing.draft ?? false,
       };
 
       fs.writeFileSync(outputPath, JSON.stringify(metadata, null, 2), "utf8");

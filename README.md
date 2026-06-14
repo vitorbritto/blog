@@ -84,13 +84,15 @@ O JSON guarda os dados compartilhados entre idiomas:
   "tracks": [],
   "tags": [],
   "readTime": 5,
-  "featured": false
+  "featured": false,
+  "draft": false
 }
 ```
 
 `getArticleBySlug` carrega a metadata, procura as duas traduções e usa uma tradução como
 fallback caso a outra não exista. A listagem da home é ordenada por `date`, do artigo mais
-recente para o mais antigo.
+recente para o mais antigo. Artigos com `"draft": true` ficam fora das listagens públicas e
+da rota pública do artigo.
 
 ## Idiomas
 

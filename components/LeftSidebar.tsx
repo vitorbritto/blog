@@ -6,6 +6,7 @@ import { Article } from '@/lib/types/content'
 import { useLanguage } from '@/lib/hooks/useLanguage'
 import { useTranslation } from '@/lib/hooks/useTranslation'
 import { getTranslatedArticle } from '@/lib/i18n'
+import { formatArticleArchiveMonth, getArticleArchiveMonthKey } from '@/lib/date'
 
 interface LeftSidebarProps {
   articles: Article[]
@@ -21,24 +22,19 @@ function groupArticlesByMonth(articles: Article[], locale: string): ArchiveGroup
   const groups = new Map<string, Article[]>()
 
   for (const article of articles) {
-    if (!article.date) continue
-    const date = new Date(article.date)
-    if (isNaN(date.getTime())) continue
-    const key = `${date.getUTCFullYear()}-${String(date.getUTCMonth()).padStart(2, '0')}`
+    const key = getArticleArchiveMonthKey(article.date)
+    if (!key) continue
     if (!groups.has(key)) groups.set(key, [])
     groups.get(key)!.push(article)
   }
 
-  const formatter = new Intl.DateTimeFormat(locale, { month: 'long', year: 'numeric' })
-
   return Array.from(groups.entries())
     .sort(([a], [b]) => (a < b ? 1 : -1))
     .map(([key, items]) => {
-      const [year, month] = key.split('-').map(Number)
-      const label = formatter.format(new Date(Date.UTC(year, month, 1)))
+      const label = formatArticleArchiveMonth(key, locale) ?? key
       return {
         key,
-        label: label.charAt(0).toUpperCase() + label.slice(1),
+        label,
         articles: items.sort((a, b) =>
           new Date(b.date).getTime() - new Date(a.date).getTime()
         )

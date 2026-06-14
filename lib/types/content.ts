@@ -17,6 +17,7 @@ export type Article = {
   tags?: string[];
   readTime: number;
   featured?: boolean;
+  draft?: boolean;
   translations: {
     en: ArticleTranslation;
     "pt-BR": ArticleTranslation;

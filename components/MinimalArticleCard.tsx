@@ -6,6 +6,7 @@ import { useLanguage } from '@/lib/hooks/useLanguage'
 import { useTranslation } from '@/lib/hooks/useTranslation'
 import { getTranslatedArticle } from '@/lib/i18n'
 import { Article } from '@/lib/types/content'
+import { formatArticleDate } from '@/lib/date'
 
 interface MinimalArticleCardProps {
   article: Article
@@ -45,18 +46,7 @@ export function MinimalArticleCard({ article }: MinimalArticleCardProps) {
   const { translateCategory, t } = useTranslation()
   const translatedArticle = getTranslatedArticle(article, language)
 
-  const formatDate = (dateString?: string) => {
-    if (!dateString) return null
-    const date = new Date(dateString)
-    if (isNaN(date.getTime())) return null
-    return date.toLocaleDateString(language === 'en' ? 'en-US' : 'pt-BR', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    })
-  }
-
-  const formattedDate = formatDate(article.date)
+  const formattedDate = formatArticleDate(article.date, language === 'en' ? 'en-US' : 'pt-BR')
   const contentPreview = getContentPreview(translatedArticle.content)
   const topicSlug = article.categories[0]
   const topicName = topicSlug ? translateCategory(topicSlug) : null

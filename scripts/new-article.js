@@ -23,6 +23,7 @@ Options:
   --date <yyyy-mm-dd>       Publication date. Defaults to today.
   --read-time <minutes>     Estimated read time. Defaults to 5.
   --featured                Mark article as featured.
+  --draft                   Mark article as draft.
   --help                    Show this help message.
 
 Examples:
@@ -38,6 +39,7 @@ function parseArgs(argv) {
     tags: [],
     tracks: [],
     featured: false,
+    draft: false,
     readTime: 5,
     date: new Date().toISOString().split("T")[0],
   };
@@ -57,6 +59,11 @@ function parseArgs(argv) {
 
     if (arg === "--featured") {
       options.featured = true;
+      continue;
+    }
+
+    if (arg === "--draft") {
+      options.draft = true;
       continue;
     }
 
@@ -209,6 +216,7 @@ function buildMetadata(options) {
     tags: unique(options.tags),
     readTime: options.readTime,
     featured: options.featured,
+    draft: options.draft,
   };
 }
 

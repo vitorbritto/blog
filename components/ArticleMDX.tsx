@@ -81,6 +81,7 @@ export function ArticleMDX() {
       prose-code:text-emerald-400 prose-code:bg-zinc-800 prose-code:px-1 prose-code:py-0.5 prose-code:rounded
       prose-pre:bg-zinc-900 prose-pre:border prose-pre:border-zinc-800
       prose-blockquote:text-zinc-300 prose-blockquote:border-zinc-700
+      [&_blockquote_p:first-of-type::before]:content-none [&_blockquote_p:last-of-type::after]:content-none
       prose-li:text-zinc-200 prose-ul:text-zinc-200 prose-ol:text-zinc-200"
     >
       <MDXRemote {...mdxSource} components={components} />
