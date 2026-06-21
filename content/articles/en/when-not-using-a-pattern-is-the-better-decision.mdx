@@ -1,0 +1,356 @@
+---
+title: "When not using a Pattern is the better decision"
+excerpt: "Not every problem needs a Design Pattern. This article explores when patterns help, when they become complexity, and why sometimes the best decision is to choose simplicity.
+"
+coverImage: "/assets/images/patterns.png"
+---
+
+Design Patterns emerged in a context where software engineering lacked established solutions for recurring design problems. Today, however, programming languages and paradigms have evolved, and the application of these patterns requires careful judgment.
+
+They are not always indispensable; in some scenarios, patterns may signal patches rather than robust native designs. However, when properly applied, they are still relevant tools for ensuring maintainability and communication.
+
+## Historical Context and Motivation
+
+In the 1990s, the growing complexity of object-oriented software revealed the need for structured solutions to recurring problems.
+
+In 1994, Erich Gamma, Richard Helm, Ralph Johnson, and John Vlissides, known as the Gang of Four, published "Design Patterns: Elements of Reusable Object-Oriented Software". The book cataloged 23 patterns, each representing a proven solution. The main motivation was to create a common vocabulary among developers, providing a shared language for describing solutions.
+
+In addition, the goal was to promote code reuse and improve maintainability, preventing each team from reinventing the wheel.
+
+Thus, patterns emerged as a practical response to the growing need to organize, standardize, and document recurring solutions in software design.
+
+## Evolution and Impact
+
+When Design Patterns were conceived in the 1990s, they emerged to solve practical limitations of object orientation. But what about now, with the tools we have at hand? Today, evolved programming languages offer features such as higher-order functions and functional programming, which reduce the need for some of the older patterns. If you program in Go, for example, you have probably noticed how simplicity and explicit composition replace excessive abstractions.
+
+However, this does not mean that patterns have disappeared. They have evolved alongside the way we build software. In some cases, they are no longer essential. In others, they remain important, but adapted to new paradigms. So, when you encounter a pattern, think about its context. What used to be indispensable may now be a conscious choice, or even an optional alternative.
+
+## Conscious Use
+
+Even with the evolution of programming languages, Design Patterns have not disappeared. What has changed is the way we should interpret them. In modern languages, especially in Go, design patterns should not be applied as rigid structures inherited from classic object orientation. They should be used as targeted tools to solve real problems involving coupling, variation, integration, and component creation.
+
+**In Go, this discussion gains a particular characteristic. The language does not offer macros like Lisp, nor does it encourage complex inheritance-based hierarchies.**
+
+Instead, Go favors composition, small interfaces, explicit functions, and direct code. This simplicity reduces the need for some traditional patterns, especially when they are used only to introduce artificial layers of abstraction. However, this does not mean that patterns are useless in Go. It only means they need to be reinterpreted idiomatically.
+
+### Adapter Pattern
+
+A clear example is the **Adapter** pattern. In real systems, it is common to integrate external APIs, SDKs, third-party services, or providers that have contracts different from the application's internal model. In these cases, the Adapter is useful because it isolates the external dependency and protects the rest of the system from changes in the provider's contract.
+
+Imagine that the application internally works with a simple address model:
+
+```go
+type Address struct {
+	ZipCode string
+	Street  string
+	City    string
+	State   string
+}
+```
+
+The application domain does not need to know the external SDK directly. It can depend on a small and stable internal interface:
+
+```go
+type AddressProvider interface {
+	FindAddress(ctx context.Context, zipCode string) (Address, error)
+}
+```
+
+Now imagine that the external service has a different contract, with different names and structures:
+
+```go
+type ExternalZipCodeResponse struct {
+	CEP        string
+	Logradouro string
+	Localidade string
+	UF         string
+}
+
+type ExternalZipCodeClient struct{}
+
+func (c ExternalZipCodeClient) GetAddressByCEP(
+	ctx context.Context,
+	cep string,
+) (ExternalZipCodeResponse, error) {
+	return ExternalZipCodeResponse{
+		CEP:        cep,
+		Logradouro: "Rua das Flores",
+		Localidade: "São Paulo",
+		UF:         "SP",
+	}, nil
+}
+```
+
+The Adapter exists precisely to translate the external contract into the internal contract:
+
+```go
+type ZipCodeClientAdapter struct {
+	client ExternalZipCodeClient
+}
+
+func NewZipCodeClientAdapter(client ExternalZipCodeClient) ZipCodeClientAdapter {
+	return ZipCodeClientAdapter{
+		client: client,
+	}
+}
+
+func (a ZipCodeClientAdapter) FindAddress(
+	ctx context.Context,
+	zipCode string,
+) (Address, error) {
+	response, err := a.client.GetAddressByCEP(ctx, zipCode)
+	if err != nil {
+		return Address{}, err
+	}
+
+	return Address{
+		ZipCode: response.CEP,
+		Street:  response.Logradouro,
+		City:    response.Localidade,
+		State:   response.UF,
+	}, nil
+}
+```
+
+With this, the rest of the application continues to depend on `AddressProvider`, not on the external client. If tomorrow the provider changes its fields, endpoint, library, or response format, the impact tends to remain concentrated in the adapter. This is a legitimate use of a Design Pattern in Go: it reduces real coupling and protects an unstable boundary of the system.
+
+### Strategy Pattern
+
+Another pattern that remains relevant is **Strategy**.
+
+It makes sense when the application has interchangeable algorithms.
+
+A common example is shipping calculation. The system's main rule should not need to know the details of each carrier, nor should it carry an ever-growing sequence of `if`, `else`, or `switch` statements for every new possibility.
+
+We can start by defining a common contract for shipping calculation:
+
+```go
+type Order struct {
+	ID       string
+	Total   int64
+	Weight  float64
+	ZipCode string
+}
+
+type ShippingQuote struct {
+	Carrier string
+	Price   int64
+	Days    int
+}
+
+type ShippingStrategy interface {
+	Calculate(order Order) (ShippingQuote, error)
+}
+```
+
+Each algorithm is then implemented separately:
+
+```go
+type CorreiosShipping struct{}
+
+func (s CorreiosShipping) Calculate(order Order) (ShippingQuote, error) {
+	basePrice := int64(1500)
+	priceByWeight := int64(order.Weight * 300)
+
+	return ShippingQuote{
+		Carrier: "Correios",
+		Price:   basePrice + priceByWeight,
+		Days:    5,
+	}, nil
+}
+```
+
+Another carrier may have its own rule:
+
+```go
+type PapaleguasShipping struct{}
+
+func (s PapaleguasShipping) Calculate(order Order) (ShippingQuote, error) {
+	basePrice := int64(2000)
+	priceByWeight := int64(order.Weight * 250)
+
+	return ShippingQuote{
+		Carrier: "Papaleguas",
+		Price:   basePrice + priceByWeight,
+		Days:    3,
+	}, nil
+}
+```
+
+And a third strategy may represent store pickup:
+
+```go
+type StorePickupShipping struct{}
+
+func (s StorePickupShipping) Calculate(order Order) (ShippingQuote, error) {
+	return ShippingQuote{
+		Carrier: "Store pickup",
+		Price:   0,
+		Days:    0,
+	}, nil
+}
+```
+
+The main service now depends only on the received strategy:
+
+```go
+type ShippingService struct {
+	strategy ShippingStrategy
+}
+
+func NewShippingService(strategy ShippingStrategy) ShippingService {
+	return ShippingService{
+		strategy: strategy,
+	}
+}
+
+func (s ShippingService) Quote(order Order) (ShippingQuote, error) {
+	return s.strategy.Calculate(order)
+}
+```
+
+This design allows new calculation methods to be added without changing the main flow. Instead of the central code knowing each carrier, it only knows the `ShippingStrategy` contract. In Go, this is especially idiomatic because interfaces are implicit. A struct does not need to declare that it implements an interface; it only needs to have the expected methods. This reduces ceremony and keeps the pattern lighter.
+
+### Factory Pattern
+
+The **Factory** pattern makes sense when creating a component involves some decision, configuration, or specific dependency. However, in Go, we cannot reproduce the classic Factory Method structure from object-oriented programming. Often, a well-defined creation function solves the problem more simply.
+
+Consider a payment system where the application needs to choose between PIX, credit card, and boleto:
+
+```go
+type PaymentMethod string
+
+const (
+	PaymentMethodPix        PaymentMethod = "pix"
+	PaymentMethodCreditCard PaymentMethod = "credit_card"
+	PaymentMethodBoleto     PaymentMethod = "boleto"
+)
+```
+
+We can define a common interface for all "payment processors":
+
+```go
+type Charge struct {
+	ID          string
+	Amount     int64
+	CustomerID string
+}
+
+type Receipt struct {
+	TransactionID string
+	Status        string
+	Method        PaymentMethod
+}
+
+type PaymentProcessor interface {
+	Pay(ctx context.Context, charge Charge) (Receipt, error)
+}
+```
+
+Each payment method has its own implementation:
+
+```go
+type PixProcessor struct {
+	apiKey string
+}
+
+func (p PixProcessor) Pay(ctx context.Context, charge Charge) (Receipt, error) {
+	return Receipt{
+		TransactionID: "pix-tx-123",
+		Status:        "paid",
+		Method:        PaymentMethodPix,
+	}, nil
+}
+```
+
+```go
+type CreditCardProcessor struct {
+	apiKey string
+}
+
+func (p CreditCardProcessor) Pay(ctx context.Context, charge Charge) (Receipt, error) {
+	return Receipt{
+		TransactionID: "card-tx-456",
+		Status:        "paid",
+		Method:        PaymentMethodCreditCard,
+	}, nil
+}
+```
+
+```go
+type BoletoProcessor struct {
+	apiKey string
+}
+
+func (p BoletoProcessor) Pay(ctx context.Context, charge Charge) (Receipt, error) {
+	return Receipt{
+		TransactionID: "boleto-tx-789",
+		Status:        "pending",
+		Method:        PaymentMethodBoleto,
+	}, nil
+}
+```
+
+The Factory centralizes the decision of which implementation should be created:
+
+```go
+type PaymentConfig struct {
+	APIKey string
+}
+
+func NewPaymentProcessor(
+	method PaymentMethod,
+	config PaymentConfig,
+) (PaymentProcessor, error) {
+	switch method {
+	case PaymentMethodPix:
+		return PixProcessor{
+			apiKey: config.APIKey,
+		}, nil
+
+	case PaymentMethodCreditCard:
+		return CreditCardProcessor{
+			apiKey: config.APIKey,
+		}, nil
+
+	case PaymentMethodBoleto:
+		return BoletoProcessor{
+			apiKey: config.APIKey,
+		}, nil
+
+	default:
+		return nil, errors.New("unsupported payment method")
+	}
+}
+```
+
+This use of a "Factory" avoids spreading `switch` statements, configuration details, and construction logic across multiple parts of the system. The application starts working with `PaymentProcessor`, while the concrete creation decision remains concentrated in a single place.
+
+The important point is that, in Go, Design Patterns should emerge from the needs of the code, not from the intention to reproduce the classic catalog.
+
+## Patterns and Their Limits
+
+When discussing the limits of design pattern usage, we should consider a few points.
+
+Paul Graham, in ["Revenge of the Nerds" (2002)](https://paulgraham.com/icad.html), argued that the use of patterns suggests that the language does not provide enough native abstractions, forcing the developer to manually expand implicit macros. Peter Norvig, in ["Design Patterns in Dynamic Languages" (1998)](https://norvig.com/design-patterns/design-patterns.pdf), demonstrated that 16 of the 23 patterns from the Gang of Four book are simplified or unnecessary in Lisp, because powerful macros and abstractions solve those problems directly.
+
+Therefore, it is essential to reflect: in a language like Go, which already favors simplicity and composition, certain patterns can become unnecessary layers. The point is not to abolish patterns, but to recognize when they truly add value. If the problem is clarity, extensibility, or maintenance, patterns such as Adapter, Strategy, or Factory can be applied. But if the language already offers a direct path, simplicity should be prioritized. Ultimately, discernment lies in knowing when a pattern solves a real problem and when it merely adds unnecessary complexity.
+
+## Final Thoughts
+
+Design Patterns emerged to address real problems, but their use requires discernment.
+
+In modern languages, such as Go, patterns are not always the best choice. What matters is evaluating the context:
+
+* when they provide flexibility, clarity, or extensibility, they are valuable;
+* when they introduce unnecessary complexity, the simplicity of the language should prevail.
+
+The good use of patterns consists in knowing when to apply them and, above all, when not to apply them.
+
+## References
+
+- https://refactoring.guru/design-patterns
+- https://paulgraham.com/icad.html
+- https://paulgraham.com/icadmore.html
+- https://norvig.com/design-patterns/design-patterns.pdf
+- https://www.patterns.dev/

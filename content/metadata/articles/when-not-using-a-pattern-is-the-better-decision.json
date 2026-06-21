@@ -1,0 +1,21 @@
+{
+  "slug": "when-not-using-a-pattern-is-the-better-decision",
+  "coverImage": "/blog/images/design-patterns.png",
+  "date": "2026-06-21",
+  "categories": [
+    "programming",
+    "architecture"
+  ],
+  "tracks": [
+    "Software Design"
+  ],
+  "tags": [
+    "Design Patterns",
+    "Software Design",
+    "Design Principles",
+    "Go"
+  ],
+  "readTime": 7,
+  "featured": false,
+  "draft": false
+}

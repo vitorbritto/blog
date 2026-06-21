@@ -1,0 +1,363 @@
+---
+title: "Quando não usar um padrão é a melhor decisão"
+excerpt: "Nem todo problema precisa de um Design Pattern. Este artigo discute quando padrões ajudam, quando viram complexidade e por que, às vezes, a melhor decisão é escolher a simplicidade.
+"
+coverImage: "/assets/images/design-patterns.png"
+---
+
+Os Design Patterns surgiram em um contexto em que a engenharia de software carecia de soluções consagradas para problemas recorrentes de projeto. Hoje, no entanto, as linguagens e paradigmas evoluíram, e a aplicação desses padrões exige ponderação.
+
+Nem sempre são indispensáveis; em alguns cenários, padrões podem sinalizar remendos em vez de projetos nativos robustos. Porém, quando bem aplicados, ainda são ferramentas relevantes para garantir manutenibilidade e comunicação.
+
+## Contexto histórico e a motivação
+
+Na década de 1990, a complexidade crescente do software orientado a objetos evidenciou a necessidade de soluções estruturadas para problemas recorrentes. 
+
+Em 1994, Erich Gamma, Richard Helm, Ralph Johnson e John Vlissides, conhecidos como a Gang of Four, publicaram "Design Patterns: Elements of Reusable Object-Oriented Software". O livro catalogou 23 padrões, cada um representando uma solução já testada. A motivação principal era criar um vocabulário comum entre desenvolvedores, proporcionando uma linguagem compartilhada para descrever soluções. 
+
+Além disso, buscava-se promover a reutilização de código e melhorar a manutenibilidade, evitando que cada equipe reinventasse a roda. 
+
+Assim, os padrões surgiram como uma resposta prática à crescente necessidade de organizar, padronizar e documentar soluções recorrentes no design de software.
+
+## Evolução e impacto
+
+Quando os Design Patterns foram concebidos na década de 1990, eles surgiram para resolver limitações práticas da orientação a objetos. 
+
+Mas e agora, com as ferramentas que temos em mãos? 
+
+Hoje, linguagens evoluídas oferecem recursos como funções de ordem superior e programação funcional, que reduzem a necessidade de alguns dos antigos padrões. Se você programa em Go, por exemplo, já deve ter percebido como a simplicidade e a composição explícita substituem abstrações excessivas.
+
+No entanto, não é que os padrões tenham desaparecido. Eles evoluíram junto com o modo como construímos software. Em alguns casos, deixaram de ser essenciais. Em outros, ainda são importantes, mas adaptados a novos paradigmas. Então, quando você se depara com um padrão, pense no seu contexto. O que antes era indispensável pode agora ser uma escolha consciente ou até uma alternativa opcional.
+
+## Uso consciente
+
+Mesmo diante da evolução das linguagens de programação, os Design Patterns não desapareceram. O que mudou foi a forma como devemos interpretá-los.
+
+Em linguagens modernas, especialmente em Go, padrões de projeto não devem ser aplicados como estruturas rígidas herdadas da orientação a objetos clássica. Eles devem ser usados como ferramentas pontuais para resolver problemas reais de acoplamento, variação, integração e criação de componentes.
+
+**Em Go, essa discussão ganha uma característica própria. A linguagem não oferece macros como Lisp, nem incentiva hierarquias complexas baseadas em herança.** 
+
+Em vez disso, Go privilegia composição, interfaces pequenas, funções explícitas e código direto. Essa simplicidade reduz a necessidade de alguns padrões tradicionais, principalmente quando eles são usados apenas para introduzir camadas artificiais de abstração. Porém, isso não significa que padrões sejam inúteis em Go. Significa apenas que eles precisam ser reinterpretados de forma idiomática.
+
+### Padrão Adapter
+
+Um exemplo claro é o padrão **Adapter**. Em sistemas reais, é comum integrar APIs externas, SDKs, serviços de terceiros ou provedores que possuem contratos diferentes do modelo interno da aplicação. Nesses casos, o Adapter é útil porque isola a dependência externa e protege o restante do sistema contra mudanças no contrato do provider.
+
+Imagine que a aplicação trabalhe internamente com um modelo simples de endereço:
+
+```go
+type Address struct {
+	ZipCode string
+	Street  string
+	City    string
+	State   string
+}
+```
+
+O domínio da aplicação não precisa conhecer diretamente o SDK externo. Ele pode depender de uma interface interna, pequena e estável:
+
+```go
+type AddressProvider interface {
+	FindAddress(ctx context.Context, zipCode string) (Address, error)
+}
+```
+
+Agora imagine que o serviço externo tenha outro contrato, com nomes e estruturas diferentes:
+
+```go
+type ExternalZipCodeResponse struct {
+	CEP        string
+	Logradouro string
+	Localidade string
+	UF         string
+}
+
+type ExternalZipCodeClient struct{}
+
+func (c ExternalZipCodeClient) GetAddressByCEP(
+	ctx context.Context,
+	cep string,
+) (ExternalZipCodeResponse, error) {
+	return ExternalZipCodeResponse{
+		CEP:        cep,
+		Logradouro: "Rua das Flores",
+		Localidade: "São Paulo",
+		UF:         "SP",
+	}, nil
+}
+```
+
+O Adapter entra justamente para traduzir o contrato externo para o contrato interno:
+
+```go
+type ZipCodeClientAdapter struct {
+	client ExternalZipCodeClient
+}
+
+func NewZipCodeClientAdapter(client ExternalZipCodeClient) ZipCodeClientAdapter {
+	return ZipCodeClientAdapter{
+		client: client,
+	}
+}
+
+func (a ZipCodeClientAdapter) FindAddress(
+	ctx context.Context,
+	zipCode string,
+) (Address, error) {
+	response, err := a.client.GetAddressByCEP(ctx, zipCode)
+	if err != nil {
+		return Address{}, err
+	}
+
+	return Address{
+		ZipCode: response.CEP,
+		Street:  response.Logradouro,
+		City:    response.Localidade,
+		State:   response.UF,
+	}, nil
+}
+```
+
+Com isso, o restante da aplicação continua dependendo de `AddressProvider`, e não do client externo. Se amanhã o provider mudar os campos, o endpoint, a biblioteca ou o formato da resposta, o impacto tende a ficar concentrado no adapter. Esse é um uso legítimo de Design Pattern em Go: ele reduz acoplamento real e protege uma fronteira instável do sistema.
+
+### Padrão Strategy
+
+Outro padrão que continua relevante é o **Strategy**. 
+
+Ele faz sentido quando a aplicação possui algoritmos intercambiáveis. 
+
+Um exemplo comum é o cálculo de frete. A regra principal do sistema não deveria saber os detalhes de cada transportadora, nem carregar uma sequência crescente de `if`, `else` ou `switch` para cada nova possibilidade.
+
+Podemos começar definindo um contrato comum para cálculo de frete:
+
+```go
+type Order struct {
+	ID       string
+	Total   int64
+	Weight  float64
+	ZipCode string
+}
+
+type ShippingQuote struct {
+	Carrier string
+	Price   int64
+	Days    int
+}
+
+type ShippingStrategy interface {
+	Calculate(order Order) (ShippingQuote, error)
+}
+```
+
+Cada algoritmo passa a ser implementado separadamente:
+
+```go
+type CorreiosShipping struct{}
+
+func (s CorreiosShipping) Calculate(order Order) (ShippingQuote, error) {
+	basePrice := int64(1500)
+	priceByWeight := int64(order.Weight * 300)
+
+	return ShippingQuote{
+		Carrier: "Correios",
+		Price:   basePrice + priceByWeight,
+		Days:    5,
+	}, nil
+}
+```
+
+Outra transportadora pode ter sua própria regra:
+
+```go
+type PapaleguasShipping struct{}
+
+func (s PapaleguasShipping) Calculate(order Order) (ShippingQuote, error) {
+	basePrice := int64(2000)
+	priceByWeight := int64(order.Weight * 250)
+
+	return ShippingQuote{
+		Carrier: "Papaleguas",
+		Price:   basePrice + priceByWeight,
+		Days:    3,
+	}, nil
+}
+```
+
+E uma terceira estratégia pode representar retirada na loja:
+
+```go
+type StorePickupShipping struct{}
+
+func (s StorePickupShipping) Calculate(order Order) (ShippingQuote, error) {
+	return ShippingQuote{
+		Carrier: "Retirada na loja",
+		Price:   0,
+		Days:    0,
+	}, nil
+}
+```
+
+O serviço principal passa a depender apenas da estratégia recebida:
+
+```go
+type ShippingService struct {
+	strategy ShippingStrategy
+}
+
+func NewShippingService(strategy ShippingStrategy) ShippingService {
+	return ShippingService{
+		strategy: strategy,
+	}
+}
+
+func (s ShippingService) Quote(order Order) (ShippingQuote, error) {
+	return s.strategy.Calculate(order)
+}
+```
+
+Esse desenho permite adicionar novas formas de cálculo sem alterar o fluxo principal. Em vez de o código central conhecer cada transportadora, ele conhece apenas o contrato `ShippingStrategy`. Em Go, isso é especialmente idiomático porque interfaces são implícitas. Uma struct não precisa declarar que implementa uma interface; basta possuir os métodos esperados. Isso reduz cerimônia e mantém o padrão mais leve.
+
+### Padrão Factory
+
+Já o padrão **Factory** faz sentido quando a criação de um componente envolve alguma decisão, configuração ou dependência específica.  Entretanto, em Go, não conseguimos reproduzir a estrutura clássica de Factory Method da orientação a objetos. Muitas vezes, uma função de criação bem definida resolve o problema de forma mais simples.
+
+Considere um sistema de pagamentos em que a aplicação precisa escolher entre PIX, cartão de crédito e boleto:
+
+```go
+type PaymentMethod string
+
+const (
+	PaymentMethodPix        PaymentMethod = "pix"
+	PaymentMethodCreditCard PaymentMethod = "credit_card"
+	PaymentMethodBoleto     PaymentMethod = "boleto"
+)
+```
+
+Podemos definir uma interface comum para todos os "processadores de pagamento":
+
+```go
+type Charge struct {
+	ID          string
+	Amount     int64
+	CustomerID string
+}
+
+type Receipt struct {
+	TransactionID string
+	Status        string
+	Method        PaymentMethod
+}
+
+type PaymentProcessor interface {
+	Pay(ctx context.Context, charge Charge) (Receipt, error)
+}
+```
+
+Cada método de pagamento possui sua própria implementação:
+
+```go
+type PixProcessor struct {
+	apiKey string
+}
+
+func (p PixProcessor) Pay(ctx context.Context, charge Charge) (Receipt, error) {
+	return Receipt{
+		TransactionID: "pix-tx-123",
+		Status:        "paid",
+		Method:        PaymentMethodPix,
+	}, nil
+}
+```
+
+```go
+type CreditCardProcessor struct {
+	apiKey string
+}
+
+func (p CreditCardProcessor) Pay(ctx context.Context, charge Charge) (Receipt, error) {
+	return Receipt{
+		TransactionID: "card-tx-456",
+		Status:        "paid",
+		Method:        PaymentMethodCreditCard,
+	}, nil
+}
+```
+
+```go
+type BoletoProcessor struct {
+	apiKey string
+}
+
+func (p BoletoProcessor) Pay(ctx context.Context, charge Charge) (Receipt, error) {
+	return Receipt{
+		TransactionID: "boleto-tx-789",
+		Status:        "pending",
+		Method:        PaymentMethodBoleto,
+	}, nil
+}
+```
+
+A Factory centraliza a decisão de qual implementação deve ser criada:
+
+```go
+type PaymentConfig struct {
+	APIKey string
+}
+
+func NewPaymentProcessor(
+	method PaymentMethod,
+	config PaymentConfig,
+) (PaymentProcessor, error) {
+	switch method {
+	case PaymentMethodPix:
+		return PixProcessor{
+			apiKey: config.APIKey,
+		}, nil
+
+	case PaymentMethodCreditCard:
+		return CreditCardProcessor{
+			apiKey: config.APIKey,
+		}, nil
+
+	case PaymentMethodBoleto:
+		return BoletoProcessor{
+			apiKey: config.APIKey,
+		}, nil
+
+	default:
+		return nil, errors.New("unsupported payment method")
+	}
+}
+```
+
+Esse uso de "Factory" evita espalhar `switch`, detalhes de configuração e lógica de construção em vários pontos do sistema. A aplicação passa a trabalhar com `PaymentProcessor`, enquanto a decisão concreta de criação fica concentrada em um único lugar.
+
+O ponto importante é que, em Go, Design Patterns devem emergir da necessidade do código, não da intenção de reproduzir o catálogo clássico.
+
+## Padrões e seus limites
+
+Ao discutir os limites do uso de padrões de projeto, devemos considerar alguns pontos. 
+
+Paul Graham, em ["Revenge of the Nerds" (2002)](https://paulgraham.com/icad.html), argumentou que o uso de padrões sugere que a linguagem não oferece abstrações nativas suficientes, obrigando o desenvolvedor a expandir manualmente macros implícitas. Peter Norvig, em ["Design Patterns in Dynamic Languages" (1998)](https://norvig.com/design-patterns/design-patterns.pdf), demonstrou que 16 dos 23 padrões do livro da Gang of Four são simplificados ou desnecessários em Lisp, pois macros e abstrações poderosas resolvem os problemas diretamente.
+
+Assim, é essencial refletir: em uma linguagem como Go, que já privilegia simplicidade e composição, certos padrões podem se tornar camadas desnecessárias. O ponto não é abolir padrões, mas sim reconhecer quando eles realmente agregam valor. Se o problema é a clareza, a extensibilidade ou a manutenção, padrões como Adapter, Strategy ou Factory podem ser aplicados. Mas se a linguagem já oferece um caminho direto, a simplicidade deve ser priorizada. Em última análise, o discernimento reside em saber quando um padrão resolve um problema real e quando ele apenas adiciona complexidade desnecessária.
+
+
+## Pensamentos finais
+
+Os Design Patterns surgiram para endereçar problemas reais, mas seu uso precisa de discernimento.
+
+Em linguagens modernas, como Go, nem sempre padrões são a melhor escolha. O importante é avaliar o contexto: 
+
+- quando eles proporcionam flexibilidade, clareza ou extensibilidade, são valiosos; 
+- quando introduzem complexidade desnecessária, a simplicidade da linguagem deve prevalecer. 
+
+O bom uso de padrões consiste em saber quando aplicá-los e, sobretudo, quando não aplicá-los.
+
+## Referências
+
+- https://refactoring.guru/design-patterns
+- https://paulgraham.com/icad.html
+- https://paulgraham.com/icadmore.html
+- https://norvig.com/design-patterns/design-patterns.pdf
+- https://www.patterns.dev/
